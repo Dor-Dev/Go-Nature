@@ -11,6 +11,7 @@ public class mysqlConnection {
 	
 	public static void connectDB() 
 	{
+		
 		 try 
 			{
 	            Class.forName("com.mysql.cj.jdbc.Driver");
