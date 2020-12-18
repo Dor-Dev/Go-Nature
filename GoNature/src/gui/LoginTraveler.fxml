@@ -19,8 +19,7 @@
          <children>
             <ImageView fitHeight="89.0" fitWidth="600.0">
                <image>
-                  <Image url="@../../../../../Desktop/בראודה/סימסטר%20ה/ממשק%20אדם%20מחשב/צילומי%20מסך%20של%20הממשק/WhatsApp%20Image%202020-12-11%20at%2013.34.52.jpeg" />
-               </image>
+                 <Image url="">
             </ImageView>
          </children>
       </VBox>
