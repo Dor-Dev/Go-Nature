@@ -18,22 +18,10 @@ public class MainClient extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		VBox root;
-
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			root = loader.load(getClass().getResource("/gui/LoginGUI.fxml").openStream());
-			Scene scene = new Scene(root);
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("Go-Nature Login");
-			LoginGUIController loginController = loader.getController();
-			loginController.hideEmployeeParamaters();
-			primaryStage.show();
-			clientConsole = new ClientConsole("localhost", 5555);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
+		LoginGUIController g = new LoginGUIController();
+		g.show();
+		clientConsole = new ClientConsole("localhost", 5555);
+	
 
 	}
 }
