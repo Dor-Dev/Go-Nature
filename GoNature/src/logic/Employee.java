@@ -10,7 +10,7 @@ public class Employee {
 	private String userName;
 	private String password;
 	
-	
+/*Employee Constractor*/	
 	public Employee(String employeeID,String firstName,String lasttName,String email, String role,String organizationAffilation,String userName,String password) {
 		this.employeeID=employeeID;
 		this.firstName=firstName;
