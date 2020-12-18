@@ -18,7 +18,7 @@ public class LoginDBController {
 			// TODO: handle exception
 		}
 	}
-	public static Message parseData(Message clientMsg) {
+	public Message parseData(Message clientMsg) {
 		PreparedStatement pstm;
 		List<String> info;
 		msgFromClient = clientMsg;

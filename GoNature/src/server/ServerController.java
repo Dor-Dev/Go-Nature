@@ -6,6 +6,7 @@ package server;
 
 import java.io.*;
 
+import gui.LoginGUIController;
 import gui.ServerGUIController;
 import common.Message;
 import ocsf.server.*;
@@ -60,8 +61,9 @@ public class ServerController extends AbstractServer {
 		try {
 			switch (clientMsg.getDbControllertype()) {
 			case loginDBController:
+				LoginDBController loginDBController = new LoginDBController();
 				System.out.println("Sucess send to server, handle msg  logindbcontroller");
-				client.sendToClient(LoginDBController.parseData(clientMsg));
+				client.sendToClient(loginDBController.parseData(clientMsg));
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
