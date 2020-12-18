@@ -21,6 +21,7 @@ import java.io.*;
 public class ClientController extends AbstractClient {
 	public static Object returnedValueFromServer ;
 	public static boolean awaitResponse=false;
+	public static boolean nullEmployee=false;
 	// Instance variables **********************************************
 
 	/**
@@ -60,6 +61,32 @@ public class ClientController extends AbstractClient {
 		case TravelerLogin:
 			System.out.println("Success login END");
 			break;
+		case EmployeeLogin:
+			switch(reciveMsg.getDbControllertype()) {
+			case ErrorloginDBController:
+				nullEmployee=true;
+				System.out.println("error employee login END");
+				break;
+			case loginDBController:
+				nullEmployee=false;
+				System.out.println("Success employee login END");
+				
+				break;
+			default:
+				break;
+				
+				
+			}
+			/*if(((String)reciveMsg.getObj()).equals("NotFound")) {
+				nullEmployee=true;
+				System.out.println("error employee login END");
+			}
+			else {
+				nullEmployee=false;
+				System.out.println("Success employee login END");
+			}*/
+			break;
+			
 
 		default:
 			break;

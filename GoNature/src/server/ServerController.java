@@ -6,6 +6,7 @@ package server;
 
 import java.io.*;
 
+import gui.LoginGUIController;
 import gui.ServerGUIController;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
