@@ -5,8 +5,9 @@ package server;
 // license found at www.lloseng.com 
 
 import java.io.*;
-import logic.Command;
-import logic.Message;
+
+import gui.ServerGUIController;
+import common.Message;
 import ocsf.server.*;
 
 /**
@@ -21,9 +22,8 @@ import ocsf.server.*;
  */
 public class ServerController extends AbstractServer {
 	// Class variables *************************************************
-	
 
-	//ServerGUIController serverController;
+	ServerGUIController serverController;
 
 	/**
 	 * The default port to listen on.
@@ -43,10 +43,10 @@ public class ServerController extends AbstractServer {
 
 	// Instance methods ************************************************
 
-	/*public ServerController(int port, ServerGUIController controller) {
+	public ServerController(int port, ServerGUIController controller) {
 		super(port);
 		this.serverController = controller;
-	}*/
+	}
 
 	/**
 	 * This method handles any messages received from the client.
@@ -56,54 +56,47 @@ public class ServerController extends AbstractServer {
 	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 
-		Message clientMsg = (Message)msg;
+		Message clientMsg = (Message) msg;
+		try {
+			switch (clientMsg.getDbControllertype()) {
+			case loginDBController:
+				LoginDBController loginDBController = new LoginDBController();
+				System.out.println("Sucess send to server, handle msg  logindbcontroller");
+				client.sendToClient(loginDBController.parseData(clientMsg));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 		/*
-		Visitor v=null;
-		switch(clientMsg.getCmd()) {
-		case Read:
-			
-			v = mysqlConnection.getVisitor(clientMsg);
-			try {
-				client.sendToClient(new Message((Object)v,Command.reciveData));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			break;
-		case updateEmail:
-			String str = mysqlConnection.editEmail(clientMsg);
-			try {
-				client.sendToClient(new Message((Object)str,Command.reciveNewEmail));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			break;
-		case close:
-			clientDisconnected(null);
-			break;
-		default:
-			break;		
-		}*/
+		 * Visitor v=null; switch(clientMsg.getCmd()) { case Read:
+		 * 
+		 * v = mysqlConnection.getVisitor(clientMsg); try { client.sendToClient(new
+		 * Message((Object)v,Command.reciveData)); } catch (IOException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); } break; case updateEmail:
+		 * String str = mysqlConnection.editEmail(clientMsg); try {
+		 * client.sendToClient(new Message((Object)str,Command.reciveNewEmail)); } catch
+		 * (IOException e) { // TODO Auto-generated catch block e.printStackTrace(); }
+		 * break; case close: clientDisconnected(null); break; default: break; }
+		 */
 	}
-	
 
 	/**
 	 * This method overrides the one in the superclass. Called when the server
 	 * starts listening for connections.
 	 */
 	protected void serverStarted() {
-		mysqlConnection.connectDB();
+		SqlConnection.getConnection();
 		System.out.println("Server listening for connections on port " + getPort());
 	}
 
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
 
-		//serverController.setClientStatus(client.getInetAddress().getHostAddress(),
-				//client.getInetAddress().getHostName(), "connected");
-		new Thread(()->{
-			while(client.isAlive()) {
+		// serverController.setClientStatus(client.getInetAddress().getHostAddress(),
+		// client.getInetAddress().getHostName(), "connected");
+		new Thread(() -> {
+			while (client.isAlive()) {
 				try {
 					client.join();
 				} catch (InterruptedException e) {
@@ -112,12 +105,11 @@ public class ServerController extends AbstractServer {
 			clientDisconnected(client);
 		}).start();
 	}
-	
+
 	@Override
 	protected void clientDisconnected(ConnectionToClient client) {
-		//serverController.setClientStatus(" ", " ", "not connected");
+		// serverController.setClientStatus(" ", " ", "not connected");
 	}
-
 
 	/**
 	 * This method overrides the one in the superclass. Called when the server stops

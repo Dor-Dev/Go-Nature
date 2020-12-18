@@ -5,8 +5,8 @@
 package client;
 
 import ocsf.client.*;
+
 import common.*;
-import logic.Message;
 import java.io.*;
 
 /**
@@ -56,20 +56,15 @@ public class ClientController extends AbstractClient {
 		
 		Message reciveMsg = (Message) msg;
 		awaitResponse = false;
-		switch (reciveMsg.getCmd()) {
-		case reciveData:
-			returnedValueFromServer = reciveMsg.getMsg();
-		case Read:
-			break;
-		case login:
-			break;
-		case reciveNewEmail:
-			returnedValueFromServer = reciveMsg.getMsg();
-			break;
-		default:
+		switch (reciveMsg.getOperationType()) {
+		case TravelerLogin:
+			System.out.println("Success login END");
 			break;
 
+		default:
+			break;
 		}
+		
 		
 	}
 
