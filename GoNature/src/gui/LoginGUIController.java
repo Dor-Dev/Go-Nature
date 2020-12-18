@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,15 @@ import common.Message;
 import common.OperationType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 
 public class LoginGUIController {
@@ -65,6 +70,26 @@ public class LoginGUIController {
     		if(rdEmployee.isSelected());
 				info.add(txtPassword.getText());
     		MainClient.clientConsole.accept(new Message(OperationType.TravelerLogin,DBControllerType.loginDBController,(Object)info));
+    		WelcomeGUIController welcome = new WelcomeGUIController();
+    		welcome.show();
+    }
+    public void show() 
+    {
+    	VBox root;
+    	Stage primaryStage = new Stage();
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			root = loader.load(getClass().getResource("/gui/LoginGUI.fxml").openStream());
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Go-Nature Login");
+			LoginGUIController loginController = loader.getController();
+			loginController.hideEmployeeParamaters();
+			primaryStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
     }
 }
 
