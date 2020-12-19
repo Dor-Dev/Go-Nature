@@ -97,6 +97,7 @@ public class LoginGUIController {
     	Stage primaryStage = new Stage();
 		try {
 			FXMLLoader loader = new FXMLLoader();
+			//change to set location
 			root = loader.load(getClass().getResource("/gui/LoginGUI.fxml").openStream());
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
