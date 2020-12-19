@@ -31,7 +31,7 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </Label>
-            <Label id="menu" layoutX="99.0" layoutY="20.0" onMouseClicked="#myOrders" prefHeight="97.0" prefWidth="89.0" style="-fx-font-weight: bold;" text="My Orders">
+            <Label id="menu" layoutX="99.0" layoutY="20.0" prefHeight="97.0" prefWidth="89.0" style="-fx-font-weight: bold;" text="My Orders">
                <font>
                   <Font size="18.0" />
                </font>
@@ -39,7 +39,7 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </Label>
-            <Label id="menu" layoutX="203.0" layoutY="20.0" onMouseClicked="#myProfile" prefHeight="123.0" prefWidth="88.0" style="-fx-font-weight: bold;" text="My Profile">
+            <Label id="menu" layoutX="203.0" layoutY="20.0" prefHeight="123.0" prefWidth="88.0" style="-fx-font-weight: bold;" text="My Profile">
                <font>
                   <Font size="18.0" />
                </font>
@@ -57,7 +57,7 @@
 
                </image>
             </ImageView>
-            <Label id="menuLogOut" layoutX="307.0" layoutY="20.0" onMouseClicked="#addOrder" text="LogOut" textFill="#f20000">
+            <Label id="menuLogOut" layoutX="307.0" layoutY="20.0" text="LogOut" textFill="#f20000">
                <font>
                   <Font size="15.0" />
                </font>

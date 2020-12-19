@@ -18,7 +18,8 @@ public class WelcomeGUIController {
 	    	Stage primaryStage = new Stage();
 			try {
 				FXMLLoader loader = new FXMLLoader();
-				root = loader.load(getClass().getResource("/gui/Welcome.fxml").openStream());
+				loader.setLocation(getClass().getResource("Welcome.fxml"));
+				root = loader.load();
 				Scene scene = new Scene(root);
 				primaryStage.setScene(scene);
 				primaryStage.setTitle("Go-Nature Login");

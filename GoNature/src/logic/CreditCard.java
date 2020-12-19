@@ -1,6 +1,12 @@
 package logic;
 
-/* 	credit card (optional for member)	*/
+/**
+ * 
+ * This class have the details of traveler credit card,
+ * credit card is optional for travelers.
+ * @author Naor0
+ *
+ */
 
 public class CreditCard {
 	private String cardNumber;

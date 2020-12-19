@@ -13,6 +13,7 @@ import common.OperationType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,43 +29,51 @@ public class LoginGUIController {
 
     @FXML
     private Label lblLoginErrorMsg;
-	@FXML
-    private RadioButton rdEmployee;
 
-    @FXML
-    private RadioButton rdTraveler;
+	 @FXML
+	    private RadioButton rdTraveler;
 
-    @FXML
-    private ToggleGroup LoginType;
+	    @FXML
+	    private ToggleGroup LoginType;
 
-    @FXML
-    private Label lblEnterID;
+	    @FXML
+	    private RadioButton rdEmployee;
 
-    @FXML
-    private TextField txtLoginID;
+	    @FXML
+	    private Label lblEnterID;
 
-    @FXML
-    private Label lblPassword;
+	    @FXML
+	    private TextField txtLoginID;
 
-    @FXML
-    private TextField txtPassword;
+	    @FXML
+	    private Label lblPassword;
 
-    @FXML
-    private Button btnLogin;
+	    @FXML
+	    private TextField txtPassword;
+
+	    @FXML
+	    private Button btnLogin;
+
 
     @FXML
     public void hideEmployeeParamaters()
     {
+    	lblPassword.setManaged(false);
+    	txtPassword.setManaged(false);
     	lblPassword.setVisible(false);
     	txtPassword.setVisible(false);
+    	lblLoginErrorMsg.setVisible(false);
     	lblEnterID.setText("Enter ID / Member Number");
   
     }
     @FXML
     public void showEmployeeParameters()
     {
+    	lblPassword.setManaged(true);
+    	txtPassword.setManaged(true);
     	lblPassword.setVisible(true);
     	txtPassword.setVisible(true);
+    	lblLoginErrorMsg.setText(null);
     	lblEnterID.setText("User Name");
     }
     @FXML
@@ -82,8 +91,14 @@ public class LoginGUIController {
 					lblLoginErrorMsg.setStyle("-fx-background-color: pink;");
     		
 					}
+				else {
+					WelcomeGUIController w = new WelcomeGUIController();
+					((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+					w.show();
+				}
 				
     		}
+    		// TODO need to finish Traveler connection, check if have orders to show
     		else {
     		MainClient.clientConsole.accept(new Message(OperationType.TravelerLogin,DBControllerType.loginDBController,(Object)info));
     		WelcomeGUIController welcome = new WelcomeGUIController();
@@ -91,13 +106,15 @@ public class LoginGUIController {
     		}
     		
     }
+    
     public void show() 
     {
     	VBox root;
     	Stage primaryStage = new Stage();
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			root = loader.load(getClass().getResource("/gui/LoginGUI.fxml").openStream());
+			loader.setLocation(getClass().getResource("LoginGUI.fxml"));
+			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Go-Nature Login");

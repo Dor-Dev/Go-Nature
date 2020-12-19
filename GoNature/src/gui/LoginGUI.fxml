@@ -13,24 +13,20 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="403.0" prefWidth="603.0" stylesheets="@style/LoginPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginGUIController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="600.0" stylesheets="@style/LoginPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginGUIController">
    <children>
       <VBox prefHeight="92.0" prefWidth="618.0" style="-fx-background-color: white;">
          <children>
-            <ImageView fitHeight="89.0" fitWidth="603.0">
+            <ImageView fitHeight="89.0" fitWidth="600.0">
                <image>
-                  <Image url="file:///C:/Users/amit/git/Go-Nature/GoNature/src/gui/img/banner.jpeg" />
+                  <Image url="@img/banner.jpeg" />
                </image></ImageView>
+            <Line endX="494.5857849121094" endY="0.5563369989395142" startX="-100.0" strokeWidth="2.0" />
          </children>
       </VBox>
-      <VBox prefHeight="284.0" prefWidth="587.0" styleClass="bodybg">
+      <VBox prefHeight="320.0" prefWidth="600.0" styleClass="bodybg">
          <children>
-            <Line endX="498.5857849121094" endY="-0.5563483238220215" startX="-100.0" strokeWidth="2.0">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Line>
-            <VBox alignment="CENTER" minHeight="320.0" prefHeight="320.0" prefWidth="603.0">
+            <VBox alignment="TOP_CENTER" prefHeight="297.0" prefWidth="602.0">
                <children>
                   <VBox prefHeight="72.0" prefWidth="600.0">
                      <children>
@@ -41,7 +37,7 @@
                                     <Font name="System Bold" size="15.0" />
                                  </font>
                                  <HBox.margin>
-                                    <Insets top="30.0" />
+                                    <Insets top="40.0" />
                                  </HBox.margin>
                                  <toggleGroup>
                                     <ToggleGroup fx:id="LoginType" />
@@ -52,18 +48,18 @@
                                     <Font name="System Bold" size="15.0" />
                                  </font>
                                  <HBox.margin>
-                                    <Insets left="110.0" top="30.0" />
+                                    <Insets left="110.0" top="40.0" />
                                  </HBox.margin>
                               </RadioButton>
                            </children>
                         </HBox>
                      </children>
                   </VBox>
-                  <VBox alignment="TOP_CENTER" prefHeight="215.0" prefWidth="603.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="174.0" prefWidth="525.0">
                      <children>
                         <Label fx:id="lblEnterID" alignment="CENTER" contentDisplay="CENTER" style="-fx-font-weight: bold;" text="Enter ID / Member Number">
                            <VBox.margin>
-                              <Insets />
+                              <Insets top="12.0" />
                            </VBox.margin>
                         </Label>
                         <TextField fx:id="txtLoginID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="183.0">
@@ -77,14 +73,14 @@
                            </VBox.margin>
                         </Label>
                         <TextField fx:id="txtPassword" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="183.0" />
-                        <Label fx:id="lblLoginErrorMsg" alignment="CENTER" contentDisplay="CENTER" layoutX="299.0" layoutY="77.0" prefHeight="23.0" prefWidth="224.0" textFill="#dd3737">
+                        <Label fx:id="lblLoginErrorMsg">
                            <VBox.margin>
-                              <Insets top="20.0" />
+                              <Insets top="15.0" />
                            </VBox.margin>
                         </Label>
-                        <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#LoginAction" prefHeight="31.0" prefWidth="113.0" text="Login">
+                        <Button fx:id="btnLogin" maxHeight="31.0" maxWidth="85.0" minHeight="31.0" minWidth="85.0" mnemonicParsing="false" onAction="#LoginAction" prefHeight="31.0" prefWidth="85.0" text="Login">
                            <VBox.margin>
-                              <Insets top="20.0" />
+                              <Insets top="15.0" />
                            </VBox.margin>
                         </Button>
                      </children>
