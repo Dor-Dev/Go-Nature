@@ -19,7 +19,7 @@ public class SqlConnection {
 				/* handle the error */
 				System.out.println("Driver definition failed");
 			}
-
+//test
 			try {
 				connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/park?serverTimezone=IST", "root",
 						"Aa123456");
