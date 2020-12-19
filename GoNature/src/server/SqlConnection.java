@@ -9,7 +9,7 @@ public class SqlConnection {
 	public Connection connection = null;
 	private static SqlConnection sqlConnection;
 
-	/* singletone constructor */
+	/* Singleton constructor */
 	private SqlConnection() {
 		if (sqlConnection == null) {
 			try {
@@ -22,7 +22,7 @@ public class SqlConnection {
 
 			try {
 				connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/park?serverTimezone=IST", "root",
-						"AM311294");
+						"Aa123456");
 				System.out.println("SQL connection succeed");
 
 			} catch (SQLException ex) {/* handle any errors */
