@@ -75,13 +75,14 @@ public class LoginGUIController {
     		if(rdEmployee.isSelected()) {
 				info.add(txtPassword.getText());
 				MainClient.clientConsole.accept(new Message(OperationType.EmployeeLogin,DBControllerType.loginDBController,(Object)info));
-    		if(ClientController.nullEmployee) {
-    			lblLoginErrorMsg.setVisible(true);
-    			lblLoginErrorMsg.setText("incorrect userName or password");
-    			lblLoginErrorMsg.setTextFill(Color.RED);
-    			lblLoginErrorMsg.setStyle("-fx-background-color: pink;");
+				if(ClientController.nullEmployee) {
+					lblLoginErrorMsg.setVisible(true);
+					lblLoginErrorMsg.setText("incorrect userName or password");
+					lblLoginErrorMsg.setTextFill(Color.RED);
+					lblLoginErrorMsg.setStyle("-fx-background-color: pink;");
     		
-    		}
+					}
+				
     		}
     		else {
     		MainClient.clientConsole.accept(new Message(OperationType.TravelerLogin,DBControllerType.loginDBController,(Object)info));

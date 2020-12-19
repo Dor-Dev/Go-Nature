@@ -7,6 +7,8 @@ package client;
 import ocsf.client.*;
 
 import common.*;
+import logic.Employee;
+
 import java.io.*;
 
 /**
@@ -62,38 +64,36 @@ public class ClientController extends AbstractClient {
 			System.out.println("Success login END");
 			break;
 		case EmployeeLogin:
-			switch(reciveMsg.getDbControllertype()) {
-			case ErrorloginDBController:
-				nullEmployee=true;
-				System.out.println("error employee login END");
-				break;
-			case loginDBController:
-				nullEmployee=false;
-				System.out.println("Success employee login END");
-				
-				break;
-			default:
-				break;
-				
-				
-			}
-			/*if(((String)reciveMsg.getObj()).equals("NotFound")) {
-				nullEmployee=true;
-				System.out.println("error employee login END");
-			}
-			else {
-				nullEmployee=false;
-				System.out.println("Success employee login END");
-			}*/
+			//if(!(reciveMsg.getObj() instanceof Employee)) {
+			nullEmployee=false;
+			System.out.println("Success employee login END");
+		
 			break;
+		case ErrorEmployeeLogin:
+			nullEmployee=true;
+			System.out.println("error employee login END");
+			
 			
 
 		default:
 			break;
 		}
-		
-		
 	}
+	
+	/*switch(reciveMsg.getDbControllertype()) {
+	case ErrorloginDBController:
+		nullEmployee=true;
+		System.out.println("error employee login END");
+		break;
+	case loginDBController:
+		nullEmployee=false;
+		System.out.println("Success employee login END");
+		
+		break;
+	default:*/
+		
+		
+	
 
 	/**
 	 * This method handles all data coming from the UI
