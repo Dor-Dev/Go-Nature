@@ -64,10 +64,9 @@ public class ClientController extends AbstractClient {
 			System.out.println("Success login END");
 			break;
 		case EmployeeLogin:
-			//if(!(reciveMsg.getObj() instanceof Employee)) {
 			nullEmployee=false;
 			System.out.println("Success employee login END");
-		
+			EmployeeController.EmployeeParseData(reciveMsg);
 			break;
 		case ErrorEmployeeLogin:
 			nullEmployee=true;
@@ -94,6 +93,8 @@ public class ClientController extends AbstractClient {
 		
 		
 	
+
+
 
 	/**
 	 * This method handles all data coming from the UI

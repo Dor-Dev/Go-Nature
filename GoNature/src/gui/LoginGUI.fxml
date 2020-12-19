@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="603.0" stylesheets="C:\Users\amit\git\Go-Nature\GoNature\src\gui\style\LoginPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginGUIController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="403.0" prefWidth="603.0" stylesheets="@style/LoginPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginGUIController">
    <children>
       <VBox prefHeight="92.0" prefWidth="618.0" style="-fx-background-color: white;">
          <children>
@@ -30,7 +30,7 @@
                   <Insets />
                </VBox.margin>
             </Line>
-            <VBox alignment="CENTER" prefHeight="311.0" prefWidth="602.0">
+            <VBox alignment="CENTER" minHeight="320.0" prefHeight="320.0" prefWidth="603.0">
                <children>
                   <VBox prefHeight="72.0" prefWidth="600.0">
                      <children>
@@ -59,7 +59,7 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <VBox alignment="TOP_CENTER" prefHeight="215.0" prefWidth="666.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="215.0" prefWidth="603.0">
                      <children>
                         <Label fx:id="lblEnterID" alignment="CENTER" contentDisplay="CENTER" style="-fx-font-weight: bold;" text="Enter ID / Member Number">
                            <VBox.margin>
