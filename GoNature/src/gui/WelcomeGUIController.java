@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -9,7 +10,8 @@ import javafx.stage.Stage;
 
 public class WelcomeGUIController {
 	
-	
+	   
+	    
 	 public void show() 
 	    {
 	    	VBox root;
@@ -27,5 +29,6 @@ public class WelcomeGUIController {
 				return;
 			}
 	    }
+	 
 
 }
