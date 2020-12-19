@@ -15,7 +15,7 @@ public class MainClient extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-
+	//delete after check !!!!
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		LoginGUIController g = new LoginGUIController();
