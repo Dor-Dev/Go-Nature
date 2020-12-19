@@ -14,7 +14,9 @@
          <children>
             <ImageView fitHeight="101.0" fitWidth="770.0">
                <image>
+
                   <Image url="@img/banner.jpeg" />
+
                </image>
             </ImageView>
          </children>
@@ -50,7 +52,9 @@
                   <Insets left="307.0" top="7.0" />
                </HBox.margin>
                <image>
+
                   <Image url="@img/msg.jpeg" />
+
                </image>
             </ImageView>
             <Label id="menuLogOut" layoutX="307.0" layoutY="20.0" onMouseClicked="#addOrder" text="LogOut" textFill="#f20000">
@@ -68,6 +72,7 @@
             <ImageView fitHeight="456.0" fitWidth="768.0">
                <image>
                   <Image url="@img/welcome.jpeg" />
+
                </image>
             </ImageView>
          </children>

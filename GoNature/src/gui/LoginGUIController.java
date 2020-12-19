@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.ClientConsole;
+import client.ClientController;
 import client.MainClient;
 import common.DBControllerType;
 import common.Message;
@@ -19,11 +20,14 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
 public class LoginGUIController {
 
+    @FXML
+    private Label lblLoginErrorMsg;
 	@FXML
     private RadioButton rdEmployee;
 
@@ -65,13 +69,27 @@ public class LoginGUIController {
     }
     @FXML
     void LoginAction(ActionEvent event) {
+    	lblLoginErrorMsg.setVisible(false);
     		List<String> info = new ArrayList<String>();
     		info.add(txtLoginID.getText());
-    		if(rdEmployee.isSelected());
+    		if(rdEmployee.isSelected()) {
 				info.add(txtPassword.getText());
+				MainClient.clientConsole.accept(new Message(OperationType.EmployeeLogin,DBControllerType.loginDBController,(Object)info));
+				if(ClientController.nullEmployee) {
+					lblLoginErrorMsg.setVisible(true);
+					lblLoginErrorMsg.setText("incorrect userName or password");
+					lblLoginErrorMsg.setTextFill(Color.RED);
+					lblLoginErrorMsg.setStyle("-fx-background-color: pink;");
+    		
+					}
+				
+    		}
+    		else {
     		MainClient.clientConsole.accept(new Message(OperationType.TravelerLogin,DBControllerType.loginDBController,(Object)info));
     		WelcomeGUIController welcome = new WelcomeGUIController();
     		welcome.show();
+    		}
+    		
     }
     public void show() 
     {

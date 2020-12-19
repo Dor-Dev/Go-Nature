@@ -7,6 +7,8 @@ package client;
 import ocsf.client.*;
 
 import common.*;
+import logic.Employee;
+
 import java.io.*;
 
 /**
@@ -21,6 +23,7 @@ import java.io.*;
 public class ClientController extends AbstractClient {
 	public static Object returnedValueFromServer ;
 	public static boolean awaitResponse=false;
+	public static boolean nullEmployee=false;
 	// Instance variables **********************************************
 
 	/**
@@ -60,13 +63,38 @@ public class ClientController extends AbstractClient {
 		case TravelerLogin:
 			System.out.println("Success login END");
 			break;
+		case EmployeeLogin:
+			nullEmployee=false;
+			System.out.println("Success employee login END");
+			EmployeeController.EmployeeParseData(reciveMsg);
+			break;
+		case ErrorEmployeeLogin:
+			nullEmployee=true;
+			System.out.println("error employee login END");
+			
+			
 
 		default:
 			break;
 		}
-		
-		
 	}
+	
+	/*switch(reciveMsg.getDbControllertype()) {
+	case ErrorloginDBController:
+		nullEmployee=true;
+		System.out.println("error employee login END");
+		break;
+	case loginDBController:
+		nullEmployee=false;
+		System.out.println("Success employee login END");
+		
+		break;
+	default:*/
+		
+		
+	
+
+
 
 	/**
 	 * This method handles all data coming from the UI
