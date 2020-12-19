@@ -1,0 +1,16 @@
+#menu:hover{
+  -fx-underline: true;
+  -fx-font-size:18px;
+}
+#msg:hover{
+	-fx-background-color: #383838;
+        -fx-scale-y: 1.4;
+        -fx-scale-x: 1.4;
+}
+#menuLogOut:hover{
+  -fx-underline: true;
+  -fx-font-size:15px;
+  -fx-scale-y: 1.25;
+  -fx-scale-x: 1.25;
+  
+}
