@@ -6,16 +6,13 @@ import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class WelcomeGUIController {
-
-    @FXML
+public class AddOrderGUIController {
+	@FXML
     private Label mnuRequests;
     @FXML
     private Label mnuAddOrder;
@@ -46,38 +43,32 @@ public class WelcomeGUIController {
 
     @FXML
     private Label mnuReportsDepartment;
-    @FXML
-    void showAddOrder(MouseEvent event) {
-    	AddOrderGUIController c = new AddOrderGUIController();
-    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-    	c.show();
-    }
-  
+	    
 	 public void show() 
 	    {
 	    	VBox root;
 	    	Stage primaryStage = new Stage();
 			try {
 				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(getClass().getResource("WelcomeGUI.fxml"));
+				loader.setLocation(getClass().getResource("/gui/AddOrderGUI.fxml"));
 				root = loader.load();
 				Scene scene = new Scene(root);
 				primaryStage.setScene(scene);
-				primaryStage.setTitle("Go-Nature Login");
-				WelcomeGUIController welcomeController = loader.getController();
+				primaryStage.setTitle("Add Order");
+				AddOrderGUIController addOrderController = loader.getController();
 				
 				List<Label> menuLabels = new ArrayList<>();
-				menuLabels.add(welcomeController.mnuAddOrder);
-				menuLabels.add(welcomeController.mnuMyOrders);
-				menuLabels.add(welcomeController.mnuMyProfile);
-				menuLabels.add(welcomeController.mnuParkEntrance);
-				menuLabels.add(welcomeController.mnuRegistration);
-				menuLabels.add(welcomeController.mnuParkDetails);
-				menuLabels.add(welcomeController.mnuEvents);
-				menuLabels.add(welcomeController.mnuReportsDepartment);
-				menuLabels.add(welcomeController.mnuReportsManager);
-				menuLabels.add(welcomeController.mnuParkCapacity);
-				menuLabels.add(welcomeController.mnuRequests);
+				menuLabels.add(addOrderController.mnuAddOrder);
+				menuLabels.add(addOrderController.mnuMyOrders);
+				menuLabels.add(addOrderController.mnuMyProfile);
+				menuLabels.add(addOrderController.mnuParkEntrance);
+				menuLabels.add(addOrderController.mnuRegistration);
+				menuLabels.add(addOrderController.mnuParkDetails);
+				menuLabels.add(addOrderController.mnuEvents);
+				menuLabels.add(addOrderController.mnuReportsDepartment);
+				menuLabels.add(addOrderController.mnuReportsManager);
+				menuLabels.add(addOrderController.mnuParkCapacity);
+				menuLabels.add(addOrderController.mnuRequests);
 				MenuBarSelection.setMenuOptions(menuLabels);
 				primaryStage.show();
 				
