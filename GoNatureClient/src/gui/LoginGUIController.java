@@ -17,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -47,9 +48,9 @@ public class LoginGUIController {
 
 	    @FXML
 	    private Label lblPassword;
-
+	    
 	    @FXML
-	    private TextField txtPassword;
+	    private PasswordField txtPassword;
 
 	    @FXML
 	    private Button btnLogin;
@@ -93,7 +94,7 @@ public class LoginGUIController {
 					}
 				else {
 					WelcomeGUIController w = new WelcomeGUIController();
-					((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+					((Node) event.getSource()).getScene().getWindow().hide(); // hiding login window
 					w.show();
 				}
 				
