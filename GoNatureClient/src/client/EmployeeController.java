@@ -1,52 +1,38 @@
 package client;
 
+import common.UserTypes;
 import common.Message;
 import gui.LoginGUIController;
 import gui.WelcomeGUIController;
 import logic.Employee;
 
 public class EmployeeController  {
-	public static boolean entryEmployee=false;
-	public static boolean parkManager=false;
-	public static boolean departmentManager=false;
-	public static boolean serviceEmployee=false;
+	public static UserTypes type;
 
 	public static void EmployeeParseData (Message reciveMsg) {
 		Employee employee =(Employee)reciveMsg.getObj();
 		switch(reciveMsg.getDbControllertype()) {
 		case loginDBController:
 		switch(employee.getRole()) {
+		
 		case "entry":
-			serviceEmployee=false;
-			parkManager=false;
-			departmentManager=false;
-			entryEmployee=true;
+			type = UserTypes.entryEmployee;
 			break;
 			
 		case "park manager":
 			System.out.println("the employee role is park manager");
-			entryEmployee=false;
-			serviceEmployee=false;
-			departmentManager=false;
-			parkManager=true;
+			type = UserTypes.parkManager;
 			break;
 			
 		case "department manager":
-			entryEmployee=false;
-			serviceEmployee=false;
-			parkManager=false;
-			departmentManager=true;
+			type = UserTypes.departmentManager;
 			break;
 			
 		case "service representative":
-			entryEmployee=false;
-			parkManager=false;
-			departmentManager=false;
-			serviceEmployee=true;
+			type = UserTypes.serviceEmployee;
 			break;
 			
 		}
-		
 		default:
 			break;
 	}

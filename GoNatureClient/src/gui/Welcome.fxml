@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="769.0" style="-fx-background-color: white;" stylesheets="@style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.WelcomeGUIController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <ImageView fitHeight="101.0" fitWidth="770.0">
+               <image>
+
+                  <Image url="@img/banner.jpeg" />
+
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox prefHeight="53.0" prefWidth="769.0" style="-fx-background-color: #e5f7a3;">
+         <children>
+            <BorderPane minWidth="769.0" prefHeight="200.0" prefWidth="200.0">
+               <left>
+                  <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label id="menu" fx:id="mnuAddOrder" maxHeight="53.0" maxWidth="89.0" minHeight="53.0" minWidth="89.0" prefHeight="53.0" prefWidth="89.0" style="-fx-font-weight: bold;" text="Add Order">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuMyOrders" maxHeight="53.0" maxWidth="89.0" minHeight="53.0" minWidth="89.0" prefHeight="53.0" prefWidth="89.0" style="-fx-font-weight: bold;" text="My Orders">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuMyProfile" maxHeight="53.0" maxWidth="88.0" minHeight="53.0" minWidth="88.0" prefHeight="53.0" prefWidth="88.0" style="-fx-font-weight: bold;" text="My Profile">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuParkEntrance" layoutX="248.0" layoutY="10.0" maxHeight="53.0" maxWidth="118.0" minHeight="53.0" minWidth="118.0" prefHeight="53.0" prefWidth="118.0" style="-fx-font-weight: bold;" text="Park Entrance">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuRegistration" layoutX="356.0" layoutY="10.0" maxHeight="53.0" maxWidth="107.0" minHeight="53.0" minWidth="107.0" prefHeight="53.0" prefWidth="107.0" style="-fx-font-weight: bold;" text="Registration">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuReportsManager" layoutX="464.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Reports">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuEvents" layoutX="621.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Events">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuParkDetails" layoutX="709.0" layoutY="10.0" maxHeight="53.0" maxWidth="108.0" minHeight="53.0" minWidth="108.0" prefHeight="53.0" prefWidth="108.0" style="-fx-font-weight: bold;" text="Park Details">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuParkCapacity" layoutX="777.0" layoutY="10.0" maxHeight="53.0" maxWidth="118.0" minHeight="53.0" minWidth="118.0" prefHeight="53.0" prefWidth="118.0" style="-fx-font-weight: bold;" text="Park Capacity">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuReportsDepartment" layoutX="885.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Reports">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuRequests" layoutX="1063.0" layoutY="10.0" maxHeight="53.0" maxWidth="80.0" minHeight="53.0" minWidth="80.0" prefHeight="53.0" prefWidth="80.0" style="-fx-font-weight: bold;" text="Requests">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+               </left>
+               <right>
+                  <HBox prefHeight="53.0" prefWidth="121.0" BorderPane.alignment="TOP_RIGHT">
+                     <children>
+                        <ImageView id="msg" fitHeight="35.0" fitWidth="43.0">
+                           <HBox.margin>
+                              <Insets top="7.0" />
+                           </HBox.margin>
+                           <image>
+            
+                                    <Image url="@img/msg.jpeg" />
+            
+                                 </image>
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
+                        </ImageView>
+                        <Label id="menuLogOut" text="LogOut" textFill="#f20000">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" top="14.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+               </right>
+            </BorderPane>
+         </children>
+      </HBox>
+      <HBox prefHeight="444.0" prefWidth="769.0">
+         <children>
+            <ImageView fitHeight="456.0" fitWidth="768.0">
+               <image>
+                  <Image url="@img/welcome.jpeg" />
+
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+   </children>
+</VBox>
