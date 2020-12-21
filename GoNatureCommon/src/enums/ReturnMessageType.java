@@ -1,4 +1,4 @@
-package common;
+package enums;
 
 public enum ReturnMessageType {
 

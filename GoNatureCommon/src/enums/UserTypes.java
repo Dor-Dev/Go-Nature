@@ -1,6 +1,6 @@
-package common;
+package enums;
 
 public enum UserTypes {
 	serviceEmployee,parkManager,departmentManager,
-	entryEmployee, subscriber,traveler;
+	entryEmployee, subscriber,visitor, instructor;
 }

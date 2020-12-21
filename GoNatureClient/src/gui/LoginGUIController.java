@@ -7,9 +7,10 @@ import java.util.List;
 import client.ClientConsole;
 import client.ClientController;
 import client.MainClient;
-import common.DBControllerType;
 import common.Message;
-import common.OperationType;
+import controllers.EmployeeController;
+import enums.DBControllerType;
+import enums.OperationType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -85,7 +86,7 @@ public class LoginGUIController {
     		if(rdEmployee.isSelected()) {
 				info.add(txtPassword.getText());
 				MainClient.clientConsole.accept(new Message(OperationType.EmployeeLogin,DBControllerType.loginDBController,(Object)info));
-				if(ClientController.nullEmployee) {
+				if(EmployeeController.employeeConected == null) {
 					lblLoginErrorMsg.setVisible(true);
 					lblLoginErrorMsg.setText("incorrect userName or password");
 					lblLoginErrorMsg.setTextFill(Color.RED);
@@ -99,11 +100,11 @@ public class LoginGUIController {
 				}
 				
     		}
-    		// TODO need to finish Traveler connection, check if have orders to show
+
     		else {
-    		MainClient.clientConsole.accept(new Message(OperationType.TravelerLogin,DBControllerType.loginDBController,(Object)info));
-    		System.out.println("NAOR:");
+    		MainClient.clientConsole.accept(new Message(OperationType.VisitorLogin,DBControllerType.loginDBController,(Object)info));
     		WelcomeGUIController welcome = new WelcomeGUIController();
+    		((Node) event.getSource()).getScene().getWindow().hide(); // hiding login window
     		welcome.show();
     		}
     		
