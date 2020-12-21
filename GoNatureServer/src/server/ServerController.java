@@ -71,17 +71,7 @@ public class ServerController extends AbstractServer {
 			// TODO: handle exception
 		}
 
-		/*
-		 * Visitor v=null; switch(clientMsg.getCmd()) { case Read:
-		 * 
-		 * v = mysqlConnection.getVisitor(clientMsg); try { client.sendToClient(new
-		 * Message((Object)v,Command.reciveData)); } catch (IOException e) { // TODO
-		 * Auto-generated catch block e.printStackTrace(); } break; case updateEmail:
-		 * String str = mysqlConnection.editEmail(clientMsg); try {
-		 * client.sendToClient(new Message((Object)str,Command.reciveNewEmail)); } catch
-		 * (IOException e) { // TODO Auto-generated catch block e.printStackTrace(); }
-		 * break; case close: clientDisconnected(null); break; default: break; }
-		 */
+		
 	}
 
 	/**
@@ -96,8 +86,8 @@ public class ServerController extends AbstractServer {
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
 
-		// serverController.setClientStatus(client.getInetAddress().getHostAddress(),
-		// client.getInetAddress().getHostName(), "connected");
+		 serverController.setClientStatus(client.getInetAddress().getHostAddress(),
+		 client.getInetAddress().getHostName(), "connected");
 		new Thread(() -> {
 			while (client.isAlive()) {
 				try {
@@ -111,7 +101,7 @@ public class ServerController extends AbstractServer {
 
 	@Override
 	protected void clientDisconnected(ConnectionToClient client) {
-		// serverController.setClientStatus(" ", " ", "not connected");
+		serverController.setClientStatus(" ", " ", "not connected");
 	}
 
 	/**

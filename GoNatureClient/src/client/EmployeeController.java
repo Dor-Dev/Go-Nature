@@ -7,7 +7,7 @@ import gui.WelcomeGUIController;
 import logic.Employee;
 
 public class EmployeeController  {
-	public static UserTypes type;
+	public static UserTypes type = null;
 
 	public static void EmployeeParseData (Message reciveMsg) {
 		Employee employee =(Employee)reciveMsg.getObj();
@@ -34,6 +34,7 @@ public class EmployeeController  {
 			
 		}
 		default:
+			System.out.println("DEFUALT EMPLOYEE CASE");
 			break;
 	}
 	}

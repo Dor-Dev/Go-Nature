@@ -36,7 +36,7 @@ public class LoginDBController {
 				ResultSet rs = pstm.executeQuery();
 				//for case that traveler didn't exist in system
 				if(rs.next()) { 
-					System.out.println(rs.getString(1));
+					System.out.println(rs.getString(4));
 				}
 				else {
 					System.out.println("NotFound");

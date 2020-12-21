@@ -102,6 +102,7 @@ public class LoginGUIController {
     		// TODO need to finish Traveler connection, check if have orders to show
     		else {
     		MainClient.clientConsole.accept(new Message(OperationType.TravelerLogin,DBControllerType.loginDBController,(Object)info));
+    		System.out.println("NAOR:");
     		WelcomeGUIController welcome = new WelcomeGUIController();
     		welcome.show();
     		}

@@ -64,20 +64,9 @@ public class WelcomeGUIController {
 				Scene scene = new Scene(root);
 				primaryStage.setScene(scene);
 				primaryStage.setTitle("Go-Nature Login");
-				WelcomeGUIController welcomeController = loader.getController();
-				
+				WelcomeGUIController welcomeController = loader.getController();	
 				List<Label> menuLabels = new ArrayList<>();
-				menuLabels.add(welcomeController.mnuAddOrder);
-				menuLabels.add(welcomeController.mnuMyOrders);
-				menuLabels.add(welcomeController.mnuMyProfile);
-				menuLabels.add(welcomeController.mnuParkEntrance);
-				menuLabels.add(welcomeController.mnuRegistration);
-				menuLabels.add(welcomeController.mnuParkDetails);
-				menuLabels.add(welcomeController.mnuEvents);
-				menuLabels.add(welcomeController.mnuReportsDepartment);
-				menuLabels.add(welcomeController.mnuReportsManager);
-				menuLabels.add(welcomeController.mnuParkCapacity);
-				menuLabels.add(welcomeController.mnuRequests);
+				menuLabels = createLabelList(welcomeController);
 				MenuBarSelection.setMenuOptions(menuLabels);
 				primaryStage.show();
 				
@@ -86,6 +75,22 @@ public class WelcomeGUIController {
 				return;
 			}
 	    }
+	 private List<Label> createLabelList(WelcomeGUIController welcomeController)
+	 {
+		 List<Label> tempMenuLabels = new ArrayList<>();
+			tempMenuLabels.add(welcomeController.mnuAddOrder);
+			tempMenuLabels.add(welcomeController.mnuMyOrders);
+			tempMenuLabels.add(welcomeController.mnuMyProfile);
+			tempMenuLabels.add(welcomeController.mnuParkEntrance);
+			tempMenuLabels.add(welcomeController.mnuRegistration);
+			tempMenuLabels.add(welcomeController.mnuParkDetails);
+			tempMenuLabels.add(welcomeController.mnuEvents);
+			tempMenuLabels.add(welcomeController.mnuReportsDepartment);
+			tempMenuLabels.add(welcomeController.mnuReportsManager);
+			tempMenuLabels.add(welcomeController.mnuParkCapacity);
+			tempMenuLabels.add(welcomeController.mnuRequests);
+			return 	tempMenuLabels;
+	 }
 	 
 
 }
