@@ -10,6 +10,7 @@ import client.ClientController;
 import enums.UserTypes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -156,5 +157,25 @@ public class MyProfileGUIController {
 	void showAddOrder(MouseEvent event) {
 
 	}
+	@FXML
+	void goToParkDetails(MouseEvent event) {
+		ManagerDetailsGUIController mDgc = new ManagerDetailsGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		mDgc.show();
+	}
+
+    @FXML
+    void goToManagerReports(MouseEvent event) {
+    	ManagerReportGUIController mRc = new ManagerReportGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		mRc.show();
+    }
+
+    @FXML
+    void goToManagerEvents(MouseEvent event) {
+    	EventsGUIController eGc = new EventsGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		eGc.show();
+    }
 
 }
