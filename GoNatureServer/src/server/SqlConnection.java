@@ -22,7 +22,7 @@ public class SqlConnection {
 //test
 			try {
 				connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/park?serverTimezone=IST", "root",
-						"Aa123456");
+						"AM311294");
 				System.out.println("SQL connection succeed");
 
 			} catch (SQLException ex) {/* handle any errors */
