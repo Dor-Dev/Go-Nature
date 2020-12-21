@@ -24,8 +24,8 @@ public class ClientController extends AbstractClient {
 	public static Object returnedValueFromServer ;
 	public static boolean awaitResponse=false;
 	public static boolean nullEmployee=false;
+	//public static UserTypes type =null;
 	// Instance variables **********************************************
-
 	/**
 	 * The interface type variable. It allows the implementation of the display
 	 * method in the client.

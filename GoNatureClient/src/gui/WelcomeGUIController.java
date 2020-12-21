@@ -52,6 +52,13 @@ public class WelcomeGUIController {
     	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
     	c.show();
     }
+    @FXML
+    void showMyProfile(MouseEvent event) {
+    	MyProfileGUIController mf= new MyProfileGUIController();
+    	((Node)event.getSource()).getScene().getWindow().hide();
+    	mf.show();
+
+    }
   
 	 public void show() 
 	    {

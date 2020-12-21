@@ -2,13 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -16,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="769.0" style="-fx-background-color: white;" stylesheets="@style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AddOrderGUIController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="769.0" style="-fx-background-color: white;" stylesheets="@style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MyProfileGUIController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -33,7 +27,7 @@
                <left>
                   <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label id="menu" fx:id="mnuAddOrder" maxHeight="53.0" maxWidth="89.0" minHeight="53.0" minWidth="89.0" prefHeight="53.0" prefWidth="89.0" style="-fx-font-weight: bold; -fx-background-color: #bcd45d;" text="Add Order">
+                        <Label id="menu" fx:id="mnuAddOrder" maxHeight="53.0" maxWidth="89.0" minHeight="53.0" minWidth="89.0" onMouseClicked="#showAddOrder" prefHeight="53.0" prefWidth="89.0" style="-fx-font-weight: bold;" text="Add Order">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -41,7 +35,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuMyOrders" maxHeight="53.0" maxWidth="89.0" minHeight="53.0" minWidth="89.0" prefHeight="53.0" prefWidth="89.0" style="-fx-font-weight: bold;" text="My Orders">
+                        <Label id="menu" fx:id="mnuMyOrders" maxHeight="53.0" maxWidth="89.0" minHeight="53.0" minWidth="89.0" onMouseClicked="#showMyOrders" prefHeight="53.0" prefWidth="89.0" style="-fx-font-weight: bold;" text="My Orders">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -49,7 +43,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuMyProfile" maxHeight="53.0" maxWidth="88.0" minHeight="53.0" minWidth="88.0" prefHeight="53.0" prefWidth="88.0" style="-fx-font-weight: bold;" text="My Profile">
+                        <Label id="menu" fx:id="mnuMyProfile" maxHeight="53.0" maxWidth="88.0" minHeight="53.0" minWidth="88.0" prefHeight="53.0" prefWidth="88.0" style="-fx-font-weight: bold; -fx-background-color: #bcd45d;" text="My Profile">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -154,161 +148,203 @@
       </HBox>
       <HBox prefHeight="444.0" prefWidth="769.0">
          <children>
-            <VBox prefHeight="444.0" prefWidth="363.0">
+            <VBox prefHeight="424.0" prefWidth="311.0">
                <HBox.margin>
-                  <Insets left="35.0" />
+                  <Insets left="60.0" top="50.0" />
                </HBox.margin>
                <children>
-                  <Label text="Fill the fields to make an order:">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Label text="All field are required" />
-                  <Label layoutX="10.0" layoutY="70.0" text="Type:">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets top="8.0" />
-                     </VBox.margin>
-                  </Label>
-                  <HBox prefHeight="30.0" prefWidth="227.0">
+                  <HBox prefHeight="30.0" prefWidth="264.0">
                      <children>
-                        <RadioButton fx:id="rdSingleFamily" mnemonicParsing="false" onAction="#updateGroupDiscount" prefHeight="21.0" prefWidth="118.0" selected="true" text="Single/Family">
-                           <HBox.margin>
-                              <Insets top="3.0" />
-                           </HBox.margin>
-                           <toggleGroup>
-                              <ToggleGroup fx:id="visitorType" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="rdGroup" mnemonicParsing="false" onAction="#updateGroupDiscount" text="Orgonaized group" toggleGroup="$visitorType">
-                           <HBox.margin>
-                              <Insets left="15.0" top="3.0" />
-                           </HBox.margin>
-                        </RadioButton>
-                     </children>
-                  </HBox>
-                  <Label layoutX="10.0" layoutY="50.0" text="Park Name:">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets top="15.0" />
-                     </VBox.margin>
-                  </Label>
-                  <ComboBox fx:id="cmbParkName" prefHeight="25.0" prefWidth="248.0" promptText="Choose a park" />
-                  <Label layoutX="10.0" layoutY="65.0" text="Date:">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets top="15.0" />
-                     </VBox.margin>
-                  </Label>
-                  <DatePicker fx:id="date" prefHeight="25.0" prefWidth="254.0" promptText="DD/MM/YYYY" />
-                  <Label layoutX="10.0" layoutY="135.0" text="Hour:">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets top="15.0" />
-                     </VBox.margin>
-                  </Label>
-                  <ComboBox fx:id="cmbHour" prefHeight="25.0" prefWidth="257.0" promptText="10:00" />
-               </children>
-            </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="444.0" prefWidth="519.0">
-               <children>
-                  <VBox prefHeight="393.0" prefWidth="445.0">
-                     <children>
-                        <Label text="Number of visitors:">
+                        <Label text="ID Number:">
                            <font>
                               <Font size="16.0" />
                            </font>
-                           <VBox.margin>
-                              <Insets top="80.0" />
-                           </VBox.margin>
                         </Label>
-                        <ComboBox fx:id="cmbNumOfVisitors" maxWidth="250.0" prefHeight="25.0" prefWidth="257.0" promptText="#" />
+                        <Label fx:id="lblIdNumber" text="205818883">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="28.0" prefWidth="264.0">
+                     <children>
+                        <Label text="First Name:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblFirstName" text="Amit">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox prefHeight="30.0" prefWidth="264.0">
+                     <children>
+                        <Label text="Last Name:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblLastName" text="Ben David">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox prefHeight="23.0" prefWidth="232.0">
+                     <children>
+                        <Label text="Phone Number:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblPhone" text="052-6456235">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox prefHeight="29.0" prefWidth="264.0">
+                     <children>
                         <Label text="Email address:">
                            <font>
                               <Font size="16.0" />
                            </font>
-                           <VBox.margin>
-                              <Insets top="15.0" />
-                           </VBox.margin>
                         </Label>
-                        <TextField fx:id="txtEmail" maxWidth="250.0" prefHeight="31.0" prefWidth="50.0" promptText="YourUser@Host.domain" />
-                        <VBox alignment="CENTER" maxWidth="250.0" prefHeight="156.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-radius: 100;">
-                           <children>
-                              <Label text="Order details:" underline="true">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <HBox alignment="CENTER">
-                                 <children>
-                                    <Label text="Discount:">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="lblDiscount" layoutX="10.0" layoutY="10.0" text="15%" textFill="RED">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets left="4.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="11.0" prefWidth="298.0">
-                                 <children>
-                                    <Label text="Total Price:">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="lblTotalPrice" layoutX="10.0" layoutY="10.0" text="?" textFill="RED">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets left="4.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets bottom="15.0" />
-                                 </VBox.margin>
-                              </HBox>
-                           </children>
-                           <VBox.margin>
-                              <Insets top="20.0" />
-                           </VBox.margin>
-                        </VBox>
+                        <Label fx:id="lblEmail" text="AmitBd@gmail.com">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
                      </children>
-                     <padding>
-                        <Insets left="40.0" />
-                     </padding>
-                  </VBox>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox fx:id="hboxType" prefHeight="29.0" prefWidth="264.0">
+                     <children>
+                        <Label text="Type:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblType" text="Member">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox fx:id="hboxEmployeeNumber" prefHeight="34.0" prefWidth="264.0">
+                     <children>
+                        <Label text="Employee Number:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblEmployeeID" layoutX="10.0" layoutY="10.0" text="520">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox fx:id="hboxEmployeeRole" prefHeight="24.0" prefWidth="264.0">
+                     <children>
+                        <Label text="Role:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblEmployeeRole" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="107.0" text="Receptionist">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox fx:id="hboxEmployeeOrganization" prefHeight="30.0" prefWidth="264.0">
+                     <children>
+                        <Label text="Organizational Affiliation:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblEmployeeOrganization" layoutX="10.0" layoutY="10.0" text="Luna-Park">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="440.0" prefWidth="492.0">
+               <children>
+                  <ImageView fitHeight="310.0" fitWidth="301.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                     <image>
+                        <Image url="@../../../../../Desktop/icon-user-default.png" />
+                     </image>
+                  </ImageView>
                </children>
             </VBox>
          </children>
       </HBox>
-      <Button fx:id="btnSubmitOrder" mnemonicParsing="false" text="Submit">
-         <VBox.margin>
-            <Insets bottom="50.0" left="300.0" />
-         </VBox.margin>
-      </Button>
    </children>
 </VBox>

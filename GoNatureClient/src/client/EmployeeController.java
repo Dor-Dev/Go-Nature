@@ -2,15 +2,16 @@ package client;
 
 import common.UserTypes;
 import common.Message;
-import gui.LoginGUIController;
-import gui.WelcomeGUIController;
+
 import logic.Employee;
 
 public class EmployeeController  {
 	public static UserTypes type = null;
+	public static Employee employeeConected = null;
 
 	public static void EmployeeParseData (Message reciveMsg) {
 		Employee employee =(Employee)reciveMsg.getObj();
+		employeeConected=employee;
 		switch(reciveMsg.getDbControllertype()) {
 		case loginDBController:
 		switch(employee.getRole()) {
