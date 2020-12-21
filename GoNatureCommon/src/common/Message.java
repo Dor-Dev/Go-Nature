@@ -2,6 +2,11 @@ package common;
 
 import java.io.Serializable;
 
+import enums.ClientControllerType;
+import enums.DBControllerType;
+import enums.OperationType;
+import enums.ReturnMessageType;
+
 /**
  * Object that will use to communicate between the Client and the Server.
  * Implements <code>Serializable</code> so could be sent by Socket
@@ -10,13 +15,21 @@ public class Message implements Serializable {
 
 
 
-	private static final long serialVersionUID = 1L;
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7240040463603651727L;
 
 	// Type of the operation we want from the server to make.
     private OperationType operationType;
 
     // Which controller on the server should make the operation.
-    private DBControllerType dbControllertype;
+    private DBControllerType dbControllerType;
+    
+    //Which controller on the client should do the operation
+    private ClientControllerType controllerType;
 
     // If the operation that returns from the server succeeded\failed.
     private ReturnMessageType returnMessageType;
@@ -38,13 +51,17 @@ public class Message implements Serializable {
 
 
 	public DBControllerType getDbControllertype() {
-		return dbControllertype;
+		return dbControllerType;
+	}
+	
+	public ClientControllerType getControllertype() {
+		return controllerType;
 	}
 
 
 
 	public void setDbControllertype(DBControllerType dbControllertype) {
-		this.dbControllertype = dbControllertype;
+		this.dbControllerType = dbControllertype;
 	}
 
 
@@ -60,14 +77,30 @@ public class Message implements Serializable {
 	}
 
 
-
+	/**
+	 * Constructor for Message from client to server
+	 * @param operationType
+	 * @param dbControllertype
+	 * @param obj
+	 */
 	public Message(OperationType operationType, DBControllerType dbControllertype,Object obj) {
 		super();
 		this.operationType = operationType;
-		this.dbControllertype = dbControllertype;
+		this.dbControllerType = dbControllertype;
 		this.obj = obj;
 	}
-    
+	
+	/**
+	 * Constructor for Message from server to client
+	 * @param operationType
+	 * @param controllerType
+	 * @param obj
+	 */
+    public Message(OperationType operationType,ClientControllerType controllerType,Object obj) {
+    	this.controllerType = controllerType;
+    	this.operationType = operationType;
+    	this.obj = obj;
+    }
     
     
 

@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.UserTypes;
+import com.sun.security.ntlm.Client;
+
+import client.ClientController;
+import enums.UserTypes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,77 +19,77 @@ import javafx.stage.Stage;
 
 public class MyProfileGUIController {
 
-    @FXML
-    private Label mnuAddOrder;
+	@FXML
+	private Label mnuAddOrder;
 
-    @FXML
-    private Label mnuMyOrders;
+	@FXML
+	private Label mnuMyOrders;
 
-    @FXML
-    private Label mnuMyProfile;
+	@FXML
+	private Label mnuMyProfile;
 
-    @FXML
-    private Label mnuParkEntrance;
+	@FXML
+	private Label mnuParkEntrance;
 
-    @FXML
-    private Label mnuRegistration;
+	@FXML
+	private Label mnuRegistration;
 
-    @FXML
-    private Label mnuReportsManager;
+	@FXML
+	private Label mnuReportsManager;
 
-    @FXML
-    private Label mnuEvents;
+	@FXML
+	private Label mnuEvents;
 
-    @FXML
-    private Label mnuParkDetails;
+	@FXML
+	private Label mnuParkDetails;
 
-    @FXML
-    private Label mnuParkCapacity;
+	@FXML
+	private Label mnuParkCapacity;
 
-    @FXML
-    private Label mnuReportsDepartment;
+	@FXML
+	private Label mnuReportsDepartment;
 
-    @FXML
-    private Label mnuRequests;
+	@FXML
+	private Label mnuRequests;
 
-    @FXML
-    private Label lblIdNumber;
+	@FXML
+	private Label lblIdNumber;
 
-    @FXML
-    private Label lblFirstName;
+	@FXML
+	private Label lblFirstName;
 
-    @FXML
-    private Label lblLastName;
+	@FXML
+	private Label lblLastName;
 
-    @FXML
-    private Label lblPhone;
+	@FXML
+	private Label lblPhone;
 
-    @FXML
-    private Label lblEmail;
+	@FXML
+	private Label lblEmail;
 
-    @FXML
-    private HBox hboxType;
+	@FXML
+	private HBox hboxType;
 
-    @FXML
-    private Label lblType;
+	@FXML
+	private Label lblType;
 
-    @FXML
-    private HBox hboxEmployeeNumber;
+	@FXML
+	private HBox hboxEmployeeNumber;
 
-    @FXML
-    private Label lblEmployeeID;
+	@FXML
+	private Label lblEmployeeID;
 
-    @FXML
-    private HBox hboxEmployeeRole;
+	@FXML
+	private HBox hboxEmployeeRole;
 
-    @FXML
-    private Label lblEmployeeRole;
+	@FXML
+	private Label lblEmployeeRole;
 
-    @FXML
-    private HBox hboxEmployeeOrganization;
+	@FXML
+	private HBox hboxEmployeeOrganization;
 
-    @FXML
-    private Label lblEmployeeOrganization;
+	@FXML
+	private Label lblEmployeeOrganization;
 
 	public void show() {
 		VBox root;
@@ -99,12 +102,17 @@ public class MyProfileGUIController {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("My Profile");
 			MyProfileGUIController myProfileController = loader.getController();
-			
-			
 
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(myProfileController);
 			MenuBarSelection.setMenuOptions(menuLabels);
+		//TODO complete my profile feature
+			/*
+			if(ClientController.type.equals(UserTypes.subscriber) || ClientController.type.equals(UserTypes.instructor))
+				hideEmployeeLabels();
+			else
+				hideSubscriberLabels();
+			*/
 			primaryStage.show();
 
 		} catch (IOException e) {
@@ -112,30 +120,41 @@ public class MyProfileGUIController {
 			return;
 		}
 	}
+	/* method to hide lables 
+	private void hideSubscriberLabels() {
+		lblType.setManaged(false);
+	}
+
+	private void hideEmployeeLabels() {
+
 		
-		private List<Label> createLabelList(MyProfileGUIController myProfileController) {
-			List<Label> tempMenuLabels = new ArrayList<>();
-			tempMenuLabels.add(myProfileController.mnuAddOrder);
-			tempMenuLabels.add(myProfileController.mnuMyOrders);
-			tempMenuLabels.add(myProfileController.mnuMyProfile);
-			tempMenuLabels.add(myProfileController.mnuParkEntrance);
-			tempMenuLabels.add(myProfileController.mnuRegistration);
-			tempMenuLabels.add(myProfileController.mnuParkDetails);
-			tempMenuLabels.add(myProfileController.mnuEvents);
-			tempMenuLabels.add(myProfileController.mnuReportsDepartment);
-			tempMenuLabels.add(myProfileController.mnuReportsManager);
-			tempMenuLabels.add(myProfileController.mnuParkCapacity);
-			tempMenuLabels.add(myProfileController.mnuRequests);
-			return tempMenuLabels;
-		}
-    @FXML
-    void showMyOrders(MouseEvent event) {
+	}
+	*/
 
-    }
+	private List<Label> createLabelList(MyProfileGUIController myProfileController) {
+		List<Label> tempMenuLabels = new ArrayList<>();
+		tempMenuLabels.add(myProfileController.mnuAddOrder);
+		tempMenuLabels.add(myProfileController.mnuMyOrders);
+		tempMenuLabels.add(myProfileController.mnuMyProfile);
+		tempMenuLabels.add(myProfileController.mnuParkEntrance);
+		tempMenuLabels.add(myProfileController.mnuRegistration);
+		tempMenuLabels.add(myProfileController.mnuParkDetails);
+		tempMenuLabels.add(myProfileController.mnuEvents);
+		tempMenuLabels.add(myProfileController.mnuReportsDepartment);
+		tempMenuLabels.add(myProfileController.mnuReportsManager);
+		tempMenuLabels.add(myProfileController.mnuParkCapacity);
+		tempMenuLabels.add(myProfileController.mnuRequests);
+		return tempMenuLabels;
+	}
 
-    @FXML
-    void showAddOrder(MouseEvent event) {
+	@FXML
+	void showMyOrders(MouseEvent event) {
 
-    }
+	}
+
+	@FXML
+	void showAddOrder(MouseEvent event) {
+
+	}
 
 }

@@ -7,6 +7,9 @@ package client;
 import ocsf.client.*;
 
 import common.*;
+import controllers.EmployeeController;
+import controllers.VisitorController;
+import enums.UserTypes;
 import logic.Employee;
 
 import java.io.*;
@@ -23,7 +26,8 @@ import java.io.*;
 public class ClientController extends AbstractClient {
 	public static Object returnedValueFromServer ;
 	public static boolean awaitResponse=false;
-	public static boolean nullEmployee=false;
+	public static UserTypes type = null;
+
 	//public static UserTypes type =null;
 	// Instance variables **********************************************
 	/**
@@ -58,43 +62,19 @@ public class ClientController extends AbstractClient {
 	public void handleMessageFromServer(Object msg) {
 		
 		Message reciveMsg = (Message) msg;
+		returnedValueFromServer = reciveMsg.getObj();
 		awaitResponse = false;
-		switch (reciveMsg.getOperationType()) {
-		case TravelerLogin:
-			System.out.println("Success login END");
+		switch (reciveMsg.getControllertype()) {
+		case VisitorController:
+			VisitorController.visitorParseDate(reciveMsg);
 			break;
-		case EmployeeLogin:
-			nullEmployee=false;
-			System.out.println("Success employee login END");
+		case EmployeeController:
 			EmployeeController.EmployeeParseData(reciveMsg);
-			break;
-		case ErrorEmployeeLogin:
-			nullEmployee=true;
-			System.out.println("error employee login END");
-			
-			
-
+			break;	
 		default:
 			break;
 		}
 	}
-	
-	/*switch(reciveMsg.getDbControllertype()) {
-	case ErrorloginDBController:
-		nullEmployee=true;
-		System.out.println("error employee login END");
-		break;
-	case loginDBController:
-		nullEmployee=false;
-		System.out.println("Success employee login END");
-		
-		break;
-	default:*/
-		
-		
-	
-
-
 
 	/**
 	 * This method handles all data coming from the UI

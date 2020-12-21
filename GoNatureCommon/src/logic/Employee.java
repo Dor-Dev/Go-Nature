@@ -6,7 +6,10 @@ public class Employee implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1339062107563368430L;
+	/**
+	 * 
+	 */
 	private String employeeID;
 	private String firstName;
 	private String lasttName;
