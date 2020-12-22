@@ -10,7 +10,7 @@ public class Employee implements Serializable {
 	/**
 	 * 
 	 */
-	private String employeeID;
+	private int employeeID;
 	private String firstName;
 	private String lasttName;
 	private String email;
@@ -19,8 +19,8 @@ public class Employee implements Serializable {
 	private String userName;
 	private String password;
 
-	public Employee(String employeeID,String firstName,String lasttName,String email, String role,String organizationAffilation,String userName,String password) {
-		this.employeeID=employeeID;
+	public Employee(int id,String firstName,String lasttName,String email, String role,String organizationAffilation,String userName,String password) {
+		this.employeeID=id;
 		this.firstName=firstName;
 		this.lasttName=lasttName;
 		this.email=email;
@@ -31,7 +31,7 @@ public class Employee implements Serializable {
 	}
 
 
-	public String getEmployeeID() {
+	public int getEmployeeID() {
 		return employeeID;
 	}
 

@@ -6,11 +6,11 @@ import enums.UserTypes;
 import logic.Employee;
 
 public class EmployeeController {
-	public static Employee employeeConected = null;
+	public static  Employee employeeConected = null;
 
 	
 	public static void EmployeeParseData(Message reciveMsg) {
-		employeeConected = (Employee) ClientController.returnedValueFromServer;
+	  employeeConected = (Employee) ClientController.returnedValueFromServer;
 		switch (reciveMsg.getOperationType()) {
 		case EmployeeLogin:
 

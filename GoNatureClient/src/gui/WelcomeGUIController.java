@@ -61,6 +61,21 @@ public class WelcomeGUIController {
 		mf.show();
 
 	}
+     @FXML
+    void showMyOrders(MouseEvent event) {
+    	MyOrdersGUIController mo= new MyOrdersGUIController();
+    	((Node)event.getSource()).getScene().getWindow().hide();
+    	mo.show();
+
+    }
+    
+    @FXML
+    void showParkEntrance(MouseEvent event) {
+    	ParkEntranceGUIController pe = new ParkEntranceGUIController();
+    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+    	pe.show();
+
+    }
 	/**
 	 * Change the main window to Events page when click on the Events
 	 * @param event
