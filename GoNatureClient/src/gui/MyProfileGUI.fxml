@@ -67,7 +67,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuReportsManager" layoutX="464.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Reports">
+                        <Label id="menu" fx:id="mnuReportsManager" layoutX="464.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" onMouseClicked="#goToManagerReports" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Reports">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -75,7 +75,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuEvents" layoutX="621.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Events">
+                        <Label id="menu" fx:id="mnuEvents" layoutX="621.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" onMouseClicked="#goToManagerEvents" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Events">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -83,7 +83,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuParkDetails" layoutX="709.0" layoutY="10.0" maxHeight="53.0" maxWidth="108.0" minHeight="53.0" minWidth="108.0" prefHeight="53.0" prefWidth="108.0" style="-fx-font-weight: bold;" text="Park Details">
+                        <Label id="menu" fx:id="mnuParkDetails" layoutX="709.0" layoutY="10.0" maxHeight="53.0" maxWidth="108.0" minHeight="53.0" minWidth="108.0" onMouseClicked="#goToParkDetails" prefHeight="53.0" prefWidth="108.0" style="-fx-font-weight: bold;" text="Park Details">
                            <font>
                               <Font size="18.0" />
                            </font>
