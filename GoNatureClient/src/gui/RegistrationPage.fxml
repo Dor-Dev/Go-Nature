@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="769.0" style="-fx-background-color: white;" stylesheets="@../../../../../git/Go-Nature/GoNatureClient/src/gui/style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.RegistrationController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <ImageView fitHeight="101.0" fitWidth="770.0">
+               <image>
+                  <Image url="@../../../../../git/Go-Nature/GoNatureClient/src/gui/img/banner.jpeg" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox prefHeight="53.0" prefWidth="769.0" style="-fx-background-color: #e5f7a3;">
+         <children>
+            <BorderPane minWidth="769.0" prefHeight="200.0" prefWidth="200.0">
+               <left>
+                  <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label id="menu" fx:id="mnuAddOrder" maxHeight="53.0" maxWidth="89.0" minHeight="53.0" minWidth="89.0" prefHeight="53.0" prefWidth="89.0" style="-fx-font-weight: bold;" text="Add Order">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuMyOrders" maxHeight="53.0" maxWidth="89.0" minHeight="53.0" minWidth="89.0" prefHeight="53.0" prefWidth="89.0" style="-fx-font-weight: bold;" text="My Orders">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuMyProfile" maxHeight="53.0" maxWidth="88.0" minHeight="53.0" minWidth="88.0" onMouseClicked="#showMyProfile" prefHeight="53.0" prefWidth="88.0" style="-fx-font-weight: bold;" text="My Profile">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuParkEntrance" layoutX="248.0" layoutY="10.0" maxHeight="53.0" maxWidth="118.0" minHeight="53.0" minWidth="118.0" prefHeight="53.0" prefWidth="118.0" style="-fx-font-weight: bold;" text="Park Entrance">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuRegistration" layoutX="356.0" layoutY="10.0" maxHeight="53.0" maxWidth="107.0" minHeight="53.0" minWidth="107.0" prefHeight="53.0" prefWidth="107.0" style="-fx-font-weight: bold; -fx-background-color: #bcd45d;" text="Registration">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuReportsManager" layoutX="464.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Reports">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuEvents" layoutX="621.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Events">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuParkDetails" layoutX="709.0" layoutY="10.0" maxHeight="53.0" maxWidth="108.0" minHeight="53.0" minWidth="108.0" prefHeight="53.0" prefWidth="108.0" style="-fx-font-weight: bold;" text="Park Details">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuParkCapacity" layoutX="777.0" layoutY="10.0" maxHeight="53.0" maxWidth="118.0" minHeight="53.0" minWidth="118.0" prefHeight="53.0" prefWidth="118.0" style="-fx-font-weight: bold;" text="Park Capacity">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuReportsDepartment" layoutX="885.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Reports">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="menu" fx:id="mnuRequests" layoutX="1063.0" layoutY="10.0" maxHeight="53.0" maxWidth="80.0" minHeight="53.0" minWidth="80.0" prefHeight="53.0" prefWidth="80.0" style="-fx-font-weight: bold;" text="Requests">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+               </left>
+               <right>
+                  <HBox prefHeight="53.0" prefWidth="121.0" BorderPane.alignment="TOP_RIGHT">
+                     <children>
+                        <ImageView id="msg" fitHeight="35.0" fitWidth="43.0">
+                           <HBox.margin>
+                              <Insets top="7.0" />
+                           </HBox.margin>
+                           <image>
+                              <Image url="@../../../../../git/Go-Nature/GoNatureClient/src/gui/img/msg.jpeg" />
+                           </image>
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
+                        </ImageView>
+                        <Label id="menuLogOut" text="LogOut" textFill="#f20000">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" top="14.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+               </right>
+            </BorderPane>
+         </children>
+      </HBox>
+      <HBox prefHeight="444.0" prefWidth="769.0">
+         <children>
+            <VBox prefHeight="474.0" prefWidth="504.0">
+               <HBox.margin>
+                  <Insets left="25.0" />
+               </HBox.margin>
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Register a member/group instractor:" underline="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="Fill the fields :">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox prefHeight="24.0" prefWidth="354.0">
+                     <children>
+                        <Label text="Type:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="10.0" text="  *" textFill="RED">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="22.0" prefWidth="354.0">
+                     <children>
+                        <RadioButton fx:id="rdbMember" mnemonicParsing="false" onMouseClicked="#showOrHideFamilyMembersParameters" selected="true" text="Member">
+                           <HBox.margin>
+                              <Insets top="3.0" />
+                           </HBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="registeredType" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="rdbGroupInstractor" mnemonicParsing="false" onMouseClicked="#showOrHideFamilyMembersParameters" text="Group instractor" toggleGroup="$registeredType">
+                           <HBox.margin>
+                              <Insets left="15.0" top="3.0" />
+                           </HBox.margin>
+                        </RadioButton>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="30.0" prefWidth="365.0">
+                     <children>
+                        <Label text="First name:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label text="  *" textFill="RED">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="15.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <TextField fx:id="txtFirstName" layoutX="10.0" layoutY="481.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="254.0" />
+                  <HBox prefHeight="0.0" prefWidth="354.0">
+                     <children>
+                        <Label text="Surname:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label prefHeight="1.0" prefWidth="16.0" text="  *" textFill="RED">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="15.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <TextField fx:id="txtSurname" layoutX="10.0" layoutY="197.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="254.0" />
+                  <HBox prefHeight="42.0" prefWidth="356.0">
+                     <children>
+                        <Label text="ID:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label text="  *" textFill="RED">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="15.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <TextField fx:id="txtID" layoutX="10.0" layoutY="268.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="254.0" promptText="Enter 9 digits" />
+                  <HBox prefHeight="36.0" prefWidth="365.0">
+                     <children>
+                        <Label text="Phone number:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label text="  *" textFill="RED">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="15.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="0.0" prefWidth="365.0">
+                     <children>
+                        <ComboBox fx:id="cmbPhoneStart" prefHeight="36.0" prefWidth="81.0" promptText="050" />
+                        <TextField fx:id="txtPhoneEnd" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="190.0" promptText="Enter 7 digits">
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <Button fx:id="btnRegister" mnemonicParsing="false" prefHeight="28.0" prefWidth="94.0" text="Register">
+                     <VBox.margin>
+                        <Insets left="300.0" top="20.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="444.0" prefWidth="519.0">
+               <children>
+                  <VBox prefHeight="277.0" prefWidth="380.0">
+                     <children>
+                        <HBox prefHeight="8.0" prefWidth="362.0" />
+                        <HBox prefHeight="29.0" prefWidth="390.0">
+                           <children>
+                              <Label text="Email address:">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label text="  *" textFill="RED">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="75.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <TextField fx:id="txtEmail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="237.0" promptText="YourUser@Host.domain" />
+                        <HBox prefHeight="13.0" prefWidth="380.0">
+                           <children>
+                              <Label fx:id="lblFamilyMembers" text="Number of family members:">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="lblRedAslterisk" text="  *" textFill="RED">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="15.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <ComboBox fx:id="cmbFamilyMembers" prefHeight="31.0" prefWidth="234.0" promptText="1" />
+                        <CheckBox fx:id="chkAddCreditCard" mnemonicParsing="false" onMouseClicked="#showOrHideCreditCardParameters" text="Add credit card details (optional)">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </CheckBox>
+                        <Label fx:id="lblCardNumber" layoutX="10.0" layoutY="159.0" text="Card number:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtCardNumber" layoutX="10.0" layoutY="118.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="237.0" />
+                        <Label fx:id="lblCardOwner" layoutX="10.0" layoutY="230.0" text="Card owner name:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtCardOwnerName" layoutX="10.0" layoutY="255.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="237.0" promptText="Enter the name as on the card" />
+                        <HBox prefHeight="42.0" prefWidth="380.0">
+                           <children>
+                              <Label fx:id="lblCVV" text="CVV :  ">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="txtCVV" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="80.0">
+                                 <HBox.margin>
+                                    <Insets top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Label fx:id="lblEperationDate" text="Experation date:  ">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="txtExperationMonth" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="52.0" promptText="MM">
+                                 <HBox.margin>
+                                    <Insets top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <TextField fx:id="txtExperationYear" layoutX="274.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="52.0" promptText="YY">
+                                 <HBox.margin>
+                                    <Insets left="5.0" top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="14.0" />
+                     </VBox.margin>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>
