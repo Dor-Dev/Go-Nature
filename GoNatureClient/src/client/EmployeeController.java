@@ -1,7 +1,8 @@
 package client;
 
-import common.UserTypes;
+
 import common.Message;
+import enums.UserTypes;
 import gui.LoginGUIController;
 import gui.WelcomeGUIController;
 import logic.Employee;

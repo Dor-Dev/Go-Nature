@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -263,9 +264,9 @@ public class RegistrationController {
     
     @FXML
     void showMyProfile(MouseEvent event) {
-    	/*MyProfileGUIController mp= new MyProfileGUIController();
+    	MyProfileGUIController mp= new MyProfileGUIController();
     	((Node)event.getSource()).getScene().getWindow().hide();
-    	mp.show();*/
+    	mp.show();
 
     }
 

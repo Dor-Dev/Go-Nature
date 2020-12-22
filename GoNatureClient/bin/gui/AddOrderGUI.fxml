@@ -42,7 +42,6 @@
                            </HBox.margin>
                         </Label>
                         <Label id="menu" fx:id="mnuMyOrders" maxHeight="53.0" maxWidth="89.0" minHeight="53.0" minWidth="89.0" onMouseClicked="#showMyOrders" prefHeight="53.0" prefWidth="89.0" style="-fx-font-weight: bold;" text="My Orders">
-
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -51,7 +50,6 @@
                            </HBox.margin>
                         </Label>
                         <Label id="menu" fx:id="mnuMyProfile" maxHeight="53.0" maxWidth="88.0" minHeight="53.0" minWidth="88.0" onMouseClicked="#showMyProfile" prefHeight="53.0" prefWidth="88.0" style="-fx-font-weight: bold;" text="My Profile">
-
                            <font>
                               <Font size="18.0" />
                            </font>
