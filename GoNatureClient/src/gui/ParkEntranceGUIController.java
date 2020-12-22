@@ -13,10 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class WelcomeGUIController {
+public class ParkEntranceGUIController {
 
-    @FXML
-    private Label mnuRequests;
     @FXML
     private Label mnuAddOrder;
 
@@ -46,12 +44,12 @@ public class WelcomeGUIController {
 
     @FXML
     private Label mnuReportsDepartment;
+
     @FXML
-    void showAddOrder(MouseEvent event) {
-    	AddOrderGUIController c = new AddOrderGUIController();
-    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-    	c.show();
-    }
+    private Label mnuRequests;
+
+  
+
     @FXML
     void showMyProfile(MouseEvent event) {
     	MyProfileGUIController mp= new MyProfileGUIController();
@@ -59,38 +57,35 @@ public class WelcomeGUIController {
     	mp.show();
 
     }
+    
+    // TODO a popup message 
     @FXML
-    void showMyOrders(MouseEvent event) {
-    	MyOrdersGUIController mo= new MyOrdersGUIController();
-    	((Node)event.getSource()).getScene().getWindow().hide();
-    	mo.show();
+    void showOrderReceipt(MouseEvent event) {
+    	OrderReceiptPopupGUIController orderReceiptController = new OrderReceiptPopupGUIController();
+    	orderReceiptController.show();
 
     }
     
     @FXML
-    void showParkEntrance(MouseEvent event) {
-    	ParkEntranceGUIController pe = new ParkEntranceGUIController();
-    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-    	pe.show();
+    void showManualReceipt(MouseEvent event) {
 
     }
     
     
-  
 	 public void show() 
 	    {
 	    	VBox root;
 	    	Stage primaryStage = new Stage();
 			try {
 				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(getClass().getResource("WelcomeGUI.fxml"));
+				loader.setLocation(getClass().getResource("ParkEntranceGUI.fxml"));
 				root = loader.load();
 				Scene scene = new Scene(root);
 				primaryStage.setScene(scene);
-				primaryStage.setTitle("Go-Nature Login");
-				WelcomeGUIController welcomeController = loader.getController();	
+				primaryStage.setTitle("Park Entrance");
+				ParkEntranceGUIController parkEntranceController = loader.getController();	
 				List<Label> menuLabels = new ArrayList<>();
-				menuLabels = createLabelList(welcomeController);
+				menuLabels = createLabelList(parkEntranceController);
 				MenuBarSelection.setMenuOptions(menuLabels);
 				primaryStage.show();
 				
@@ -99,20 +94,20 @@ public class WelcomeGUIController {
 				return;
 			}
 	    }
-	 private List<Label> createLabelList(WelcomeGUIController welcomeController)
+	 private List<Label> createLabelList(ParkEntranceGUIController parkEntranceController)
 	 {
 		 List<Label> tempMenuLabels = new ArrayList<>();
-			tempMenuLabels.add(welcomeController.mnuAddOrder);
-			tempMenuLabels.add(welcomeController.mnuMyOrders);
-			tempMenuLabels.add(welcomeController.mnuMyProfile);
-			tempMenuLabels.add(welcomeController.mnuParkEntrance);
-			tempMenuLabels.add(welcomeController.mnuRegistration);
-			tempMenuLabels.add(welcomeController.mnuParkDetails);
-			tempMenuLabels.add(welcomeController.mnuEvents);
-			tempMenuLabels.add(welcomeController.mnuReportsDepartment);
-			tempMenuLabels.add(welcomeController.mnuReportsManager);
-			tempMenuLabels.add(welcomeController.mnuParkCapacity);
-			tempMenuLabels.add(welcomeController.mnuRequests);
+			tempMenuLabels.add(parkEntranceController.mnuAddOrder);
+			tempMenuLabels.add(parkEntranceController.mnuMyOrders);
+			tempMenuLabels.add(parkEntranceController.mnuMyProfile);
+			tempMenuLabels.add(parkEntranceController.mnuParkEntrance);
+			tempMenuLabels.add(parkEntranceController.mnuRegistration);
+			tempMenuLabels.add(parkEntranceController.mnuParkDetails);
+			tempMenuLabels.add(parkEntranceController.mnuEvents);
+			tempMenuLabels.add(parkEntranceController.mnuReportsDepartment);
+			tempMenuLabels.add(parkEntranceController.mnuReportsManager);
+			tempMenuLabels.add(parkEntranceController.mnuParkCapacity);
+			tempMenuLabels.add(parkEntranceController.mnuRequests);
 			return 	tempMenuLabels;
 	 }
 	 

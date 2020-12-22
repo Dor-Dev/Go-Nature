@@ -24,7 +24,7 @@ import java.io.*;
  * @version July 2000
  */
 public class ClientController extends AbstractClient {
-	public static Object returnedValueFromServer ;
+	public static Object returnedValueFromServer= null ;
 	public static boolean awaitResponse=false;
 	public static UserTypes type = null;
 

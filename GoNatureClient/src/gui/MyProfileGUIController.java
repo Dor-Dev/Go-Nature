@@ -7,15 +7,18 @@ import java.util.List;
 import com.sun.security.ntlm.Client;
 
 import client.ClientController;
+import controllers.EmployeeController;
 import enums.UserTypes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.Employee;
 
 public class MyProfileGUIController {
 
@@ -84,6 +87,9 @@ public class MyProfileGUIController {
 
 	@FXML
 	private Label lblEmployeeRole;
+	
+    @FXML
+    private HBox hboxPhone;
 
 	@FXML
 	private HBox hboxEmployeeOrganization;
@@ -106,13 +112,13 @@ public class MyProfileGUIController {
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(myProfileController);
 			MenuBarSelection.setMenuOptions(menuLabels);
-		//TODO complete my profile feature
-			/*
+		
+			
 			if(ClientController.type.equals(UserTypes.subscriber) || ClientController.type.equals(UserTypes.instructor))
-				hideEmployeeLabels();
+				hideEmployeeLabels(myProfileController);
 			else
-				hideSubscriberLabels();
-			*/
+				hideSubscriberLabels(myProfileController);
+			
 			primaryStage.show();
 
 		} catch (IOException e) {
@@ -120,16 +126,39 @@ public class MyProfileGUIController {
 			return;
 		}
 	}
-	/* method to hide lables 
-	private void hideSubscriberLabels() {
-		lblType.setManaged(false);
+	//method to hide lables 
+	private void hideSubscriberLabels(MyProfileGUIController myProfileController) {
+		myProfileController.hboxType.setManaged(false);
+		myProfileController.hboxPhone.setManaged(false);
+		
+		//TODO complete my profile feature
+		
+		//if(ClientController.returnedValueFromServer instanceof Employee) 
+		//Employee employee = (Employee)(ClientController.returnedValueFromServer);
+	//	System.out.println(ClientController.returnedValueFromServer);
+		/*if (ClientController.returnedValueFromServer instanceof Employee) {
+			System.out.println(1);
+		}
+		*/
+		/*lblEmployeeID.setText(String.valueOf(EmployeeController.employeeConected.getEmployeeID()));
+		lblIdNumber.setText(employee.getUserName());
+		lblFirstName.setText(employee.getFirstName());
+		lblLastName.setText(employee.getLasttName());
+		lblEmployeeRole.setText(employee.getRole());
+		lblEmail.setText(employee.getEmail());
+		lblEmployeeOrganization.setText(employee.getOrganizationAffilation());
+		*/
 	}
 
-	private void hideEmployeeLabels() {
+	private void hideEmployeeLabels(MyProfileGUIController myProfileController) {
+		myProfileController.hboxEmployeeNumber.setManaged(false);
+		myProfileController.hboxEmployeeOrganization.setManaged(false);
+		myProfileController.hboxEmployeeRole.setManaged(false);
+		
 
 		
 	}
-	*/
+	
 
 	private List<Label> createLabelList(MyProfileGUIController myProfileController) {
 		List<Label> tempMenuLabels = new ArrayList<>();
@@ -147,14 +176,28 @@ public class MyProfileGUIController {
 		return tempMenuLabels;
 	}
 
-	@FXML
-	void showMyOrders(MouseEvent event) {
+	   @FXML
+	    void showMyOrders(MouseEvent event) {
+	    	MyOrdersGUIController mo= new MyOrdersGUIController();
+	    	((Node)event.getSource()).getScene().getWindow().hide();
+	    	mo.show();
 
-	}
+	    }
 
-	@FXML
-	void showAddOrder(MouseEvent event) {
+	   @FXML
+	    void showAddOrder(MouseEvent event) {
+	    	AddOrderGUIController c = new AddOrderGUIController();
+	    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+	    	c.show();
+	    }
+	   
+	    @FXML
+	    void showParkEntrance(MouseEvent event) {
+	    	ParkEntranceGUIController pe = new ParkEntranceGUIController();
+	    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+	    	pe.show();
+	    	
 
-	}
+	    }
 
 }

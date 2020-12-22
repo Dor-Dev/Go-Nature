@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -10,15 +12,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="769.0" style="-fx-background-color: white;" stylesheets="@style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.WelcomeGUIController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="769.0" style="-fx-background-color: white;" stylesheets="@style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MyOrdersGUIController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
             <ImageView fitHeight="101.0" fitWidth="770.0">
                <image>
-
                   <Image url="@img/banner.jpeg" />
-
                </image>
             </ImageView>
          </children>
@@ -37,7 +37,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuMyOrders" maxHeight="53.0" maxWidth="89.0" minHeight="53.0" minWidth="89.0" onMouseClicked="#showMyOrders" prefHeight="53.0" prefWidth="89.0" style="-fx-font-weight: bold;" text="My Orders">
+                        <Label id="menu" fx:id="mnuMyOrders" maxHeight="53.0" maxWidth="89.0" minHeight="53.0" minWidth="89.0" prefHeight="53.0" prefWidth="89.0" style="-fx-font-weight: bold; -fx-background-color: #bcd45d;" text="My Orders">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -53,7 +53,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuParkEntrance" layoutX="248.0" layoutY="10.0" maxHeight="53.0" maxWidth="118.0" minHeight="53.0" minWidth="118.0" onMouseClicked="#showParkEntrance" prefHeight="53.0" prefWidth="118.0" style="-fx-font-weight: bold;" text="Park Entrance">
+                        <Label id="menu" fx:id="mnuParkEntrance" layoutX="248.0" layoutY="10.0" maxHeight="53.0" maxWidth="118.0" minHeight="53.0" minWidth="118.0" prefHeight="53.0" prefWidth="118.0" style="-fx-font-weight: bold;" text="Park Entrance">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -128,10 +128,8 @@
                               <Insets top="7.0" />
                            </HBox.margin>
                            <image>
-            
-                                    <Image url="@img/msg.jpeg" />
-            
-                                 </image>
+                              <Image url="@img/msg.jpeg" />
+                           </image>
                            <viewport>
                               <Rectangle2D />
                            </viewport>
@@ -152,13 +150,31 @@
       </HBox>
       <HBox prefHeight="444.0" prefWidth="769.0">
          <children>
-            <ImageView fitHeight="456.0" fitWidth="768.0">
-               <image>
-                  <Image url="@img/welcome.jpeg" />
-
-               </image>
-            </ImageView>
+            <VBox prefHeight="444.0" prefWidth="789.0">
+               <HBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </HBox.margin>
+               <children>
+                  <TableView prefHeight="355.0" prefWidth="729.0">
+                    <columns>
+                      <TableColumn fx:id="colOrderNumber" prefWidth="93.0" text="Order Number" />
+                      <TableColumn fx:id="colParkName" prefWidth="99.0" text="Park Name" />
+                        <TableColumn fx:id="colDate" prefWidth="108.0" text="Date" />
+                        <TableColumn fx:id="colHour" minWidth="0.0" prefWidth="106.0" text="Hour" />
+                        <TableColumn fx:id="colVisitorsAmount" prefWidth="105.0" text="Visitor's Amount" />
+                        <TableColumn fx:id="colStatus" prefWidth="119.0" text="Status" />
+                        <TableColumn fx:id="colUpdateStatus" prefWidth="98.0" text="Update Status" />
+                    </columns>
+                     <VBox.margin>
+                        <Insets top="40.0" />
+                     </VBox.margin>
+                  </TableView>
+               </children>
+            </VBox>
          </children>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
       </HBox>
    </children>
 </VBox>

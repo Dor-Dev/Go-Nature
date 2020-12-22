@@ -7,6 +7,7 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -14,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -155,6 +157,22 @@ public class AddOrderGUIController {
     		lblDiscount.setText("20%");
     	if(rdSingleFamily.isSelected())
     		lblDiscount.setText("15%");
+    }
+    
+    @FXML
+    void showMyProfile(MouseEvent event) {
+    	MyProfileGUIController mp= new MyProfileGUIController();
+    	((Node)event.getSource()).getScene().getWindow().hide();
+    	mp.show();
+
+    }
+    
+    @FXML
+    void showMyOrders(MouseEvent event) {
+    	MyOrdersGUIController mo= new MyOrdersGUIController();
+    	((Node)event.getSource()).getScene().getWindow().hide();
+    	mo.show();
+
     }
 
 }
