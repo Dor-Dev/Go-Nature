@@ -13,26 +13,26 @@ public class EmployeeController  {
 		Employee employee =(Employee)reciveMsg.getObj();
 		switch(reciveMsg.getDbControllertype()) {
 		case loginDBController:
-		switch(employee.getRole()) {
-		
-		case "entry":
-			type = UserTypes.entryEmployee;
-			break;
+			switch(employee.getRole()) {
 			
-		case "park manager":
-			System.out.println("the employee role is park manager");
-			type = UserTypes.parkManager;
-			break;
-			
-		case "department manager":
-			type = UserTypes.departmentManager;
-			break;
-			
-		case "service representative":
-			type = UserTypes.serviceEmployee;
-			break;
-			
-		}
+			case "entry":
+				type = UserTypes.entryEmployee;
+				break;
+				
+			case "park manager":
+				System.out.println("the employee role is park manager");
+				type = UserTypes.parkManager;
+				break;
+				
+			case "department manager":
+				type = UserTypes.departmentManager;
+				break;
+				
+			case "service representative":
+				type = UserTypes.serviceEmployee;
+				break;
+				
+			}
 		default:
 			System.out.println("DEFUALT EMPLOYEE CASE");
 			break;

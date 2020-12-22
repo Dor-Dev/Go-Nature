@@ -52,6 +52,13 @@ public class WelcomeGUIController {
     	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
     	c.show();
     }
+    
+    @FXML
+    void showRegistration(MouseEvent event) {
+    	RegistrationController c = new RegistrationController();
+    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+    	c.show();
+    }
   
 	 public void show() 
 	    {

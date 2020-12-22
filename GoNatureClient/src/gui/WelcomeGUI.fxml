@@ -61,7 +61,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuRegistration" layoutX="356.0" layoutY="10.0" maxHeight="53.0" maxWidth="107.0" minHeight="53.0" minWidth="107.0" prefHeight="53.0" prefWidth="107.0" style="-fx-font-weight: bold;" text="Registration">
+                        <Label id="menu" fx:id="mnuRegistration" layoutX="356.0" layoutY="10.0" maxHeight="53.0" maxWidth="107.0" minHeight="53.0" minWidth="107.0" onMouseClicked="#showRegistration" prefHeight="53.0" prefWidth="107.0" style="-fx-font-weight: bold;" text="Registration">
                            <font>
                               <Font size="18.0" />
                            </font>
