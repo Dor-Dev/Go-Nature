@@ -56,7 +56,7 @@ public class ClientController extends AbstractClient {
 
 	/**
 	 * This method handles all data that comes in from the server.
-	 *
+	 *Switch case to find which controller are gonna to take care the request
 	 * @param msg The message from the server.
 	 */
 	public void handleMessageFromServer(Object msg) {

@@ -1,11 +1,14 @@
 package gui;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import client.ClientController;
 import controllers.EmployeeController;
 import controllers.VisitorController;
+
 import enums.UserTypes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 
 public class MyProfileGUIController {
 
@@ -222,6 +224,12 @@ public class MyProfileGUIController {
     	EventsGUIController eGc = new EventsGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		eGc.show();
+    }
+    @FXML
+    void goToRegisration(MouseEvent event) {
+    	RegistrationController c = new RegistrationController();
+    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+    	c.show();
     }
 
 }

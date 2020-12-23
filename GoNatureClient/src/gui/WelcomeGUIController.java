@@ -138,5 +138,12 @@ public class WelcomeGUIController {
 		tempMenuLabels.add(welcomeController.mnuRequests);
 		return tempMenuLabels;
 	}
+    @FXML
+    void showRegistration(MouseEvent event) {
+    	RegistrationController c = new RegistrationController();
+    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+    	c.show();
+    }
+
 
 }
