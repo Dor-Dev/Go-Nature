@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import enums.UserTypes;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -144,6 +145,7 @@ public class AddOrderGUIController {
 				"15");
 		
 
+	
 		//rdGroup.setDisable(true);
 	}
 	
