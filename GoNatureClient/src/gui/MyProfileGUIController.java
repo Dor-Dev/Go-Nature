@@ -1,11 +1,14 @@
 package gui;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import client.ClientController;
 import controllers.EmployeeController;
+import controllers.VisitorController;
+
 import enums.UserTypes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import logic.Employee;
 
 public class MyProfileGUIController {
 
@@ -124,35 +126,40 @@ public class MyProfileGUIController {
 			return;
 		}
 	}
-	//method to hide lables 
+	
+	/**
+	 * this method is for hide the subscriber's labels if the client connected is employee
+	 * @param myProfileController
+	 */
 	private void hideSubscriberLabels(MyProfileGUIController myProfileController) {
 		myProfileController.hboxType.setManaged(false);
 		myProfileController.hboxPhone.setManaged(false);
+		myProfileController.lblEmployeeID.setText(String.valueOf(EmployeeController.employeeConected.getEmployeeID()));
+		myProfileController.lblIdNumber.setText(EmployeeController.employeeConected.getUserName());
+		myProfileController.lblFirstName.setText(EmployeeController.employeeConected.getFirstName());
+		myProfileController.lblLastName.setText(EmployeeController.employeeConected.getLasttName());
+		myProfileController.lblEmployeeRole.setText(EmployeeController.employeeConected.getRole());
+		myProfileController.lblEmail.setText(EmployeeController.employeeConected.getEmail());
+		myProfileController.lblEmployeeOrganization.setText(EmployeeController.employeeConected.getOrganizationAffilation());
 		
-		//TODO complete my profile feature
-		
-		//if(ClientController.returnedValueFromServer instanceof Employee) 
-		//Employee employee = (Employee)(ClientController.returnedValueFromServer);
-	//	System.out.println(ClientController.returnedValueFromServer);
-		/*if (ClientController.returnedValueFromServer instanceof Employee) {
-			System.out.println(1);
-		}
-		*/
-		/*lblEmployeeID.setText(String.valueOf(EmployeeController.employeeConected.getEmployeeID()));
-		lblIdNumber.setText(employee.getUserName());
-		lblFirstName.setText(employee.getFirstName());
-		lblLastName.setText(employee.getLasttName());
-		lblEmployeeRole.setText(employee.getRole());
-		lblEmail.setText(employee.getEmail());
-		lblEmployeeOrganization.setText(employee.getOrganizationAffilation());
-		*/
 	}
+	
+	/**
+	 * this method is for hide the employee's labels if the client connected is  subscriber
+	 * @param myProfileController
+	 */
 
 	private void hideEmployeeLabels(MyProfileGUIController myProfileController) {
 		myProfileController.hboxEmployeeNumber.setManaged(false);
 		myProfileController.hboxEmployeeOrganization.setManaged(false);
 		myProfileController.hboxEmployeeRole.setManaged(false);
-		
+		//TODO adding member
+		myProfileController.lblIdNumber.setText(String.valueOf(VisitorController.subscriberConnected.getVisitorID()));
+		myProfileController.lblEmail.setText(VisitorController.subscriberConnected.getEmail());
+		myProfileController.lblType.setText(VisitorController.visitorConnected.getType());
+		myProfileController.lblFirstName.setText(VisitorController.subscriberConnected.getFirstName());
+		myProfileController.lblLastName.setText(VisitorController.subscriberConnected.getLastName());
+		myProfileController.lblPhone.setText(VisitorController.subscriberConnected.getPhone());
 
 		
 	}
@@ -219,6 +226,7 @@ public class MyProfileGUIController {
 		eGc.show();
     }
     @FXML
+
     void showParkCapacity(MouseEvent event) {
     	ParkCapacityGUIController pC = new ParkCapacityGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide();
@@ -238,6 +246,12 @@ public class MyProfileGUIController {
     	DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide();
 		rQ.show();
+
+    void goToRegisration(MouseEvent event) {
+    	RegistrationController c = new RegistrationController();
+    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+    	c.show();
+
     }
 
 }

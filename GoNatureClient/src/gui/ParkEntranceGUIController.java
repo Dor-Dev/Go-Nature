@@ -61,15 +61,46 @@ public class ParkEntranceGUIController {
     // TODO a popup message 
     @FXML
     void showOrderReceipt(MouseEvent event) {
-    	OrderReceiptPopupGUIController orderReceiptController = new OrderReceiptPopupGUIController();
-    	orderReceiptController.show();
+    	VBox root;
+    	Stage primaryStage = new Stage();
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("OrderReceiptPopupGUI.fxml"));
+			root = loader.load();
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Order Receipt");
+			primaryStage.show();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+
 
     }
     
     @FXML
     void showManualReceipt(MouseEvent event) {
+    	VBox root;
+    	Stage primaryStage = new Stage();
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("ManualReceiptPopupGUI.fxml"));
+			root = loader.load();
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Manual Receipt");
+			primaryStage.show();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+
 
     }
+
     
     
 	 public void show() 
@@ -110,6 +141,8 @@ public class ParkEntranceGUIController {
 			tempMenuLabels.add(parkEntranceController.mnuRequests);
 			return 	tempMenuLabels;
 	 }
+	 
+
 	 
 
 }
