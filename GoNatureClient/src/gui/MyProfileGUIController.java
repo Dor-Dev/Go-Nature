@@ -246,7 +246,8 @@ public class MyProfileGUIController {
     	DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide();
 		rQ.show();
-
+    }
+    @FXML
     void goToRegisration(MouseEvent event) {
     	RegistrationController c = new RegistrationController();
     	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
