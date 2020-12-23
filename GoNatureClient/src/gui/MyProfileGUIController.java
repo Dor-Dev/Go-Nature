@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.security.ntlm.Client;
-
 import client.ClientController;
 import controllers.EmployeeController;
 import enums.UserTypes;
@@ -219,6 +217,27 @@ public class MyProfileGUIController {
     	EventsGUIController eGc = new EventsGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		eGc.show();
+    }
+    @FXML
+    void showParkCapacity(MouseEvent event) {
+    	ParkCapacityGUIController pC = new ParkCapacityGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		pC.show();
+    }
+    
+
+    @FXML
+    void showReports(MouseEvent event) {
+    	DManagerReportsGUIController rP = new DManagerReportsGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		rP.show();
+    }
+
+    @FXML
+    void showRequests(MouseEvent event) {
+    	DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		rQ.show();
     }
 
 }
