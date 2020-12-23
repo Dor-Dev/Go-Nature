@@ -47,8 +47,8 @@ public class MenuBarSelection {
 				menuLabels.get(6).setManaged(false); // Events
 				menuLabels.get(8).setManaged(false); // ReportsManager
 			}
-		} else if (ClientController.returnedValueFromServer instanceof Visitor) {
-			if (ClientController.type.equals(UserTypes.subscriber) || ClientController.type.equals(UserTypes.instructor)) {
+		} //else if (ClientController.returnedValueFromServer instanceof Visitor) {
+		else if (ClientController.type.equals(UserTypes.subscriber) || ClientController.type.equals(UserTypes.instructor)) {
 
 				menuLabels.get(3).setManaged(false); // Entrance
 				menuLabels.get(4).setManaged(false); // Registration
@@ -70,7 +70,7 @@ public class MenuBarSelection {
 				menuLabels.get(9).setManaged(false); // Park Capacity
 				menuLabels.get(10).setManaged(false); // Requests
 			}
-		}
+		
 
 	}
 }
