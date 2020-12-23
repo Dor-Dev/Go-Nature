@@ -76,6 +76,28 @@ public class WelcomeGUIController {
     	pe.show();
 
     }
+    
+    @FXML
+    void showParkCapacity(MouseEvent event) {
+    	ParkCapacityGUIController pC = new ParkCapacityGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		pC.show();
+    }
+    
+
+    @FXML
+    void showReports(MouseEvent event) {
+    	DManagerReportsGUIController rP = new DManagerReportsGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		rP.show();
+    }
+
+    @FXML
+    void showRequests(MouseEvent event) {
+    	DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		rQ.show();
+    }
 	/**
 	 * Change the main window to Events page when click on the Events
 	 * @param event

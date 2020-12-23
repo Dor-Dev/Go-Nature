@@ -43,7 +43,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuMyProfile" maxHeight="53.0" maxWidth="88.0" minHeight="53.0" minWidth="88.0" prefHeight="53.0" prefWidth="88.0" style="-fx-font-weight: bold; -fx-background-color: #bcd45d;" text="My Profile">
+                        <Label id="menu" fx:id="mnuMyProfile" maxHeight="53.0" maxWidth="88.0" minHeight="53.0" minWidth="88.0" onMouseClicked="#showMyProfile" prefHeight="53.0" prefWidth="88.0" style="-fx-font-weight: bold; -fx-background-color: #bcd45d;" text="My Profile">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -91,7 +91,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuParkCapacity" layoutX="777.0" layoutY="10.0" maxHeight="53.0" maxWidth="118.0" minHeight="53.0" minWidth="118.0" prefHeight="53.0" prefWidth="118.0" style="-fx-font-weight: bold;" text="Park Capacity">
+                        <Label id="menu" fx:id="mnuParkCapacity" layoutX="777.0" layoutY="10.0" maxHeight="53.0" maxWidth="118.0" minHeight="53.0" minWidth="118.0" onMouseClicked="#showParkCapacity" prefHeight="53.0" prefWidth="118.0" style="-fx-font-weight: bold;" text="Park Capacity">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -99,7 +99,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuReportsDepartment" layoutX="885.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Reports">
+                        <Label id="menu" fx:id="mnuReportsDepartment" layoutX="885.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" onMouseClicked="#showReports" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Reports">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -107,7 +107,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuRequests" layoutX="1063.0" layoutY="10.0" maxHeight="53.0" maxWidth="80.0" minHeight="53.0" minWidth="80.0" prefHeight="53.0" prefWidth="80.0" style="-fx-font-weight: bold;" text="Requests">
+                        <Label id="menu" fx:id="mnuRequests" layoutX="1063.0" layoutY="10.0" maxHeight="53.0" maxWidth="80.0" minHeight="53.0" minWidth="80.0" onMouseClicked="#showRequests" prefHeight="53.0" prefWidth="80.0" style="-fx-font-weight: bold;" text="Requests">
                            <font>
                               <Font size="18.0" />
                            </font>
