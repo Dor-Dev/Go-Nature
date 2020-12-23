@@ -15,9 +15,10 @@ public class Subscriber implements Serializable{
 	private String phone;
 	private String email;
 	private int familySum; // The total number of family members
+	private String type;
 	private CreditCard creditCard;
 	
-	public Subscriber(int iD,int visitorID, String firstName, String lastName, String phone, String email, int familySum) {
+	public Subscriber(int iD,int visitorID, String firstName, String lastName, String phone, String email, int familySum,String type) {
 		super();
 		ID = iD;
 		this.visitorID=visitorID;
@@ -26,6 +27,7 @@ public class Subscriber implements Serializable{
 		this.phone = phone;			//didnt use credit card!!!
 		this.email = email;
 		this.familySum = familySum;
+		this.type=type;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -63,6 +65,9 @@ public class Subscriber implements Serializable{
 	
 	public int getVisitorID() {
 		return visitorID;
+	}
+	public String getType() {
+		return type;
 	}
 	
 	

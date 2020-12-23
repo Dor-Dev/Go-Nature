@@ -2,5 +2,5 @@ package enums;
 
 public enum OperationType {
 
-	EmployeeLogin,ErrorEmployeeLogin, VisitorLogin;
+	EmployeeLogin,ErrorEmployeeLogin, VisitorLogin, VisitorWithOrderLogin, SubscriberLogin;
 }
