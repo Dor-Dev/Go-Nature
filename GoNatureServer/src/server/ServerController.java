@@ -62,10 +62,17 @@ public class ServerController extends AbstractServer {
 		Message clientMsg = (Message) msg;
 		try {
 			switch (clientMsg.getDbControllertype()) {
-			case loginDBController:
-				LoginDBController loginDBController = new LoginDBController();
-				System.out.println("Sucess send to server, handle msg  logindbcontroller");
-				client.sendToClient(loginDBController.parseData(clientMsg));
+				case loginDBController:{
+					LoginDBController loginDBController = new LoginDBController();
+					System.out.println("Sucess send to server, handle msg  logindbcontroller");
+					client.sendToClient(loginDBController.parseData(clientMsg));
+					break;
+				}
+				case RegistrationDBController:{
+					RegistrationDBController registrationDBController = new RegistrationDBController();
+					System.out.println("Server received registaration request ");
+					client.sendToClient(registrationDBController.parseData(clientMsg));
+				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -10,6 +10,7 @@ import common.*;
 import controllers.EmployeeController;
 import controllers.VisitorController;
 import enums.UserTypes;
+import gui.RegistrationController;
 import logic.Employee;
 
 import java.io.*;
@@ -65,12 +66,15 @@ public class ClientController extends AbstractClient {
 		returnedValueFromServer = reciveMsg.getObj();
 		awaitResponse = false;
 		switch (reciveMsg.getControllertype()) {
-		case VisitorController:
+		case VisitorController:{
 			VisitorController.visitorParseDate(reciveMsg);
-			break;
-		case EmployeeController:
+			break;}
+		case EmployeeController:{
 			EmployeeController.EmployeeParseData(reciveMsg);
-			break;	
+			break;}
+		case RegistrationController:{
+			RegistrationController.RegistrationParseData(reciveMsg);
+		}
 		default:
 			break;
 		}
