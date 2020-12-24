@@ -240,6 +240,7 @@ public class AddOrderGUIController {
 				typeToogleSelected, cbPayNow.isSelected(), hour, 500);
 		MainClient.clientConsole
 				.accept(new Message(OperationType.AddOrder, DBControllerType.OrderDBController, (Object) newOrder));
+		
 		showPopUpWindow();
 		
 	}

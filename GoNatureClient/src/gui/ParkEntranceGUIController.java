@@ -262,7 +262,6 @@ public class ParkEntranceGUIController {
 				List<Label> menuLabels = new ArrayList<>();
 				menuLabels = createLabelList(parkEntranceController);
 				MenuBarSelection.setMenuOptions(menuLabels);
-				
 				MainClient.clientConsole.accept(new Message(OperationType.GetParkInfo,DBControllerType.ParkDBController,(Object)EmployeeController.employeeConected.getOrganizationAffilation()));
 				System.out.println(55555);
 				setDataOfPark(parkEntranceController);
