@@ -17,6 +17,8 @@ import logic.Employee;
 
 import java.io.*;
 
+import com.sun.jmx.remote.util.OrderClassLoaders;
+
 /**
  * This class overrides some of the methods defined in the abstract superclass
  * in order to give more functionality to the client.
@@ -75,11 +77,16 @@ public class ClientController extends AbstractClient {
 			returnedValueFromServer = reciveMsg.getObj();
 			EmployeeController.EmployeeParseData(reciveMsg);
 			break;	
+
+		case OrderController:
+			OrderController.OrderParseData(reciveMsg);
+
 		case ParkController:
 			ParkController.ParkParseData(reciveMsg);
 			break;
 		case ReceiptController:
 			ReceiptController.receipeParseData(reciveMsg);
+
 			break;
 		default:
 			break;
