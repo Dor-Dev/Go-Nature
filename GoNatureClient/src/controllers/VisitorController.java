@@ -3,12 +3,14 @@ package controllers;
 
 import client.ClientController;
 import common.Message;
+import enums.Discount;
 import enums.UserTypes;
 import logic.Subscriber;
 
 
 public class VisitorController {
 	public static Subscriber subscriberConnected = null;
+	public static Discount disType = null;
 
 	public static void visitorParseDate(Message msg) {
 		switch (msg.getOperationType()) {
@@ -22,11 +24,25 @@ public class VisitorController {
 		case SubscriberLogin:
 			subscriberConnected = (Subscriber)ClientController.returnedValueFromServer;
 			if (subscriberConnected.getType().equals("instructor")) {
-				System.out.println("come in");
+				//System.out.println("come in");
 				ClientController.type = UserTypes.instructor;
 			}
 			else ClientController.type = UserTypes.subscriber;
 			break;
+			
+		case OccasionalSubscriber:
+			subscriberConnected = (Subscriber)ClientController.returnedValueFromServer;
+			if (subscriberConnected.getType().equals("instructor")) {
+				disType=Discount.GroupDiscount;
+				
+			}
+			else
+				disType= Discount.MemberDiscount;
+			break;
+		case OccasionalVisitor:
+			disType=Discount.VisitorDiscount;
+			
+			
 		default:
 			break;
 		}
