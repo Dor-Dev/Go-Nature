@@ -8,6 +8,8 @@ import ocsf.client.*;
 
 import common.*;
 import controllers.EmployeeController;
+import controllers.ParkController;
+import controllers.ReceiptController;
 import controllers.VisitorController;
 import enums.UserTypes;
 import logic.Employee;
@@ -71,6 +73,12 @@ public class ClientController extends AbstractClient {
 		case EmployeeController:
 			EmployeeController.EmployeeParseData(reciveMsg);
 			break;	
+		case ParkController:
+			ParkController.ParkParseData(reciveMsg);
+			break;
+		case ReceiptController:
+			ReceiptController.receipeParseData(reciveMsg);
+			break;
 		default:
 			break;
 		}
