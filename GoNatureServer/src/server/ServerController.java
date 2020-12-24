@@ -6,12 +6,10 @@ package server;
 
 import java.io.*;
 
-
 import gui.ServerGUIController;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import common.Message;
-
 
 /**
  * This class overrides some of the methods in the abstract superclass in order
@@ -70,7 +68,7 @@ public class ServerController extends AbstractServer {
 			case OrderDBController:
 				OrderDBController orderDBController = new OrderDBController();
 				client.sendToClient(orderDBController.addOrder(clientMsg));
-			
+				break;
 
 			case ParkDBController:
 				ParkDBController parkDBcontroller = new ParkDBController();
@@ -85,7 +83,6 @@ public class ServerController extends AbstractServer {
 			// TODO: handle exception
 		}
 
-		
 	}
 
 	/**
@@ -100,8 +97,8 @@ public class ServerController extends AbstractServer {
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
 
-		 serverController.setClientStatus(client.getInetAddress().getHostAddress(),
-		 client.getInetAddress().getHostName(), "connected");
+		serverController.setClientStatus(client.getInetAddress().getHostAddress(),
+				client.getInetAddress().getHostName(), "connected");
 		new Thread(() -> {
 			while (client.isAlive()) {
 				try {

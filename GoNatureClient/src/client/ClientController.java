@@ -80,7 +80,7 @@ public class ClientController extends AbstractClient {
 
 		case OrderController:
 			OrderController.OrderParseData(reciveMsg);
-
+			break;
 		case ParkController:
 			ParkController.ParkParseData(reciveMsg);
 			break;
