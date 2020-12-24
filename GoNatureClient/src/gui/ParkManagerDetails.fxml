@@ -4,6 +4,7 @@
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -148,56 +149,187 @@
             </BorderPane>
          </children>
       </HBox>
-      <HBox prefHeight="444.0" prefWidth="769.0">
-         <children>
+      <SplitPane dividerPositions="0.4941329856584094" prefHeight="470.0" prefWidth="778.0" style="-fx-background-color: white;">
+        <items>
             <VBox prefHeight="444.0" prefWidth="409.0">
-               <HBox.margin>
-                  <Insets left="25.0" />
-               </HBox.margin>
                <children>
-                  <Label style="-fx-font-weight: bold;" text="Update Parametrs:">
+                  <Label style="-fx-font-weight: bold;" text="Park Details">
                      <font>
                         <Font size="16.0" />
                      </font>
                      <VBox.margin>
+                        <Insets left="115.0" top="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox>
+                     <children>
+                        <Label text="Park name:">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="lblParkName" layoutX="10.0" layoutY="10.0">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
                         <Insets top="15.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox layoutX="20.0" layoutY="45.0">
+                     <children>
+                        <Label text="Current amount of visitors:">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="lblVisitorAmount" layoutX="10.0" layoutY="10.0">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox layoutX="20.0" layoutY="45.0">
+                     <children>
+                        <Label text="Amount of available space in the park:">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="lblAvailableSpace" layoutX="10.0" layoutY="10.0">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Label layoutX="135.0" layoutY="25.0" style="-fx-font-weight: bold;" text="Current Parametrs">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="100.0" top="45.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox layoutX="20.0" layoutY="45.0">
+                     <children>
+                        <Label text="Visitors capacity:">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="lblVisitorCapacity" layoutX="10.0" layoutY="10.0">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox layoutX="20.0" layoutY="45.0">
+                     <children>
+                        <Label text="Difference between visitors capcity to order capcity:">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="lblDifference" layoutX="10.0" layoutY="10.0">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox layoutX="20.0" layoutY="45.0">
+                     <children>
+                        <Label text="Estimated time of visit(Hours):">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="lblHours" layoutX="10.0" layoutY="10.0">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="444.0" prefWidth="409.0">
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Update Parametrs">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="110.0" top="15.0" />
                      </VBox.margin>
                   </Label>
                   <Label layoutX="10.0" layoutY="50.0" text="Visitors capacity">
                      <font>
-                        <Font size="16.0" />
+                        <Font size="14.0" />
                      </font>
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField maxWidth="125.0" promptText="Enter capacity" />
+                  <TextField fx:id="txtVisitorCapcity" maxWidth="125.0" promptText="Enter capacity">
+                     <VBox.margin>
+                        <Insets top="3.0" />
+                     </VBox.margin>
+                  </TextField>
                   <Label layoutX="10.0" layoutY="65.0" text="Difference between visitors capacity to orders capacity">
                      <font>
-                        <Font size="16.0" />
+                        <Font size="14.0" />
                      </font>
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField maxWidth="125.0" promptText="Enter difference" />
+                  <TextField fx:id="txtDifference" maxWidth="125.0" promptText="Enter difference">
+                     <VBox.margin>
+                        <Insets top="3.0" />
+                     </VBox.margin>
+                  </TextField>
                   <Label layoutX="10.0" layoutY="135.0" text="Estimated time of a visit(Hours)">
                      <font>
-                        <Font size="16.0" />
+                        <Font size="14.0" />
                      </font>
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField maxWidth="125.0" promptText="Enter time" />
-                  <Button fx:id="btnSendUpdate" mnemonicParsing="false" text="Send Update Request">
+                  <TextField fx:id="txtHours" maxWidth="125.0" promptText="Enter time">
+                     <VBox.margin>
+                        <Insets top="3.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Button fx:id="btnSendUpdate" mnemonicParsing="false" onMouseClicked="#sendUpdateRequest" text="Send Update Request">
                      <VBox.margin>
                         <Insets left="30.0" top="25.0" />
                      </VBox.margin>
                   </Button>
                </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
             </VBox>
-         </children>
-      </HBox>
+        </items>
+      </SplitPane>
    </children>
 </VBox>
