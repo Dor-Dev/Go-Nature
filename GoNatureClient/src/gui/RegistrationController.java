@@ -2,7 +2,17 @@ package gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import client.ClientController;
+import client.MainClient;
+import common.Message;
+import enums.DBControllerType;
+import enums.OperationType;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -122,6 +132,12 @@ public class RegistrationController {
 
     @FXML
     private TextField txtExperationYear;
+    
+    
+    private static String popUpMsg=null;
+    private static Boolean msgReceived=false;
+    private static String popUpTitle=null;
+    private Integer member_number ;
 
     
 
@@ -193,6 +209,134 @@ public class RegistrationController {
     	registrationController.txtExperationMonth.setVisible(true);
     	registrationController.txtExperationYear.setVisible(true);
     }
+    
+    @FXML
+    void registrationAction(MouseEvent event) {
+    		HashMap<String, String> hash_map_info = new HashMap<String, String>(); 
+    		List<String> info = new ArrayList<String>();
+    		member_number=Integer.parseInt(txtID.getText())+1000000000; //The function f(X)=2X+1 is an injective function - that will promise us unique member number each time
+    		info.add(member_number.toString());
+    		hash_map_info.put("First Name", txtFirstName.getText());
+    		info.add(txtFirstName.getText());
+    		hash_map_info.put("Surname",txtSurname.getText());
+    		info.add(txtSurname.getText());
+    		hash_map_info.put("ID",txtID.getText());
+    		info.add(txtID.getText());
+    		String phoneNumberStart= cmbPhoneStart.getPromptText();
+    		String phoneNumberEnd= txtPhoneEnd.getText();
+    		if(phoneNumberStart!= null && phoneNumberEnd!= null) {
+    			phoneNumberStart+=phoneNumberEnd;
+    			hash_map_info.put("Phone",phoneNumberStart);
+    			info.add(phoneNumberStart);
+    		}else {
+    			//Add pop up
+    		}
+    		hash_map_info.put("Email",txtEmail.getText());
+    		info.add(txtEmail.getText());
+    		if(rdbMember.isSelected()) {
+    			hash_map_info.put("Family Members",cmbFamilyMembers.getPromptText());
+				info.add(cmbFamilyMembers.getPromptText());
+    		}
+    		if(chkAddCreditCard.isSelected()) {
+    			hash_map_info.put("Card Number",txtCardNumber.getText());
+    			info.add(txtCardNumber.getText());
+    			hash_map_info.put("Card Owner",txtCardOwnerName.getText());
+    			info.add(txtCardOwnerName.getText());
+    			hash_map_info.put("CVV",txtCVV.getText());
+    			info.add(txtCVV.getText());
+    			hash_map_info.put("Experation Month",txtExperationMonth.getText());
+    			info.add(txtExperationMonth.getText());
+    			hash_map_info.put("Experation Year",txtExperationYear.getText());
+    			info.add(txtExperationYear.getText());
+    		}
+    		if(validation(info,hash_map_info)) {
+    			if(rdbMember.isSelected()) {
+    				if(this.chkAddCreditCard.isSelected())
+    					MainClient.clientConsole.accept(new Message(OperationType.MemberRegistrationCC,DBControllerType.RegistrationDBController,(Object)info));
+    				else
+    					MainClient.clientConsole.accept(new Message(OperationType.MemberRegistration,DBControllerType.RegistrationDBController,(Object)info));
+    			}
+    			else {
+    				if(this.chkAddCreditCard.isSelected())
+    					MainClient.clientConsole.accept(new Message(OperationType.GuideRegistrationCC,DBControllerType.RegistrationDBController,(Object)info));
+    				else MainClient.clientConsole.accept(new Message(OperationType.GuideRegistration,DBControllerType.RegistrationDBController,(Object)info));
+    			}
+    		}else {
+    			msgReceived=true;
+    			popUpTitle="Failed";
+    		}
+    		while(msgReceived==false);
+    		RegistartionPopUpController popUp = new RegistartionPopUpController();
+    		popUp.showRegistrationPopUp(popUpMsg, (member_number.toString()), popUpTitle);
+    }
+    
+	private Boolean validation(List<String> info,HashMap<String, String> hash_map_info ) {
+		for( String s : info) {
+			if(s.equals("")) {
+				popUpMsg="All fields are requiered";
+				return false;
+			}
+		}
+		if(! Pattern.matches("[a-zA-Z]+", hash_map_info.get("First Name"))) {
+			popUpMsg="Invalid First Name";
+			return false;
+		}
+		if(! Pattern.matches("[a-zA-Z]+", hash_map_info.get("Surname"))) {
+			popUpMsg="Invalid Surname";
+			return false;
+		}
+		if(hash_map_info.get("ID").length()!=9  || ! Pattern.matches("[0-9]+", hash_map_info.get("ID"))) {
+			popUpMsg="Invalid ID number";
+			return false;
+		}
+		if(hash_map_info.get("Phone").length()!=10 ||! Pattern.matches("[0-9]+", hash_map_info.get("Phone"))) {
+			popUpMsg="Invalid phone number";
+			return false;
+		}
+		Pattern emailPattern = Pattern.compile("[a-zA-Z0-9[!#$%&'()*+,/\\-_\\.\"]]+@[a-zA-Z0-9[!#$%&'()*+,/\\-_\"]]+\\.[a-zA-Z0-9[!#$%&'()*+,/\\-_\"\\.]]+");
+		Matcher m = emailPattern.matcher(hash_map_info.get("Email"));
+		if(!m.matches()) {
+			popUpMsg="Invalid Email";
+			return false;
+		}
+		if(this.chkAddCreditCard.isSelected()) {
+			if(hash_map_info.get("CVV").length()<3 || hash_map_info.get("CVV").length()>4 || !Pattern.matches("[0-9]+", hash_map_info.get("CVV"))) {
+				popUpMsg="Invalid CVV";
+				return false;
+			}
+			if(hash_map_info.get("Card Number").length()!=16 || !Pattern.matches("[0-9]+", hash_map_info.get("Card Number"))) {
+				popUpMsg="Invalid card number";
+				return false;
+			}
+			if(! Pattern.matches("[a-zA-Z]+", hash_map_info.get("Card Owner"))) {
+				popUpMsg="Invalid Owner Name";
+				return false;
+			}
+			if(hash_map_info.get("Experation Month").length()!=2 || !Pattern.matches("[0-9]+", hash_map_info.get("Experation Month"))) {
+				popUpMsg="Invalid Experation Month";
+				return false;								
+			}
+			int tempMonth= Integer.parseInt(hash_map_info.get("Experation Month"));
+			if(tempMonth<1 || tempMonth>12) {
+				popUpMsg="Invalid Experation Month";
+				return false;								
+			}
+			
+			if(hash_map_info.get("Experation Year").length()!=2 || !Pattern.matches("[0-9]+", hash_map_info.get("Experation Year"))) {
+				popUpMsg="Invalid Experation Year";
+				return false;	
+			}
+			int tempYear= Integer.parseInt(hash_map_info.get("Experation Year"));
+			if(tempYear<20 || tempYear>30) {
+				popUpMsg="Invalid Experation Year";
+				return false;	
+			}
+			
+		}
+		return true;
+		
+	}
+
 
     @FXML
     void show() {
@@ -235,6 +379,8 @@ public class RegistrationController {
 		return tempMenuLabels;
 	}
 	
+	
+	
 	@FXML
 	public void initialize() {
 		//Initialize combo box phone first 3 numbers
@@ -269,5 +415,16 @@ public class RegistrationController {
     	mp.show();
 
     }
+    
+    public static void RegistrationParseData(Message reciveMsg) {
+    	popUpMsg = (String) reciveMsg.getObj();
+    	msgReceived=true;
+    	if(popUpMsg.contains("already")) {
+    		popUpTitle="Failed";
+    	}
+    	else popUpTitle="Succsses";
+    	
+  	}
+
 
 }

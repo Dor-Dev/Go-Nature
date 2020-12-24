@@ -60,6 +60,7 @@ public class ServerController extends AbstractServer {
 		Message clientMsg = (Message) msg;
 		try {
 			switch (clientMsg.getDbControllertype()) {
+
 			case LoginDBController:
 				LoginDBController loginDBController = new LoginDBController();
 				client.sendToClient(loginDBController.parseData(clientMsg));
@@ -78,6 +79,13 @@ public class ServerController extends AbstractServer {
 				ReceiptDBController receiptDBController = new ReceiptDBController();
 				client.sendToClient(receiptDBController.parseData(clientMsg));
 				break;
+        case RegistrationDBController:{
+					RegistrationDBController registrationDBController = new RegistrationDBController();
+					System.out.println("Server received registaration request ");
+					client.sendToClient(registrationDBController.parseData(clientMsg));
+          break;
+				}
+
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

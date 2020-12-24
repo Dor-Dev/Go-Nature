@@ -13,6 +13,7 @@ import controllers.ReceiptController;
 import controllers.VisitorController;
 import enums.OperationType;
 import enums.UserTypes;
+import gui.RegistrationController;
 import logic.Employee;
 
 import java.io.*;
@@ -69,6 +70,7 @@ public class ClientController extends AbstractClient {
 		Message reciveMsg = (Message) msg;
 		awaitResponse = false;
 		switch (reciveMsg.getControllertype()) {
+
 		case VisitorController:
 			returnedValueFromServer = reciveMsg.getObj();
 			VisitorController.visitorParseDate(reciveMsg);
@@ -86,8 +88,11 @@ public class ClientController extends AbstractClient {
 			break;
 		case ReceiptController:
 			ReceiptController.receipeParseData(reciveMsg);
-
 			break;
+		case RegistrationController:{
+			RegistrationController.RegistrationParseData(reciveMsg);
+      break;
+		}
 		default:
 			break;
 		}

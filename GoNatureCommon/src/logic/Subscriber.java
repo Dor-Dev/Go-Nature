@@ -15,20 +15,42 @@ public class Subscriber implements Serializable{
 	private String phone;
 	private String email;
 	private int familySum; // The total number of family members
+	private CreditCard creditCard=null;
 	private String type;
-	private CreditCard creditCard;
+
 	
-	public Subscriber(int iD,int visitorID, String firstName, String lastName, String phone, String email, int familySum,String type) {
-		super();
-		ID = iD;
+	public Subscriber(int ID,int visitorID, String firstName, String lastName, String phone, String email, int familySum,String type) {
+		this.ID = ID;
 		this.visitorID=visitorID;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.phone = phone;			//didnt use credit card!!!
+		this.phone = phone;
+		this.email = email;
+		this.familySum = familySum;
+		this.creditCard = creditCard;
+		this.type=type;
+	}
+
+
+	public Subscriber(int ID, String firstName, String lastName, String phone, String email, int familySum,String type) {
+		this.ID = ID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phone = phone;			
 		this.email = email;
 		this.familySum = familySum;
 		this.type=type;
 	}
+	
+	
+	public CreditCard getCreditCard() {
+		return creditCard;
+	}
+
+	public void setCreditCard(CreditCard creditCard) {
+		this.creditCard = creditCard;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -62,16 +84,25 @@ public class Subscriber implements Serializable{
 	public int getID() {
 		return ID;
 	}
+
+
+	public void setID(int ID) {
+		this.ID = ID;
+	}
+		
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	
 	public int getVisitorID() {
 		return visitorID;
 	}
-	public String getType() {
-		return type;
-	}
-	
-	
-	
-	
+
 
 }
