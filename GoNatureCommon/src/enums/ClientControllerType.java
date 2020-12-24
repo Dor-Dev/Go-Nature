@@ -1,5 +1,5 @@
 package enums;
 
 public enum ClientControllerType {
-	EmployeeController, VisitorController;
+	EmployeeController, VisitorController, OrderController;
 }

@@ -64,8 +64,12 @@ public class ServerController extends AbstractServer {
 			switch (clientMsg.getDbControllertype()) {
 			case loginDBController:
 				LoginDBController loginDBController = new LoginDBController();
-				System.out.println("Sucess send to server, handle msg  logindbcontroller");
 				client.sendToClient(loginDBController.parseData(clientMsg));
+				break;
+			case OrderDBController:
+				OrderDBController orderDBController = new OrderDBController();
+				client.sendToClient(orderDBController.addOrder(clientMsg));
+			
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

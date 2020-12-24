@@ -9,6 +9,7 @@ import client.ClientController;
 import client.MainClient;
 import common.Message;
 import controllers.EmployeeController;
+import controllers.VisitorController;
 import enums.DBControllerType;
 import enums.OperationType;
 import javafx.event.ActionEvent;
@@ -102,6 +103,7 @@ public class LoginGUIController {
     		}
 
     		else {
+    		VisitorController.loggedID = Integer.parseInt(info.get(0));
     		MainClient.clientConsole.accept(new Message(OperationType.VisitorLogin,DBControllerType.loginDBController,(Object)info));
     		WelcomeGUIController welcome = new WelcomeGUIController();
     		((Node) event.getSource()).getScene().getWindow().hide(); // hiding login window

@@ -9,7 +9,7 @@ import logic.Subscriber;
 
 public class VisitorController {
 	public static Subscriber subscriberConnected = null;
-
+	public static int loggedID =0;
 	public static void visitorParseDate(Message msg) {
 		switch (msg.getOperationType()) {
 		case VisitorWithOrderLogin :
@@ -17,6 +17,7 @@ public class VisitorController {
 			break;
 		case VisitorLogin:
 			ClientController.type = UserTypes.visitor;
+			
 			break;
 			
 		case SubscriberLogin:

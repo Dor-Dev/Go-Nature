@@ -31,8 +31,9 @@ public class LoginDBController {
 		case VisitorLogin:
 			try {
 				
-				pstm = sqlConnection.connection.prepareStatement("SELECT * from members where visitorID=?");
+				pstm = sqlConnection.connection.prepareStatement("SELECT * from members where visitorID=? or memberNumber=?");
 				pstm.setString(1, info.get(0));
+				pstm.setString(2, info.get(0));
 				
 				ResultSet rs = pstm.executeQuery();
 				
