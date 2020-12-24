@@ -11,6 +11,7 @@ import controllers.EmployeeController;
 import controllers.ParkController;
 import controllers.ReceiptController;
 import controllers.VisitorController;
+import enums.OperationType;
 import enums.UserTypes;
 import logic.Employee;
 
@@ -64,13 +65,14 @@ public class ClientController extends AbstractClient {
 	public void handleMessageFromServer(Object msg) {
 		
 		Message reciveMsg = (Message) msg;
-		returnedValueFromServer = reciveMsg.getObj();
 		awaitResponse = false;
 		switch (reciveMsg.getControllertype()) {
 		case VisitorController:
+			returnedValueFromServer = reciveMsg.getObj();
 			VisitorController.visitorParseDate(reciveMsg);
 			break;
 		case EmployeeController:
+			returnedValueFromServer = reciveMsg.getObj();
 			EmployeeController.EmployeeParseData(reciveMsg);
 			break;	
 		case ParkController:
