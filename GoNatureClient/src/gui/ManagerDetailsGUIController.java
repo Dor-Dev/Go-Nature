@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -47,6 +48,33 @@ public class ManagerDetailsGUIController {
     private Label mnuRequests;
 
     @FXML
+    private Label lblParkName;
+
+    @FXML
+    private Label lblVisitorAmount;
+
+    @FXML
+    private Label lblAvailableSpace;
+
+    @FXML
+    private Label lblVisitorCapacity;
+
+    @FXML
+    private Label lblDifference;
+
+    @FXML
+    private Label lblHours;
+
+    @FXML
+    private TextField txtVisitorCapcity;
+
+    @FXML
+    private TextField txtDifference;
+
+    @FXML
+    private TextField txtHours;
+
+    @FXML
     private Button btnSendUpdate;
 
     @FXML
@@ -68,6 +96,10 @@ public class ManagerDetailsGUIController {
     	MyProfileGUIController mf = new MyProfileGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide();
 		mf.show();
+    }
+    @FXML
+    void sendUpdateRequest(MouseEvent event) {
+
     }
     
     public void show() {

@@ -86,7 +86,7 @@ public class LoginGUIController {
     		info.add(txtLoginID.getText());
     		if(rdEmployee.isSelected()) {
 				info.add(txtPassword.getText());
-				MainClient.clientConsole.accept(new Message(OperationType.EmployeeLogin,DBControllerType.loginDBController,(Object)info));
+				MainClient.clientConsole.accept(new Message(OperationType.EmployeeLogin,DBControllerType.LoginDBController,(Object)info));
 				if(EmployeeController.employeeConected == null) {
 					lblLoginErrorMsg.setVisible(true);
 					lblLoginErrorMsg.setText("incorrect userName or password");
@@ -103,8 +103,10 @@ public class LoginGUIController {
     		}
 
     		else {
+
     		VisitorController.loggedID = Integer.parseInt(info.get(0));
     		MainClient.clientConsole.accept(new Message(OperationType.VisitorLogin,DBControllerType.loginDBController,(Object)info));
+
     		WelcomeGUIController welcome = new WelcomeGUIController();
     		((Node) event.getSource()).getScene().getWindow().hide(); // hiding login window
     		welcome.show();
