@@ -1,6 +1,7 @@
 package enums;
 
 public enum DBControllerType {
-	loginDBController,RegistrationDBController;
+
+	LoginDBController, ParkDBController, ReceiptDBController, OrderDBController,RegistrationDBController;
 
 }

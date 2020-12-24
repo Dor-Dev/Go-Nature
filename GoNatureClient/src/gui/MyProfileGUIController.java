@@ -1,11 +1,11 @@
 package gui;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import client.ClientController;
+import controllers.EmployeeController;
+import controllers.VisitorController;
 import enums.UserTypes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -84,9 +84,9 @@ public class MyProfileGUIController {
 
 	@FXML
 	private Label lblEmployeeRole;
-	
-    @FXML
-    private HBox hboxPhone;
+
+	@FXML
+	private HBox hboxPhone;
 
 	@FXML
 	private HBox hboxEmployeeOrganization;
@@ -109,13 +109,13 @@ public class MyProfileGUIController {
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(myProfileController);
 			MenuBarSelection.setMenuOptions(menuLabels);
-		
-			
-			if(ClientController.type.equals(UserTypes.subscriber) || ClientController.type.equals(UserTypes.instructor))
+
+			if (ClientController.type.equals(UserTypes.subscriber)
+					|| ClientController.type.equals(UserTypes.instructor))
 				hideEmployeeLabels(myProfileController);
 			else
 				hideSubscriberLabels(myProfileController);
-			
+
 			primaryStage.show();
 
 		} catch (IOException e) {
@@ -123,39 +123,47 @@ public class MyProfileGUIController {
 			return;
 		}
 	}
-	//method to hide lables 
+
+	/**
+	 * this method is for hide the subscriber's labels if the client connected is
+	 * employee
+	 * 
+	 * @param myProfileController
+	 */
 	private void hideSubscriberLabels(MyProfileGUIController myProfileController) {
 		myProfileController.hboxType.setManaged(false);
 		myProfileController.hboxPhone.setManaged(false);
-		
-		//TODO complete my profile feature
-		
-		//if(ClientController.returnedValueFromServer instanceof Employee) 
-		//Employee employee = (Employee)(ClientController.returnedValueFromServer);
-	//	System.out.println(ClientController.returnedValueFromServer);
-		/*if (ClientController.returnedValueFromServer instanceof Employee) {
-			System.out.println(1);
-		}
-		*/
-		/*lblEmployeeID.setText(String.valueOf(EmployeeController.employeeConected.getEmployeeID()));
-		lblIdNumber.setText(employee.getUserName());
-		lblFirstName.setText(employee.getFirstName());
-		lblLastName.setText(employee.getLasttName());
-		lblEmployeeRole.setText(employee.getRole());
-		lblEmail.setText(employee.getEmail());
-		lblEmployeeOrganization.setText(employee.getOrganizationAffilation());
-		*/
+		myProfileController.lblEmployeeID.setText(String.valueOf(EmployeeController.employeeConected.getEmployeeID()));
+		myProfileController.lblIdNumber.setText(EmployeeController.employeeConected.getUserName());
+		myProfileController.lblFirstName.setText(EmployeeController.employeeConected.getFirstName());
+		myProfileController.lblLastName.setText(EmployeeController.employeeConected.getLasttName());
+		myProfileController.lblEmployeeRole.setText(EmployeeController.employeeConected.getRole());
+		myProfileController.lblEmail.setText(EmployeeController.employeeConected.getEmail());
+		myProfileController.lblEmployeeOrganization
+				.setText(EmployeeController.employeeConected.getOrganizationAffilation());
+
 	}
+
+	/**
+	 * this method is for hide the employee's labels if the client connected is
+	 * subscriber
+	 * 
+	 * @param myProfileController
+	 */
 
 	private void hideEmployeeLabels(MyProfileGUIController myProfileController) {
 		myProfileController.hboxEmployeeNumber.setManaged(false);
 		myProfileController.hboxEmployeeOrganization.setManaged(false);
 		myProfileController.hboxEmployeeRole.setManaged(false);
-		
+		// TODO adding member
+		myProfileController.lblIdNumber.setText(String.valueOf(VisitorController.subscriberConnected.getVisitorID()));
+		myProfileController.lblEmail.setText(VisitorController.subscriberConnected.getEmail());
+		myProfileController.lblType.setText(VisitorController.subscriberConnected.getType());
+		myProfileController.lblFirstName.setText(VisitorController.subscriberConnected.getFirstName());
+		myProfileController.lblLastName.setText(VisitorController.subscriberConnected.getLastName());
+		myProfileController.lblPhone.setText(VisitorController.subscriberConnected.getPhone());
 
-		
 	}
-	
 
 	private List<Label> createLabelList(MyProfileGUIController myProfileController) {
 		List<Label> tempMenuLabels = new ArrayList<>();
@@ -173,30 +181,29 @@ public class MyProfileGUIController {
 		return tempMenuLabels;
 	}
 
-	   @FXML
-	    void showMyOrders(MouseEvent event) {
-	    	MyOrdersGUIController mo= new MyOrdersGUIController();
-	    	((Node)event.getSource()).getScene().getWindow().hide();
-	    	mo.show();
+	@FXML
+	void showMyOrders(MouseEvent event) {
+		MyOrdersGUIController mo = new MyOrdersGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		mo.show();
 
-	    }
+	}
 
-	   @FXML
-	    void showAddOrder(MouseEvent event) {
-	    	AddOrderGUIController c = new AddOrderGUIController();
-	    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-	    	c.show();
-	    }
-	   
-	    @FXML
-	    void showParkEntrance(MouseEvent event) {
-	    	ParkEntranceGUIController pe = new ParkEntranceGUIController();
-	    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-	    	pe.show();
-	    	
+	@FXML
+	void showAddOrder(MouseEvent event) {
+		AddOrderGUIController c = new AddOrderGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		c.show();
+	}
 
-	    }
-  
+	@FXML
+	void showParkEntrance(MouseEvent event) {
+		ParkEntranceGUIController pe = new ParkEntranceGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		pe.show();
+
+	}
+
 	@FXML
 	void goToParkDetails(MouseEvent event) {
 		ManagerDetailsGUIController mDgc = new ManagerDetailsGUIController();
@@ -204,24 +211,47 @@ public class MyProfileGUIController {
 		mDgc.show();
 	}
 
-    @FXML
-    void goToManagerReports(MouseEvent event) {
-    	ManagerReportGUIController mRc = new ManagerReportGUIController();
+	@FXML
+	void goToManagerReports(MouseEvent event) {
+		ManagerReportGUIController mRc = new ManagerReportGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide();
 		mRc.show();
-    }
+	}
 
-    @FXML
-    void goToManagerEvents(MouseEvent event) {
-    	EventsGUIController eGc = new EventsGUIController();
+	@FXML
+	void goToManagerEvents(MouseEvent event) {
+		EventsGUIController eGc = new EventsGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		eGc.show();
-    }
-    @FXML
-    void goToRegisration(MouseEvent event) {
-    	RegistrationController c = new RegistrationController();
-    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-    	c.show();
-    }
+	}
 
+	@FXML
+
+	void showParkCapacity(MouseEvent event) {
+		ParkCapacityGUIController pC = new ParkCapacityGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		pC.show();
+	}
+
+	@FXML
+	void showReports(MouseEvent event) {
+		DManagerReportsGUIController rP = new DManagerReportsGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		rP.show();
+	}
+
+	@FXML
+	void showRequests(MouseEvent event) {
+		DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		rQ.show();
+	}
+
+	@FXML
+	void goToRegisration(MouseEvent event) {
+		RegistrationController c = new RegistrationController();
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		c.show();
+
+	}
 }

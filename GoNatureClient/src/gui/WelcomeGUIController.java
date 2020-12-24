@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import client.MainClient;
+import common.Message;
+import controllers.EmployeeController;
+import enums.DBControllerType;
+import enums.OperationType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -75,6 +80,28 @@ public class WelcomeGUIController {
     	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
     	pe.show();
 
+    }
+    
+    @FXML
+    void showParkCapacity(MouseEvent event) {
+    	ParkCapacityGUIController pC = new ParkCapacityGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		pC.show();
+    }
+    
+
+    @FXML
+    void showReports(MouseEvent event) {
+    	DManagerReportsGUIController rP = new DManagerReportsGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		rP.show();
+    }
+
+    @FXML
+    void showRequests(MouseEvent event) {
+    	DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		rQ.show();
     }
 	/**
 	 * Change the main window to Events page when click on the Events

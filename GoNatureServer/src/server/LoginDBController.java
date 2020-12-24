@@ -8,10 +8,9 @@ import java.util.List;
 
 import common.Message;
 import enums.ClientControllerType;
-import enums.DBControllerType;
 import enums.OperationType;
 import logic.Employee;
-import logic.Visitor;
+import logic.Subscriber;
 
 public class LoginDBController {
 	private static Message msgFromClient = null;
@@ -30,25 +29,33 @@ public class LoginDBController {
 		info =  (ArrayList<String>) msgFromClient.getObj();
 		switch(msgFromClient.getOperationType()) {
 		case VisitorLogin:
-			Visitor visitor = null;
 			try {
-				System.out.println("TRY IN LOGIN DB CONTROLLER" + info.get(0));
-				pstm = sqlConnection.connection.prepareStatement("SELECT * from visitors where id=?");
+				
+				pstm = sqlConnection.connection.prepareStatement("SELECT * from members where visitorID=? or memberNumber=?");
 				pstm.setString(1, info.get(0));
-				System.out.println("AFTER QUERY");
+				pstm.setString(2, info.get(0));
+				
 				ResultSet rs = pstm.executeQuery();
-				//for case that traveler didn't exist in system
+				
 				if(rs.next()) { 
-					visitor = new Visitor(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getBoolean(4),rs.getString(5));
+					Subscriber subscriber = null;
+					subscriber=new Subscriber(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7),rs.getString(13));
+					return new Message(OperationType.SubscriberLogin, ClientControllerType.VisitorController,(Object)subscriber);
+					
+					
 				}
 				else {
-					visitor = new Visitor(Integer.parseInt(info.get(0)));
-				}
+					pstm = sqlConnection.connection.prepareStatement("SELECT * from orders where visitorID=?");
+					pstm.setString(1, info.get(0));
+					rs = pstm.executeQuery();
+					if(rs.next()) { 
+					return new Message(OperationType.VisitorWithOrderLogin, ClientControllerType.VisitorController,(Object)Integer.parseInt(info.get(0)));
+					}
 				
-				return new Message(OperationType.VisitorLogin, ClientControllerType.VisitorController,(Object)visitor);
+					else return new Message(OperationType.VisitorLogin, ClientControllerType.VisitorController,(Object)Integer.parseInt(info.get(0)));
 				
-				
-			} catch (SQLException e) {
+			}
+			}catch (SQLException e) {
 				System.out.println("CATCH");
 				e.printStackTrace();
 			}

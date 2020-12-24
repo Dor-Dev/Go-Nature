@@ -1,7 +1,15 @@
 package logic;
 
-public class Subscriber {
+import java.io.Serializable;
+
+public class Subscriber implements Serializable{
+	/**
+	 * 
+	 */
+
+	private static final long serialVersionUID = -416960327558987383L;
 	private int ID;
+	private int visitorID;
 	private String firstName;
 	private String lastName;
 	private String phone;
@@ -9,9 +17,11 @@ public class Subscriber {
 	private int familySum; // The total number of family members
 	private CreditCard creditCard=null;
 	private String type;
+
 	
-	public Subscriber(int ID, String firstName, String lastName, String phone, String email, int familySum,CreditCard creditCard,String type) {
+	public Subscriber(int ID,int visitorID, String firstName, String lastName, String phone, String email, int familySum,String type) {
 		this.ID = ID;
+		this.visitorID=visitorID;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
@@ -36,7 +46,6 @@ public class Subscriber {
 	public CreditCard getCreditCard() {
 		return creditCard;
 	}
-
 
 	public void setCreditCard(CreditCard creditCard) {
 		this.creditCard = creditCard;
@@ -76,6 +85,7 @@ public class Subscriber {
 		return ID;
 	}
 
+
 	public void setID(int ID) {
 		this.ID = ID;
 	}
@@ -88,5 +98,11 @@ public class Subscriber {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	
+	public int getVisitorID() {
+		return visitorID;
+	}
+
 
 }

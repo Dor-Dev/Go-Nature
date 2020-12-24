@@ -91,7 +91,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuParkCapacity" layoutX="777.0" layoutY="10.0" maxHeight="53.0" maxWidth="118.0" minHeight="53.0" minWidth="118.0" prefHeight="53.0" prefWidth="118.0" style="-fx-font-weight: bold;" text="Park Capacity">
+                        <Label id="menu" fx:id="mnuParkCapacity" layoutX="777.0" layoutY="10.0" maxHeight="53.0" maxWidth="118.0" minHeight="53.0" minWidth="118.0" onMouseClicked="#showParkCapacity" prefHeight="53.0" prefWidth="118.0" style="-fx-font-weight: bold;" text="Park Capacity">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -99,7 +99,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuReportsDepartment" layoutX="885.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Reports">
+                        <Label id="menu" fx:id="mnuReportsDepartment" layoutX="885.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" onMouseClicked="#showReports" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Reports">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -107,7 +107,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuRequests" layoutX="1063.0" layoutY="10.0" maxHeight="53.0" maxWidth="80.0" minHeight="53.0" minWidth="80.0" prefHeight="53.0" prefWidth="80.0" style="-fx-font-weight: bold;" text="Requests">
+                        <Label id="menu" fx:id="mnuRequests" layoutX="1063.0" layoutY="10.0" maxHeight="53.0" maxWidth="80.0" minHeight="53.0" minWidth="80.0" onMouseClicked="#showRequests" prefHeight="53.0" prefWidth="80.0" style="-fx-font-weight: bold;" text="Requests">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -160,7 +160,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblIdNumber" text="205818883">
+                        <Label fx:id="lblIdNumber">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -177,7 +177,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblFirstName" text="Amit">
+                        <Label fx:id="lblFirstName">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -197,7 +197,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblLastName" text="Ben David">
+                        <Label fx:id="lblLastName">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -217,7 +217,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblPhone" text="052-6456235">
+                        <Label fx:id="lblPhone">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -237,7 +237,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblEmail" text="AmitBd@gmail.com">
+                        <Label fx:id="lblEmail">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -257,7 +257,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblType" text="Member">
+                        <Label fx:id="lblType">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -277,7 +277,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblEmployeeID" layoutX="10.0" layoutY="10.0" text="520">
+                        <Label fx:id="lblEmployeeID" layoutX="10.0" layoutY="10.0">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -297,7 +297,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblEmployeeRole" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="107.0" text="Receptionist">
+                        <Label fx:id="lblEmployeeRole" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="107.0">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -317,7 +317,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblEmployeeOrganization" layoutX="10.0" layoutY="10.0" text="Luna-Park">
+                        <Label fx:id="lblEmployeeOrganization" layoutX="10.0" layoutY="10.0">
                            <font>
                               <Font size="16.0" />
                            </font>

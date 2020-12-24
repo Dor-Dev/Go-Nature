@@ -8,12 +8,17 @@ import ocsf.client.*;
 
 import common.*;
 import controllers.EmployeeController;
+import controllers.ParkController;
+import controllers.ReceiptController;
 import controllers.VisitorController;
+import enums.OperationType;
 import enums.UserTypes;
 import gui.RegistrationController;
 import logic.Employee;
 
 import java.io.*;
+
+import com.sun.jmx.remote.util.OrderClassLoaders;
 
 /**
  * This class overrides some of the methods defined in the abstract superclass
@@ -63,17 +68,30 @@ public class ClientController extends AbstractClient {
 	public void handleMessageFromServer(Object msg) {
 		
 		Message reciveMsg = (Message) msg;
-		returnedValueFromServer = reciveMsg.getObj();
 		awaitResponse = false;
 		switch (reciveMsg.getControllertype()) {
-		case VisitorController:{
+
+		case VisitorController:
+			returnedValueFromServer = reciveMsg.getObj();
 			VisitorController.visitorParseDate(reciveMsg);
-			break;}
-		case EmployeeController:{
+			break;
+		case EmployeeController:
+			returnedValueFromServer = reciveMsg.getObj();
 			EmployeeController.EmployeeParseData(reciveMsg);
-			break;}
+			break;	
+
+		case OrderController:
+			OrderController.OrderParseData(reciveMsg);
+			break;
+		case ParkController:
+			ParkController.ParkParseData(reciveMsg);
+			break;
+		case ReceiptController:
+			ReceiptController.receipeParseData(reciveMsg);
+			break;
 		case RegistrationController:{
 			RegistrationController.RegistrationParseData(reciveMsg);
+      break;
 		}
 		default:
 			break;
