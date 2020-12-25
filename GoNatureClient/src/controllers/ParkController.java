@@ -7,19 +7,19 @@ import logic.Park;
 import logic.Receipt;
 
 public class ParkController {
-	public static Park parkConnected= null;
+	public static Park parkConnected;
 	public static OperationType Parktype= null;
 	
 
 	public static void ParkParseData(Message reciveMsg) {
-		parkConnected= (Park) reciveMsg.getObj();
 		
 		switch(reciveMsg.getOperationType()) {
 		case GetParkInfo:
-			//parkConnected= (Park) reciveMsg.getObj();
-			
+			parkConnected= (Park) reciveMsg.getObj();
 			break;
-			
+		case ParkInfo:
+			parkConnected= (Park) reciveMsg.getObj();
+			break;
 		case UpdateParkInfo:
 			parkConnected= (Park) reciveMsg.getObj();
 			Parktype= OperationType.UpdateParkInfo;

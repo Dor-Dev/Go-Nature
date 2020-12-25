@@ -13,10 +13,10 @@ public class Park implements Serializable {
 	private int parkCapacity=0;
 	private int orderCapacity=0;
 	private int difference=0;
-	private String visitingTime=null;
+	private int visitingTime;
 	private int currentAmountOfVisitors=0;
 	
-	public Park(String parkName, int parkCapacity, int orderCapacity, int difference, String visitingTime,int currentAmountOfVisitors) {
+	public Park(String parkName, int parkCapacity, int orderCapacity, int difference, int visitingTime,int currentAmountOfVisitors) {
 		this.parkName = parkName;
 		this.parkCapacity = parkCapacity;
 		this.orderCapacity = orderCapacity;
@@ -57,11 +57,11 @@ public class Park implements Serializable {
 		this.difference = difference;
 	}
 
-	public String getVisitingTime() {
+	public int getVisitingTime() {
 		return visitingTime;
 	}
 
-	public void setVisitingTime(String visitingTime) {
+	public void setVisitingTime(int visitingTime) {
 		this.visitingTime = visitingTime;
 	}
 

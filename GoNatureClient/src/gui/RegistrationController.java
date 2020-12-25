@@ -214,7 +214,7 @@ public class RegistrationController {
     void registrationAction(MouseEvent event) {
     		HashMap<String, String> hash_map_info = new HashMap<String, String>(); 
     		List<String> info = new ArrayList<String>();
-    		member_number=Integer.parseInt(txtID.getText())+1000000000; //The function f(X)=2X+1 is an injective function - that will promise us unique member number each time
+    		member_number=Integer.parseInt(txtID.getText())+1000000000; //The function f(X)=X+1000000000 is an injective function - that will promise us unique member number each time
     		info.add(member_number.toString());
     		hash_map_info.put("First Name", txtFirstName.getText());
     		info.add(txtFirstName.getText());
