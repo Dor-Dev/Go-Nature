@@ -91,7 +91,7 @@ public class ClientController extends AbstractClient {
 			break;
 		case RegistrationController:{
 			RegistrationController.RegistrationParseData(reciveMsg);
-      break;
+			break;
 		}
 		default:
 			break;

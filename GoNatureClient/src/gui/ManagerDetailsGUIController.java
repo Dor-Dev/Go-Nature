@@ -11,6 +11,7 @@ import controllers.EmployeeController;
 import controllers.ParkController;
 import enums.DBControllerType;
 import enums.OperationType;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -114,7 +115,38 @@ public class ManagerDetailsGUIController {
     	list.add(txtHours.getText());
     	list.add(status);
     	MainClient.clientConsole.accept(new Message(OperationType.SendUpdateRequest,DBControllerType.ParkDBController,(Object)list));
-    
+    	//TODO PopUp Message
+    	if(ParkController.Parktype.equals(OperationType.UpdateWasSent)) {
+    		VBox root;
+        	Stage primaryStage = new Stage();
+    		try {
+    			FXMLLoader loader = new FXMLLoader();
+    			loader.setLocation(getClass().getResource("UpdatePopUp.fxml"));
+    			root = loader.load();
+    			Scene scene = new Scene(root);
+    			primaryStage.setScene(scene);
+    			primaryStage.setTitle("Update Successfull");
+    			primaryStage.show();
+    			
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    			return;
+    		}
+    	}
+    }
+
+	/*
+	 * close popup window button
+	 */
+    @FXML
+    private Button closeButton;
+
+    @FXML
+    void closePopUp(ActionEvent event) {
+    	 // get a handle to the stage
+	    Stage stage = (Stage) closeButton.getScene().getWindow();
+	    // do what you have to do
+	    stage.close();
     }
     
     private void setData(ManagerDetailsGUIController mdc) {
@@ -124,7 +156,7 @@ public class ManagerDetailsGUIController {
     	
     	mdc.lblVisitorCapacity.setText(String.valueOf(ParkController.parkConnected.getParkCapacity()));
     	mdc.lblDifference.setText(String.valueOf(ParkController.parkConnected.getDifference()));
-    	mdc.lblHours.setText(ParkController.parkConnected.getVisitingTime());
+    	mdc.lblHours.setText(String.valueOf(ParkController.parkConnected.getVisitingTime()));
     }
     
     public void show() {
@@ -142,6 +174,7 @@ public class ManagerDetailsGUIController {
 			menuLabels = managerDetailsController.createLabelList(managerDetailsController);
 			MenuBarSelection.setMenuOptions(menuLabels);
 			MainClient.clientConsole.accept(new Message(OperationType.GetParkInfo,DBControllerType.ParkDBController,(Object)EmployeeController.employeeConected.getOrganizationAffilation()));
+			System.out.println("ParkManager: TRY Again");
 			setData(managerDetailsController);
 			primaryStage.show();
 		} catch (IOException e) {
