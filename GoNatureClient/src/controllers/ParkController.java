@@ -12,12 +12,10 @@ public class ParkController {
 	
 
 	public static void ParkParseData(Message reciveMsg) {
-		parkConnected= (Park) reciveMsg.getObj();
 		
 		switch(reciveMsg.getOperationType()) {
 		case GetParkInfo:
-			//parkConnected= (Park) reciveMsg.getObj();
-			
+			parkConnected= (Park) reciveMsg.getObj();
 			break;
 			
 		case UpdateParkInfo:
@@ -27,6 +25,8 @@ public class ParkController {
 		case UpdateWasSent:
 			Parktype = OperationType.UpdateWasSent;
 			break;
+		case ParkInfo:
+			parkConnected= (Park) reciveMsg.getObj();
 			
 		default:
 			break;

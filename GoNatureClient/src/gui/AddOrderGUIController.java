@@ -162,6 +162,22 @@ public class AddOrderGUIController {
 	@FXML
 	public void initializeAddOrder() {
 		/**
+		 * set init paynow visible 
+		 */
+		
+		cbPayNow.setVisible(false);
+		if(VisitorController.subscriberConnected!=null &&
+				VisitorController.subscriberConnected.getCreditCard()!=null) {
+			cbPayNow.setVisible(true);System.out.println("HERE");}
+		/**
+		 * set init Discount 
+		 */
+		lblDiscount.setText(String.valueOf(calculateDiscount())+"%");
+		/**
+		 * set Group option disable
+		 */
+		rdGroup.setDisable(true);
+		/**
 		 * Initialize combo box Parks name
 		 */
 		cmbParkName.getItems().removeAll(cmbParkName.getItems());
@@ -181,7 +197,13 @@ public class AddOrderGUIController {
 		cmbNumOfVisitors.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
 				"15");
 
-		// rdGroup.setDisable(true);
+
+		if(VisitorController.subscriberConnected!=null && 
+				VisitorController.subscriberConnected.getType().equals("instructor"))
+		{
+		 rdGroup.setDisable(false);
+		 System.out.println("IN");
+		}
 	}
 
 	/**
@@ -191,10 +213,21 @@ public class AddOrderGUIController {
 	 */
 	@FXML
 	void updateGroupDiscount(ActionEvent event) {
-		if (rdGroup.isSelected())
-			lblDiscount.setText("20%");
-		if (rdSingleFamily.isSelected())
-			lblDiscount.setText("15%");
+		
+		/** this function update the pre-order discount and price
+		 * 	this function is run when changing type/#ofVisitors/PayNow
+		 *  this function also contorol on the visible of "PAYNOW" CHECK BOX
+		 */
+			lblDiscount.setText(String.valueOf(calculateDiscount())+"%");
+		if(cmbNumOfVisitors.getValue()!=null)
+		{
+			lblTotalPrice.setText((String.valueOf(calculatePriceAfterDiscount()))+"¤");
+		}
+		
+		cbPayNow.setVisible(false);
+		if(VisitorController.subscriberConnected!=null &&
+				VisitorController.subscriberConnected.getCreditCard()!=null ||rdGroup.isSelected())
+			cbPayNow.setVisible(true);
 	}
 
 	@FXML
@@ -234,15 +267,50 @@ public class AddOrderGUIController {
 		 * from the combo box
 		 */
 		int hour = Integer.parseInt((cmbHour.getValue().toString().substring(0, 2)));
+		
+		/**
+		 * calculate price after discount
+		 */
+		
+		int finalPrice = calculatePriceAfterDiscount(); // get the ticket price
+		
 		Order newOrder = new Order(cmbParkName.getValue(),
 				date.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))), userID,
 				Integer.parseInt((String) cmbNumOfVisitors.getValue().toString()), txtEmail.getText(),
-				typeToogleSelected, cbPayNow.isSelected(), hour, 500);
+				typeToogleSelected, cbPayNow.isSelected(), hour, (int)finalPrice);
 		MainClient.clientConsole
 				.accept(new Message(OperationType.AddOrder, DBControllerType.OrderDBController, (Object) newOrder));
 		
 		showPopUpWindow();
 		
+	}
+
+	private int calculateDiscount()
+	{
+		//calculate discount per ticket
+		int discount = 0;
+		if(rdSingleFamily.isSelected())
+			discount+=15;	// price after pre-Order for signle/family
+		if(rdGroup.isSelected())
+			discount+=25;
+		//if visitor is subscriber and not instructor
+		if(VisitorController.subscriberConnected!=null &&
+				!rdGroup.isSelected() && 
+				!VisitorController.subscriberConnected.getType().equals("instructor"))
+			discount+=20;	//price after subscirber discount
+		if(cbPayNow.isSelected() && rdGroup.isSelected())	//if instructor and pay now
+			discount+=12;	
+		System.out.println("DIS:"+discount);
+		return discount;
+	}
+	private int calculatePriceAfterDiscount() {
+		double finalPrice = OrderController.getTicketPrice();
+		System.out.println("STARTC:"+finalPrice);
+		System.out.println("NUM:"+Integer.parseInt(cmbNumOfVisitors.getValue().toString()));
+		finalPrice *= Integer.parseInt(cmbNumOfVisitors.getValue().toString());
+		finalPrice= (finalPrice*(100-calculateDiscount()))/100;
+		System.out.println("PRICE:"+finalPrice);
+		return (int)finalPrice;
 	}
 	public void showPopUpWindow()
 	{

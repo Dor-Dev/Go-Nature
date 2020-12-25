@@ -166,7 +166,7 @@ public class ParkDBController {
 				preparedStmt = sqlConnection.connection.prepareStatement(query);
 				preparedStmt.setInt(1, Integer.valueOf(updateInfo.get(0)));
 				preparedStmt.setInt(2, Integer.valueOf(updateInfo.get(1)));
-				preparedStmt.setString(3, updateInfo.get(2));
+				preparedStmt.setInt(3, Integer.valueOf(updateInfo.get(2)));
 				preparedStmt.setString(4, updateInfo.get(3));
 				// execute the preparedstatement
 				preparedStmt.execute();

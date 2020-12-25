@@ -27,7 +27,6 @@ public class Subscriber implements Serializable{
 		this.phone = phone;
 		this.email = email;
 		this.familySum = familySum;
-		this.creditCard = creditCard;
 		this.type=type;
 	}
 
