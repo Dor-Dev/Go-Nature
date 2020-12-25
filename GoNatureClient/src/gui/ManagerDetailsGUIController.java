@@ -3,6 +3,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.media.jfxmediaimpl.platform.Platform;
+
+import client.MainClient;
+import common.Message;
+import controllers.EmployeeController;
+import controllers.ParkController;
+import enums.DBControllerType;
+import enums.OperationType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -99,7 +107,24 @@ public class ManagerDetailsGUIController {
     }
     @FXML
     void sendUpdateRequest(MouseEvent event) {
-
+    	List<String> list = new ArrayList<>();
+    	String status = "waiting";
+    	list.add(txtVisitorCapcity.getText());
+    	list.add(txtDifference.getText());
+    	list.add(txtHours.getText());
+    	list.add(status);
+    	MainClient.clientConsole.accept(new Message(OperationType.SendUpdateRequest,DBControllerType.ParkDBController,(Object)list));
+    
+    }
+    
+    private void setData(ManagerDetailsGUIController mdc) {
+    	mdc.lblParkName.setText(ParkController.parkConnected.getParkName());
+    	mdc.lblVisitorAmount.setText(String.valueOf(ParkController.parkConnected.getCurrentAmountOfVisitors()));
+    	mdc.lblAvailableSpace.setText(String.valueOf(ParkController.parkConnected.getParkCapacity()-ParkController.parkConnected.getCurrentAmountOfVisitors()));
+    	
+    	mdc.lblVisitorCapacity.setText(String.valueOf(ParkController.parkConnected.getParkCapacity()));
+    	mdc.lblDifference.setText(String.valueOf(ParkController.parkConnected.getDifference()));
+    	mdc.lblHours.setText(ParkController.parkConnected.getVisitingTime());
     }
     
     public void show() {
@@ -112,10 +137,12 @@ public class ManagerDetailsGUIController {
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Go-Nature Details");
-			ManagerDetailsGUIController managerDetailsController = loader.getController();
+			ManagerDetailsGUIController managerDetailsController = loader.getController();	
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = managerDetailsController.createLabelList(managerDetailsController);
 			MenuBarSelection.setMenuOptions(menuLabels);
+			MainClient.clientConsole.accept(new Message(OperationType.GetParkInfo,DBControllerType.ParkDBController,(Object)EmployeeController.employeeConected.getOrganizationAffilation()));
+			setData(managerDetailsController);
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();

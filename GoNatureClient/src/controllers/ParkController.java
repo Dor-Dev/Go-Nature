@@ -23,12 +23,10 @@ public class ParkController {
 		case UpdateParkInfo:
 			parkConnected= (Park) reciveMsg.getObj();
 			Parktype= OperationType.UpdateParkInfo;
-			
 			break;
-		
-			
-
-	
+		case UpdateWasSent:
+			Parktype = OperationType.UpdateWasSent;
+			break;
 			
 		default:
 			break;
