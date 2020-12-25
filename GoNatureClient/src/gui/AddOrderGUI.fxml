@@ -235,7 +235,7 @@
                               <Insets top="80.0" />
                            </VBox.margin>
                         </Label>
-                        <ComboBox fx:id="cmbNumOfVisitors" maxWidth="250.0" prefHeight="25.0" prefWidth="257.0" promptText="#" />
+                        <ComboBox fx:id="cmbNumOfVisitors" maxWidth="250.0" onAction="#updateGroupDiscount" prefHeight="25.0" prefWidth="257.0" promptText="#" />
                         <Label text="Email address:">
                            <font>
                               <Font size="16.0" />
@@ -245,7 +245,7 @@
                            </VBox.margin>
                         </Label>
                         <TextField fx:id="txtEmail" maxWidth="250.0" prefHeight="31.0" prefWidth="50.0" promptText="YourUser@Host.domain" />
-                        <CheckBox fx:id="cbPayNow" mnemonicParsing="false" text="Pay in advance">
+                        <CheckBox fx:id="cbPayNow" mnemonicParsing="false" onAction="#updateGroupDiscount" text="Pay in advance">
                            <VBox.margin>
                               <Insets top="15.0" />
                            </VBox.margin>
