@@ -31,7 +31,7 @@ public class RegistrationDBController {
 		case MemberRegistrationCC:{
 			try {
 					pstm = sqlConnection.connection.prepareStatement("SELECT * from members where memberNumber=?");
-					pstm.setString(1, info.get(2));
+					pstm.setString(1, info.get(0));
 					ResultSet rs = pstm.executeQuery();
 					if(rs.next()) {
 						String Msg="The member already registered";
@@ -63,7 +63,7 @@ public class RegistrationDBController {
 		case MemberRegistration:{
 			try {
 					pstm = sqlConnection.connection.prepareStatement("SELECT * from members where memberNumber=?");
-					pstm.setString(1, info.get(2));
+					pstm.setString(1, info.get(0));
 					ResultSet rs = pstm.executeQuery();
 					if(rs.next()) {
 						String Msg="The member already registered";
@@ -95,7 +95,7 @@ public class RegistrationDBController {
 		case GuideRegistrationCC:{
 			try {
 					pstm = sqlConnection.connection.prepareStatement("SELECT * from members where memberNumber=?");
-					pstm.setString(1, info.get(2));
+					pstm.setString(1, info.get(0));
 					ResultSet rs = pstm.executeQuery();
 					if(rs.next()) {
 						String Msg="The group instractor already registered";
@@ -128,7 +128,7 @@ public class RegistrationDBController {
 		case GuideRegistration:{
 			try {
 					pstm = sqlConnection.connection.prepareStatement("SELECT * from members where memberNumber=?");
-					pstm.setString(1, info.get(2));
+					pstm.setString(1, info.get(0));
 					ResultSet rs = pstm.executeQuery();
 					if(rs.next()) {
 						String Msg="The group instractor already registered";
