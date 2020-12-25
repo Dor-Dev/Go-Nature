@@ -39,7 +39,7 @@ public class ParkDBController {
 				//for case that traveler didn't exist in system
 				if(rs.next()) { 
 					System.out.println(rs.getString(1));
-					Park park = new Park(rs.getString(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getString(5),rs.getInt(6));
+					Park park = new Park(rs.getString(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getInt(5),rs.getInt(6));
 					System.out.println(park);
 					return new Message(OperationType.ParkInfo, ClientControllerType.ParkController,(Object)park);
 				}
@@ -84,7 +84,7 @@ public class ParkDBController {
 				//for case that traveler didn't exist in system
 					if(s.next()) { 
 						System.out.println(s.getString(1));
-						Park park = new Park(s.getString(1),s.getInt(2),s.getInt(3),s.getInt(4),s.getString(5),s.getInt(6));
+						Park park = new Park(s.getString(1),s.getInt(2),s.getInt(3),s.getInt(4),s.getInt(5),s.getInt(6));
 						System.out.println(park);
 						return new Message(OperationType.UpdateParkInfo, ClientControllerType.ParkController,(Object)park);
 				}
@@ -122,7 +122,7 @@ public class ParkDBController {
 				//for case that traveler didn't exist in system
 					if(s.next()) { 
 						System.out.println(s.getString(1));
-						Park park = new Park(s.getString(1),s.getInt(2),s.getInt(3),s.getInt(4),s.getString(5),s.getInt(6));
+						Park park = new Park(s.getString(1),s.getInt(2),s.getInt(3),s.getInt(4),s.getInt(5),s.getInt(6));
 						System.out.println(park);
 						return new Message(OperationType.UpdateParkInfo, ClientControllerType.ParkController,(Object)park);
 				}
@@ -158,6 +158,7 @@ public class ParkDBController {
 			}
 			break;
 		case SendUpdateRequest:
+			System.out.println("ParkManager Server:Try");
 			PreparedStatement preparedStmt;
 			List<String> updateInfo = (ArrayList<String>)msgFromClient.getObj();
 			String query = "insert into requests(parkCapacity,difference,visitingTime,status)"+ 

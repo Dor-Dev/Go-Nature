@@ -7,7 +7,7 @@ import logic.Park;
 import logic.Receipt;
 
 public class ParkController {
-	public static Park parkConnected= null;
+	public static Park parkConnected;
 	public static OperationType Parktype= null;
 	
 
@@ -17,7 +17,9 @@ public class ParkController {
 		case GetParkInfo:
 			parkConnected= (Park) reciveMsg.getObj();
 			break;
-			
+		case ParkInfo:
+			parkConnected= (Park) reciveMsg.getObj();
+			break;
 		case UpdateParkInfo:
 			parkConnected= (Park) reciveMsg.getObj();
 			Parktype= OperationType.UpdateParkInfo;
