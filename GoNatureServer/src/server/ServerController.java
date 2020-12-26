@@ -57,6 +57,7 @@ public class ServerController extends AbstractServer {
 	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 
+		System.out.println("ServerController: HandleFromClient");
 		Message clientMsg = (Message) msg;
 		try {
 			switch (clientMsg.getDbControllertype()) {
