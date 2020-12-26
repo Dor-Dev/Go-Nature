@@ -1,5 +1,7 @@
 package logic;
 
+import java.io.Serializable;
+
 /**
  * 
  * This class have the details of traveler credit card,
@@ -8,7 +10,11 @@ package logic;
  *
  */
 
-public class CreditCard {
+public class CreditCard implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3762390995657450100L;
 	private String cardNumber;
 	private String cvv;
 	private int monthExp;

@@ -66,12 +66,14 @@ public class ClientController extends AbstractClient {
 	 * @param msg The message from the server.
 	 */
 	public void handleMessageFromServer(Object msg) {
+		System.out.println("ClientController:HandleFromServer");
 		
 		Message reciveMsg = (Message) msg;
 		awaitResponse = false;
 		switch (reciveMsg.getControllertype()) {
 
 		case VisitorController:
+			System.out.println("CISCONTCASE");
 			returnedValueFromServer = reciveMsg.getObj();
 			VisitorController.visitorParseDate(reciveMsg);
 			break;
@@ -105,6 +107,7 @@ public class ClientController extends AbstractClient {
 	 */
 	public void handleMessageFromClientUI(Object message) {
 
+		System.out.println("ClientController:HandleFromClientUI");
 		try
 	    {
 	    	//openConnection();//in order to send more than one message

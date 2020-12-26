@@ -15,7 +15,7 @@ public class Subscriber implements Serializable{
 	private String phone;
 	private String email;
 	private int familySum; // The total number of family members
-	private CreditCard creditCard=null;
+	private CreditCard creditCard;
 	private String type;
 
 	
@@ -28,6 +28,17 @@ public class Subscriber implements Serializable{
 		this.email = email;
 		this.familySum = familySum;
 		this.type=type;
+	}
+	public Subscriber(int ID,int visitorID, String firstName, String lastName, String phone, String email, int familySum,String type,CreditCard creditCard) {
+		this.ID = ID;
+		this.visitorID=visitorID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phone = phone;
+		this.email = email;
+		this.familySum = familySum;
+		this.type=type;
+		this.creditCard = creditCard;
 	}
 
 

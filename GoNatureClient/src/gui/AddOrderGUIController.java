@@ -295,8 +295,7 @@ public class AddOrderGUIController {
 			discount+=25;
 		//if visitor is subscriber and not instructor
 		if(VisitorController.subscriberConnected!=null &&
-				!rdGroup.isSelected() && 
-				!VisitorController.subscriberConnected.getType().equals("instructor"))
+				!rdGroup.isSelected())
 			discount+=20;	//price after subscirber discount
 		if(cbPayNow.isSelected() && rdGroup.isSelected())	//if instructor and pay now
 			discount+=12;	

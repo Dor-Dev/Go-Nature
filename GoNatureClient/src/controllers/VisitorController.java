@@ -16,6 +16,7 @@ public class VisitorController {
 	public static Discount disType = null;
 
 	public static void visitorParseDate(Message msg) {
+		System.out.println("PARSEVISITORCONT");
 		switch (msg.getOperationType()) {
 		case VisitorWithOrderLogin :
 			ClientController.type = UserTypes.VisitorWithOrder;
