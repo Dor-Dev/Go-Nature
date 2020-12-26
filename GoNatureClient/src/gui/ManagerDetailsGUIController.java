@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.sun.media.jfxmediaimpl.platform.Platform;
 
+import client.ClientController;
 import client.MainClient;
 import common.Message;
 import controllers.EmployeeController;
@@ -16,12 +17,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.Update;
 public class ManagerDetailsGUIController {
     @FXML
     private Label mnuAddOrder;
@@ -106,32 +110,22 @@ public class ManagerDetailsGUIController {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		mf.show();
     }
+    /**
+     * Update request for the relevant park according the park manager organization affiliation. 
+     * update the visitor capacity,difference between visitors to orders and estimated time.
+     * @param event
+     */
     @FXML
     void sendUpdateRequest(MouseEvent event) {
-    	List<String> list = new ArrayList<>();
     	String status = "waiting";
-    	list.add(txtVisitorCapcity.getText());
-    	list.add(txtDifference.getText());
-    	list.add(txtHours.getText());
-    	list.add(status);
-    	MainClient.clientConsole.accept(new Message(OperationType.SendUpdateRequest,DBControllerType.ParkDBController,(Object)list));
-    	//TODO PopUp Message
+    	Update update = new Update(EmployeeController.employeeConected.getOrganizationAffilation(),Integer.valueOf(txtVisitorCapcity.getText()),Integer.valueOf(txtDifference.getText()),Integer.valueOf(txtHours.getText()), status);	
+    	MainClient.clientConsole.accept(new Message(OperationType.SendUpdateRequest,DBControllerType.ParkDBController,(Object)update));
     	if(ParkController.Parktype.equals(OperationType.UpdateWasSent)) {
-    		VBox root;
-        	Stage primaryStage = new Stage();
-    		try {
-    			FXMLLoader loader = new FXMLLoader();
-    			loader.setLocation(getClass().getResource("UpdatePopUp.fxml"));
-    			root = loader.load();
-    			Scene scene = new Scene(root);
-    			primaryStage.setScene(scene);
-    			primaryStage.setTitle("Update Successfull");
-    			primaryStage.show();
-    			
-    		} catch (IOException e) {
-    			e.printStackTrace();
-    			return;
-    		}
+    		Alert a = new Alert(AlertType.INFORMATION);
+			a.setHeaderText("The update has been sent successfully");
+			a.setContentText("Update request was sent successfully to Department Manager.");
+			a.setTitle("Update Request");
+			a.showAndWait();
     	}
     }
 
