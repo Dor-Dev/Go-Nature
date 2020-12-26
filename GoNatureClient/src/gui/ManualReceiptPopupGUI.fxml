@@ -99,7 +99,27 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </HBox>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" text="OK">
+            <HBox layoutX="10.0" layoutY="178.0" onMouseClicked="#closePopUp1" prefHeight="28.0" prefWidth="405.0">
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Total Cost:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblManualReceiptCost" style="-fx-font-weight: bold;" textFill="#fc0e0e">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </HBox>
+            <Button fx:id="btnOKmanualReceipt" mnemonicParsing="false" onMouseClicked="#closePopUp1" prefHeight="25.0" prefWidth="138.0" text="OK">
                <VBox.margin>
                   <Insets left="70.0" top="25.0" />
                </VBox.margin>
