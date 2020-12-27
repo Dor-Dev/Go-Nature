@@ -4,10 +4,15 @@ public enum OperationType {
 	// Login Enums
 	EmployeeLogin, ErrorEmployeeLogin, VisitorLogin, VisitorWithOrderLogin, SubscriberLogin,
 
+
+	//login enums
+	EmployeeLogin,ErrorEmployeeLogin, VisitorLogin, VisitorWithOrderLogin, SubscriberLogin, 
+	
 	// Park Enmus
 	GetParkInfo, ParkInfo, UpdateParkInfo, DecreaseParkVistiors, UpdateReceipt, IncreaseParkVistiors, TravelerInfo,
-	OccasionalSubscriber, OccasionalVisitor, GenerateReceipt, ReceiptInfo, AddOrder, SuccessAddOrder,
-	MemberRegistration, MemberRegistrationCC, GuideRegistration, GuideRegistrationCC,
+	OccasionalSubscriber, OccasionalVisitor, GenerateReceipt,  CheckReceiptInfo, AddOrder, SuccessAddOrder,
+	MemberRegistration, MemberRegistrationCC, GuideRegistration, GuideRegistrationCC, UpdateReceiptInfo, 
+	SuccessUpdateReceipt, FailedUpdateReceipt, GetOrderInfo, UpdateReceiptInfoAfterExit, NeverExist, FailedUpdate, CheckDifference, UpdateCurrAmountOfVisitors,
 	// Update Paramters enums
 	SendUpdateRequest, UpdateWasSent
 	// Events enums
