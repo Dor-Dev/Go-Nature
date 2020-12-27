@@ -9,11 +9,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.ArrayList;
+
 import common.Message;
 import enums.ClientControllerType;
 import enums.OperationType;
-import logic.Order;
 import logic.Event;
+import logic.Order;
 import logic.Park;
 import logic.Subscriber;
 import logic.Update;
@@ -29,7 +30,6 @@ public class ParkDBController {
 	private int hours;
 	private int minutes;
 
-
 	public ParkDBController() {
 		try {
 			sqlConnection = SqlConnection.getConnection();
@@ -38,9 +38,8 @@ public class ParkDBController {
 		}
 	}
 
-
 	public Message parseData(Message clientMsg) throws SQLException {
-		PreparedStatement pstm = null;
+		PreparedStatement pstm;
 		String query;
 		msgFromClient = clientMsg;
 		List<String> parkInfo ;
@@ -49,6 +48,7 @@ public class ParkDBController {
 		
 		// this case get information about the park
 		case GetParkInfo:
+			
 			info = (String) msgFromClient.getObj();
 			try {
 				pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
@@ -75,7 +75,6 @@ public class ParkDBController {
 			// this case dencrease the amount of current visitors in the park
 		case DecreaseParkVistiors:
 			 parkInfo = (ArrayList<String>) msgFromClient.getObj();
-
 			try {
 
 				pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
@@ -122,7 +121,6 @@ public class ParkDBController {
 			}
 			break;
 
-
 			// this case increase the amount of current visitors in the park
 		case IncreaseParkVistiors:
 			parkInfo = (ArrayList<String>) msgFromClient.getObj();
@@ -141,13 +139,11 @@ public class ParkDBController {
 					pstm.setString(2, parkInfo.get(0));
 					System.out.println("???????");
 
-
 					int rs = pstm.executeUpdate();
 					if (rs == 1) {
 						pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
 						pstm.setString(1, parkInfo.get(0));
 						System.out.println("AFTER increase park");
-
 						s = pstm.executeQuery();
 						// for case that traveler didn't exist in system
 						if (s.next()) {
@@ -171,9 +167,7 @@ public class ParkDBController {
 			}
 			break;
 
-
 			// this case get information about the visitor to update the relevant discount
-
 		case TravelerInfo:
 			String infoVisitor = (String) msgFromClient.getObj();
 			try {
@@ -188,7 +182,6 @@ public class ParkDBController {
 							rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(13));
 					
 					return new Message(OperationType.OccasionalSubscriber, ClientControllerType.ParkController,
-
 							(Object) subscriber);
 				}
 
@@ -200,57 +193,6 @@ public class ParkDBController {
 				e.printStackTrace();
 			}
 			break;
-		/**
-		 * case to insert the update parameters request to updateRequest table.
-		 */
-		case SendUpdateRequest:
-			Update newUpdate = (Update) msgFromClient.getObj();
-			query = "insert into updateRequests(parkCapacity,difference,visitingTime,status,parkName)"
-					+ " values(?,?,?,?,?)";
-			try {
-				pstm = sqlConnection.connection.prepareStatement(query);
-				pstm.setInt(1, newUpdate.getCapacity());
-				pstm.setInt(2, newUpdate.getDifference());
-				pstm.setInt(3, newUpdate.getVisitingTime());
-				pstm.setString(4, newUpdate.getStatus());
-				pstm.setString(5, newUpdate.getParkName());
-				// execute the preparedstatement
-				pstm.execute();
-
-				return new Message(OperationType.UpdateWasSent, ClientControllerType.ParkController,
-						(Object) "Update Sent");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			break;
-		/**
-		 * case to insert new event request to eventRequests table
-		 */
-		case EventRequest:
-			Event newEvent = (Event) msgFromClient.getObj();
-			query = "insert into eventRequests(parkName,eventName,startDate,endDate,discount,status)"
-					+ " values (?,?,?,?,?,?)";
-
-			try {
-				pstm = sqlConnection.connection.prepareStatement(query);
-				pstm.setString(1, newEvent.getParkName());
-				pstm.setString(2, newEvent.getEventName());
-				pstm.setDate(3, newEvent.getStartDate());
-				pstm.setDate(4, newEvent.getEndDate());
-				pstm.setInt(5, newEvent.getDiscount());
-				pstm.setString(6, newEvent.getStatus());
-				pstm.execute();
-
-				return new Message(OperationType.EventRequestAccepted, ClientControllerType.ParkController,
-						(Object) "Event request send successfully");
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			break;
-
 
 			// this case check the orders table if the order is exist
 		case GetOrderInfo:
@@ -319,6 +261,12 @@ public class ParkDBController {
 			pstm.setDate(4, thisDayToDB);
 			System.out.println(pstm.executeUpdate());
 			
+			pstm = sqlConnection.connection.prepareStatement("UPDATE  receipts SET currAmountOfVisitorsLeft=?  where  date<?");
+			pstm.setInt(1, 0);
+			//pstm.setString(2, parkName);
+			pstm.setDate(2, thisDayToDB);
+			System.out.println(pstm.executeUpdate());
+			
 			pstm = sqlConnection.connection.prepareStatement("SELECT SUM(currAmountOfVisitorsLeft) from receipts where parkName=? and date=?");
 			pstm.setString(1, parkName);
 			pstm.setDate(2, thisDayToDB);
@@ -337,8 +285,7 @@ public class ParkDBController {
 			pstm.executeUpdate();
 			System.out.println("8888883");
 			return new Message(OperationType.UpdateCurrAmountOfVisitors, ClientControllerType.ParkController,(Object)sumCurr );
-			
-			
+
 		case showActiveEvents:
 			List<Event> data = new ArrayList<Event>();
 			LocalDate thisday = LocalDate.now();
@@ -347,23 +294,72 @@ public class ParkDBController {
 			query = "SELECT * FROM eventRequests WHERE parkName = ? and date(startDate) < date(?) and date(endDate) > date(?) and status='active'";
 			try {
 				pstm = sqlConnection.connection.prepareStatement(query);
-				pstm.setString(1, (String)msgFromClient.getObj());
+				pstm.setString(1, (String) msgFromClient.getObj());
 				pstm.setDate(2, thisDayToDb);
 				pstm.setDate(3, thisDayToDb);
 				ResultSet rs = pstm.executeQuery();
-				while(rs.next()) {
-					tmp = new Event(rs.getString(3),rs.getDate(4),rs.getDate(5),rs.getInt(6));
+				while (rs.next()) {
+					tmp = new Event(rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getInt(6));
 					data.add(tmp);
 				}
 				System.out.println(data.get(0).getEventName());
-				return new Message(OperationType.EventsToShow,ClientControllerType.ParkController,(Object)data);
-				
+				return new Message(OperationType.EventsToShow, ClientControllerType.ParkController, (Object) data);
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			/**
+			 * case to insert new event request to eventRequests table
+			 */
+			case EventRequest:
+				Event newEvent = (Event) msgFromClient.getObj();
+				query = "insert into eventRequests(parkName,eventName,startDate,endDate,discount,status)"
+						+ " values (?,?,?,?,?,?)";
 
+				try {
+					pstm = sqlConnection.connection.prepareStatement(query);
+					pstm.setString(1, newEvent.getParkName());
+					pstm.setString(2, newEvent.getEventName());
+					pstm.setDate(3, newEvent.getStartDate());
+					pstm.setDate(4, newEvent.getEndDate());
+					pstm.setInt(5, newEvent.getDiscount());
+					pstm.setString(6, newEvent.getStatus());
+					pstm.execute();
 
+					return new Message(OperationType.EventRequestAccepted, ClientControllerType.ParkController,
+							(Object) "Event request send successfully");
+
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+				/**
+				 * case to insert the update parameters request to updateRequest table.
+				 */
+				case SendUpdateRequest:
+					Update newUpdate = (Update) msgFromClient.getObj();
+					query = "insert into updateRequests(parkCapacity,difference,visitingTime,status,parkName)"
+							+ " values(?,?,?,?,?)";
+					try {
+						pstm = sqlConnection.connection.prepareStatement(query);
+						pstm.setInt(1, newUpdate.getCapacity());
+						pstm.setInt(2, newUpdate.getDifference());
+						pstm.setInt(3, newUpdate.getVisitingTime());
+						pstm.setString(4, newUpdate.getStatus());
+						pstm.setString(5, newUpdate.getParkName());
+						// execute the preparedstatement
+						pstm.execute();
+
+						return new Message(OperationType.UpdateWasSent, ClientControllerType.ParkController,
+								(Object) "Update Sent");
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					break;
+			
 		default:
 			break;
 		}
@@ -387,5 +383,6 @@ public class ParkDBController {
 		}
 	}
 
+	
 
 }

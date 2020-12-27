@@ -83,10 +83,9 @@ public class ParkController {
 			if(reciveMsg.getObj() instanceof Order) {
 				System.out.println("get order info = order");
 				order= (Order)reciveMsg.getObj();
-				//System.out.println(order.getDate());
-				//System.out.println(thisDayToDB);
-				if((order.getStatus().equals("confirm"))) {
-				ordertype=OperationType.GetOrderInfo;
+				if((order.getStatus().equals("confirm")) &&order.getDate().equals(thisDayToDB) &&order.getHourTime()+4>=hours &&order.getHourTime()<=hours) {
+					System.out.println(order.getDate());
+					ordertype=OperationType.GetOrderInfo;
 				
 				}
 				else {
