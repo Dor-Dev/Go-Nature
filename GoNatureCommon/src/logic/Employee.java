@@ -15,7 +15,7 @@ public class Employee implements Serializable {
 	private String lasttName;
 	private String email;
 	private String role;
-	private String organizationAffilation;
+	private String organizationAffilation; //which park the employee 
 	private String userName;
 	private String password;
 

@@ -9,6 +9,7 @@ import java.util.List;
 import common.Message;
 import enums.ClientControllerType;
 import enums.OperationType;
+import logic.CreditCard;
 import logic.Employee;
 import logic.Subscriber;
 
@@ -23,6 +24,7 @@ public class LoginDBController {
 		}
 	}
 	public Message parseData(Message clientMsg) {
+		System.out.println("LoginDBController");
 		PreparedStatement pstm;
 		List<String> info;
 		msgFromClient = clientMsg;
@@ -31,14 +33,24 @@ public class LoginDBController {
 		case VisitorLogin:
 			try {
 				
-				pstm = sqlConnection.connection.prepareStatement("SELECT * from members where visitorID=?");
+				pstm = sqlConnection.connection.prepareStatement("SELECT * from members where visitorID=? or memberNumber=?");
 				pstm.setString(1, info.get(0));
+				pstm.setString(2, info.get(0));
 				
 				ResultSet rs = pstm.executeQuery();
 				
 				if(rs.next()) { 
 					Subscriber subscriber = null;
-					subscriber=new Subscriber(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7),rs.getString(13));
+					CreditCard credit = null;
+					if(rs.getString(8)!=null)
+					{
+						System.out.println(rs.getString(8)+rs.getString(9)+rs.getInt(11)+rs.getInt(12)+rs.getString(10));
+						credit = new CreditCard(rs.getString(8),rs.getString(9),rs.getInt(11),rs.getInt(12),rs.getString(10));
+					}
+					
+					subscriber=new Subscriber(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7),rs.getString(13),credit);
+					if(credit!=null)
+					System.out.println(subscriber.getCreditCard().getCardNumber());
 					return new Message(OperationType.SubscriberLogin, ClientControllerType.VisitorController,(Object)subscriber);
 					
 					
@@ -69,7 +81,6 @@ public class LoginDBController {
 				ResultSet rs = pstm.executeQuery();
 				//for case that employee didn't exist in system
 				if(rs.next()) { 
-					//System.out.println("employee: "+ rs.getString(1) +" "+ rs.getString(2)+" "+rs.getString(3)+rs.getString(4)+rs.getString(5)+rs.getString(6)+rs.getString(7)+rs.getString(8));
 					employee = new Employee(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8));
 					System.out.println(employee);
 					return new Message(OperationType.EmployeeLogin, ClientControllerType.EmployeeController,(Object)employee);

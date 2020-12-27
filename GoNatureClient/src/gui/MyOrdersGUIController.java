@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -71,6 +72,9 @@ public class MyOrdersGUIController {
     private TableColumn<?, ?> colUpdateStatus;
 
     @FXML
+    private TableView<?> tblOrdersTable;
+
+    @FXML
     void showAddOrder(MouseEvent event) {
      	AddOrderGUIController c = new AddOrderGUIController();
     	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
@@ -98,6 +102,7 @@ public class MyOrdersGUIController {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("My Orders");
 			MyOrdersGUIController myOrdersController = loader.getController();	
+			fillTable(myOrdersController);
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(myOrdersController);
 			MenuBarSelection.setMenuOptions(menuLabels);
@@ -108,7 +113,12 @@ public class MyOrdersGUIController {
 			return;
 		}
     }
- private List<Label> createLabelList(MyOrdersGUIController myOrdersController)
+ private void fillTable(MyOrdersGUIController myOrdersController) {
+		
+		
+	}
+
+private List<Label> createLabelList(MyOrdersGUIController myOrdersController)
  {
 	 List<Label> tempMenuLabels = new ArrayList<>();
 		tempMenuLabels.add(myOrdersController.mnuAddOrder);

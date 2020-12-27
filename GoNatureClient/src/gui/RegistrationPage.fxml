@@ -299,7 +299,7 @@
                         </TextField>
                      </children>
                   </HBox>
-                  <Button fx:id="btnRegister" mnemonicParsing="false" prefHeight="28.0" prefWidth="94.0" text="Register">
+                  <Button fx:id="btnRegister" mnemonicParsing="false" onMouseClicked="#registrationAction" prefHeight="28.0" prefWidth="94.0" text="Register">
                      <VBox.margin>
                         <Insets left="300.0" top="20.0" />
                      </VBox.margin>
@@ -363,7 +363,7 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="txtCardNumber" layoutX="10.0" layoutY="118.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="237.0" />
+                        <TextField fx:id="txtCardNumber" layoutX="10.0" layoutY="118.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="237.0" promptText="Enter 16 digits" />
                         <Label fx:id="lblCardOwner" layoutX="10.0" layoutY="230.0" text="Card owner name:">
                            <font>
                               <Font size="16.0" />
@@ -383,7 +383,7 @@
                                     <Insets top="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="txtCVV" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="80.0">
+                              <TextField fx:id="txtCVV" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="80.0" promptText="3 or 4 digits">
                                  <HBox.margin>
                                     <Insets top="10.0" />
                                  </HBox.margin>

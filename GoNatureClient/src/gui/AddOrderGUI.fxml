@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -219,7 +220,7 @@
                         <Insets top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <ComboBox fx:id="cmbHour" prefHeight="25.0" prefWidth="257.0" promptText="10:00" />
+                  <ComboBox fx:id="cmbHour" prefHeight="25.0" prefWidth="257.0" promptText="Choose a Hour" />
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="444.0" prefWidth="519.0">
@@ -234,7 +235,7 @@
                               <Insets top="80.0" />
                            </VBox.margin>
                         </Label>
-                        <ComboBox fx:id="cmbNumOfVisitors" maxWidth="250.0" prefHeight="25.0" prefWidth="257.0" promptText="#" />
+                        <ComboBox fx:id="cmbNumOfVisitors" maxWidth="250.0" onAction="#updateGroupDiscount" prefHeight="25.0" prefWidth="257.0" promptText="#" />
                         <Label text="Email address:">
                            <font>
                               <Font size="16.0" />
@@ -244,7 +245,12 @@
                            </VBox.margin>
                         </Label>
                         <TextField fx:id="txtEmail" maxWidth="250.0" prefHeight="31.0" prefWidth="50.0" promptText="YourUser@Host.domain" />
-                        <VBox alignment="CENTER" maxWidth="250.0" prefHeight="156.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-radius: 100;">
+                        <CheckBox fx:id="cbPayNow" mnemonicParsing="false" onAction="#updateGroupDiscount" text="Pay in advance">
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                        </CheckBox>
+                        <VBox alignment="CENTER" maxWidth="250.0" prefHeight="136.0" prefWidth="250.0" style="-fx-border-color: black; -fx-border-radius: 100;">
                            <children>
                               <Label text="Order details:" underline="true">
                                  <font>
@@ -305,7 +311,7 @@
             </VBox>
          </children>
       </HBox>
-      <Button fx:id="btnSubmitOrder" mnemonicParsing="false" text="Submit">
+      <Button fx:id="btnSubmitOrder" mnemonicParsing="false" onAction="#submitOrder" text="Submit">
          <VBox.margin>
             <Insets bottom="50.0" left="300.0" />
          </VBox.margin>

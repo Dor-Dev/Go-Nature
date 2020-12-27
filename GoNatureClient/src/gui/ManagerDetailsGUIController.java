@@ -3,15 +3,29 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.media.jfxmediaimpl.platform.Platform;
+
+import client.ClientController;
+import client.MainClient;
+import common.Message;
+import controllers.EmployeeController;
+import controllers.ParkController;
+import enums.DBControllerType;
+import enums.OperationType;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.Update;
 public class ManagerDetailsGUIController {
     @FXML
     private Label mnuAddOrder;
@@ -47,6 +61,33 @@ public class ManagerDetailsGUIController {
     private Label mnuRequests;
 
     @FXML
+    private Label lblParkName;
+
+    @FXML
+    private Label lblVisitorAmount;
+
+    @FXML
+    private Label lblAvailableSpace;
+
+    @FXML
+    private Label lblVisitorCapacity;
+
+    @FXML
+    private Label lblDifference;
+
+    @FXML
+    private Label lblHours;
+
+    @FXML
+    private TextField txtVisitorCapcity;
+
+    @FXML
+    private TextField txtDifference;
+
+    @FXML
+    private TextField txtHours;
+
+    @FXML
     private Button btnSendUpdate;
 
     @FXML
@@ -69,6 +110,48 @@ public class ManagerDetailsGUIController {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		mf.show();
     }
+    /**
+     * Update request for the relevant park according the park manager organization affiliation. 
+     * update the visitor capacity,difference between visitors to orders and estimated time.
+     * @param event
+     */
+    @FXML
+    void sendUpdateRequest(MouseEvent event) {
+    	String status = "waiting";
+    	Update update = new Update(EmployeeController.employeeConected.getOrganizationAffilation(),Integer.valueOf(txtVisitorCapcity.getText()),Integer.valueOf(txtDifference.getText()),Integer.valueOf(txtHours.getText()), status);	
+    	MainClient.clientConsole.accept(new Message(OperationType.SendUpdateRequest,DBControllerType.ParkDBController,(Object)update));
+    	if(ParkController.Parktype.equals(OperationType.UpdateWasSent)) {
+    		Alert a = new Alert(AlertType.INFORMATION);
+			a.setHeaderText("The update has been sent successfully");
+			a.setContentText("Update request was sent successfully to Department Manager.");
+			a.setTitle("Update Request");
+			a.showAndWait();
+    	}
+    }
+
+	/*
+	 * close popup window button
+	 */
+    @FXML
+    private Button closeButton;
+
+    @FXML
+    void closePopUp(ActionEvent event) {
+    	 // get a handle to the stage
+	    Stage stage = (Stage) closeButton.getScene().getWindow();
+	    // do what you have to do
+	    stage.close();
+    }
+    
+    private void setData(ManagerDetailsGUIController mdc) {
+    	mdc.lblParkName.setText(ParkController.parkConnected.getParkName());
+    	mdc.lblVisitorAmount.setText(String.valueOf(ParkController.parkConnected.getCurrentAmountOfVisitors()));
+    	mdc.lblAvailableSpace.setText(String.valueOf(ParkController.parkConnected.getParkCapacity()-ParkController.parkConnected.getCurrentAmountOfVisitors()));
+    	
+    	mdc.lblVisitorCapacity.setText(String.valueOf(ParkController.parkConnected.getParkCapacity()));
+    	mdc.lblDifference.setText(String.valueOf(ParkController.parkConnected.getDifference()));
+    	mdc.lblHours.setText(String.valueOf(ParkController.parkConnected.getVisitingTime()));
+    }
     
     public void show() {
 		VBox root;
@@ -80,10 +163,13 @@ public class ManagerDetailsGUIController {
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Go-Nature Details");
-			ManagerDetailsGUIController managerDetailsController = loader.getController();
+			ManagerDetailsGUIController managerDetailsController = loader.getController();	
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = managerDetailsController.createLabelList(managerDetailsController);
 			MenuBarSelection.setMenuOptions(menuLabels);
+			MainClient.clientConsole.accept(new Message(OperationType.GetParkInfo,DBControllerType.ParkDBController,(Object)EmployeeController.employeeConected.getOrganizationAffilation()));
+			System.out.println("ParkManager: TRY Again");
+			setData(managerDetailsController);
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();

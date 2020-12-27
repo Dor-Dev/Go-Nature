@@ -11,6 +11,8 @@ public class Order implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3680648113244743447L;
+	private int orderID;
+
 	private String type;
 	private String parkName;
 	private String datearrival;
@@ -36,6 +38,8 @@ public class Order implements Serializable {
 		this.visitorID = visitorID;
 		this.status = "confirm";
 		this.hourTime = hourTime;
+		this.cost = cost;
+
 	}
 	
 	
@@ -95,6 +99,14 @@ public class Order implements Serializable {
 	public int getCost() {
 		return cost;
 	}
+	public int getOrderID() {
+		return orderID;
+	}
+
+	public void setOrderID(int orderID) {
+		this.orderID = orderID;
+	}
+
 
 
 	public Date getDate() {

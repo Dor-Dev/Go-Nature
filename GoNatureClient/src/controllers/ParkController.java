@@ -1,9 +1,11 @@
+
 package controllers;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import client.ClientController;
 import common.Message;
@@ -14,6 +16,8 @@ import logic.Order;
 import logic.Park;
 import logic.Receipt;
 import logic.Subscriber;
+import gui.EventsGUIController;
+import logic.Event;
 
 public class ParkController {
 	public static Park parkConnected= null;
@@ -123,7 +127,17 @@ public class ParkController {
 			disType=Discount.VisitorDiscount;
 			break;
 			
-		
+		case UpdateWasSent:
+			Parktype = OperationType.UpdateWasSent;
+			break;
+		case EventRequestAccepted:
+			if (((String) reciveMsg.getObj()).equals("Event request send successfully")) {
+				Parktype = OperationType.EventRequestSuccess;
+			}
+		case EventsToShow:
+			if(reciveMsg.getObj() instanceof List<?>)
+			EventsGUIController.data = (List<Event>) reciveMsg.getObj();
+			
 			
 
 	
@@ -137,3 +151,4 @@ public class ParkController {
 
 
 }
+

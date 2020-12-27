@@ -545,7 +545,6 @@ public class ParkEntranceGUIController {
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(parkEntranceController);
 			MenuBarSelection.setMenuOptions(menuLabels);
-
 			MainClient.clientConsole.accept(new Message(OperationType.GetParkInfo, DBControllerType.ParkDBController,
 					(Object) EmployeeController.employeeConected.getOrganizationAffilation()));
 			System.out.println(55555);
@@ -558,11 +557,12 @@ public class ParkEntranceGUIController {
 			return;
 		}
 	}
-/**
+
+    /**
  * this method update the park information if there is any changes
  * @param parkEntranceController
  */
-	private void setDataOfPark(ParkEntranceGUIController parkEntranceController) {
+	 private void setDataOfPark(ParkEntranceGUIController parkEntranceController) {
 		System.out.println(1010);
 		parkEntranceController.lblParkName.setText(ParkController.parkConnected.getParkName());
 		System.out.println(ParkController.parkConnected.getParkName());

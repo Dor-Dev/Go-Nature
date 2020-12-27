@@ -11,10 +11,14 @@ import controllers.EmployeeController;
 import controllers.ParkController;
 import controllers.ReceiptController;
 import controllers.VisitorController;
+import enums.OperationType;
 import enums.UserTypes;
+import gui.RegistrationController;
 import logic.Employee;
 
 import java.io.*;
+
+import com.sun.jmx.remote.util.OrderClassLoaders;
 
 /**
  * This class overrides some of the methods defined in the abstract superclass
@@ -62,23 +66,35 @@ public class ClientController extends AbstractClient {
 	 * @param msg The message from the server.
 	 */
 	public void handleMessageFromServer(Object msg) {
+		System.out.println("ClientController:HandleFromServer");
 		
 		Message reciveMsg = (Message) msg;
-		returnedValueFromServer = reciveMsg.getObj();
 		awaitResponse = false;
 		switch (reciveMsg.getControllertype()) {
+
 		case VisitorController:
+			System.out.println("CISCONTCASE");
+			returnedValueFromServer = reciveMsg.getObj();
 			VisitorController.visitorParseDate(reciveMsg);
 			break;
 		case EmployeeController:
+			returnedValueFromServer = reciveMsg.getObj();
 			EmployeeController.EmployeeParseData(reciveMsg);
 			break;	
+
+		case OrderController:
+			OrderController.OrderParseData(reciveMsg);
+			break;
 		case ParkController:
 			ParkController.ParkParseData(reciveMsg);
 			break;
 		case ReceiptController:
 			ReceiptController.receipeParseData(reciveMsg);
 			break;
+		case RegistrationController:{
+			RegistrationController.RegistrationParseData(reciveMsg);
+			break;
+		}
 		default:
 			break;
 		}
@@ -91,6 +107,7 @@ public class ClientController extends AbstractClient {
 	 */
 	public void handleMessageFromClientUI(Object message) {
 
+		System.out.println("ClientController:HandleFromClientUI");
 		try
 	    {
 	    	//openConnection();//in order to send more than one message
