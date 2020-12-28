@@ -10,6 +10,7 @@ import common.*;
 import controllers.EmployeeController;
 import controllers.ParkController;
 import controllers.ReceiptController;
+import controllers.RequestsController;
 import controllers.VisitorController;
 import enums.OperationType;
 import enums.UserTypes;
@@ -91,10 +92,12 @@ public class ClientController extends AbstractClient {
 		case ReceiptController:
 			ReceiptController.receipeParseData(reciveMsg);
 			break;
-		case RegistrationController:{
+		case RegistrationController:
 			RegistrationController.RegistrationParseData(reciveMsg);
 			break;
-		}
+		case RequestsController:
+				RequestsController.requestsPraseDate(reciveMsg);
+			break;
 		default:
 			break;
 		}

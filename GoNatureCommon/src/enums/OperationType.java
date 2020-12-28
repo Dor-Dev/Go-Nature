@@ -13,5 +13,7 @@ public enum OperationType {
 	// Update Paramters enums
 	SendUpdateRequest, UpdateWasSent
 	// Events enums
-	, EventRequest,EventRequestAccepted, EventError, EventRequestSuccess, showActiveEvents, EventsToShow, EventsReady;
+	, EventRequest,EventRequestAccepted, EventError, EventRequestSuccess, showActiveEvents, EventsToShow, EventsReady, 
+	//Requests enums
+	GetUpdateTable, ShowUpdateTable, UpdateTableArrived, GetEventTable, EventTableArrived, ShowEventTable, EventApproval, EventActivated, EventDecline, EventCanceled, UpdateConfrimation, UpdateDecline;
 }

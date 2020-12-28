@@ -26,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -212,6 +213,48 @@ public class EventsGUIController implements Initializable{
 		colStart.setStyle("-fx-alignment: CENTER");
 		colEnd.setStyle("-fx-alignment: CENTER");
 		colDiscount.setStyle("-fx-alignment: CENTER");
+		
+		Callback<DatePicker, DateCell> callB = new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(final DatePicker param) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty); 
+                        LocalDate today = LocalDate.now();
+                        if(dpStartDate.getValue()!=null)
+                        	setDisable(empty || item.compareTo(today) < 0 || item.isBefore(dpStartDate.getValue().plusDays(1)));
+                        else {
+                        	setDisable(true);
+						}
+                    }
+
+                };
+            }
+
+        };
+        dpEndDate.setDayCellFactory(callB);
+        
+        Callback<DatePicker, DateCell> callB2 = new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(final DatePicker param) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty); 
+                        LocalDate today = LocalDate.now();
+                        
+                        setDisable(empty || item.compareTo(today) < 0);
+                        
+                    }
+
+                };
+            }
+
+        };
+        dpStartDate.setDayCellFactory(callB2);
+        
+        
 		
 	}
 	
