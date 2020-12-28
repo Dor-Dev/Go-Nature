@@ -132,7 +132,7 @@ public class RequestsDBController {
 			break;
 		case UpdateDecline:
 			Update cancel = (Update) clientMsg.getObj();
-			query = "Update parks SET status='Decline' WHERE requestNumber=?";
+			query = "Update updateRequests SET status='Decline' WHERE requestNumber=?";
 			try {
 				pstm = sqlConnection.connection.prepareStatement(query);
 				pstm.setInt(1, cancel.getRequestNum());
