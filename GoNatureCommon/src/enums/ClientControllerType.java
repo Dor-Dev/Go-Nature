@@ -1,6 +1,6 @@
 package enums;
 
 public enum ClientControllerType {
-	EmployeeController, VisitorController, ParkController, ReceiptController, OrderController,RegistrationController;
+	EmployeeController, VisitorController, ParkController, ReceiptController, OrderController,RegistrationController, RequestsController;
 
 }
