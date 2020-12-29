@@ -7,6 +7,7 @@ import java.util.List;
 import client.MainClient;
 import common.Message;
 import controllers.EmployeeController;
+import controllers.RestartApp;
 import enums.DBControllerType;
 import enums.OperationType;
 import javafx.fxml.FXML;
@@ -52,6 +53,18 @@ public class WelcomeGUIController {
 	@FXML
 	private Label mnuReportsDepartment;
 
+	@FXML
+    private Label mnuLogout;
+	
+	
+	  @FXML
+	    void goToMainPage(MouseEvent event) {
+		  RestartApp.restartParameters();
+		  LoginGUIController login = new LoginGUIController();
+		  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		  login.show();
+	    }
+	  
 	@FXML
 	void showAddOrder(MouseEvent event) {
 		AddOrderGUIController c = new AddOrderGUIController();

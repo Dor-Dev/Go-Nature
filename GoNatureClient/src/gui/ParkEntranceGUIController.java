@@ -14,6 +14,7 @@ import client.MainClient;
 import common.Message;
 import controllers.EmployeeController;
 import controllers.ParkController;
+import controllers.RestartApp;
 import controllers.VisitorController;
 import enums.DBControllerType;
 import enums.Discount;
@@ -123,6 +124,17 @@ public class ParkEntranceGUIController {
     @FXML
     private TextField txtAmountOfOccasional;
 
+	@FXML
+    private Label mnuLogout;
+	
+	  @FXML
+	    void goToMainPage(MouseEvent event) {
+		  RestartApp.restartParameters();
+		  LoginGUIController login = new LoginGUIController();
+		  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		  login.show();
+	    }
+	  
    /* @FXML
     private ComboBox<String> cmbTypesOccasional;
     */

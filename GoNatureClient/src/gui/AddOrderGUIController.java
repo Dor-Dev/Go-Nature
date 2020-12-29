@@ -8,12 +8,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.jmx.snmp.Timestamp;
 
 import client.ClientController;
 import client.MainClient;
 import client.OrderController;
 import common.Message;
+import controllers.RestartApp;
 import controllers.VisitorController;
 import enums.DBControllerType;
 import enums.OperationType;
@@ -117,6 +117,16 @@ public class AddOrderGUIController {
     @FXML
     private Label lblDateTime;
 
+	@FXML
+    private Label mnuLogout;
+	
+	  @FXML
+	    void goToMainPage(MouseEvent event) {
+		  RestartApp.restartParameters();
+		  LoginGUIController login = new LoginGUIController();
+		  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		  login.show();
+	    }
 
 
 	public void show() {

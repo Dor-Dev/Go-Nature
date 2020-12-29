@@ -36,8 +36,6 @@ public class Message implements Serializable {
     
     private Object obj;
 
-	
-
 	public OperationType getOperationType() {
 		return operationType;
 	}
@@ -101,7 +99,9 @@ public class Message implements Serializable {
     	this.operationType = operationType;
     	this.obj = obj;
     }
-    
+
+
+
     
 
 

@@ -85,8 +85,17 @@ public class ServerController extends AbstractServer {
 					System.out.println("Server received registaration request ");
 					client.sendToClient(registrationDBController.parseData(clientMsg));
           break;
+        
 				}
-
+        case ParkCapacityDBController:
+        	ParkCapacityDBController parkCapacityDBController = new ParkCapacityDBController();
+        	client.sendToClient(parkCapacityDBController.parseData(clientMsg));
+        	break;
+        	
+        case ReportsDBController:
+        	ReportsDBContorller reportsDBController =  new ReportsDBContorller();
+        	client.sendToClient(reportsDBController.parseData(clientMsg));
+        	break;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

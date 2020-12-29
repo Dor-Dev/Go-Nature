@@ -7,6 +7,6 @@ public enum OperationType {
 	//Park  Enmus
 	GetParkInfo, ParkInfo, UpdateParkInfo, 
   DecreaseParkVistiors, UpdateReceipt, IncreaseParkVistiors, TravelerInfo, OccasionalSubscriber, OccasionalVisitor, GenerateReceipt, ReceiptInfo, AddOrder, 
-  SuccessAddOrder,MemberRegistration,MemberRegistrationCC,GuideRegistration,GuideRegistrationCC, SendUpdateRequest, UpdateWasSent;
+  SuccessAddOrder,MemberRegistration,MemberRegistrationCC,GuideRegistration,GuideRegistrationCC, SendUpdateRequest, UpdateWasSent, DisplayParkInfo, SumVisitorsReport, RevenueReport, UsageReport;
 
 }

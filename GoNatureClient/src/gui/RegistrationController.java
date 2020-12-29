@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import client.ClientController;
 import client.MainClient;
 import common.Message;
+import controllers.RestartApp;
 import enums.DBControllerType;
 import enums.OperationType;
 
@@ -133,13 +134,22 @@ public class RegistrationController {
     @FXML
     private TextField txtExperationYear;
     
-    
+	@FXML
+    private Label mnuLogout;
+	
+	 
     private static String popUpMsg=null;
     private static Boolean msgReceived=false;
     private static String popUpTitle=null;
     private Integer member_number ;
 
-    
+     @FXML
+	    void goToMainPage(MouseEvent event) {
+		  RestartApp.restartParameters();
+		  LoginGUIController login = new LoginGUIController();
+		  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		  login.show();
+	    }
 
     public void hideFamilyMembersParameters(RegistrationController registrationController)
     {
@@ -262,8 +272,8 @@ public class RegistrationController {
     				else MainClient.clientConsole.accept(new Message(OperationType.GuideRegistration,DBControllerType.RegistrationDBController,(Object)info));
     			}
     		}else {
-    			msgReceived=true;
-    			popUpTitle="Failed";
+    			setMsgReceived(true);
+    			setPopUpTitle("Failed");
     		}
     		while(msgReceived==false);
     		RegistartionPopUpController popUp = new RegistartionPopUpController();
@@ -273,62 +283,62 @@ public class RegistrationController {
 	private Boolean validation(List<String> info,HashMap<String, String> hash_map_info ) {
 		for( String s : info) {
 			if(s.equals("")) {
-				popUpMsg="All fields are requiered";
+				setPopUpMsg("All fields are requiered");
 				return false;
 			}
 		}
 		if(! Pattern.matches("[a-zA-Z]+", hash_map_info.get("First Name"))) {
-			popUpMsg="Invalid First Name";
+			setPopUpMsg("Invalid First Name");
 			return false;
 		}
 		if(! Pattern.matches("[a-zA-Z]+", hash_map_info.get("Surname"))) {
-			popUpMsg="Invalid Surname";
+			setPopUpMsg("Invalid Surname");
 			return false;
 		}
 		if(hash_map_info.get("ID").length()!=9  || ! Pattern.matches("[0-9]+", hash_map_info.get("ID"))) {
-			popUpMsg="Invalid ID number";
+			setPopUpMsg("Invalid ID number");
 			return false;
 		}
 		if(hash_map_info.get("Phone").length()!=10 ||! Pattern.matches("[0-9]+", hash_map_info.get("Phone"))) {
-			popUpMsg="Invalid phone number";
+			setPopUpMsg("Invalid phone number");
 			return false;
 		}
 		Pattern emailPattern = Pattern.compile("[a-zA-Z0-9[!#$%&'()*+,/\\-_\\.\"]]+@[a-zA-Z0-9[!#$%&'()*+,/\\-_\"]]+\\.[a-zA-Z0-9[!#$%&'()*+,/\\-_\"\\.]]+");
 		Matcher m = emailPattern.matcher(hash_map_info.get("Email"));
 		if(!m.matches()) {
-			popUpMsg="Invalid Email";
+			setPopUpMsg("Invalid Email");
 			return false;
 		}
 		if(this.chkAddCreditCard.isSelected()) {
 			if(hash_map_info.get("CVV").length()<3 || hash_map_info.get("CVV").length()>4 || !Pattern.matches("[0-9]+", hash_map_info.get("CVV"))) {
-				popUpMsg="Invalid CVV";
+				setPopUpMsg("Invalid CVV");
 				return false;
 			}
 			if(hash_map_info.get("Card Number").length()!=16 || !Pattern.matches("[0-9]+", hash_map_info.get("Card Number"))) {
-				popUpMsg="Invalid card number";
+				setPopUpMsg("Invalid card number");
 				return false;
 			}
 			if(! Pattern.matches("[a-zA-Z]+", hash_map_info.get("Card Owner"))) {
-				popUpMsg="Invalid Owner Name";
+				setPopUpMsg("Invalid Owner Name");
 				return false;
 			}
 			if(hash_map_info.get("Experation Month").length()!=2 || !Pattern.matches("[0-9]+", hash_map_info.get("Experation Month"))) {
-				popUpMsg="Invalid Experation Month";
+				setPopUpMsg("Invalid Experation Month");
 				return false;								
 			}
 			int tempMonth= Integer.parseInt(hash_map_info.get("Experation Month"));
 			if(tempMonth<1 || tempMonth>12) {
-				popUpMsg="Invalid Experation Month";
+				setPopUpMsg("Invalid Experation Month");
 				return false;								
 			}
 			
 			if(hash_map_info.get("Experation Year").length()!=2 || !Pattern.matches("[0-9]+", hash_map_info.get("Experation Year"))) {
-				popUpMsg="Invalid Experation Year";
+				setPopUpMsg("Invalid Experation Year");
 				return false;	
 			}
 			int tempYear= Integer.parseInt(hash_map_info.get("Experation Year"));
 			if(tempYear<20 || tempYear>30) {
-				popUpMsg="Invalid Experation Year";
+				setPopUpMsg("Invalid Experation Year");
 				return false;	
 			}
 			
@@ -417,14 +427,29 @@ public class RegistrationController {
     }
     
     public static void RegistrationParseData(Message reciveMsg) {
-    	popUpMsg = (String) reciveMsg.getObj();
-    	msgReceived=true;
+    	setPopUpMsg((String) reciveMsg.getObj());
+    	setMsgReceived(true);
     	if(popUpMsg.contains("already")) {
-    		popUpTitle="Failed";
+    		setPopUpTitle("Failed");
     	}
-    	else popUpTitle="Succsses";
+    	else setPopUpTitle("Succsses");
     	
   	}
+
+
+	public static void setPopUpMsg(String popUpMsg) {
+		RegistrationController.popUpMsg = popUpMsg;
+	}
+
+
+	public static void setMsgReceived(Boolean msgReceived) {
+		RegistrationController.msgReceived = msgReceived;
+	}
+
+
+	public static void setPopUpTitle(String popUpTitle) {
+		RegistrationController.popUpTitle = popUpTitle;
+	}
 
 
 }

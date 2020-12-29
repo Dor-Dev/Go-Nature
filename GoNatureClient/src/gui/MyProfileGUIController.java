@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import client.ClientController;
 import controllers.EmployeeController;
+import controllers.RestartApp;
 import controllers.VisitorController;
 import enums.UserTypes;
 import javafx.fxml.FXML;
@@ -94,6 +95,17 @@ public class MyProfileGUIController {
 	@FXML
 	private Label lblEmployeeOrganization;
 
+	@FXML
+    private Label mnuLogout;
+	
+	  @FXML
+	    void goToMainPage(MouseEvent event) {
+		  RestartApp.restartParameters();
+		  LoginGUIController login = new LoginGUIController();
+		  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		  login.show();
+	    }
+	  
 	public void show() {
 		VBox root;
 		Stage primaryStage = new Stage();
