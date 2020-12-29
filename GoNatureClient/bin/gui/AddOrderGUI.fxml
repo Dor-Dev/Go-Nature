@@ -232,7 +232,7 @@
                               <Font size="16.0" />
                            </font>
                            <VBox.margin>
-                              <Insets top="80.0" />
+                              <Insets top="35.0" />
                            </VBox.margin>
                         </Label>
                         <ComboBox fx:id="cmbNumOfVisitors" maxWidth="250.0" onAction="#updateGroupDiscount" prefHeight="25.0" prefWidth="257.0" promptText="#" />
@@ -245,9 +245,31 @@
                            </VBox.margin>
                         </Label>
                         <TextField fx:id="txtEmail" maxWidth="250.0" prefHeight="31.0" prefWidth="50.0" promptText="YourUser@Host.domain" />
+                        <HBox prefHeight="36.0" prefWidth="365.0">
+                           <children>
+                              <Label text="Phone number:">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="15.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="0.0" prefWidth="365.0">
+                           <children>
+                              <ComboBox fx:id="cmbPhoneStart" prefHeight="36.0" prefWidth="81.0" promptText="000" />
+                              <TextField fx:id="txtPhoneEnd" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="151.0" promptText="Enter 7 digits">
+                                 <HBox.margin>
+                                    <Insets left="15.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
                         <CheckBox fx:id="cbPayNow" mnemonicParsing="false" onAction="#updateGroupDiscount" text="Pay in advance">
                            <VBox.margin>
-                              <Insets top="15.0" />
+                              <Insets top="18.0" />
                            </VBox.margin>
                         </CheckBox>
                         <VBox alignment="CENTER" maxWidth="250.0" prefHeight="136.0" prefWidth="250.0" style="-fx-border-color: black; -fx-border-radius: 100;">
@@ -299,7 +321,7 @@
                               </HBox>
                            </children>
                            <VBox.margin>
-                              <Insets top="20.0" />
+                              <Insets top="15.0" />
                            </VBox.margin>
                         </VBox>
                      </children>
