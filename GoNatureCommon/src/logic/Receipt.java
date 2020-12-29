@@ -13,16 +13,17 @@ public class Receipt  implements Serializable{
 	
 	private int receiptID;
 	private Date date;
-	private Time visitEntry;
-	private Time visitExit;
+	private int visitEntry;
+	private int visitExit;
 	private int numberOfVisitors;
 	private String type;
 	private String parkName;
 	private int orderNumber;
 	private int visiorID;
+	private int cost;
 	
-	public Receipt(int receiptID, Date date, Time visitEntry, Time visitExit, int numberOfVisitors, String type,
-			String parkName, int orderNumber, int visiorID) {
+	public Receipt(int receiptID, Date date, int visitEntry, int visitExit, int numberOfVisitors, String type,
+			String parkName, int orderNumber, int visiorID,int cost) {
 		super();
 		this.receiptID = receiptID;
 		this.date = date;
@@ -33,6 +34,7 @@ public class Receipt  implements Serializable{
 		this.parkName = parkName;
 		this.orderNumber = orderNumber;
 		this.visiorID = visiorID;
+		this.cost=cost;
 	}
 
 	public int getReceiptID() {
@@ -51,19 +53,19 @@ public class Receipt  implements Serializable{
 		this.date = date;
 	}
 
-	public Time getVisitEntry() {
+	public int getVisitEntry() {
 		return visitEntry;
 	}
 
-	public void setVisitEntry(Time visitEntry) {
+	public void setVisitEntry(int visitEntry) {
 		this.visitEntry = visitEntry;
 	}
 
-	public Time getVisitExit() {
+	public int getVisitExit() {
 		return visitExit;
 	}
 
-	public void setVisitExit(Time visitExit) {
+	public void setVisitExit(int visitExit) {
 		this.visitExit = visitExit;
 	}
 
@@ -105,6 +107,14 @@ public class Receipt  implements Serializable{
 
 	public void setVisiorID(int visiorID) {
 		this.visiorID = visiorID;
+	}
+
+	public int getCost() {
+		return cost;
+	}
+
+	public void setCost(int cost) {
+		this.cost = cost;
 	}
 
 	

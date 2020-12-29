@@ -69,7 +69,7 @@ public class ServerController extends AbstractServer {
 
 			case OrderDBController:
 				OrderDBController orderDBController = new OrderDBController();
-				client.sendToClient(orderDBController.addOrder(clientMsg));
+				client.sendToClient(orderDBController.parseData(clientMsg));
 				break;
 
 			case ParkDBController:
@@ -80,13 +80,16 @@ public class ServerController extends AbstractServer {
 				ReceiptDBController receiptDBController = new ReceiptDBController();
 				client.sendToClient(receiptDBController.parseData(clientMsg));
 				break;
-        case RegistrationDBController:{
-					RegistrationDBController registrationDBController = new RegistrationDBController();
-					System.out.println("Server received registaration request ");
-					client.sendToClient(registrationDBController.parseData(clientMsg));
+			case RegistrationDBController: 
+				RegistrationDBController registrationDBController = new RegistrationDBController();
+				System.out.println("Server received registaration request ");
+				client.sendToClient(registrationDBController.parseData(clientMsg));
+				break;
+			case RequestsDBController:
+				RequestsDBController requestsDBController = new RequestsDBController();
+				client.sendToClient(requestsDBController.parseData(clientMsg));
           break;
-        
-				}
+          
         case ParkCapacityDBController:
         	ParkCapacityDBController parkCapacityDBController = new ParkCapacityDBController();
         	client.sendToClient(parkCapacityDBController.parseData(clientMsg));
@@ -96,6 +99,7 @@ public class ServerController extends AbstractServer {
         	ReportsDBContorller reportsDBController =  new ReportsDBContorller();
         	client.sendToClient(reportsDBController.parseData(clientMsg));
         	break;
+
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

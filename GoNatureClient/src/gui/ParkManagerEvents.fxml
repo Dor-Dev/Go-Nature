@@ -163,7 +163,7 @@
                               <Font name="System Bold" size="21.0" />
                            </font>
                            <VBox.margin>
-                              <Insets left="125.0" />
+                              <Insets left="125.0" top="15.0" />
                            </VBox.margin>
                         </Label>
                         <Label text="Event name:">
@@ -171,10 +171,10 @@
                               <Font size="16.0" />
                            </font>
                            <VBox.margin>
-                              <Insets left="15.0" />
+                              <Insets left="15.0" top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField maxWidth="125.0" promptText="Enter name">
+                        <TextField fx:id="txtEventName" maxWidth="125.0" promptText="Enter name">
                            <VBox.margin>
                               <Insets left="15.0" />
                            </VBox.margin>
@@ -187,7 +187,7 @@
                               <Insets left="15.0" top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <DatePicker promptText="Select start date">
+                        <DatePicker fx:id="dpStartDate" promptText="Select start date">
                            <VBox.margin>
                               <Insets left="15.0" />
                            </VBox.margin>
@@ -200,7 +200,7 @@
                               <Insets left="15.0" top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <DatePicker layoutX="25.0" layoutY="126.0" promptText="Select end date">
+                        <DatePicker fx:id="dpEndDate" layoutX="25.0" layoutY="126.0" promptText="Select end date">
                            <VBox.margin>
                               <Insets left="15.0" />
                            </VBox.margin>
@@ -213,12 +213,12 @@
                               <Insets left="15.0" top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField layoutX="10.0" layoutY="166.0" maxWidth="125.0" promptText="Enter discount">
+                        <TextField fx:id="txtDicount" layoutX="10.0" layoutY="166.0" maxWidth="125.0" promptText="Enter discount">
                            <VBox.margin>
                               <Insets left="15.0" />
                            </VBox.margin>
                         </TextField>
-                        <Button mnemonicParsing="false" text="Send Event Request">
+                        <Button fx:id="btnEvent" mnemonicParsing="false" onAction="#sendEventRequest" text="Send Event Request">
                            <font>
                               <Font size="13.0" />
                            </font>
@@ -234,7 +234,7 @@
                               <Font name="System Bold" size="21.0" />
                            </font>
                            <VBox.margin>
-                              <Insets left="150.0" />
+                              <Insets left="150.0" top="15.0" />
                            </VBox.margin>
                         </Label>
                         <Label layoutX="160.0" layoutY="10.0" text="Events that activated:">
@@ -242,15 +242,15 @@
                               <Font size="16.0" />
                            </font>
                            <VBox.margin>
-                              <Insets left="10.0" />
+                              <Insets left="10.0" top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TableView prefHeight="242.0" prefWidth="321.0">
+                        <TableView fx:id="tblEvents" prefHeight="242.0" prefWidth="321.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Event name" />
-                            <TableColumn prefWidth="75.0" text="Start date" />
-                              <TableColumn prefWidth="75.0" text="End date" />
-                              <TableColumn prefWidth="75.0" text="Discount" />
+                            <TableColumn fx:id="colEventName" prefWidth="75.0" text="Event name" />
+                            <TableColumn fx:id="colStart" prefWidth="75.0" text="Start date" />
+                              <TableColumn fx:id="colEnd" prefWidth="75.0" text="End date" />
+                              <TableColumn fx:id="colDiscount" prefWidth="75.0" text="Discount" />
                           </columns>
                            <VBox.margin>
                               <Insets left="10.0" right="10.0" top="25.0" />
