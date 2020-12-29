@@ -10,6 +10,7 @@ import client.MainClient;
 import common.Message;
 import controllers.EmployeeController;
 import controllers.ParkController;
+import controllers.RestartApp;
 import enums.DBControllerType;
 import enums.OperationType;
 import javafx.event.ActionEvent;
@@ -89,6 +90,17 @@ public class ManagerDetailsGUIController {
 
     @FXML
     private Button btnSendUpdate;
+    
+	@FXML
+    private Label mnuLogout;
+	
+	  @FXML
+	    void goToMainPage(MouseEvent event) {
+		  RestartApp.restartParameters();
+		  LoginGUIController login = new LoginGUIController();
+		  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		  login.show();
+	    }
 
     @FXML
     void goToEvents(MouseEvent event) {

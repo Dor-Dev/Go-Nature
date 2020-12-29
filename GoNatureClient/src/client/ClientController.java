@@ -10,20 +10,18 @@ import common.*;
 import controllers.EmployeeController;
 import controllers.ParkController;
 import controllers.ReceiptController;
-
 import controllers.ReportController;
 
 import controllers.RequestsController;
-
 import controllers.VisitorController;
 import enums.OperationType;
 import enums.UserTypes;
+import gui.ParkCapacityGUIController;
 import gui.RegistrationController;
 import logic.Employee;
 
 import java.io.*;
 
-import com.sun.jmx.remote.util.OrderClassLoaders;
 
 /**
  * This class overrides some of the methods defined in the abstract superclass
@@ -100,12 +98,14 @@ public class ClientController extends AbstractClient {
 		case RegistrationController:
 			RegistrationController.RegistrationParseData(reciveMsg);
 			break;
+		case ParkCapacityController:
+			ParkCapacityGUIController.ParkCapacityParseData(reciveMsg);
+			break;
 
-			
 		case ReportController:
-			System.out.println("try2");
 			ReportController.reportParseData(reciveMsg);
 			break;
+
 			
 		case RequestsController:
 				RequestsController.requestsPraseDate(reciveMsg);

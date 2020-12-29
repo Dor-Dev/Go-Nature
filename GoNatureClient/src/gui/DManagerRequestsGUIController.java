@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+
+import controllers.RestartApp;
+
 import client.MainClient;
 import common.Message;
 import controllers.EmployeeController;
@@ -15,6 +18,7 @@ import enums.DBControllerType;
 import enums.OperationType;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -110,6 +114,18 @@ public class DManagerRequestsGUIController implements Initializable {
 	@FXML
 	private TableColumn<Event, Void> colButtons;
 
+    @FXML
+    private Label mnuLogout;
+	
+	
+	@FXML
+    void goToMainPage(MouseEvent event) {
+	  RestartApp.restartParameters();
+	  LoginGUIController login = new LoginGUIController();
+	  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+	  login.show();
+    }
+	
 	@FXML
 	void showMyProfile(MouseEvent event) {
 		MyProfileGUIController mf = new MyProfileGUIController();
@@ -132,12 +148,14 @@ public class DManagerRequestsGUIController implements Initializable {
 		rP.show();
 	}
 
+
 	@FXML
 	void showRequests(MouseEvent event) {
 		DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide();
 		rQ.show();
 	}
+
 
 	public void show() {
 		VBox root;

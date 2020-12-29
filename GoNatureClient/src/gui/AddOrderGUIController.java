@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.sun.jmx.snmp.Timestamp;
 
 import client.ClientController;
 import client.MainClient;
 import client.OrderController;
 import common.Message;
+import controllers.RestartApp;
 import controllers.VisitorController;
 import enums.DBControllerType;
 import enums.OperationType;
@@ -131,6 +131,17 @@ public class AddOrderGUIController {
 	private Label lblPrice;
 
 	@FXML
+   private Label mnuLogout;
+	
+	  @FXML
+	    void goToMainPage(MouseEvent event) {
+		  RestartApp.restartParameters();
+		  LoginGUIController login = new LoginGUIController();
+		  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		  login.show();
+	    }
+  
+  @FXML
 	private Label lblDateTime;
 
 	@FXML
@@ -144,6 +155,7 @@ public class AddOrderGUIController {
 
 	@FXML
 	private Label lblAlternativeMsg;
+
 
 	@FXML
 	private Button btnShowAvailableDates;
@@ -257,7 +269,7 @@ public class AddOrderGUIController {
 		 */
 		lblDiscount.setText(String.valueOf(calculateDiscount()) + "%");
 		if (cmbNumOfVisitors.getValue() != null) {
-			lblTotalPrice.setText((String.valueOf(calculatePriceAfterDiscount())) + "¤");
+			lblTotalPrice.setText((String.valueOf(calculatePriceAfterDiscount())) + "Â¤");
 		}
 
 		cbPayNow.setVisible(false);

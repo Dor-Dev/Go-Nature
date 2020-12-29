@@ -138,7 +138,7 @@
                               <Rectangle2D />
                            </viewport>
                         </ImageView>
-                        <Label id="menuLogOut" text="LogOut" textFill="#f20000">
+                        <Label id="menuLogOut" fx:id="mnuLogout" onMouseClicked="#goToMainPage" text="LogOut" textFill="#f20000">
                            <font>
                               <Font size="15.0" />
                            </font>

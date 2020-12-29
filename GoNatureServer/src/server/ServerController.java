@@ -90,12 +90,15 @@ public class ServerController extends AbstractServer {
 				client.sendToClient(requestsDBController.parseData(clientMsg));
           break;
           
-          case ReportsDBController:
-        	  ReportsDBContorller reportsDBController = new ReportsDBContorller();
-        	  client.sendToClient(reportsDBController.parseData(clientMsg));
-        	  
-        	  break;
-
+        case ParkCapacityDBController:
+        	ParkCapacityDBController parkCapacityDBController = new ParkCapacityDBController();
+        	client.sendToClient(parkCapacityDBController.parseData(clientMsg));
+        	break;
+        	
+        case ReportsDBController:
+        	ReportsDBContorller reportsDBController =  new ReportsDBContorller();
+        	client.sendToClient(reportsDBController.parseData(clientMsg));
+        	break;
 
 			}
 		} catch (Exception e) {

@@ -103,7 +103,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuReportsDepartment" layoutX="885.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" onMouseClicked="#showReports" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold; -fx-background-color: #bcd45d;" text="Reports">
+                        <Label id="menu" fx:id="mnuReportsDepartment" layoutX="885.0" layoutY="10.0" maxHeight="53.0" maxWidth="68.0" minHeight="53.0" minWidth="68.0" prefHeight="53.0" prefWidth="68.0" style="-fx-font-weight: bold; -fx-background-color: #bcd45d;" text="Reports">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -138,7 +138,7 @@
                               <Rectangle2D />
                            </viewport>
                         </ImageView>
-                        <Label id="menuLogOut" text="LogOut" textFill="#f20000">
+                        <Label id="menuLogOut" fx:id="mnuLogout" onMouseClicked="#goToMainPage" text="LogOut" textFill="#f20000">
                            <font>
                               <Font size="15.0" />
                            </font>

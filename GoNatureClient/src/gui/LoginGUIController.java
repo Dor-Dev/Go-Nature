@@ -81,7 +81,7 @@ public class LoginGUIController {
     }
     @FXML
     void LoginAction(ActionEvent event) {
-    	lblLoginErrorMsg.setVisible(false);
+    		lblLoginErrorMsg.setVisible(false);
     		List<String> info = new ArrayList<String>();
     		info.add(txtLoginID.getText());
     		if(rdEmployee.isSelected()) {
@@ -93,8 +93,7 @@ public class LoginGUIController {
 					lblLoginErrorMsg.setVisible(true);
 					lblLoginErrorMsg.setText("incorrect userName or password");
 					lblLoginErrorMsg.setTextFill(Color.RED);
-					lblLoginErrorMsg.setStyle("-fx-background-color: pink;");
-    		
+					lblLoginErrorMsg.setStyle("-fx-background-color: pink;");	
 					}
 				else {
 					WelcomeGUIController w = new WelcomeGUIController();

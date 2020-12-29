@@ -94,7 +94,7 @@
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="menu" fx:id="mnuParkCapacity" layoutX="777.0" layoutY="10.0" maxHeight="53.0" maxWidth="118.0" minHeight="53.0" minWidth="118.0" onMouseClicked="#showParkCapacity" prefHeight="53.0" prefWidth="118.0" style="-fx-font-weight: bold; -fx-background-color: #bcd45d;" text="Park Capacity">
+                        <Label id="menu" fx:id="mnuParkCapacity" layoutX="777.0" layoutY="10.0" maxHeight="53.0" maxWidth="118.0" minHeight="53.0" minWidth="118.0" prefHeight="53.0" prefWidth="118.0" style="-fx-font-weight: bold; -fx-background-color: #bcd45d;" text="Park Capacity">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -137,7 +137,7 @@
                               <Rectangle2D />
                            </viewport>
                         </ImageView>
-                        <Label id="menuLogOut" text="LogOut" textFill="#f20000">
+                        <Label id="menuLogOut" fx:id="mnuLogout" onMouseClicked="#goToMainPage" text="LogOut" textFill="#f20000">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -153,7 +153,7 @@
       </HBox>
       <HBox prefHeight="444.0" prefWidth="769.0">
          <children>
-            <VBox alignment="BASELINE_LEFT" prefHeight="444.0" prefWidth="466.0">
+            <VBox alignment="BASELINE_LEFT" onMouseDragged="#chooseParkAction" prefHeight="444.0" prefWidth="466.0">
                <children>
                   <Label layoutX="10.0" layoutY="50.0" text="Park Name:">
                      <font>
@@ -163,27 +163,54 @@
                         <Insets left="50.0" top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <ComboBox prefHeight="25.0" prefWidth="248.0" promptText="Choose a park">
+                  <ComboBox fx:id="cmbParkName" prefHeight="25.0" prefWidth="248.0" promptText="Choose a park">
                      <VBox.margin>
                         <Insets left="50.0" />
                      </VBox.margin>
                   </ComboBox>
-                  <Label layoutX="10.0" layoutY="65.0" text="Park Capacity : 1000">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
+                  <HBox prefHeight="45.0" prefWidth="466.0">
+                     <children>
+                        <Label text="Park Capacity : ">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="50.0" top="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="lblParkCapacity" text=" ">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="20.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
                      <VBox.margin>
-                        <Insets left="50.0" top="15.0" />
+                        <Insets top="10.0" />
                      </VBox.margin>
-                  </Label>
-                  <Label text="Amount of visitors that can enter the park Capacity : 50">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="482.0">
+                     <children>
+                        <Label text="Amount of visitors that can enter the park  : ">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="50.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="lblVisitorsAmount">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
                      <VBox.margin>
-                        <Insets left="50.0" top="15.0" />
+                        <Insets top="10.0" />
                      </VBox.margin>
-                  </Label>
+                  </HBox>
                </children>
             </VBox>
          </children></HBox>
