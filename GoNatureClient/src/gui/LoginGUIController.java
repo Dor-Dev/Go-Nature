@@ -86,6 +86,8 @@ public class LoginGUIController {
     		info.add(txtLoginID.getText());
     		if(rdEmployee.isSelected()) {
 				info.add(txtPassword.getText());
+				System.out.println("passwords="+ txtPassword.getText());
+				System.out.println(info);
 				MainClient.clientConsole.accept(new Message(OperationType.EmployeeLogin,DBControllerType.LoginDBController,(Object)info));
 				if(EmployeeController.employeeConected == null) {
 					lblLoginErrorMsg.setVisible(true);
@@ -99,6 +101,7 @@ public class LoginGUIController {
 					((Node) event.getSource()).getScene().getWindow().hide(); // hiding login window
 					w.show();
 				}
+				
 				
     		}
 

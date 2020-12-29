@@ -88,6 +88,14 @@ public class ServerController extends AbstractServer {
 			case RequestsDBController:
 				RequestsDBController requestsDBController = new RequestsDBController();
 				client.sendToClient(requestsDBController.parseData(clientMsg));
+          break;
+          
+          case ReportsDBController:
+        	  ReportsDBContorller reportsDBController = new ReportsDBContorller();
+        	  client.sendToClient(reportsDBController.parseData(clientMsg));
+        	  
+        	  break;
+
 
 			}
 		} catch (Exception e) {

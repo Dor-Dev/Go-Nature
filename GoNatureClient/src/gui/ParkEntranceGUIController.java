@@ -1,15 +1,17 @@
 package gui;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import client.MainClient;
+import client.OrderController;
 import common.Message;
 import controllers.EmployeeController;
 import controllers.ParkController;
@@ -145,6 +147,7 @@ public class ParkEntranceGUIController {
     
     private static String visitorID ;
     private static String type = null;
+    private static int cost;
 
 
     /**
@@ -152,6 +155,32 @@ public class ParkEntranceGUIController {
      * @param event
      */
 
+    
+	private static LocalDate thisDay;
+	private static Date thisDayToDB;
+	private static LocalTime thisTime;
+	private static Time thisTimeToDB;
+	private static int hours;
+	private static int minutes;
+	
+	
+	/**
+	 * this function taking the date and time of now
+	 */
+	private static void getCurrentTime() {
+
+		thisDay = LocalDate.now();
+		thisDayToDB = Date.valueOf(thisDay);
+		thisTime = LocalTime.now();
+		thisTimeToDB = Time.valueOf(thisTime);
+		hours = thisTimeToDB.getHours();
+		minutes = thisTimeToDB.getMinutes();
+		if (minutes > 0) {
+			hours += 1;
+	
+		}
+	}
+	
 	@FXML
 	void decreaseAmountOfVisitors(MouseEvent event) {
 		List<String> list = new ArrayList<>();
@@ -162,6 +191,9 @@ public class ParkEntranceGUIController {
 		list.add(receiptID);
 		list.add(ParkController.parkConnected.getParkName());
 		list.add(AmountOfTravelers);
+		
+		MainClient.clientConsole.accept(new Message(OperationType.UpdateCurrAmountOfVisitors, DBControllerType.ParkDBController, (Object)ParkController.parkConnected.getParkName() ));
+		setDataOfPark(this);
 
 		MainClient.clientConsole.accept(new Message(OperationType.UpdateReceiptInfoAfterExit,DBControllerType.ReceiptDBController, (Object) list));
 
@@ -241,9 +273,15 @@ public class ParkEntranceGUIController {
 			list.add(actualAmount);
 			list.add(ParkController.parkConnected.getParkName());
 			
+			//check if the park is open for entry
+			if(!checkHoursForEntry(this))
+				return;
+			
+			
 			//update the visitor that need to exit before
 			if(!UpdateCurrAmountOfVisitors(this,Integer.parseInt(actualAmount)))
 				return;
+			
 		
 			if(!checkOrderInfo(this,list))
 				return;
@@ -272,10 +310,14 @@ public class ParkEntranceGUIController {
 					list.add(ParkController.parkConnected.getParkName());
 					list.add(String.valueOf(ParkController.order.getNumOfVisitors()));
 					list.add(String.valueOf(ParkController.order.getVisitorID()));
-					list.add(ParkController.order.getType());
+					
+					getTypeOfOrderVisitor();
+					
+					list.add(type);
 					list.add(orderNumber);
 					list.add(actualAmount);
 					list.add(String.valueOf(ParkController.order.getHourTime()));
+					list.add(String.valueOf(cost));
 
 					
 					MainClient.clientConsole.accept(new Message(OperationType.GenerateReceipt,DBControllerType.ReceiptDBController, (Object) list));
@@ -308,6 +350,40 @@ public class ParkEntranceGUIController {
 
 	}
 
+	private void getTypeOfOrderVisitor() {
+		if(ParkController.order.getType().equals("Single/Family")){
+			MainClient.clientConsole.accept(new Message(OperationType.TravelerInfo, DBControllerType.ParkDBController, (Object)String.valueOf(ParkController.order.getVisitorID() )));
+		if (ParkController.disType.equals(Discount.GroupDiscount) || ParkController.disType.equals(Discount.MemberDiscount)) {
+			type = "member";
+			
+		}
+		
+		else {
+			type = "visitor";
+		}
+		
+		}
+		else {
+			type="instructor";
+		}
+		cost=ParkController.order.getCost();
+		
+	}
+
+	/**
+	 * 	this function checks if the park is open for entry
+	 * @param parkEntranceGUIController
+	 * @return
+	 */
+	private boolean checkHoursForEntry(ParkEntranceGUIController parkEntranceGUIController) {
+		getCurrentTime();
+		if(hours>17 ||hours<10) {
+			showPopUp(this, "The entrance hours are over!" , "You can enter the park from 10:00 to 17:00");
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * this method update the cost and the discount of the  order receipt for orders visitors
 	 * @param parkEntranceGUIController
@@ -315,24 +391,26 @@ public class ParkEntranceGUIController {
 	 */
 	private void putDataInOrderReceipt(ParkEntranceGUIController parkEntranceGUIController,
 			ParkEntranceGUIController parkEntranceController1) {
-		if (ParkController.order.getType().equals("instructor")) {
+		
+	
+		if (type.equals("instructor")) {
 			if (ParkController.order.isPaidUp()) {
 				parkEntranceController1.lblOrderReceiptDiscount
 						.setText("37% + instructor doesn't need to pay");
-				parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getNumOfVisitors()*100*0.63)+ " NIS");
+				parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getNumOfVisitors()*OrderController.getTicketPrice()*0.63)+ " NIS");
 			} else {
 				parkEntranceController1.lblOrderReceiptDiscount
 						.setText("25% + instructor doesn't need to pay");
-				parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getNumOfVisitors()*100*0.75)+ " NIS");
+				parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getNumOfVisitors()*OrderController.getTicketPrice()*0.75)+ " NIS");
 			}
 		}
 	
-		if (ParkController.order.getType().equals("member")) {
+		else if (type.equals("member")) {
 			parkEntranceController1.lblOrderReceiptDiscount.setText("35%");
-			parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getNumOfVisitors()*100*0.65)+ " NIS");
+			parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getNumOfVisitors()*OrderController.getTicketPrice()*0.65)+ " NIS");
 		} else {
 			parkEntranceController1.lblOrderReceiptDiscount.setText("15% ");
-			parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getNumOfVisitors()*100*0.85)+ " NIS");
+			parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getNumOfVisitors()*OrderController.getTicketPrice()*0.85)+ " NIS");
 		}
 		
 	}
@@ -414,6 +492,12 @@ public class ParkEntranceGUIController {
 
 			int amount = Integer.parseInt(this.txtAmountOfOccasional.getText());
 			
+			
+			//check if the park is open for entry
+			if(!checkHoursForEntry(this))
+				return;
+			
+			
 			//check if the amount of visitors wants to entry is possible
 			if(!UpdateCurrAmountOfVisitors(this,amount))
 				return;
@@ -425,12 +509,12 @@ public class ParkEntranceGUIController {
 			list.add(this.txtAmountOfOccasional.getText());
 			
 			//check if occasional can entry because the difference
-			if(!checkOccationalAmount(this,amount,list))
+			/*if(!checkOccationalAmount(this,amount,list))
 				return;
-			
+			*/
 		
-			String visitorID = this.txtTravelerID.getText();
-			String type = null;
+			visitorID = this.txtTravelerID.getText();
+			type = null;
 			
 			//Calculate the discount and price and show  them
 			putDiscountAndPriceToManualReceipt(this,parkEntranceController1);
@@ -442,6 +526,7 @@ public class ParkEntranceGUIController {
 			list.add(type);
 			list.add(String.valueOf(0));
 			list.add(this.txtAmountOfOccasional.getText());
+			list.add(String.valueOf(cost));
 			MainClient.clientConsole.accept(
 					new Message(OperationType.GenerateReceipt, DBControllerType.ReceiptDBController, (Object) list));
 			if (ReceiptController.receiptType.equals(OperationType.CheckReceiptInfo)) {
@@ -474,17 +559,21 @@ public class ParkEntranceGUIController {
 			System.out.println("instructor");
 			parkEntranceController1.lblManualReceiptDiscount.setText("10% + The Instructor needs to pay");
 			type = "instructor";
-			parkEntranceController1.lblManualReceiptCost.setText(String.valueOf(Integer.parseInt(this.txtAmountOfOccasional.getText()) * 100 * 0.9)+ " NIS");
+			cost= (int) (Integer.parseInt(this.txtAmountOfOccasional.getText())* OrderController.getTicketPrice() * 0.9);
+			
+			parkEntranceController1.lblManualReceiptCost.setText(String.valueOf(cost)+ " NIS");
 		} else if (ParkController.disType.equals(Discount.MemberDiscount)) {
 			parkEntranceController1.lblManualReceiptDiscount.setText("20%");
 			type = "member";
-			parkEntranceController1.lblManualReceiptCost.setText(String.valueOf(Integer.parseInt(this.txtAmountOfOccasional.getText()) * 100 * 0.8)+ " NIS");
+			cost= (int) (Integer.parseInt(this.txtAmountOfOccasional.getText())* OrderController.getTicketPrice() * 0.8);
+			parkEntranceController1.lblManualReceiptCost.setText(String.valueOf(cost)+ " NIS");
 		}
 
 		else {
 			parkEntranceController1.lblManualReceiptDiscount.setText("0%");
 			type = "visitor";
-			parkEntranceController1.lblManualReceiptCost.setText(String.valueOf(Integer.parseInt(this.txtAmountOfOccasional.getText()) * 100)+ " NIS");
+			cost= (int) (Integer.parseInt(this.txtAmountOfOccasional.getText())* OrderController.getTicketPrice());
+			parkEntranceController1.lblManualReceiptCost.setText(String.valueOf(cost)+ " NIS");
 		}
 		
 	}
