@@ -312,9 +312,10 @@ public class ParkDBController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			/**
-			 * case to insert new event request to eventRequests table
-			 */
+			break;
+		/**
+		 * case to insert new event request to eventRequests table
+		 */
 		case EventRequest:
 			Event newEvent = (Event) msgFromClient.getObj();
 			query = "insert into eventRequests(parkName,eventName,startDate,endDate,discount,status)"

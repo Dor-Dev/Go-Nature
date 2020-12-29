@@ -10,6 +10,7 @@ import logic.Subscriber;
 public class VisitorController {
 	public static Subscriber subscriberConnected = null;
 	public static int loggedID =0;
+	public static Object disType;
 
 	public static void visitorParseDate(Message msg) {
 		System.out.println("PARSEVISITORCONT");
