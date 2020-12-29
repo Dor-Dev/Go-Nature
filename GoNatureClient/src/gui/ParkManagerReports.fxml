@@ -140,7 +140,7 @@
                               <Rectangle2D />
                            </viewport>
                         </ImageView>
-                        <Label id="menuLogOut" fx:id="mnuLogout" onMouseClicked="#goToMainPage" text="LogOut" textFill="#f20000">
+                        <Label id="menuLogOut" text="LogOut" textFill="#f20000">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -205,7 +205,6 @@
                      </children></VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-
                         <VBox fx:id="vboxReportDetails" prefHeight="83.0" prefWidth="380.0">
                            <children>
                               <Label fx:id="lblReportName" alignment="TOP_LEFT" text="Name Report">
@@ -282,7 +281,6 @@
                                     <TableColumn fx:id="colNumOfVisitors" prefWidth="201.0" text="capacity" />
                                  </columns>
                               </TableView>
-
                            </children>
                         </VBox>
                      </children></VBox>
