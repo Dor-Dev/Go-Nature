@@ -254,7 +254,7 @@ public class ParkDBController {
 			getCurrentTime();
 			System.out.println("888881");
 			pstm = sqlConnection.connection.prepareStatement(
-					"UPDATE  receipts SET currAmountOfVisitorsLeft=?  where parkName=? and visitExit<=? and date=?");
+					"UPDATE  receipts SET currAmountOfVisitorsLeft=?  where parkName=? and visitExit<=? and date<?");
 			pstm.setInt(1, 0);
 			pstm.setString(2, parkName);
 			pstm.setInt(3, hours);
