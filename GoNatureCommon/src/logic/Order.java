@@ -1,6 +1,7 @@
 package logic;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 import com.sun.jmx.snmp.Timestamp;
@@ -12,7 +13,6 @@ public class Order implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3680648113244743447L;
-	private int orderID;
 
 	private String type;
 	private String parkName;
@@ -26,6 +26,8 @@ public class Order implements Serializable {
 	private int cost;
 	private String phoneNumber;
 	private String msgStatus;
+	private Date date;
+	private int orderID;
 	public Order(String parkName, String dateTime, int visitorID, int numOfVisitors, String email, String type,
 			boolean paidUp, int hourTime, int cost,String phoneNumber,String msgStatus,String status) {
 		super();
@@ -55,7 +57,25 @@ public class Order implements Serializable {
 	public String getMsgStatus() {
 		return msgStatus;
 	}
+	
+	
+	public Order(int orderID, String parkName, Date date, int hourTime, String email, String visitorType, String status, int visitorNum, int visitorID, boolean paidUp, int price) {
+		super();
+		this.type = visitorType;
+		this.parkName = parkName;
+		this.hourTime = hourTime;
+		this.visitorID = visitorID;
+		this.numOfVisitors = visitorNum;
+		this.email = email;
+		this.paidUp = paidUp;
+		this.status = status;
+		this.cost = price;
+		this.date = date;
+		this.orderID = orderID;
+	}
 
+
+	
 	public String getType() {
 		return type;
 	}
@@ -95,9 +115,6 @@ public class Order implements Serializable {
 	public int getCost() {
 		return cost;
 	}
-	public int getOrderID() {
-		return orderID;
-	}
 
 	public void setOrderID(int orderID) {
 		this.orderID = orderID;
@@ -114,5 +131,20 @@ public class Order implements Serializable {
 		this.hourTime = hourTime;
 	}
 
+
+
+	public Date getDate() {
+		return date;
+	}
+
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+
+	public int getOrderID() {
+		return orderID;
+	}
 
 }

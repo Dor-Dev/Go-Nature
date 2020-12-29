@@ -7,6 +7,7 @@ public class Update implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -8423423767946780101L;
+	private int requestNum;
 	private String parkName;
 	private int capacity;
 	private int difference;
@@ -28,6 +29,13 @@ public class Update implements Serializable{
 		this.visitingTime = visitingTime;
 		this.status = status;
 	}
+	public Update(int requestNum,int capacity, int difference, int visitingTime) {
+		super();
+		this.requestNum = requestNum;
+		this.capacity = capacity;
+		this.difference = difference;
+		this.visitingTime = visitingTime;
+	}
 	public String getParkName() {
 		return parkName;
 	}
@@ -36,6 +44,12 @@ public class Update implements Serializable{
 	}
 	public int getCapacity() {
 		return capacity;
+	}
+	public int getRequestNum() {
+		return requestNum;
+	}
+	public void setRequestNum(int requestNum) {
+		this.requestNum = requestNum;
 	}
 	public int getDifference() {
 		return difference;

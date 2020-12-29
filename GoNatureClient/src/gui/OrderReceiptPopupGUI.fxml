@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="372.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ParkEntranceGUIController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="369.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ParkEntranceGUIController">
    <children>
-      <VBox prefHeight="370.0" prefWidth="356.0">
+      <VBox prefHeight="382.0" prefWidth="357.0">
          <children>
             <Label graphicTextGap="5.0" style="-fx-font-weight: bold; -fx-font-size: 20;" text="Receipt:">
                <VBox.margin>
@@ -106,7 +106,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblOrderReceiptDiscount" style="-fx-font-weight: bold;" text="111" textFill="#fc0c0c">
+                  <Label fx:id="lblOrderReceiptDiscount" style="-fx-font-weight: bold;" textFill="#fc0c0c">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -119,9 +119,29 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </HBox>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" text="OK">
+            <HBox prefHeight="28.0" prefWidth="405.0">
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Total Cost:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblOrderReceiptCost" style="-fx-font-weight: bold;" textFill="#fc0e0e">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
                <VBox.margin>
-                  <Insets left="80.0" top="20.0" />
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </HBox>
+            <Button fx:id="btnOKorderReceipt" mnemonicParsing="false" onMouseClicked="#closePopUp2" prefHeight="25.0" prefWidth="138.0" text="OK">
+               <VBox.margin>
+                  <Insets left="80.0" top="25.0" />
                </VBox.margin>
             </Button>
          </children>
