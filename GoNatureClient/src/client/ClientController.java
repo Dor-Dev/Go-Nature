@@ -10,7 +10,11 @@ import common.*;
 import controllers.EmployeeController;
 import controllers.ParkController;
 import controllers.ReceiptController;
+
 import controllers.ReportController;
+
+import controllers.RequestsController;
+
 import controllers.VisitorController;
 import enums.OperationType;
 import enums.UserTypes;
@@ -81,6 +85,7 @@ public class ClientController extends AbstractClient {
 		case EmployeeController:
 			returnedValueFromServer = reciveMsg.getObj();
 			EmployeeController.EmployeeParseData(reciveMsg);
+			
 			break;	
 
 		case OrderController:
@@ -95,14 +100,17 @@ public class ClientController extends AbstractClient {
 		case RegistrationController:
 			RegistrationController.RegistrationParseData(reciveMsg);
 			break;
+
 			
 		case ReportController:
 			System.out.println("try2");
 			ReportController.reportParseData(reciveMsg);
 			break;
 			
-				
-		
+		case RequestsController:
+				RequestsController.requestsPraseDate(reciveMsg);
+			break;
+
 		default:
 			break;
 		}

@@ -42,13 +42,13 @@ public class ParkDBController {
 		PreparedStatement pstm;
 		String query;
 		msgFromClient = clientMsg;
-		List<String> parkInfo ;
+		List<String> parkInfo;
 		String info;
 		switch (msgFromClient.getOperationType()) {
-		
+
 		// this case get information about the park
 		case GetParkInfo:
-			
+
 			info = (String) msgFromClient.getObj();
 			try {
 				pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
@@ -72,9 +72,9 @@ public class ParkDBController {
 			}
 			break;
 
-			// this case dencrease the amount of current visitors in the park
+		// this case dencrease the amount of current visitors in the park
 		case DecreaseParkVistiors:
-			 parkInfo = (ArrayList<String>) msgFromClient.getObj();
+			parkInfo = (ArrayList<String>) msgFromClient.getObj();
 			try {
 
 				pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
@@ -111,17 +111,16 @@ public class ParkDBController {
 				}
 				return new Message(OperationType.FailedUpdate, ClientControllerType.ParkController,
 						(Object) "can't decrese");
-				
-			
+
 			}
 
-			 catch (NumberFormatException | SQLException e) {
+			catch (NumberFormatException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
 
-			// this case increase the amount of current visitors in the park
+		// this case increase the amount of current visitors in the park
 		case IncreaseParkVistiors:
 			parkInfo = (ArrayList<String>) msgFromClient.getObj();
 			try {
@@ -167,7 +166,7 @@ public class ParkDBController {
 			}
 			break;
 
-			// this case get information about the visitor to update the relevant discount
+		// this case get information about the visitor to update the relevant discount
 		case TravelerInfo:
 			String infoVisitor = (String) msgFromClient.getObj();
 			try {
@@ -180,7 +179,7 @@ public class ParkDBController {
 					Subscriber subscriber = null;
 					subscriber = new Subscriber(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
 							rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(13));
-					
+
 					return new Message(OperationType.OccasionalSubscriber, ClientControllerType.ParkController,
 							(Object) subscriber);
 				}
@@ -194,7 +193,7 @@ public class ParkDBController {
 			}
 			break;
 
-			// this case check the orders table if the order is exist
+		// this case check the orders table if the order is exist
 		case GetOrderInfo:
 			List<String> orderInfo = (ArrayList<String>) msgFromClient.getObj();
 			try {
@@ -222,76 +221,81 @@ public class ParkDBController {
 			}
 
 			break;
-			
-			// this case check the amount of occasional visitor with the difference 
-		case CheckDifference:
-			parkInfo =(ArrayList<String>) msgFromClient.getObj();
-			getCurrentTime();
-			
-			System.out.println("cheak occasional amount= ");
-			
-				pstm = sqlConnection.connection.prepareStatement("SELECT SUM(currAmountOfVisitorsLeft) from receipts where orderNumber=? and parkName=? and date=?");
-				pstm.setInt(1, 0);
-				pstm.setString(2, parkInfo.get(0));
-				pstm.setDate(3, thisDayToDB);
-				
-				System.out.println("cheak");
-				ResultSet s= pstm.executeQuery();
-				int occasionalAmount=0;
-				if(s.next()) {
-					occasionalAmount= s.getInt(1);
-					System.out.println("occasional amount1= "+ occasionalAmount);	
-				}
-				
-				System.out.println("occasional amount2= "+ occasionalAmount);	
-				return new Message(OperationType.CheckDifference, ClientControllerType.ParkController,(Object)occasionalAmount );
-			
-			
 
-		
-			// this case update the receipts and parks table with the correct current amount of visitors
+		// this case check the amount of occasional visitor with the difference
+		case CheckDifference:
+			parkInfo = (ArrayList<String>) msgFromClient.getObj();
+			getCurrentTime();
+
+			System.out.println("cheak occasional amount= ");
+
+			pstm = sqlConnection.connection.prepareStatement(
+					"SELECT SUM(currAmountOfVisitorsLeft) from receipts where orderNumber=? and parkName=? and date=?");
+			pstm.setInt(1, 0);
+			pstm.setString(2, parkInfo.get(0));
+			pstm.setDate(3, thisDayToDB);
+
+			System.out.println("cheak");
+			ResultSet s = pstm.executeQuery();
+			int occasionalAmount = 0;
+			if (s.next()) {
+				occasionalAmount = s.getInt(1);
+				System.out.println("occasional amount1= " + occasionalAmount);
+			}
+
+			System.out.println("occasional amount2= " + occasionalAmount);
+			return new Message(OperationType.CheckDifference, ClientControllerType.ParkController,
+					(Object) occasionalAmount);
+
+		// this case update the receipts and parks table with the correct current amount
+		// of visitors
 		case UpdateCurrAmountOfVisitors:
-			String parkName = (String)msgFromClient.getObj();
+			String parkName = (String) msgFromClient.getObj();
 			getCurrentTime();
 			System.out.println("888881");
-			pstm = sqlConnection.connection.prepareStatement("UPDATE  receipts SET currAmountOfVisitorsLeft=?  where parkName=? and visitExit<=? and date=?");
+			pstm = sqlConnection.connection.prepareStatement(
+					"UPDATE  receipts SET currAmountOfVisitorsLeft=?  where parkName=? and visitExit<=? and date=?");
 			pstm.setInt(1, 0);
 			pstm.setString(2, parkName);
 			pstm.setInt(3, hours);
 			pstm.setDate(4, thisDayToDB);
 			System.out.println(pstm.executeUpdate());
-			
-			pstm = sqlConnection.connection.prepareStatement("UPDATE  receipts SET currAmountOfVisitorsLeft=?  where  date<?");
+
+			pstm = sqlConnection.connection
+					.prepareStatement("UPDATE  receipts SET currAmountOfVisitorsLeft=?  where  date<?");
 			pstm.setInt(1, 0);
-			//pstm.setString(2, parkName);
+			// pstm.setString(2, parkName);
 			pstm.setDate(2, thisDayToDB);
 			System.out.println(pstm.executeUpdate());
-			
-			pstm = sqlConnection.connection.prepareStatement("SELECT SUM(currAmountOfVisitorsLeft) from receipts where parkName=? and date=?");
+
+			pstm = sqlConnection.connection
+					.prepareStatement("SELECT SUM(currAmountOfVisitorsLeft) from receipts where parkName=? and date=?");
 			pstm.setString(1, parkName);
 			pstm.setDate(2, thisDayToDB);
-			ResultSet sum= pstm.executeQuery();
-			int sumCurr=0;
-			if(sum.next()) {
+			ResultSet sum = pstm.executeQuery();
+			int sumCurr = 0;
+			if (sum.next()) {
 				System.out.println("888882");
-				sumCurr= sum.getInt(1);
-				System.out.println("sumCurr= "+sumCurr);
+				sumCurr = sum.getInt(1);
+				System.out.println("sumCurr= " + sumCurr);
 			}
-			
-			pstm = sqlConnection.connection.prepareStatement("UPDATE  parks SET currentAmountOfVisitors=?  where parkName=?");
+
+			pstm = sqlConnection.connection
+					.prepareStatement("UPDATE  parks SET currentAmountOfVisitors=?  where parkName=?");
 			pstm.setInt(1, sumCurr);
 			pstm.setString(2, parkName);
-			
+
 			pstm.executeUpdate();
 			System.out.println("8888883");
-			return new Message(OperationType.UpdateCurrAmountOfVisitors, ClientControllerType.ParkController,(Object)sumCurr );
+			return new Message(OperationType.UpdateCurrAmountOfVisitors, ClientControllerType.ParkController,
+					(Object) sumCurr);
 
 		case showActiveEvents:
 			List<Event> data = new ArrayList<Event>();
 			LocalDate thisday = LocalDate.now();
 			Date thisDayToDb = Date.valueOf(thisday);
 			Event tmp;
-			query = "SELECT * FROM eventRequests WHERE parkName = ? and date(startDate) < date(?) and date(endDate) > date(?) and status='active'";
+			query = "SELECT * FROM eventRequests WHERE parkName = ? and startDate <= ? and endDate >= ? and status ='active' ";
 			try {
 				pstm = sqlConnection.connection.prepareStatement(query);
 				pstm.setString(1, (String) msgFromClient.getObj());
@@ -302,7 +306,6 @@ public class ParkDBController {
 					tmp = new Event(rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getInt(6));
 					data.add(tmp);
 				}
-				System.out.println(data.get(0).getEventName());
 				return new Message(OperationType.EventsToShow, ClientControllerType.ParkController, (Object) data);
 
 			} catch (SQLException e) {
@@ -312,60 +315,60 @@ public class ParkDBController {
 			/**
 			 * case to insert new event request to eventRequests table
 			 */
-			case EventRequest:
-				Event newEvent = (Event) msgFromClient.getObj();
-				query = "insert into eventRequests(parkName,eventName,startDate,endDate,discount,status)"
-						+ " values (?,?,?,?,?,?)";
+		case EventRequest:
+			Event newEvent = (Event) msgFromClient.getObj();
+			query = "insert into eventRequests(parkName,eventName,startDate,endDate,discount,status)"
+					+ " values (?,?,?,?,?,?)";
 
-				try {
-					pstm = sqlConnection.connection.prepareStatement(query);
-					pstm.setString(1, newEvent.getParkName());
-					pstm.setString(2, newEvent.getEventName());
-					pstm.setDate(3, newEvent.getStartDate());
-					pstm.setDate(4, newEvent.getEndDate());
-					pstm.setInt(5, newEvent.getDiscount());
-					pstm.setString(6, newEvent.getStatus());
-					pstm.execute();
+			try {
+				pstm = sqlConnection.connection.prepareStatement(query);
+				pstm.setString(1, newEvent.getParkName());
+				pstm.setString(2, newEvent.getEventName());
+				pstm.setDate(3, newEvent.getStartDate());
+				pstm.setDate(4, newEvent.getEndDate());
+				pstm.setInt(5, newEvent.getDiscount());
+				pstm.setString(6, newEvent.getStatus());
+				pstm.execute();
 
-					return new Message(OperationType.EventRequestAccepted, ClientControllerType.ParkController,
-							(Object) "Event request send successfully");
+				return new Message(OperationType.EventRequestAccepted, ClientControllerType.ParkController,
+						(Object) "Event request send successfully");
 
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				break;
-				/**
-				 * case to insert the update parameters request to updateRequest table.
-				 */
-				case SendUpdateRequest:
-					Update newUpdate = (Update) msgFromClient.getObj();
-					query = "insert into updateRequests(parkCapacity,difference,visitingTime,status,parkName)"
-							+ " values(?,?,?,?,?)";
-					try {
-						pstm = sqlConnection.connection.prepareStatement(query);
-						pstm.setInt(1, newUpdate.getCapacity());
-						pstm.setInt(2, newUpdate.getDifference());
-						pstm.setInt(3, newUpdate.getVisitingTime());
-						pstm.setString(4, newUpdate.getStatus());
-						pstm.setString(5, newUpdate.getParkName());
-						// execute the preparedstatement
-						pstm.execute();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		/**
+		 * case to insert the update parameters request to updateRequest table.
+		 */
+		case SendUpdateRequest:
+			Update newUpdate = (Update) msgFromClient.getObj();
+			query = "insert into updateRequests(parkCapacity,difference,visitingTime,status,parkName)"
+					+ " values(?,?,?,?,?)";
+			try {
+				pstm = sqlConnection.connection.prepareStatement(query);
+				pstm.setInt(1, newUpdate.getCapacity());
+				pstm.setInt(2, newUpdate.getDifference());
+				pstm.setInt(3, newUpdate.getVisitingTime());
+				pstm.setString(4, newUpdate.getStatus());
+				pstm.setString(5, newUpdate.getParkName());
+				// execute the preparedstatement
+				pstm.execute();
 
-						return new Message(OperationType.UpdateWasSent, ClientControllerType.ParkController,
-								(Object) "Update Sent");
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					break;
-			
+				return new Message(OperationType.UpdateWasSent, ClientControllerType.ParkController,
+						(Object) "Update Sent");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+
 		default:
 			break;
 		}
 		return clientMsg;
 	}
-	
+
 	/*
 	 * this function taking the date and time of today
 	 */
@@ -379,10 +382,8 @@ public class ParkDBController {
 		minutes = thisTimeToDB.getMinutes();
 		if (minutes > 0) {
 			hours += 1;
-	
+
 		}
 	}
-
-	
 
 }
