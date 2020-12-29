@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import com.sun.jmx.snmp.Timestamp;
 
 public class Order implements Serializable {
+	
+
 	/**
 	 * 
 	 */
@@ -20,13 +22,14 @@ public class Order implements Serializable {
 	private int numOfVisitors;
 	private String email;
 	private boolean paidUp;
-	public String status;
-	public int cost;
+	private String status;
+	private int cost;
+	private String phoneNumber;
+	private String msgStatus;
 	private Date date;
 	private int orderID;
-
 	public Order(String parkName, String dateTime, int visitorID, int numOfVisitors, String email, String type,
-			boolean paidUp, int hourTime, int cost) {
+			boolean paidUp, int hourTime, int cost,String phoneNumber,String msgStatus,String status) {
 		super();
 		this.type = type;
 		this.parkName = parkName;
@@ -35,10 +38,24 @@ public class Order implements Serializable {
 		this.email = email;
 		this.paidUp = paidUp;
 		this.visitorID = visitorID;
-		this.status = "confirm";
+		this.status = status;
 		this.hourTime = hourTime;
 		this.cost = cost;
+		this.phoneNumber = phoneNumber;
+		this.msgStatus = msgStatus;
 
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public String getMsgStatus() {
+		return msgStatus;
 	}
 	
 	
@@ -101,6 +118,17 @@ public class Order implements Serializable {
 
 	public void setOrderID(int orderID) {
 		this.orderID = orderID;
+	}
+	public String getDatearrival() {
+		return datearrival;
+	}
+
+	public void setDatearrival(String datearrival) {
+		this.datearrival = datearrival;
+	}
+
+	public void setHourTime(int hourTime) {
+		this.hourTime = hourTime;
 	}
 
 

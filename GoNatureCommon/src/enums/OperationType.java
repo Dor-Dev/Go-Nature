@@ -2,12 +2,18 @@ package enums;
 
 public enum OperationType {
 	// Login Enums
-	EmployeeLogin, ErrorEmployeeLogin, VisitorLogin, VisitorWithOrderLogin, SubscriberLogin,
+	EmployeeLogin, ErrorEmployeeLogin, VisitorLogin, 
+	VisitorWithOrderLogin, SubscriberLogin,
+
+
+	//Order Enums
+	OrderRequestAnswer,AddOrder, SuccessAddOrder, 
+	OrderCheckDateTime, checkAvailableHours,
 
 	
 	// Park Enmus
 	GetParkInfo, ParkInfo, UpdateParkInfo, DecreaseParkVistiors, UpdateReceipt, IncreaseParkVistiors, TravelerInfo,
-	OccasionalSubscriber, OccasionalVisitor, GenerateReceipt,  CheckReceiptInfo, AddOrder, SuccessAddOrder,
+	OccasionalSubscriber, OccasionalVisitor, GenerateReceipt,  CheckReceiptInfo, 
 	MemberRegistration, MemberRegistrationCC, GuideRegistration, GuideRegistrationCC, UpdateReceiptInfo, 
 	SuccessUpdateReceipt, FailedUpdateReceipt, GetOrderInfo, UpdateReceiptInfoAfterExit, NeverExist, FailedUpdate, CheckDifference, UpdateCurrAmountOfVisitors,
 	// Update Paramters enums

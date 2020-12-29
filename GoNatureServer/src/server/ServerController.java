@@ -69,7 +69,7 @@ public class ServerController extends AbstractServer {
 
 			case OrderDBController:
 				OrderDBController orderDBController = new OrderDBController();
-				client.sendToClient(orderDBController.addOrder(clientMsg));
+				client.sendToClient(orderDBController.parseData(clientMsg));
 				break;
 
 			case ParkDBController:
