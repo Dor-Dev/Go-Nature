@@ -80,12 +80,19 @@ public class ServerController extends AbstractServer {
 				ReceiptDBController receiptDBController = new ReceiptDBController();
 				client.sendToClient(receiptDBController.parseData(clientMsg));
 				break;
-        case RegistrationDBController:{
+        case RegistrationDBController:
 					RegistrationDBController registrationDBController = new RegistrationDBController();
 					System.out.println("Server received registaration request ");
 					client.sendToClient(registrationDBController.parseData(clientMsg));
-          break;
-				}
+					break;
+          
+          case ReportsDBController:
+        	  System.out.println("tr3");
+        	  ReportsDBContorller reportsDBController = new ReportsDBContorller();
+        	  client.sendToClient(reportsDBController.parseData(clientMsg));
+        	  
+        	  break;
+				
 
 			}
 		} catch (Exception e) {

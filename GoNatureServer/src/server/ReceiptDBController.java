@@ -128,18 +128,20 @@ public class ReceiptDBController {
 				  System.out.println("hour="+hours);
 
 					 infoReceipt = (ArrayList<String>)msgFromClient.getObj();
-					String query= "insert into receipts (date,visitEntry, visitExit,numberOfVisitors,type,parkName,orderNumber,visitorID,currAmountOfVisitorsLeft,time,actualNumOfVisitors)" + "values (?,?,?,?,?,?,?,?,?,?,?)";
+					String query= "insert into receipts (date,visitEntry, visitExit,numberOfVisitors,type,parkName,orderNumber,visitorID,currAmountOfVisitorsLeft,time,actualNumOfVisitors,cost)" + "values (?,?,?,?,?,?,?,?,?,?,?,?)";
 					try {
 						pstm = sqlConnection.connection.prepareStatement(query);
 						
 						pstm.setDate(1, thisDayToDB);
-						if(infoReceipt.size()==6) {
+						if(infoReceipt.size()==7) {
 						pstm.setInt(2, hours);
 						pstm.setInt(3, hours+4);
+						pstm.setInt(12, Integer.parseInt(infoReceipt.get(6)));
 						}
 						else {
 							pstm.setInt(2, Integer.parseInt(infoReceipt.get(6)));
 							pstm.setInt(3, Integer.parseInt(infoReceipt.get(6))+4);
+							pstm.setInt(12, Integer.parseInt(infoReceipt.get(7)));
 							
 						}
 						pstm.setInt(4, Integer.parseInt(infoReceipt.get(1)));
@@ -150,19 +152,21 @@ public class ReceiptDBController {
 						pstm.setInt(9, Integer.parseInt(infoReceipt.get(5)));
 						pstm.setTime(10, thisTimeToDB);
 						pstm.setInt(11, Integer.parseInt(infoReceipt.get(5)));
+						
 						pstm.execute();
 						//for case that traveler didn't exist in system
 						
-						 pstm = sqlConnection.connection.prepareStatement("SELECT * from receipts where parkName=? and date=? and time=?");
+						 pstm = sqlConnection.connection.prepareStatement("SELECT * from receipts where parkName=? and date=? and time=? and visitorID=?");
 						 pstm.setString(1, infoReceipt.get(0));
 						 pstm.setDate(2, thisDayToDB);
 						 pstm.setTime(3, thisTimeToDB);
+						 pstm.setInt(4, Integer.parseInt(infoReceipt.get(2)));
 							
 							ResultSet rs = pstm.executeQuery();
 							System.out.println("rs= " +rs);
 							if(rs.next()) { 
 								System.out.println("receipt num: " +rs.getInt(1));
-								Receipt receipt = new Receipt(rs.getInt(1), rs.getDate(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9));
+								Receipt receipt = new Receipt(rs.getInt(1), rs.getDate(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9),rs.getInt(13));
 								return new Message(OperationType.CheckReceiptInfo, ClientControllerType.ReceiptController,(Object) receipt);
 							}
 							
