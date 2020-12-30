@@ -1,8 +1,11 @@
 package client;
 
+import java.util.List;
+
 import common.Message;
 import enums.OperationType;
 import gui.AddOrderGUIController;
+import gui.MyOrdersGUIController;
 import logic.Order;
 
 	
@@ -34,6 +37,19 @@ public class OrderController {
 			System.out.println("WANT NON-TAKENTICKETSARRAY ORDERCONTROLLER");
 			availableSpaces = (int[])reciveMsg.getObj();
 		}
+		if(reciveMsg.getOperationType().equals(OperationType.ReturnMyOrders)) {
+			MyOrdersGUIController.myOrders = (List<Order>) reciveMsg.getObj();
+		}
+		if(reciveMsg.getOperationType().equals(OperationType.CancelOrderSuccess)) {
+			MyOrdersGUIController.msgFromServer = (String)reciveMsg.getObj();
+		}
+		if(reciveMsg.getOperationType().equals(OperationType.ApproveOrderSuccess)) {
+			MyOrdersGUIController.msgFromServer = (String)reciveMsg.getObj();
+		}
+		if(reciveMsg.getOperationType().equals(OperationType.WaitingListExitSuccess)) {
+			MyOrdersGUIController.msgFromServer = (String)reciveMsg.getObj();
+		}
+		
 		
 	}
 	

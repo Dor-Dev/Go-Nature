@@ -251,9 +251,8 @@ public class DManagerRequestsGUIController implements Initializable {
 
 					private final Button btnV = new Button("Approve");
 					private final Button btnX = new Button("Decline");
-
 					{
-						btnV.setOnAction((ActionEvent event) -> {
+						btnV.setOnAction((ActionEvent event) -> { 
 							Update tmp = getTableView().getItems().get(getIndex());
 							String parkName = EmployeeController.employeeConected.getOrganizationAffilation();
 							tmp.setParkName(parkName);
@@ -314,10 +313,8 @@ public class DManagerRequestsGUIController implements Initializable {
 
 					private final Button btnV = new Button("Approve");
 					private final Button btnX = new Button("Decline");
-
 					{
 						btnV.setOnAction((ActionEvent event) -> {
-
 							Event tmp = getTableView().getItems().get(getIndex());
 							MainClient.clientConsole.accept(new Message(OperationType.EventApproval,
 									DBControllerType.RequestsDBController, (Object) tmp));
