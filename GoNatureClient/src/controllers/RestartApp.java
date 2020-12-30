@@ -16,7 +16,7 @@ public class RestartApp {
 		ParkController.Parktype = null;
 		ClientController.type = null;
 		ParkCapacityGUIController.setReturnedPark(null);
-		VisitorController.disType = null;
+		ParkController.disType = null;
 		RegistrationController.setPopUpMsg(null);
 		RegistrationController.setMsgReceived(false);
 		RegistrationController.setPopUpTitle(null);

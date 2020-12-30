@@ -16,6 +16,7 @@ public class OrderDBController {
 
 	private static SqlConnection sqlConnection = null;
 	public static final int managerDefultTravelHour = 4;
+	public static OrderRequest request = null;
 	public OrderDBController() {
 		try {
 			sqlConnection = SqlConnection.getConnection();
@@ -52,7 +53,7 @@ public class OrderDBController {
 		Order newOrder =(Order)clientMsg.getObj();
 		System.out.println("Add Order start");
 		// the mysql insert statement
-		String query = " insert into orders (parkName, arrivalDate, visitorID, paidUp,visitorType,actualNumberOfVisitors,email,status,hourTime,cost,phoneNumber,orderApproved)"
+		String query = " insert into orders (parkName, arrivalDate, visitorID, paidUp,visitorType,actualNumberOfVisitors,email,status,hourTime,cost,phoneNumber,msgStatus)"
 				+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)";
 
 		// create the mysql insert preparedstatement
@@ -108,7 +109,7 @@ public class OrderDBController {
 		boolean available = true;
 		int i;
 		int[] hourIndex;
-		OrderRequest request = (OrderRequest)clientMsg.getObj();
+		request = (OrderRequest)clientMsg.getObj();
 		int enabledOrders = getHowManyOrdersAllows();
 		hourIndex = CheckSpecificDate(request.getAskdate());
 		
@@ -138,7 +139,7 @@ public class OrderDBController {
 		
 		try {
 			preparedStmt = sqlConnection.connection.prepareStatement(query);
-			preparedStmt.setString(1,"Luna-Park");
+			preparedStmt.setString(1,request.getParkName());
 			rs = preparedStmt.executeQuery();
 			
 			
@@ -183,6 +184,7 @@ public class OrderDBController {
 		
 		for(i=0;i<24;i++)
 			System.out.println(i+" "+hourIndex[i]+ " ");
+		hourIndex[0] = getHowManyOrdersAllows();			//how many orders allow in index 0
 
 		return hourIndex;
 		

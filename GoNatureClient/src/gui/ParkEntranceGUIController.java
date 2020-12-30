@@ -396,7 +396,7 @@ public class ParkEntranceGUIController {
 	 */
 	private boolean checkHoursForEntry(ParkEntranceGUIController parkEntranceGUIController) {
 		getCurrentTime();
-		if(hours>17 ||hours<10) {
+		if(hours>22 ||hours<10) {
 			showPopUp(this, "The entrance hours are over!" , "You can enter the park from 10:00 to 17:00");
 			return false;
 		}
