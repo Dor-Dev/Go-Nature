@@ -237,7 +237,7 @@ public class EventsGUIController implements Initializable {
 						super.updateItem(item, empty);
 						LocalDate today = LocalDate.now();
 						if (dpStartDate.getValue() != null)
-							setDisable(empty || item.compareTo(today) < 0
+							setDisable(empty || item.compareTo(today) <0
 									|| item.isBefore(dpStartDate.getValue().plusDays(1)));
 						else {
 							setDisable(true);
@@ -259,7 +259,7 @@ public class EventsGUIController implements Initializable {
 						super.updateItem(item, empty);
 						LocalDate today = LocalDate.now();
 
-						setDisable(empty || item.compareTo(today) < 0);
+						setDisable(empty || item.compareTo(today.plusDays(2)) < 0);
 
 					}
 

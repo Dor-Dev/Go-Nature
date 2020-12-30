@@ -29,6 +29,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -39,6 +40,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import logic.Order;
 import logic.OrderRequest;
 
@@ -252,6 +254,28 @@ public class AddOrderGUIController {
 			rdGroup.setDisable(false);
 			System.out.println("IN");
 		}
+		DatePickerDisableDays(date);
+	}
+
+	private void DatePickerDisableDays(DatePicker date) {
+		Callback<DatePicker, DateCell> callB2 = new Callback<DatePicker, DateCell>() {
+			@Override
+			public DateCell call(final DatePicker param) {
+				return new DateCell() {
+					@Override
+					public void updateItem(LocalDate item, boolean empty) {
+						super.updateItem(item, empty);
+						LocalDate today = LocalDate.now();
+
+						setDisable(empty || item.compareTo(today.plusDays(2)) < 0);
+
+					}
+
+				};
+			}
+
+		};
+		date.setDayCellFactory(callB2);
 	}
 
 	/**
@@ -453,6 +477,9 @@ public class AddOrderGUIController {
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("No Available Tickets");
+			AddOrderGUIController addOrderController = loader.getController();
+			DatePickerDisableDays(addOrderController.alternativeDatePicker);
+			
 			((Node) event.getSource()).getScene().getWindow().hide();
 			primaryStage.show();
 
