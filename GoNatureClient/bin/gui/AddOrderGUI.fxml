@@ -259,7 +259,7 @@
                         </HBox>
                         <HBox prefHeight="0.0" prefWidth="365.0">
                            <children>
-                              <ComboBox fx:id="cmbPhoneStart" prefHeight="36.0" prefWidth="81.0" promptText="000" />
+                              <ComboBox fx:id="cmbPhoneStart" prefHeight="36.0" prefWidth="81.0" promptText="050" />
                               <TextField fx:id="txtPhoneEnd" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="151.0" promptText="Enter 7 digits">
                                  <HBox.margin>
                                     <Insets left="15.0" />

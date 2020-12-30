@@ -313,14 +313,15 @@ public class MyOrdersGUIController implements Initializable {
 
 	}
 	private void showMyOrderTable() {
+		int id = VisitorController.loggedID;
 		if (VisitorController.subscriberConnected == null) {
-			int id = VisitorController.loggedID;
+			
 			MainClient.clientConsole
 					.accept(new Message(OperationType.getMyOrders, DBControllerType.OrderDBController, (Object) id));
 		} else {
-			int subscriberID = VisitorController.subscriberConnected.getID();
+			id = VisitorController.subscriberConnected.getVisitorID();
 			MainClient.clientConsole.accept(
-					new Message(OperationType.getMyOrders, DBControllerType.OrderDBController, (Object) subscriberID));
+					new Message(OperationType.getMyOrders, DBControllerType.OrderDBController, (Object) id));
 		}
 		if (myOrders != null) {
 			tblOrdersTable.setItems(FXCollections.observableArrayList(myOrders));
