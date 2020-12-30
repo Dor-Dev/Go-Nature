@@ -152,21 +152,21 @@
          <children>
             <VBox prefHeight="444.0" prefWidth="789.0">
                <HBox.margin>
-                  <Insets left="20.0" right="20.0" />
+                  <Insets />
                </HBox.margin>
                <children>
-                  <TableView fx:id="tblOrdersTable" prefHeight="385.0" prefWidth="729.0">
+                  <TableView fx:id="tblOrdersTable" maxHeight="396.0" minHeight="300.0" prefHeight="300.0" prefWidth="729.0">
                     <columns>
-                      <TableColumn fx:id="colOrderNumber" prefWidth="93.0" text="#Order" />
-                      <TableColumn fx:id="colParkName" prefWidth="99.0" text="Park Name" />
-                        <TableColumn fx:id="colDate" prefWidth="108.0" text="Date" />
-                        <TableColumn fx:id="colHour" minWidth="0.0" prefWidth="89.0" text="Hour" />
-                        <TableColumn fx:id="colVisitorsAmount" prefWidth="122.0" text="Visitors" />
-                        <TableColumn fx:id="colStatus" prefWidth="104.0" text="Status" />
-                        <TableColumn fx:id="colUpdateStatus" prefWidth="113.0" text="Update Status" />
+                      <TableColumn fx:id="colOrderNumber" prefWidth="81.0" resizable="false" text="#Order" />
+                      <TableColumn fx:id="colParkName" prefWidth="128.0" resizable="false" text="Park Name" />
+                        <TableColumn fx:id="colDate" prefWidth="92.0" resizable="false" sortType="DESCENDING" text="Date" />
+                        <TableColumn fx:id="colHour" minWidth="0.0" prefWidth="85.0" resizable="false" text="Hour" />
+                        <TableColumn fx:id="colVisitorsAmount" prefWidth="70.0" resizable="false" text="Visitors" />
+                        <TableColumn fx:id="colStatus" prefWidth="113.0" resizable="false" text="Status" />
+                        <TableColumn fx:id="colButtons" maxWidth="176.0" minWidth="129.0" prefWidth="140.0" resizable="false" text="Options" />
                     </columns>
                      <VBox.margin>
-                        <Insets top="20.0" />
+                        <Insets left="20.0" right="20.0" top="30.0" />
                      </VBox.margin>
                   </TableView>
                </children>
