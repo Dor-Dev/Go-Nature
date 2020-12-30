@@ -12,12 +12,14 @@ public class OrderRequest implements Serializable {
 	LocalDate askedDate;
 	int askedHour;
 	int numOfvisitorAsked;
+	String parkName;
 	
-	public OrderRequest(LocalDate askdate, int hour, int numOfvisitorAsked) {
+	public OrderRequest(LocalDate askdate, int hour, int numOfvisitorAsked,String parkName) {
 		super();
 		this.askedDate = askdate;
 		askedHour = hour;
 		this.numOfvisitorAsked = numOfvisitorAsked;
+		this.parkName = parkName;
 	}
 	public OrderRequest(LocalDate askdate, int numOfvisitorAsked) {
 		super();
@@ -39,6 +41,9 @@ public class OrderRequest implements Serializable {
 	}
 	public int getNumOfvisitorAsked() {
 		return numOfvisitorAsked;
+	}
+	public String getParkName() {
+		return parkName;
 	}
 	
 	
