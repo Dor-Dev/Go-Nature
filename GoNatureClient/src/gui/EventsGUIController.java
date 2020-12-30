@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
 import controllers.RestartApp;
 
 import client.MainClient;
@@ -45,7 +44,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.Event;
 
-public class EventsGUIController implements Initializable{
+public class EventsGUIController implements Initializable {
 	public static List<Event> data;
 
 	@FXML
@@ -95,17 +94,9 @@ public class EventsGUIController implements Initializable{
 	private Label mnuRequests;
 
 	@FXML
-    private Label mnuLogout;
-	
-	  @FXML
-	    void goToMainPage(MouseEvent event) {
-		  RestartApp.restartParameters();
-		  LoginGUIController login = new LoginGUIController();
-		  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-		  login.show();
-	    }
-	  
+	private Label mnuLogout;
 
+	@FXML
 	private TextField txtEventName;
 
 	@FXML
@@ -122,6 +113,13 @@ public class EventsGUIController implements Initializable{
 	@FXML
 	private Button closeButton;
 
+	@FXML
+	void goToMainPage(MouseEvent event) {
+		RestartApp.restartParameters();
+		LoginGUIController login = new LoginGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		login.show();
+	}
 
 	@FXML
 	void goToManagerReports(MouseEvent event) {
@@ -165,14 +163,14 @@ public class EventsGUIController implements Initializable{
 		MainClient.clientConsole.accept(
 				new Message(OperationType.EventRequest, DBControllerType.ParkDBController, (Object) eventRequest));
 		System.out.println(ParkController.Parktype);
-		//Success pop-up
+		// Success pop-up
 		if (ParkController.Parktype.equals(OperationType.EventRequestSuccess)) {
 			Alert a = new Alert(AlertType.INFORMATION);
 			a.setHeaderText("The event has been sent successfully");
 			a.setContentText("Event request was sent successfully to Department Manager.");
 			a.setTitle("Event Request");
 			a.showAndWait();
-		
+
 		}
 
 	}
@@ -229,51 +227,50 @@ public class EventsGUIController implements Initializable{
 		colStart.setStyle("-fx-alignment: CENTER");
 		colEnd.setStyle("-fx-alignment: CENTER");
 		colDiscount.setStyle("-fx-alignment: CENTER");
-		
+
 		Callback<DatePicker, DateCell> callB = new Callback<DatePicker, DateCell>() {
-            @Override
-            public DateCell call(final DatePicker param) {
-                return new DateCell() {
-                    @Override
-                    public void updateItem(LocalDate item, boolean empty) {
-                        super.updateItem(item, empty); 
-                        LocalDate today = LocalDate.now();
-                        if(dpStartDate.getValue()!=null)
-                        	setDisable(empty || item.compareTo(today) < 0 || item.isBefore(dpStartDate.getValue().plusDays(1)));
-                        else {
-                        	setDisable(true);
+			@Override
+			public DateCell call(final DatePicker param) {
+				return new DateCell() {
+					@Override
+					public void updateItem(LocalDate item, boolean empty) {
+						super.updateItem(item, empty);
+						LocalDate today = LocalDate.now();
+						if (dpStartDate.getValue() != null)
+							setDisable(empty || item.compareTo(today) < 0
+									|| item.isBefore(dpStartDate.getValue().plusDays(1)));
+						else {
+							setDisable(true);
 						}
-                    }
+					}
 
-                };
-            }
+				};
+			}
 
-        };
-        dpEndDate.setDayCellFactory(callB);
-        
-        Callback<DatePicker, DateCell> callB2 = new Callback<DatePicker, DateCell>() {
-            @Override
-            public DateCell call(final DatePicker param) {
-                return new DateCell() {
-                    @Override
-                    public void updateItem(LocalDate item, boolean empty) {
-                        super.updateItem(item, empty); 
-                        LocalDate today = LocalDate.now();
-                        
-                        setDisable(empty || item.compareTo(today) < 0);
-                        
-                    }
+		};
+		dpEndDate.setDayCellFactory(callB);
 
-                };
-            }
+		Callback<DatePicker, DateCell> callB2 = new Callback<DatePicker, DateCell>() {
+			@Override
+			public DateCell call(final DatePicker param) {
+				return new DateCell() {
+					@Override
+					public void updateItem(LocalDate item, boolean empty) {
+						super.updateItem(item, empty);
+						LocalDate today = LocalDate.now();
 
-        };
-        dpStartDate.setDayCellFactory(callB2);
-        
-        
-		
+						setDisable(empty || item.compareTo(today) < 0);
+
+					}
+
+				};
+			}
+
+		};
+		dpStartDate.setDayCellFactory(callB2);
+
 	}
-	
+
 	public void setData() {
 		tblEvents.setItems(FXCollections.observableArrayList(data));
 	}

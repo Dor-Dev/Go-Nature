@@ -181,7 +181,8 @@ public class ParkEntranceGUIController {
 	private static Time thisTimeToDB;
 	private static int hours;
 	private static int minutes;
-	
+	private final int openEntrance = 10;
+	private final int closeEntrance = 17;
 	
 	/**
 	 * this function taking the date and time of now
@@ -396,7 +397,8 @@ public class ParkEntranceGUIController {
 	 */
 	private boolean checkHoursForEntry(ParkEntranceGUIController parkEntranceGUIController) {
 		getCurrentTime();
-		if(hours>22 ||hours<10) {
+
+		if(hours>closeEntrance ||hours<openEntrance) {
 			showPopUp(this, "The entrance hours are over!" , "You can enter the park from 10:00 to 17:00");
 			return false;
 		}
