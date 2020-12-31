@@ -34,7 +34,8 @@ public enum OperationType {
 	EventApproval, EventActivated, EventDecline, EventCanceled, UpdateConfrimation, UpdateDecline,
 	
 	//reports
-	SumVisitorsReport, RevenueReport, UsageReport, ReceiptInfo;
+
+	SumVisitorsReport, RevenueReport, UsageReport, ReceiptInfo ,VisitingReport;
 }
 
 

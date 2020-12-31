@@ -253,21 +253,23 @@ public class ParkDBController {
 			String parkName = (String) msgFromClient.getObj();
 			getCurrentTime();
 			System.out.println("888881");
+			//update the amount of visitors in receipts from today that the visitExit is over
 			pstm = sqlConnection.connection.prepareStatement(
-					"UPDATE  receipts SET currAmountOfVisitorsLeft=?  where parkName=? and visitExit<=? and date<?");
+					"UPDATE  receipts SET currAmountOfVisitorsLeft=?  where parkName=? and visitExit<=? and date=?");
 			pstm.setInt(1, 0);
 			pstm.setString(2, parkName);
 			pstm.setInt(3, hours);
 			pstm.setDate(4, thisDayToDB);
 			System.out.println(pstm.executeUpdate());
 
+			//update the amount of visitors in receipts from lasts day 
 			pstm = sqlConnection.connection
 					.prepareStatement("UPDATE  receipts SET currAmountOfVisitorsLeft=?  where  date<?");
 			pstm.setInt(1, 0);
-			// pstm.setString(2, parkName);
 			pstm.setDate(2, thisDayToDB);
 			System.out.println(pstm.executeUpdate());
 
+			//check the current amount of visitors in park today
 			pstm = sqlConnection.connection
 					.prepareStatement("SELECT SUM(currAmountOfVisitorsLeft) from receipts where parkName=? and date=?");
 			pstm.setString(1, parkName);
@@ -280,6 +282,7 @@ public class ParkDBController {
 				System.out.println("sumCurr= " + sumCurr);
 			}
 
+			// update the current amount of visitors in park today
 			pstm = sqlConnection.connection
 					.prepareStatement("UPDATE  parks SET currentAmountOfVisitors=?  where parkName=?");
 			pstm.setInt(1, sumCurr);
@@ -379,8 +382,8 @@ public class ParkDBController {
 		thisDayToDB = Date.valueOf(thisDay);
 		thisTime = LocalTime.now();
 		thisTimeToDB = Time.valueOf(thisTime);
-		hours = thisTimeToDB.getHours();
-		minutes = thisTimeToDB.getMinutes();
+		hours = thisTime.getHour();
+		minutes = thisTime.getMinute();
 		if (minutes > 0) {
 			hours += 1;
 

@@ -193,8 +193,8 @@ public class ParkEntranceGUIController {
 		thisDayToDB = Date.valueOf(thisDay);
 		thisTime = LocalTime.now();
 		thisTimeToDB = Time.valueOf(thisTime);
-		hours = thisTimeToDB.getHours();
-		minutes = thisTimeToDB.getMinutes();
+		hours = thisTime.getHour();
+		minutes = thisTime.getMinute();
 		if (minutes > 0) {
 			hours += 1;
 	
@@ -273,7 +273,6 @@ public class ParkEntranceGUIController {
 	 */
 	@FXML
 	void showOrderReceipt(MouseEvent event) {
-		// TODO increase amount of visitors
 		VBox root;
 		Stage primaryStage = new Stage();
 		try {
@@ -453,7 +452,8 @@ public class ParkEntranceGUIController {
 		}
 		//check if some of the visitors for this order already entry and if the amount that want to entry now is possible and update the receipt
 		if (ReceiptController.receiptType.equals(OperationType.SuccessUpdateReceipt)) {
-			showPopUp(this, "The visitor can enter!","they already paid");
+			String msg="they already paid.\nthe receipt id is:  "+ String.valueOf(ReceiptController.receiptID);
+			showPopUp(this, "The visitor can enter!",msg);
 
 			list.removeAll(list);
 			list.add(ParkController.parkConnected.getParkName());
