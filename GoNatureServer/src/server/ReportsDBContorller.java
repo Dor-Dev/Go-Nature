@@ -17,6 +17,7 @@ import logic.IncomeReport;
 import logic.Park;
 import logic.SumVisitorsReport;
 import logic.UsageReport;
+import logic.VisitingReport;
 
 public class ReportsDBContorller {
 	
@@ -207,6 +208,38 @@ public class ReportsDBContorller {
 			}
 			break;
 			
+	case VisitingReport:
+		info= (ArrayList<String>) clientMsg.getObj();
+		
+		try {
+			pstm = sqlConnection.connection.prepareStatement("SELECT visitEntry, SUM(actualNumOfVisitors) from receipts where parkName=? and  date=? and type=? group by visitEntry");
+			pstm.setString(1, info.get(0));
+			pstm.setString(2, info.get(1));
+			pstm.setString(3,info.get(2));
+			rs= pstm.executeQuery();
+			i=0;
+			int[] hours= new int[8];
+			int[] amountOfVisitors = new int[8];
+			
+			while(rs.next())
+			{
+				System.out.println(22);
+				hours[i]=rs.getInt(1);
+				amountOfVisitors[i]=rs.getInt(2);
+				i++;
+			}
+			
+			VisitingReport visitingReport = new VisitingReport(info.get(0), info.get(1), info.get(2), hours, amountOfVisitors);
+			System.out.println(visitingReport.getParkName());
+			return new Message(OperationType.VisitingReport, ClientControllerType.ReportController,(Object) visitingReport);
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		break;
+		
+		
 			
 		default:
 			break;

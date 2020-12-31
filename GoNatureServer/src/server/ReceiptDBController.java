@@ -36,7 +36,11 @@ public class ReceiptDBController {
 	}
 	
 	
-	
+	/**
+	 * This is a method by which you can get all the necessary information related to receipts
+	 * @param clientMsg
+	 * @return
+	 */
 	public Message parseData(Message clientMsg) {
 		try {
 
@@ -57,11 +61,23 @@ public class ReceiptDBController {
 					System.out.println("to decrese: " + Integer.parseInt(infoReceipt.get(2)));
 					System.out.println("= " + currAmount);
 					if (Integer.parseInt(infoReceipt.get(2)) > 0 && currAmount >= 0) {
+						
+						if(currAmount==0) {
+							//if all the visitors for this receipt exit - update the hour of visitexit
 
 						pstm = sqlConnection.connection.prepareStatement("UPDATE  receipts SET currAmountOfVisitorsLeft=? ,visitExit=?  where receiptsID=?");
 						pstm.setInt(1, currAmount);
 						pstm.setInt(2, hours);
 						pstm.setInt(3, Integer.parseInt(infoReceipt.get(0)));
+						}
+						else {
+							// else update only the amount of current visitors
+							pstm = sqlConnection.connection.prepareStatement("UPDATE  receipts SET currAmountOfVisitorsLeft=?  where receiptsID=?");
+							pstm.setInt(1, currAmount);
+							pstm.setInt(2, Integer.parseInt(infoReceipt.get(0)));
+							
+						}
+						
 
 						int res = pstm.executeUpdate();
 						if (res == 1) {
@@ -69,7 +85,8 @@ public class ReceiptDBController {
 							return new Message(OperationType.UpdateReceiptInfoAfterExit,ClientControllerType.ReceiptController, (Object) "sucsses to update exit");
 						}
 					}
-				}
+				
+			}
 				return new Message(OperationType.UpdateReceiptInfoAfterExit, ClientControllerType.ReceiptController,(Object) "faild to update exit");
 
 			
@@ -85,6 +102,7 @@ public class ReceiptDBController {
 					System.out.println("im here1");
 					ResultSet rs = pstm.executeQuery();
 					if(rs.next()) {
+						int receiptID;
 						System.out.println("bbbbb");
 						int numOfVisitor = rs.getInt(5);
 						int actualVisitor= rs.getInt(12);
@@ -95,7 +113,7 @@ public class ReceiptDBController {
 							System.out.println(currAmountOfVisitorsLeft);
 							actualVisitor+=Integer.parseInt(infoReceipt.get(1));
 							System.out.println(actualVisitor);
-							
+							receiptID=rs.getInt(1);
 							pstm = sqlConnection.connection.prepareStatement("UPDATE  receipts SET currAmountOfVisitorsLeft=? ,actualNumOfVisitors=?  where receiptsID=?");
 							pstm.setInt(1,currAmountOfVisitorsLeft);
 							pstm.setInt(2,actualVisitor);
@@ -105,7 +123,7 @@ public class ReceiptDBController {
 							System.out.println("res= " + res);
 							if(res==1) {
 								
-								return new Message(OperationType.UpdateReceipt, ClientControllerType.ReceiptController,(Object)"sucsses to update");
+								return new Message(OperationType.UpdateReceipt, ClientControllerType.ReceiptController,(Object)rs.getInt(1));
 		
 								}
 						}
@@ -205,8 +223,8 @@ public class ReceiptDBController {
 		thisDayToDB = Date.valueOf(thisDay);
 		thisTime = LocalTime.now();
 		thisTimeToDB = Time.valueOf(thisTime);
-		hours = thisTimeToDB.getHours();
-		minutes = thisTimeToDB.getMinutes();
+		hours = thisTime.getHour();
+		minutes = thisTime.getMinute();
 		if (minutes > 0) {
 			hours += 1;
 		}

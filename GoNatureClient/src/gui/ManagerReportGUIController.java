@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +23,13 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -121,10 +124,24 @@ public class ManagerReportGUIController {
     private static String cmbName = null;
     
     private static String cmbMon = null;
+    private static int month;
+    private static int year;
+    
+    private LocalDate thisDay;
+    private Date thisDayToDB ;
+    private int monthInt ;
+    private int dayInt;
+    private int yearInt;
     
     @FXML
     private Label lblMonthYearMoney;
     
+
+    @FXML
+    private Label lblTotalIncome;
+    
+    @FXML
+    private VBox vboxUserReports;
     @FXML
 		private TableColumn<UsageObject, Integer> colNumOfVisitors;
 
@@ -135,6 +152,8 @@ public class ManagerReportGUIController {
 		private TableView<UsageObject> tblUsageReportTable;
 		
 		public static List<UsageObject> UsageReportData ;
+		
+
 	 /*   @FXML
 	    private TableView<?> tabIncome;
 
@@ -212,36 +231,40 @@ public class ManagerReportGUIController {
 		
 		colUsageDate.setStyle("-fx-alignment: CENTER");
 		colNumOfVisitors.setStyle("-fx-alignment: CENTER");
+		
+		lblMonthYearMoney.setManaged(false);
+		
+		//btnMakeReport.setOnMouseClicked(e->showPopUp(e));
+		
+		
+		
 
 	}
 	
 	
-
+/**
+ * update the report name after the user choose
+ */
 	private void chooseReportName() {
 		setReportDetailsInvisible(this);
-		cmbName = cmbReport.getValue();
-		System.out.println(cmbReport.getValue());
-		
+		cmbName=cmbReport.getValue();
+	
 	}
 
+	/**
+	 * update month and year for the report after the user choose
+	 */
 	private void chooseMonthAndYear() {
 		setReportDetailsInvisible(this);
 		cmbMon = cmbMonths.getValue();
 	String monthYear = cmbMonths.getValue();
-	if(cmbName.equals("Overall")) {
-		getSumReportData(monthYear);
-		}
-	else if(cmbName.equals("Income")) {
-			getIncomeReportData(monthYear);
-		
-		}
-	
-	else if(cmbReport.getValue().equals("Usage")){
-		getUsageReportData(monthYear);
+
 	}
 	
-	}
-	
+	/**
+	 * this method create the Usage report and present it to the manager 
+	 * @param monthYear
+	 */
 	private void getUsageReportData(String monthYear) {
 		setReportDetailsInvisible(this);
 		List <String> list = new ArrayList<>();
@@ -252,8 +275,11 @@ public class ManagerReportGUIController {
 		{
 			UsageReport usageReport = (UsageReport) ReportController.report;
 			
-			setReportDetailsVisible(this);
-			this.tblUsageReportTable.setVisible(true);
+			
+	
+
+			this.lblReportName.setManaged(true);
+			this.lblMonthYear.setManaged(true);
 			
 			this.lblReportName.setText("Usage Report");
 			this.lblMonthYear.setText(monthYear);
@@ -277,12 +303,21 @@ public class ManagerReportGUIController {
 	
 			
 			tblUsageReportTable.setItems(FXCollections.observableArrayList(in));
-		   
+			this.tblUsageReportTable.setManaged(true);
+			this.tblUsageReportTable.setVisible(true);
+			this.vboxUserReports.setManaged(true);
+			this.vboxUserReports.setVisible(true);
+			
 		}
 		
 	}
+	
+	/**
+	 * this method create the Income report and present it to the manager 
+	 * @param monthYear
+	 */
 	private void getIncomeReportData(String monthYear) {
-		
+		setReportDetailsInvisible(this);
 		
 		List <String> list = new ArrayList<>();
 		list =addTheCorrectMonthAndYear(list, monthYear);
@@ -312,7 +347,7 @@ public class ManagerReportGUIController {
 			
 			
 			System.out.println("total= "+incomeReport.getTotalIncome());
-			this.tabIncome.setVisible(true);
+			this.hboxTotalIncome.setManaged(true);
 			this.hboxTotalIncome.setVisible(true);
 			
 			this.lblMonthYearMoney.setText(monthYear + " : "+incomeReport.getTotalIncome()+ " NIS" );
@@ -329,14 +364,22 @@ public class ManagerReportGUIController {
 	
 			
 			tabIncome.setItems(FXCollections.observableArrayList(in));
+			
+			this.tabIncome.setVisible(true);
 		
-			
-			
+			this.tabIncome.setManaged(true);
+			this.vboxTbIncome.setManaged(true);
+			this.lblMonthYearMoney.setManaged(true);
+			this.lblTotalIncome.setManaged(true);
+	
 		}
 		
-		
-		
 	}
+	
+	/**
+	 * this method create the Overall report and present it to the manager 
+	 * @param monthYear
+	 */
 
 	private void getSumReportData(String monthYear) {
 		setReportDetailsInvisible(this);
@@ -351,7 +394,10 @@ public class ManagerReportGUIController {
 			System.out.println("members= "+  sumReport.getMembersAmount());
 			System.out.println("groups= "+ sumReport.getGroupsAmount());
 			
-			setReportDetailsVisible(this);
+			
+			this.vboxReportDetails.setManaged(true);
+			this.lblMonthYear.setManaged(true);
+			this.lblReportName.setManaged(true);
 			
 			this.lblReportName.setText("Overall Report");
 			this.lblMonthYear.setText(monthYear);
@@ -375,6 +421,12 @@ public class ManagerReportGUIController {
 
 		    barChartOverall.setBarGap(0);
 		    barChartOverall.setCategoryGap(50);
+		    this.barChartOverall.setManaged(true);
+		    this.barChartX.setManaged(true);
+		    this.barChartY.setManaged(true);
+			this.vboxBarChart.setManaged(true);
+			this.vboxBarChart.setVisible(true);
+		    
 		    
 		   
 		    
@@ -387,79 +439,95 @@ public class ManagerReportGUIController {
 		
 	}
 
+	/**
+	 * this method adding to list the relevant data for sending it to the server for getting the appropriate information
+	 * @param list
+	 * @param monthYear
+	 * @return
+	 */
 	private List<String> addTheCorrectMonthAndYear(List<String> list, String monthYear) {
 		list.add(EmployeeController.employeeConected.getOrganizationAffilation());
 		if(monthYear.equals("December 2020")) {
 			list.add(String.valueOf(12));
 			list.add("2020");
+			month=12;
+			year=2020;
 			}
 			else if(monthYear.equals("November 2020")) {
 				list.add(String.valueOf(11));
 				list.add("2020");
+				month=11;
+				year=2020;
 			}
 			else if(monthYear.equals("October 2020")) {
 				list.add(String.valueOf(10));
 				list.add("2020");
+				month=10;
+				year=2020;
 			}
 			else if(monthYear.equals("January 2021")) {
 				list.add(String.valueOf(1));
 				list.add("2021");
+				month=1;
+				year=2021;
 			}
 			else if(monthYear.equals("February 2021")) {
 				list.add(String.valueOf(2));
 				list.add("2021");
+				month=2;
+				year=2021;
 			}
 			else if(monthYear.equals("March 2021")) {
 				list.add(String.valueOf(3));
 				list.add("2021");
+				month=3;
+				year=2021;
 			}
 			else if(monthYear.equals("April 2021")) {
 				list.add(String.valueOf(4));
 				list.add("2021");
+				month=4;
+				year=2021;
 			}
 			else if(monthYear.equals("May 2021")) {
 				list.add(String.valueOf(5));
 				list.add("2021");
+				month=5;
+				year=2021;
 			}
 			else if(monthYear.equals("June 2021")) {
 				list.add(String.valueOf(6));
 				list.add("2021");
+				month=6;
+				year=2021;
 			}
 			else if(monthYear.equals("July 2021")) {
 				list.add(String.valueOf(7));
 				list.add("2021");
+				month=7;
+				year=2021;
 			}
 			else if(monthYear.equals("August 2021")) {
 				list.add(String.valueOf(8));
 				list.add("2021");
+				month=8;
+				year=2021;
 			}
 			else if(monthYear.equals("September 2021")) {
 				list.add(String.valueOf(9));
 				list.add("2021");
+				month=9;
+				year=2021;
 			}
 		return list;
 			
 		
 		
 	}
-
-	private void setReportDetailsVisible(ManagerReportGUIController managerReportGUIController) {
-		/*
-		managerReportGUIController.vboxReportDetails.setManaged(true);
-		managerReportGUIController.hboxGroups.setManaged(true);
-		managerReportGUIController.hboxMembers.setManaged(true);
-		managerReportGUIController.hboxSingles.setManaged(true);
-		*/
-		managerReportGUIController.lblMonthYear.setManaged(true);
-		managerReportGUIController.lblReportName.setManaged(true);
-		managerReportGUIController.barChartOverall.setManaged(true);
-		//managerReportGUIController.vboxBarChart.setManaged(true);
-		managerReportGUIController.vboxBarChart.setVisible(true);
-		managerReportGUIController.hboxTotalIncome.setVisible(false);
-		managerReportGUIController.hboxTotalIncome.setManaged(false);
-		//managerReportGUIController.barChartOverall.getData().removeAll();
-		
-	}
+	
+	/**
+	 * This is the method that activates the page
+	 */
 
 	public void show() {
 		VBox root;
@@ -478,10 +546,6 @@ public class ManagerReportGUIController {
 			MenuBarSelection.setMenuOptions(menuLabels);
 			System.out.println("chek1");
 			setReportDetailsInvisible(managerReportsController);
-			
-			
-			
-		
 			primaryStage.show();
 			
 	
@@ -491,6 +555,12 @@ public class ManagerReportGUIController {
 			return;
 		}
 	}
+	
+	
+	/**
+	 * This is the method that hides the irrelevant data on the page
+	 * @param managerReportsController
+	 */
 
 	private void setReportDetailsInvisible(ManagerReportGUIController managerReportsController) {
 		/*
@@ -507,14 +577,20 @@ public class ManagerReportGUIController {
 		managerReportsController.barChartOverall.getData().clear();
 		managerReportsController.barChartX.setManaged(false);
 		managerReportsController.barChartY.setManaged(false);
-		//managerReportsController.vboxBarChart.setManaged(false);
+		managerReportsController.vboxBarChart.setManaged(false);
 		managerReportsController.vboxBarChart.setVisible(false);
-		//managerReportsController.vboxTableIncome.setManaged(false);
-		System.out.println("chek3");
 		managerReportsController.tabIncome.setVisible(false);
 		managerReportsController.tblUsageReportTable.setVisible(false);
-		
-		
+		managerReportsController.tabIncome.setManaged(false);
+		managerReportsController.vboxTbIncome.setManaged(false);
+		managerReportsController.tblUsageReportTable.setManaged(false);
+		managerReportsController.lblMonthYearMoney.setManaged(false);
+		managerReportsController.lblTotalIncome.setManaged(false);
+		managerReportsController.hboxTotalIncome.setManaged(false);
+		managerReportsController.hboxTotalIncome.setVisible(false);
+		managerReportsController.vboxUserReports.setManaged(false);
+		managerReportsController.vboxUserReports.setVisible(false);
+	
 	}
 
 	private List<Label> createLabelList(ManagerReportGUIController managerReportsController) {
@@ -532,5 +608,109 @@ public class ManagerReportGUIController {
 		tempMenuLabels.add(managerReportsController.mnuRequests);
 		return tempMenuLabels;
 	}
+	
+	  
+	  /**
+	   * This is a method that pops up the appropriate pop-up and summons the method that produces the appropriate report
+	   * @param event
+	   */
+	    @FXML
+	    void showPopUp(MouseEvent event) {
+
+	    	if(cmbMon!=null &&cmbName!=null)
+	    	{
+	    		
+	    			if(cmbName.equals("Overall")) {
+	    				getSumReportData(cmbMon);
+	    				}
+	    			else if(cmbName.equals("Income")) {
+	    					getIncomeReportData(cmbMon);
+	    				
+	    				}
+	    			
+	    			else if(cmbReport.getValue().equals("Usage")){
+	    				getUsageReportData(cmbMon);
+	    			}
+	    		
+	    		Alert a = new Alert(AlertType.INFORMATION);
+	    		System.out.println(month+" "+ year);
+	    		getCurrentDay();
+	    		
+	    			System.out.println(monthInt);
+	    			
+	    			if(month<monthInt&& year==yearInt||year<yearInt) {
+	    				a.setHeaderText("The date of production of the report has passed.");
+	    				a.setContentText("You can view the data that was in it.");
+	    				
+		    			
+		    		}
+	    			else if(month>monthInt&& year==yearInt||year>yearInt) {
+	    			a.setHeaderText("The date of production of the report has not yet arrived.");
+    				a.setContentText("No data available for viewing.");
+    				System.out.println(2);
+	    			}
+	    			
+	    			else if(checkEndOfMonth()){
+	    				a.setHeaderText("Now it's the end of the month.");
+	    				a.setContentText("The report is finally ready!");
+	    				
+	    				}
+	    	
+	    	else {
+	    			a.setHeaderText("The report will be finalized only at the end of the month. ");
+	    			a.setContentText("In the meantime you can view the existing data.");
+	    		}
+	    		a.setTitle("Report Status");
+	    		a.showAndWait();
+	    	}
+	    }
+	    	
+	    
+	   
+
+	/**
+	 * This is a method that checks the date of the day and saves it
+	 */
+
+		private void getCurrentDay() {
+			 thisDay = LocalDate.now();
+			 thisDayToDB = Date.valueOf(thisDay);
+			 System.out.println(thisDayToDB);
+			 monthInt = thisDay.getMonthValue();
+			 dayInt = thisDay.getDayOfMonth();
+			 yearInt = thisDay.getYear();
+			 System.out.println("now is the month "+monthInt);
+			 System.out.println(dayInt);
+			 System.out.println(thisDay.getYear());
+		}
+		
+		/**
+		 * this is a method that checks by the number of the month if today is the end-of-month date
+		 * @return
+		 */
+		private boolean checkEndOfMonth() {
+			if(monthInt==1||monthInt==3||monthInt==5||monthInt==7 || monthInt==8 ||monthInt==10|| monthInt==12) {
+				System.out.println(monthInt + " here");
+				if(dayInt!=31)
+					return false;
+			}
+			
+			
+			else if(monthInt==2)
+			{
+				if(dayInt!=28)
+					return false;
+			}
+			
+			else if(monthInt==4||monthInt==6||monthInt==9||monthInt==11)
+			{
+				if(dayInt!=30)
+					return false;
+			}
+			
+			return true;
+		}
+			
+		
 
 }

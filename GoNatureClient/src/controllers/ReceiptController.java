@@ -8,6 +8,7 @@ import logic.Receipt;
 public class ReceiptController {
 	public static Receipt receipt = null;
 	public static OperationType receiptType = null;
+	public static int receiptID =0;
 	
 	
 	public static void receipeParseData(Message reciveMsg) {
@@ -40,25 +41,34 @@ public class ReceiptController {
 		
 		// case to update the  amount of visitors (in entry)
 	case UpdateReceipt:
-		msg = (String)reciveMsg.getObj();
+		// if the update successes the object is the number of the receipt
+			if(reciveMsg.getObj() instanceof Integer)
+			{
+				receiptType= OperationType.SuccessUpdateReceipt;
+				receiptID =(int)reciveMsg.getObj();
+				
+			}
+			else {
+				msg = (String)reciveMsg.getObj();
 			
-		if( msg.equals("sucsses to update")) {
-		receiptType= OperationType.SuccessUpdateReceipt;
-		System.out.println("receiptType = success");
-		}
+				if( msg.equals("sucsses to update")) {
+					receiptType= OperationType.SuccessUpdateReceipt;
+					System.out.println("receiptType = success");
+				}
 		
-		else  if(msg.equals("faild to update")) {
-			System.out.println("failedddd");
-			receiptType= OperationType.FailedUpdateReceipt;
+				else  if(msg.equals("faild to update")) {
+					System.out.println("failedddd");
+					receiptType= OperationType.FailedUpdateReceipt;
 			
-		}
+				}
 			
-		else {
-			System.out.println("receiptType = never");
-			receiptType= OperationType.NeverExist;
-		}
-		break;
-		
+				else {
+					System.out.println("receiptType = never");
+					receiptType= OperationType.NeverExist;
+					}
+			}
+				break;
+			
 	
 	default:
 		break;

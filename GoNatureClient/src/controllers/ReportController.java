@@ -6,6 +6,7 @@ import logic.IncomeReport;
 import logic.Report;
 import logic.SumVisitorsReport;
 import logic.UsageReport;
+import logic.VisitingReport;
 
 public class ReportController {
 	
@@ -35,7 +36,12 @@ public class ReportController {
 		System.out.println("Usage report controller");
 		reportType= OperationType.UsageReport;
 		break;
-	
+		
+	case VisitingReport:
+		report = (VisitingReport)reciveMsg.getObj();
+		System.out.println("reportController");
+		reportType=OperationType.VisitingReport;
+	break;
 	
 	
 	default:

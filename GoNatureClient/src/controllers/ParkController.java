@@ -43,8 +43,8 @@ public class ParkController {
 		thisDayToDB = Date.valueOf(thisDay);
 		thisTime = LocalTime.now();
 		thisTimeToDB = Time.valueOf(thisTime);
-		hours = thisTimeToDB.getHours();
-		minutes = thisTimeToDB.getMinutes();
+		hours = thisTime.getHour();
+		minutes = thisTime.getMinute();
 		if (minutes > 0) {
 			hours += 1;
 	
@@ -83,7 +83,7 @@ public class ParkController {
 			if(reciveMsg.getObj() instanceof Order) {
 				System.out.println("get order info = order");
 				order= (Order)reciveMsg.getObj();
-				if((order.getStatus().equals("confirm")) &&order.getDate().equals(thisDayToDB) &&order.getHourTime()+4>=hours &&order.getHourTime()<=hours) {
+				if((order.getStatus().equals("Approved")) &&order.getDate().equals(thisDayToDB) &&order.getHourTime()+4>=hours &&order.getHourTime()<=hours) {
 					System.out.println(order.getDate());
 					ordertype=OperationType.GetOrderInfo;
 				
