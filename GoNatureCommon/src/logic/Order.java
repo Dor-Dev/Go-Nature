@@ -28,6 +28,34 @@ public class Order implements Serializable {
 	private String msgStatus;
 	private Date date;
 	private int orderID;
+	
+	private String strHour;
+
+	/**
+	 * Constructor for myOrders feature
+	 * @param parkName
+	 * @param hourTime
+	 * @param visitorID
+	 * @param numOfVisitors
+	 * @param status
+	 * @param msgStatus
+	 * @param date
+	 * @param orderID
+	 */
+	public Order(String parkName, int hourTime, int visitorID, int numOfVisitors, String status, String msgStatus,
+			Date date, int orderID) {
+		super();
+		this.parkName = parkName;
+		this.hourTime = hourTime;
+		this.visitorID = visitorID;
+		this.numOfVisitors = numOfVisitors;
+		this.status = status;
+		this.msgStatus = msgStatus;
+		this.date = date;
+		this.orderID = orderID;
+		this.strHour = hourTime +":00";
+	}
+
 	public Order(String parkName, String dateTime, int visitorID, int numOfVisitors, String email, String type,
 			boolean paidUp, int hourTime, int cost,String phoneNumber,String msgStatus,String status) {
 		super();
@@ -75,7 +103,9 @@ public class Order implements Serializable {
 	}
 
 
-	
+	public String getStrHour() {
+		return strHour;
+	}
 	public String getType() {
 		return type;
 	}

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import common.Message;
 import enums.ClientControllerType;
@@ -16,6 +18,7 @@ public class OrderDBController {
 
 	private static SqlConnection sqlConnection = null;
 	public static final int managerDefultTravelHour = 4;
+	public static OrderRequest request = null;
 	public OrderDBController() {
 		try {
 			sqlConnection = SqlConnection.getConnection();
@@ -34,12 +37,138 @@ public class OrderDBController {
 			return checkAvailableDateTime(clientMsg);
 		case checkAvailableHours:
 			return checkAlternativeDates(clientMsg);
+		case getMyOrders:
+			return showMyOrdersTable(clientMsg);
+		case CancelOrder:
+			return cancelOrder(clientMsg);
+		case OrderFinalApproval:
+			return orderFinalApprove(clientMsg);
+		case GetOutFromWaitingList:
+			return getOutFromWaitingList(clientMsg);
 		default:
-			
 			break;
 		}
 		return null;
 	}
+	/**
+	 * The method changes the status of the visitor as soon as a place becomes available for him. 
+	 * That it happens as soon as he gets a message that he needs to confirm the exit from the waiting list.
+	 * @param clientMsg
+	 * @return
+	 */
+	private Object getOutFromWaitingList(Message clientMsg) {
+		Order tmp = (Order)clientMsg.getObj();
+		int res = 0;
+		String query = "UPDATE orders SET status='Received',msgStatus='Not sent' WHERE visitorID=? and orderID=? and parkName=?";
+		PreparedStatement pstm;
+		try {
+			pstm = sqlConnection.connection.prepareStatement(query);
+			pstm.setInt(1, tmp.getVisitorID());
+			pstm.setInt(2, tmp.getOrderID());
+			pstm.setString(3, tmp.getParkName());
+			res = pstm.executeUpdate();
+
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(res==1)
+			return new Message(OperationType.WaitingListExitSuccess,ClientControllerType.OrderController,(Object)"You are not in waiting list");
+		return null;
+	}
+
+	/**
+	 * The method approve the order , this is the last stage of order approval
+	 * @param clientMsg
+	 * @return
+	 */
+	private Object orderFinalApprove(Message clientMsg) {
+		Order tmp = (Order)clientMsg.getObj();
+		int res = 0;
+		String query = "UPDATE orders SET status='Approved' WHERE visitorID=? and orderID=? and parkName=?";
+		PreparedStatement pstm;
+		try {
+			pstm = sqlConnection.connection.prepareStatement(query);
+			pstm.setInt(1, tmp.getVisitorID());
+			pstm.setInt(2, tmp.getOrderID());
+			pstm.setString(3, tmp.getParkName());
+			res = pstm.executeUpdate();
+
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(res==1)
+			return new Message(OperationType.ApproveOrderSuccess,ClientControllerType.OrderController,(Object)"The final approval was successful");
+		return null;
+	}
+
+	/**
+	 * The method cancel order by changing the status of the order to 'Canceled'
+	 * @param clientMsg
+	 * @return
+	 */
+	private Object cancelOrder(Message clientMsg) {
+		Order tmp = (Order)clientMsg.getObj();
+		int res = 0;
+		String query = "UPDATE orders SET status='Canceled' WHERE visitorID=? and orderID=? and parkName = ?";
+		PreparedStatement pstm;
+		try {
+			pstm = sqlConnection.connection.prepareStatement(query);
+			pstm.setInt(1, tmp.getVisitorID());
+			pstm.setInt(2, tmp.getOrderID());
+			pstm.setString(3, tmp.getParkName());
+			res = pstm.executeUpdate();
+
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(res==1)
+			return new Message(OperationType.CancelOrderSuccess,ClientControllerType.OrderController,(Object)"Cancel Success");
+		return null;
+		
+	}
+
+	/**
+	 * Get the relevant orders for visitor id or subscriber id 
+	 * @param clientMsg
+	 * @return
+	 */
+	private Object showMyOrdersTable(Message clientMsg) {
+		List<Order> myOrders = new ArrayList<Order>();
+		int id = (int) clientMsg.getObj();
+		Order tmp;
+		PreparedStatement pstm;
+		LocalDate thisDay = LocalDate.now();
+		Date thisDayToDB=Date.valueOf(thisDay); 
+		String query = "SELECT * from orders WHERE visitorID = ? and arrivalDate >= ?";
+		
+		try {
+			pstm = sqlConnection.connection.prepareStatement(query);
+			pstm.setInt(1, id);
+			pstm.setDate(2, thisDayToDB);
+
+			ResultSet rs = pstm.executeQuery();
+			while(rs.next()) {
+				tmp = new Order(rs.getString(2),rs.getInt(4),rs.getInt(9),rs.getInt(8),rs.getString(7),rs.getString(13),rs.getDate(3),rs.getInt(1));
+				myOrders.add(tmp);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new Message(OperationType.ReturnMyOrders,ClientControllerType.OrderController,(Object)myOrders);
+		
+	}
+
 	public Object checkAlternativeDates(Message clientMsg) {
 		
 		OrderRequest request = (OrderRequest)clientMsg.getObj();
@@ -52,7 +181,7 @@ public class OrderDBController {
 		Order newOrder =(Order)clientMsg.getObj();
 		System.out.println("Add Order start");
 		// the mysql insert statement
-		String query = " insert into orders (parkName, arrivalDate, visitorID, paidUp,visitorType,actualNumberOfVisitors,email,status,hourTime,cost,phoneNumber,orderApproved)"
+		String query = " insert into orders (parkName, arrivalDate, visitorID, paidUp,visitorType,actualNumberOfVisitors,email,status,hourTime,cost,phoneNumber,msgStatus)"
 				+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)";
 
 		// create the mysql insert preparedstatement
@@ -108,7 +237,7 @@ public class OrderDBController {
 		boolean available = true;
 		int i;
 		int[] hourIndex;
-		OrderRequest request = (OrderRequest)clientMsg.getObj();
+		request = (OrderRequest)clientMsg.getObj();
 		int enabledOrders = getHowManyOrdersAllows();
 		hourIndex = CheckSpecificDate(request.getAskdate());
 		
@@ -138,7 +267,7 @@ public class OrderDBController {
 		
 		try {
 			preparedStmt = sqlConnection.connection.prepareStatement(query);
-			preparedStmt.setString(1,"Luna-Park");
+			preparedStmt.setString(1,request.getParkName());
 			rs = preparedStmt.executeQuery();
 			
 			
@@ -183,6 +312,7 @@ public class OrderDBController {
 		
 		for(i=0;i<24;i++)
 			System.out.println(i+" "+hourIndex[i]+ " ");
+		hourIndex[0] = getHowManyOrdersAllows();			//how many orders allow in index 0
 
 		return hourIndex;
 		

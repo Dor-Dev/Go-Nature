@@ -12,21 +12,30 @@ public enum OperationType {
 	//Order Enums
 	OrderRequestAnswer,AddOrder, SuccessAddOrder, 
 	OrderCheckDateTime, checkAvailableHours,
-
+	
+	//MyOrder Enums
+	getMyOrders,ReturnMyOrders, OrderFinalApproval,GetOutFromWaitingList, CancelOrder,
+	CancelOrderSuccess, ApproveOrderSuccess,WaitingListExitSuccess,
 	
 	// Park Enmus
 	GetParkInfo, ParkInfo, UpdateParkInfo, DecreaseParkVistiors, UpdateReceipt, IncreaseParkVistiors, TravelerInfo,
 	OccasionalSubscriber, OccasionalVisitor, GenerateReceipt,  CheckReceiptInfo, 
 	MemberRegistration, MemberRegistrationCC, GuideRegistration, GuideRegistrationCC, UpdateReceiptInfo, 
-	SuccessUpdateReceipt, FailedUpdateReceipt, GetOrderInfo, UpdateReceiptInfoAfterExit, NeverExist, FailedUpdate, CheckDifference, UpdateCurrAmountOfVisitors,ReceiptInfo,
+	SuccessUpdateReceipt, FailedUpdateReceipt, GetOrderInfo, UpdateReceiptInfoAfterExit, NeverExist, FailedUpdate, CheckDifference, UpdateCurrAmountOfVisitors,
+	
 	// Update Paramters enums
-	SendUpdateRequest, UpdateWasSent
+	SendUpdateRequest, UpdateWasSent,
+	
 	// Events enums
-	, EventRequest,EventRequestAccepted, EventError, EventRequestSuccess, showActiveEvents, EventsToShow, EventsReady, 
+	EventRequest,EventRequestAccepted, EventError, EventRequestSuccess, showActiveEvents, EventsToShow, EventsReady, 
+	
 	//Requests enums
-	GetUpdateTable, ShowUpdateTable, UpdateTableArrived, GetEventTable, EventTableArrived, ShowEventTable, EventApproval, EventActivated, EventDecline, EventCanceled, UpdateConfrimation, UpdateDecline,
+	GetUpdateTable, ShowUpdateTable, UpdateTableArrived, GetEventTable, EventTableArrived, ShowEventTable, 
+	EventApproval, EventActivated, EventDecline, EventCanceled, UpdateConfrimation, UpdateDecline,
+	
 	//reports
-	SumVisitorsReport, RevenueReport, UsageReport, VisitingReport;
+
+	SumVisitorsReport, RevenueReport, UsageReport, ReceiptInfo ,VisitingReport;
 }
 
 
