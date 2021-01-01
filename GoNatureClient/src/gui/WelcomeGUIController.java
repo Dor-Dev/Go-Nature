@@ -55,17 +55,16 @@ public class WelcomeGUIController {
 	private Label mnuReportsDepartment;
 
 	@FXML
-    private Label mnuLogout;
-	
-	
-	  @FXML
-	    void goToMainPage(MouseEvent event) {
-		  RestartApp.restartParameters();
-		  LoginGUIController login = new LoginGUIController();
-		  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-		  login.show();
-	    }
-	  
+	private Label mnuLogout;
+
+	@FXML
+	void goToMainPage(MouseEvent event) {
+		RestartApp.restartParameters();
+		LoginGUIController login = new LoginGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		login.show();
+	}
+
 	@FXML
 	void showAddOrder(MouseEvent event) {
 		AddOrderGUIController c = new AddOrderGUIController();
@@ -80,45 +79,47 @@ public class WelcomeGUIController {
 		mf.show();
 
 	}
-     @FXML
-    void showMyOrders(MouseEvent event) {
-    	MyOrdersGUIController mo= new MyOrdersGUIController();
-    	((Node)event.getSource()).getScene().getWindow().hide();
-    	mo.show();
 
-    }
-    
-    @FXML
-    void showParkEntrance(MouseEvent event) {
-    	ParkEntranceGUIController pe = new ParkEntranceGUIController();
-    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-    	pe.show();
+	@FXML
+	void showMyOrders(MouseEvent event) {
+		MyOrdersGUIController mo = new MyOrdersGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		mo.show();
 
-    }
-    
-    @FXML
-    void showParkCapacity(MouseEvent event) {
-    	ParkCapacityGUIController pC = new ParkCapacityGUIController();
+	}
+
+	@FXML
+	void showParkEntrance(MouseEvent event) {
+		ParkEntranceGUIController pe = new ParkEntranceGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		pe.show();
+
+	}
+
+	@FXML
+	void showParkCapacity(MouseEvent event) {
+		ParkCapacityGUIController pC = new ParkCapacityGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide();
 		pC.show();
-    }
-    
+	}
 
-    @FXML
-    void showReports(MouseEvent event) {
-    	DManagerReportsGUIController rP = new DManagerReportsGUIController();
+	@FXML
+	void showReports(MouseEvent event) {
+		DManagerReportsGUIController rP = new DManagerReportsGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide();
 		rP.show();
-    }
+	}
 
-    @FXML
-    void showRequests(MouseEvent event) {
-    	DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();
+	@FXML
+	void showRequests(MouseEvent event) {
+		DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide();
 		rQ.show();
-    }
+	}
+
 	/**
 	 * Change the main window to Events page when click on the Events
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -179,12 +180,12 @@ public class WelcomeGUIController {
 		tempMenuLabels.add(welcomeController.mnuRequests);
 		return tempMenuLabels;
 	}
-    @FXML
-    void showRegistration(MouseEvent event) {
-    	RegistrationController c = new RegistrationController();
-    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-    	c.show();
-    }
 
+	@FXML
+	void showRegistration(MouseEvent event) {
+		RegistrationController c = new RegistrationController();
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		c.show();
+	}
 
 }

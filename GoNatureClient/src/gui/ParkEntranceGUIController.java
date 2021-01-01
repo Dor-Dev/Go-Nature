@@ -5,31 +5,26 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import client.MainClient;
-import client.OrderController;
 import common.Message;
 import controllers.EmployeeController;
+import controllers.OrderController;
 import controllers.ParkController;
 
 import controllers.RestartApp;
 import controllers.ReceiptController;
 
-import controllers.VisitorController;
 import enums.DBControllerType;
 import enums.Discount;
 import enums.OperationType;
-import enums.UserTypes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;

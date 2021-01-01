@@ -9,7 +9,6 @@ import java.util.ResourceBundle;
 
 import client.MainClient;
 import common.Message;
-import controllers.RequestsController;
 import controllers.RestartApp;
 import controllers.VisitorController;
 import enums.DBControllerType;
@@ -36,7 +35,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import logic.Event;
 import logic.Order;
 
 public class MyOrdersGUIController implements Initializable {
