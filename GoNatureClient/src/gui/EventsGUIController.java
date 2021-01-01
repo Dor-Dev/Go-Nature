@@ -174,7 +174,7 @@ public class EventsGUIController implements Initializable {
 	public void show() {
 
 		VBox root;
-		Stage primaryStage = new Stage();
+		Stage primaryStage = new CloseStage();
 		String parkName = EmployeeController.employeeConected.getOrganizationAffilation();
 		try {
 			FXMLLoader loader = new FXMLLoader();

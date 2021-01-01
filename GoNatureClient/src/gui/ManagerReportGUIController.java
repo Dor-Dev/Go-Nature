@@ -503,7 +503,7 @@ public class ManagerReportGUIController {
 
 	public void show() {
 		VBox root;
-		Stage primaryStage = new Stage();
+		Stage primaryStage = new CloseStage();
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("ParkManagerReports.fxml"));
