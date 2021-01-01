@@ -1,25 +1,19 @@
 package gui;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
-import client.ClientController;
 import client.MainClient;
-import client.OrderController;
 import common.Message;
+import controllers.OrderController;
 import controllers.RestartApp;
 import controllers.VisitorController;
 import enums.DBControllerType;
 import enums.OperationType;
-import enums.UserTypes;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -133,17 +127,9 @@ public class AddOrderGUIController {
 	private Label lblPrice;
 
 	@FXML
-   private Label mnuLogout;
-	
-	  @FXML
-	    void goToMainPage(MouseEvent event) {
-		  RestartApp.restartParameters();
-		  LoginGUIController login = new LoginGUIController();
-		  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-		  login.show();
-	    }
-  
-  @FXML
+	private Label mnuLogout;
+
+	@FXML
 	private Label lblDateTime;
 
 	@FXML
@@ -157,7 +143,6 @@ public class AddOrderGUIController {
 
 	@FXML
 	private Label lblAlternativeMsg;
-
 
 	@FXML
 	private Button btnShowAvailableDates;
@@ -319,6 +304,14 @@ public class AddOrderGUIController {
 	}
 
 	@FXML
+	void goToMainPage(MouseEvent event) {
+		RestartApp.restartParameters();
+		LoginGUIController login = new LoginGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		login.show();
+	}
+
+	@FXML
 	void submitOrder(ActionEvent event) {
 
 		/**
@@ -356,7 +349,8 @@ public class AddOrderGUIController {
 				typeToogleSelected, cbPayNow.isSelected(), hour, (int) finalPrice,
 				cmbPhoneStart.getValue() + txtPhoneEnd.getText(), "Not sent", "Received");
 		System.out.println("NEW ORDER CREATED!");
-		request = new OrderRequest(date.getValue(), hour, Integer.parseInt(cmbNumOfVisitors.getValue()),cmbParkName.getValue());
+		request = new OrderRequest(date.getValue(), hour, Integer.parseInt(cmbNumOfVisitors.getValue()),
+				cmbParkName.getValue());
 		MainClient.clientConsole.accept(
 				new Message(OperationType.OrderCheckDateTime, DBControllerType.OrderDBController, (Object) request));
 		if (OrderController.orderCompleted) {
@@ -479,7 +473,7 @@ public class AddOrderGUIController {
 			primaryStage.setTitle("No Available Tickets");
 			AddOrderGUIController addOrderController = loader.getController();
 			DatePickerDisableDays(addOrderController.alternativeDatePicker);
-			
+
 			((Node) event.getSource()).getScene().getWindow().hide();
 			primaryStage.show();
 
@@ -538,7 +532,9 @@ public class AddOrderGUIController {
 		cmb.getItems().removeAll(cmb.getItems());
 		for (i = 10; i < 18; i++) {
 			for (int j = 0; j < OrderController.managerDefultTravelHour; j++) {
-				if (avaiableSpacesSum[i + j] + newOrder.getNumOfVisitors() > avaiableSpacesSum[0]) {		//at index 0 we got how many orders allow
+				if (avaiableSpacesSum[i + j] + newOrder.getNumOfVisitors() > avaiableSpacesSum[0]) { // at index 0 we
+																										// got how many
+																										// orders allow
 					areAvaiableHour[i] = false;
 				}
 			}

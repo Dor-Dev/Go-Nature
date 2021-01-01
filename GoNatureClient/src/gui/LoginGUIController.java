@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import client.ClientConsole;
-import client.ClientController;
 import client.MainClient;
 import common.Message;
 import controllers.EmployeeController;
@@ -104,7 +102,7 @@ public class LoginGUIController {
 					w.show();
 				}
 			} else {
-				
+
 				Alert a = new Alert(AlertType.INFORMATION);
 				a.setHeaderText("You are already logged in !");
 				a.setContentText("Please log-out from the application to enter again.");
