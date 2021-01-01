@@ -196,7 +196,7 @@ public class AddOrderGUIController {
 		// Initialize combo box phone first 3 numbers
 		cmbPhoneStart.getItems().removeAll(cmbPhoneStart.getItems());
 		cmbPhoneStart.getItems().addAll("050", "051", "052", "053", "054", "055", "056", "057", "058", "059");
-
+		cmbPhoneStart.getSelectionModel().select(0);
 		/**
 		 * set init paynow visible
 		 */
@@ -224,15 +224,17 @@ public class AddOrderGUIController {
 
 		/**
 		 * Initialize cmb Visit Hour 10:00 - 17:00
-		 */
+		 */ 
 		cmbHour.getItems().removeAll(cmbHour.getItems());
 		cmbHour.getItems().addAll("10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00");
+		cmbHour.getSelectionModel().select(0);
 		/**
 		 * Initialize cmb Num of visitors 1-15
 		 */
 		cmbNumOfVisitors.getItems().removeAll(cmbNumOfVisitors.getItems());
-		cmbNumOfVisitors.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
-				"15");
+		cmbNumOfVisitors.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", 
+				"9", "10", "11", "12", "13", "14", "15");
+		cmbNumOfVisitors.getSelectionModel().select(0);
 
 		if (VisitorController.subscriberConnected != null
 				&& VisitorController.subscriberConnected.getType().equals("instructor")) {

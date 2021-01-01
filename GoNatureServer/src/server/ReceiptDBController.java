@@ -51,6 +51,10 @@ public class ReceiptDBController {
 			switch (msgFromClient.getOperationType()) {
 
 			// this case is to update the receipts table with the amount of visitors that already exit
+			case CardReaderEnter:
+				break;
+			case CardReaderExit:
+				break;
 			case UpdateReceiptInfoAfterExit:
 				rs = checkReceipt(msgFromClient.getObj());
 				if (rs != null) {
