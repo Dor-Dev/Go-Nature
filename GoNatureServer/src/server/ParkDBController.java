@@ -29,6 +29,9 @@ public class ParkDBController {
 	private Time thisTimeToDB;
 	private int hours;
 	private int minutes;
+	private PreparedStatement pstm;
+	ResultSet rs ;
+	int res;
 
 	public ParkDBController() {
 		try {
@@ -39,7 +42,7 @@ public class ParkDBController {
 	}
 
 	public Message parseData(Message clientMsg) throws SQLException {
-		PreparedStatement pstm;
+		//PreparedStatement pstm;
 		String query;
 		msgFromClient = clientMsg;
 		List<String> parkInfo;
@@ -54,7 +57,7 @@ public class ParkDBController {
 				pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
 				pstm.setString(1, info);
 				System.out.println("AFTER QUERY");
-				ResultSet rs = pstm.executeQuery();
+				rs = pstm.executeQuery();
 				if (rs.next()) {
 					System.out.println(rs.getString(1));
 					Park park = new Park(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5),
@@ -76,33 +79,17 @@ public class ParkDBController {
 		case DecreaseParkVistiors:
 			parkInfo = (ArrayList<String>) msgFromClient.getObj();
 			try {
-
-				pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
-				pstm.setString(1, parkInfo.get(0));
-				ResultSet s = pstm.executeQuery();
-				if (s.next()) {
-					System.out.println(s.getInt(6));
-
+				 rs = getParkInfo(parkInfo.get(0));
+				if (rs.next()) {
+					System.out.println(rs.getInt(6));
 					System.out.println(parkInfo.get(1));
-
-					int currAmount = s.getInt(6) - Integer.parseInt(parkInfo.get(1));
-
-					pstm = sqlConnection.connection
-							.prepareStatement("UPDATE  parks SET currentAmountOfVisitors=?  where parkName=?");
-					pstm.setInt(1, currAmount);
-					pstm.setString(2, parkInfo.get(0));
-
-					int rs = pstm.executeUpdate();
-					if (rs == 1) {
-						pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
-						pstm.setString(1, parkInfo.get(0));
-						System.out.println("AFTER QUERY");
-						s = pstm.executeQuery();
+					int currAmount = rs.getInt(6) - Integer.parseInt(parkInfo.get(1));
+					res = updateAmountOfCurrAmount (currAmount, parkInfo.get(0));
+					if (res == 1) {
+						rs=getParkInfo(parkInfo.get(0));
 						// for case that traveler didn't exist in system
-						if (s.next()) {
-							System.out.println(s.getString(1));
-							Park park = new Park(s.getString(1), s.getInt(2), s.getInt(3), s.getInt(4), s.getInt(5),
-									s.getInt(6));
+						if (rs.next()) {
+							Park park =returnPark(rs);
 							System.out.println(park);
 							return new Message(OperationType.UpdateParkInfo, ClientControllerType.ParkController,
 									(Object) park);
@@ -115,7 +102,6 @@ public class ParkDBController {
 			}
 
 			catch (NumberFormatException | SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -124,32 +110,19 @@ public class ParkDBController {
 		case IncreaseParkVistiors:
 			parkInfo = (ArrayList<String>) msgFromClient.getObj();
 			try {
-
-				pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
-				pstm.setString(1, parkInfo.get(0));
-				ResultSet s = pstm.executeQuery();
-				if (s.next()) {
-					System.out.println(s.getInt(6));
+				rs=getParkInfo(parkInfo.get(0));
+				if (rs.next()) {
+					System.out.println(rs.getInt(6));
 					System.out.println(parkInfo.get(1));
-					int currAmount = s.getInt(6) + Integer.parseInt(parkInfo.get(1));
-					pstm = sqlConnection.connection
-							.prepareStatement("UPDATE  parks SET currentAmountOfVisitors=?  where parkName=?");
-					pstm.setInt(1, currAmount);
-					pstm.setString(2, parkInfo.get(0));
-					System.out.println("???????");
-
-					int rs = pstm.executeUpdate();
-					if (rs == 1) {
-						pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
-						pstm.setString(1, parkInfo.get(0));
-						System.out.println("AFTER increase park");
-						s = pstm.executeQuery();
+					int currAmount = rs.getInt(6) + Integer.parseInt(parkInfo.get(1));
+					
+					 res = updateAmountOfCurrAmount (currAmount, parkInfo.get(0));
+					if (res == 1) {
+					
+						rs=getParkInfo(parkInfo.get(0));
 						// for case that traveler didn't exist in system
-						if (s.next()) {
-							System.out.println(s.getString(1));
-							Park park = new Park(s.getString(1), s.getInt(2), s.getInt(3), s.getInt(4), s.getInt(5),
-									s.getInt(6));
-							System.out.println(park);
+						if (rs.next()) {
+							Park park =returnPark(rs);
 							return new Message(OperationType.UpdateParkInfo, ClientControllerType.ParkController,
 									(Object) park);
 						}
@@ -173,7 +146,7 @@ public class ParkDBController {
 				pstm = sqlConnection.connection.prepareStatement("SELECT * from members where visitorID=?");
 				pstm.setString(1, infoVisitor);
 
-				ResultSet rs = pstm.executeQuery();
+				 rs = pstm.executeQuery();
 
 				if (rs.next()) {
 					Subscriber subscriber = null;
@@ -202,7 +175,7 @@ public class ParkDBController {
 				pstm.setInt(1, Integer.parseInt(orderInfo.get(0)));
 				pstm.setString(2, orderInfo.get(2));
 
-				ResultSet rs = pstm.executeQuery();
+				rs = pstm.executeQuery();
 
 				if (rs.next()) {
 					if (rs.getInt(8) >= Integer.parseInt(orderInfo.get(1))) {
@@ -221,32 +194,7 @@ public class ParkDBController {
 			}
 
 			break;
-
-		// this case check the amount of occasional visitor with the difference
-		case CheckDifference:
-			parkInfo = (ArrayList<String>) msgFromClient.getObj();
-			getCurrentTime();
-
-			System.out.println("cheak occasional amount= ");
-
-			pstm = sqlConnection.connection.prepareStatement(
-					"SELECT SUM(currAmountOfVisitorsLeft) from receipts where orderNumber=? and parkName=? and date=?");
-			pstm.setInt(1, 0);
-			pstm.setString(2, parkInfo.get(0));
-			pstm.setDate(3, thisDayToDB);
-
-			System.out.println("cheak");
-			ResultSet s = pstm.executeQuery();
-			int occasionalAmount = 0;
-			if (s.next()) {
-				occasionalAmount = s.getInt(1);
-				System.out.println("occasional amount1= " + occasionalAmount);
-			}
-
-			System.out.println("occasional amount2= " + occasionalAmount);
-			return new Message(OperationType.CheckDifference, ClientControllerType.ParkController,
-					(Object) occasionalAmount);
-
+	
 		// this case update the receipts and parks table with the correct current amount
 		// of visitors
 		case UpdateCurrAmountOfVisitors:
@@ -283,12 +231,8 @@ public class ParkDBController {
 			}
 
 			// update the current amount of visitors in park today
-			pstm = sqlConnection.connection
-					.prepareStatement("UPDATE  parks SET currentAmountOfVisitors=?  where parkName=?");
-			pstm.setInt(1, sumCurr);
-			pstm.setString(2, parkName);
-
-			pstm.executeUpdate();
+			res = updateAmountOfCurrAmount (sumCurr, parkName);
+			
 			System.out.println("8888883");
 			return new Message(OperationType.UpdateCurrAmountOfVisitors, ClientControllerType.ParkController,
 					(Object) sumCurr);
@@ -304,7 +248,7 @@ public class ParkDBController {
 				pstm.setString(1, (String) msgFromClient.getObj());
 				pstm.setDate(2, thisDayToDb);
 				pstm.setDate(3, thisDayToDb);
-				ResultSet rs = pstm.executeQuery();
+				rs = pstm.executeQuery();
 				while (rs.next()) {
 					tmp = new Event(rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getInt(6));
 					data.add(tmp);
@@ -338,7 +282,6 @@ public class ParkDBController {
 						(Object) "Event request send successfully");
 
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -371,6 +314,66 @@ public class ParkDBController {
 			break;
 		}
 		return clientMsg;
+	}
+	
+	/**
+	 * this method get information from SQL and create a park object 
+	 * @param s
+	 * @return
+	 */
+	private Park returnPark(ResultSet s)
+	{
+		Park park =null;
+		try {
+			park = new Park(s.getString(1), s.getInt(2), s.getInt(3), s.getInt(4), s.getInt(5),
+					s.getInt(6));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return park;
+	}
+	
+	/**
+	 * this method update the current amount of visitors in park
+	 * @param currAmount
+	 * @param parkName
+	 * @return
+	 */
+	private int updateAmountOfCurrAmount (int currAmount, String parkName) {
+		try {
+			pstm = sqlConnection.connection
+					.prepareStatement("UPDATE  parks SET currentAmountOfVisitors=?  where parkName=?");
+			pstm.setInt(1, currAmount);
+			pstm.setString(2, parkName);
+			int rs = pstm.executeUpdate();
+			return rs;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	
+	}
+	
+	
+	/**
+	 * this method gets the information of park
+	 * @param parkName
+	 * @return
+	 */
+	private ResultSet getParkInfo(String parkName) {
+		try {
+			pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
+			pstm.setString(1, parkName);
+			ResultSet s = pstm.executeQuery();
+			return s;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+		
 	}
 
 	/*
