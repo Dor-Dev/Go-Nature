@@ -111,7 +111,7 @@
                   </VBox>
                </children>
             </HBox>
-            <Button fx:id="btnSendExit" mnemonicParsing="false" onAction="#sendExotInfo" text="Send">
+            <Button fx:id="btnSendExit" mnemonicParsing="false" onAction="#sendExitInfo" text="Send">
                <VBox.margin>
                   <Insets right="14.0" />
                </VBox.margin>
