@@ -83,7 +83,6 @@ public class ClientController extends AbstractClient {
 		case EmployeeController:
 			returnedValueFromServer = reciveMsg.getObj();
 			EmployeeController.EmployeeParseData(reciveMsg);
-			
 			break;	
 
 		case OrderController:

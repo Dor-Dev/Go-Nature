@@ -8,6 +8,7 @@ import client.MainClient;
 import common.Message;
 import controllers.EmployeeController;
 import controllers.RestartApp;
+import controllers.VisitorController;
 import enums.DBControllerType;
 import enums.OperationType;
 import javafx.fxml.FXML;
