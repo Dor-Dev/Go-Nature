@@ -2,19 +2,20 @@ package controllers;
 
 import client.ClientController;
 import common.Message;
+import enums.OperationType;
 import enums.UserTypes;
 import logic.Employee;
 
 public class EmployeeController {
 	public static Employee employeeConected = null;
+	public static boolean isConnected = false;
 
 	public static void EmployeeParseData(Message reciveMsg) {
-		if (!((reciveMsg.getObj() instanceof String) && 
-				("NotFound".equals((String) (reciveMsg.getObj()))))) {
+		if (!(reciveMsg.getObj() instanceof String)) {
+			System.out.println("HEEELLLLLOOOOO");
 			employeeConected = (Employee) ClientController.returnedValueFromServer;
 			switch (reciveMsg.getOperationType()) {
 			case EmployeeLogin:
-
 				switch (employeeConected.getRole()) {
 
 				case "entry":
@@ -42,6 +43,10 @@ public class EmployeeController {
 				break;
 			}
 
+		}
+		if(reciveMsg.getOperationType().equals(OperationType.EmployeeAlreadyLoggedIn)) {
+			System.out.println("BBBBYYYYEEEEEE");
+			isConnected = true;
 		}
 	}
 

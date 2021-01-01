@@ -1,6 +1,10 @@
 package controllers;
 
 import client.ClientController;
+import client.MainClient;
+import common.Message;
+import enums.DBControllerType;
+import enums.OperationType;
 import gui.ParkCapacityGUIController;
 import gui.RegistrationController;
 
@@ -10,8 +14,20 @@ import gui.RegistrationController;
 public class RestartApp {
 
 	public static void restartParameters() {
+		int id;
+		if(VisitorController.subscriberConnected != null) 
+			id = VisitorController.subscriberConnected.getVisitorID();
+		else if(EmployeeController.employeeConected !=null)
+			id =EmployeeController.employeeConected.getEmployeeID();
+		else
+			id = VisitorController.loggedID;
+		// Send request to server for log-out with the id that is connected
+		MainClient.clientConsole.accept(new Message(OperationType.UserDisconnected,DBControllerType.LoginDBController,(Object)id));
+		//Restart all the static parameters of the client
 		VisitorController.subscriberConnected = null;
 		VisitorController.loggedID = 0;
+		VisitorController.isConnected = false;
+		EmployeeController.isConnected = false;
 		EmployeeController.employeeConected = null;
 		ParkController.Parktype = null;
 		ClientController.type = null;

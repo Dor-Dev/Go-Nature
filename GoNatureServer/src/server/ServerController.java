@@ -63,6 +63,7 @@ public class ServerController extends AbstractServer {
 			switch (clientMsg.getDbControllertype()) {
 
 			case LoginDBController:
+				System.out.println(clientMsg.getObj());
 				LoginDBController loginDBController = new LoginDBController();
 				client.sendToClient(loginDBController.parseData(clientMsg));
 				break;
@@ -102,7 +103,7 @@ public class ServerController extends AbstractServer {
 
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 	}
