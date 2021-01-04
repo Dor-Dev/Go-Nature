@@ -178,7 +178,9 @@ public class ParkEntranceGUIController {
 	private static int minutes;
 	private final int openEntrance = 10;
 	private final int closeEntrance = 17;
-	
+	private final double memberDiscount = 20;
+	private final double groupDiscount = 10;
+	private final double visitorDiscount = 0;
 	/**
 	 * this function taking the date and time of now
 	 */
@@ -573,22 +575,22 @@ public class ParkEntranceGUIController {
 		MainClient.clientConsole.accept(new Message(OperationType.TravelerInfo, DBControllerType.ParkDBController, (Object) visitorID));
 		if (ParkController.disType.equals(Discount.GroupDiscount)) {
 			System.out.println("instructor");
-			parkEntranceController1.lblManualReceiptDiscount.setText("10% + The Instructor needs to pay");
+			parkEntranceController1.lblManualReceiptDiscount.setText(groupDiscount+"% + The Instructor needs to pay");
 			type = "instructor";
-			cost= (int) (Integer.parseInt(this.txtAmountOfOccasional.getText())* OrderController.getTicketPrice() * 0.9);
+			cost= (int) (Integer.parseInt(this.txtAmountOfOccasional.getText())* OrderController.getTicketPrice() * (1-groupDiscount/100));
 			
 			parkEntranceController1.lblManualReceiptCost.setText(String.valueOf(cost)+ " NIS");
 		} else if (ParkController.disType.equals(Discount.MemberDiscount)) {
-			parkEntranceController1.lblManualReceiptDiscount.setText("20%");
+			parkEntranceController1.lblManualReceiptDiscount.setText(memberDiscount+"%");
 			type = "member";
-			cost= (int) (Integer.parseInt(this.txtAmountOfOccasional.getText())* OrderController.getTicketPrice() * 0.8);
+			cost= (int) (Integer.parseInt(this.txtAmountOfOccasional.getText())* OrderController.getTicketPrice() *(1-memberDiscount/100));
 			parkEntranceController1.lblManualReceiptCost.setText(String.valueOf(cost)+ " NIS");
 		}
 
 		else {
-			parkEntranceController1.lblManualReceiptDiscount.setText("0%");
+			parkEntranceController1.lblManualReceiptDiscount.setText(visitorDiscount+"%");
 			type = "visitor";
-			cost= (int) (Integer.parseInt(this.txtAmountOfOccasional.getText())* OrderController.getTicketPrice());
+			cost= (int) (Integer.parseInt(this.txtAmountOfOccasional.getText())* OrderController.getTicketPrice()*((1-visitorDiscount/100)));
 			parkEntranceController1.lblManualReceiptCost.setText(String.valueOf(cost)+ " NIS");
 		}
 		

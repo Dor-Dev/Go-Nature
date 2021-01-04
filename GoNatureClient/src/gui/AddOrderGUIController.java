@@ -42,6 +42,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.Order;
 import logic.OrderRequest;
+import logic.Validation;
 
 public class AddOrderGUIController {
 
@@ -165,8 +166,10 @@ public class AddOrderGUIController {
 	@FXML
 	private Label lblGroupTip;
 
+
 	@FXML
 	private Label lblPriceList;
+
 
 	/**
 	 * function to load AddOrder screen
@@ -349,9 +352,35 @@ public class AddOrderGUIController {
 		login.show();
 	}
 
+	/**
+	 * function to valid the fields in the order form
+	 * 
+	 * @return
+	 */
+	public String fieldsValidation() {
+		if (Validation.isNull(cmbParkName.getValue()))
+			return "Park Name";
+		if (Validation.isNull(date.getValue()))
+			return "Date";
+		if (!Validation.emailValidation(txtEmail.getText()))
+			return "Email";
+		if (!Validation.phoneValidation(txtPhoneEnd.getText()))
+			return "Phone";
+		return "OK";
+	}
+
 	@FXML
 	void submitOrder(ActionEvent event) {
 
+		String ValidMsg = fieldsValidation();
+		if (!ValidMsg.equals("OK")) {
+			Alert a = new Alert(AlertType.INFORMATION);
+			a.setHeaderText("Please correct the " + ValidMsg + " field");
+			a.setContentText("Validation Error");
+			a.setTitle("Validation Error");
+			a.showAndWait();
+			return;
+		}
 		/**
 		 * userId can be some subscriber or only one who is no have orders, userId will
 		 * take the right value we need
@@ -385,7 +414,7 @@ public class AddOrderGUIController {
 				date.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))), userID,
 				Integer.parseInt((String) cmbNumOfVisitors.getValue().toString()), txtEmail.getText(),
 				typeToogleSelected, cbPayNow.isSelected(), hour, (int) finalPrice,
-				cmbPhoneStart.getValue() + txtPhoneEnd.getText(), "Not sent", "Received");
+				cmbPhoneStart.getValue() + txtPhoneEnd.getText(), "Not sent", "Received",calculateDiscount());
 		System.out.println("NEW ORDER CREATED!");
 		request = new OrderRequest(date.getValue(), hour, Integer.parseInt(cmbNumOfVisitors.getValue()),
 				cmbParkName.getValue());

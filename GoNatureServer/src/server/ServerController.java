@@ -74,6 +74,7 @@ public class ServerController extends AbstractServer {
 				break;
 
 			case ParkDBController:
+				System.out.println("parkdb");
 				ParkDBController parkDBcontroller = new ParkDBController();
 				client.sendToClient(parkDBcontroller.parseData(clientMsg));
 				break;

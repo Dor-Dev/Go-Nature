@@ -252,9 +252,10 @@ public class DManagerReportsGUIController {
     	System.out.println("htyy");
     	System.out.println(date.substring(0, 4));
     	System.out.println(date.substring(5, 7));
+    	System.out.println(Integer.valueOf(date.substring(8, 10)));
     	Alert a = new Alert(AlertType.INFORMATION);
     	
-    	if(Integer.valueOf(date.substring(0, 4))>yearInt||Integer.valueOf(date.substring(5, 7))> monthInt && Integer.valueOf(date.substring(0, 4)) == yearInt) {
+    	if(Integer.valueOf(date.substring(0, 4))>yearInt||Integer.valueOf(date.substring(5, 7))> monthInt && Integer.valueOf(date.substring(0, 4)) == yearInt || Integer.valueOf(date.substring(5, 7))== monthInt && Integer.valueOf(date.substring(0, 4)) == yearInt && dayInt < Integer.valueOf(date.substring(8, 10))) {
     		System.out.println(1155533);
     			a.setHeaderText("The date of production of the report has not yet arrived.");
 				a.setContentText("No data available for viewing.");
