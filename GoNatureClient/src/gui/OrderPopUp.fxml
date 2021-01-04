@@ -2,18 +2,19 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="187.0" prefWidth="331.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AddOrderGUIController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="362.0" prefWidth="331.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AddOrderGUIController">
    <children>
       <Label maxWidth="180.0" minWidth="200.0" prefWidth="180.0" style="-fx-font-weight: bold;" text="Order was Successfully added">
          <font>
             <Font size="13.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="10.0" />
+            <Insets bottom="10.0" top="20.0" />
          </VBox.margin>
       </Label>
       <Label fx:id="lblOrderID" layoutX="91.0" layoutY="75.0" maxWidth="200.0" minWidth="200.0" prefHeight="19.0" prefWidth="20.0" text="Order ID:">
@@ -36,13 +37,42 @@
             <Font size="13.0" />
          </font>
       </Label>
-      <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="25.0" prefWidth="43.0" text="OK">
+      <Label text="Important!" textFill="RED">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
          <VBox.margin>
-            <Insets top="18.0" />
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Label>
+      <VBox prefHeight="87.0" prefWidth="331.0">
+         <children>
+            <Label text="Your order has not been completed!" />
+            <Label text="The day before the visit you will need to confirm" />
+            <Label text="the booking on the website." />
+            <Label text="You will receive an SMS reminder." />
+         </children>
+         <padding>
+            <Insets left="50.0" />
+         </padding>
+      </VBox>
+      <CheckBox fx:id="cbAgreeTerms" mnemonicParsing="false" text="I agree to terms">
+         <VBox.margin>
+            <Insets top="9.0" />
+         </VBox.margin>
+      </CheckBox>
+      <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeButtonWithTerms" prefHeight="25.0" prefWidth="43.0" text="OK">
+         <VBox.margin>
+            <Insets top="12.0" />
          </VBox.margin>
          <font>
             <Font size="13.0" />
          </font>
       </Button>
+      <Label fx:id="lblReceivedOrderMsg" textFill="RED">
+         <VBox.margin>
+            <Insets top="6.0" />
+         </VBox.margin>
+      </Label>
    </children>
 </VBox>

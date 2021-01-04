@@ -35,10 +35,12 @@ public enum OperationType {
 	
 	//reports
 
-	SumVisitorsReport, RevenueReport, UsageReport, ReceiptInfo ,VisitingReport,
+	SumVisitorsReport, RevenueReport, UsageReport, ReceiptInfo ,VisitingReport,CancellationReport,
 	
 	// card reader
-	 CardReaderEnter, CardReaderExit, CancellationReport;
+
+	FindOrder, FindReceipt , FaildToUpdate, FindReceiptForExit;
+
 }
 
 
