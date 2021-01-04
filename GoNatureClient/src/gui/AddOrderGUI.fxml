@@ -148,7 +148,15 @@
                   <Insets left="35.0" />
                </HBox.margin>
                <children>
-                  <Label text="Fill the fields to make an order:">
+                  <Label id="price" fx:id="lblPriceList" onMouseClicked="#openPriceList" style="-fx-text-fill: #bcd45d;" text="&gt;&gt;Click here to view prices&lt;&lt;">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label layoutX="10.0" layoutY="20.0" text="Fill the fields to make an order:">
                      <font>
                         <Font size="16.0" />
                      </font>

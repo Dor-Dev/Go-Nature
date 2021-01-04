@@ -14,3 +14,7 @@
   -fx-scale-x: 1.25;
   
 }
+#price:hover{
+  -fx-underline: true;
+  -fx-color: #3e8f0b;
+}
