@@ -29,6 +29,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -157,9 +158,16 @@ public class AddOrderGUIController {
 	@FXML
 	private Button btnAddWaitingList;
 
+	@FXML
+	private Label lblGroupTip;
+
+	
+	/**
+	 * function to load AddOrder screen
+	 */
 	public void show() {
 		VBox root;
-		Stage primaryStage = new Stage();
+		Stage primaryStage = new CloseStage();
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/gui/AddOrderGUI.fxml"));
@@ -181,6 +189,11 @@ public class AddOrderGUIController {
 		}
 	}
 
+	/**
+	 * function that choose the menu to show
+	 * @param addOrderController
+	 * @return
+	 */
 	private List<Label> createLabelList(AddOrderGUIController addOrderController) {
 		List<Label> tempMenuLabels = new ArrayList<>();
 		tempMenuLabels.add(addOrderController.mnuAddOrder);
@@ -231,7 +244,7 @@ public class AddOrderGUIController {
 
 		/**
 		 * Initialize cmb Visit Hour 10:00 - 17:00
-		 */ 
+		 */
 		cmbHour.getItems().removeAll(cmbHour.getItems());
 		cmbHour.getItems().addAll("10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00");
 		cmbHour.getSelectionModel().select(0);
@@ -239,14 +252,25 @@ public class AddOrderGUIController {
 		 * Initialize cmb Num of visitors 1-15
 		 */
 		cmbNumOfVisitors.getItems().removeAll(cmbNumOfVisitors.getItems());
-		cmbNumOfVisitors.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", 
-				"9", "10", "11", "12", "13", "14", "15");
+		cmbNumOfVisitors.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
+				"15");
 		cmbNumOfVisitors.getSelectionModel().select(0);
+
+		lblGroupTip.setVisible(false);
 
 		if (VisitorController.subscriberConnected != null
 				&& VisitorController.subscriberConnected.getType().equals("instructor")) {
+
 			rdGroup.setDisable(false);
 			System.out.println("IN");
+		} else {
+			Tooltip t = new Tooltip();
+			t.setText("Only for instructors");
+			lblGroupTip.setVisible(true);
+			lblGroupTip.setTooltip(t);
+
+			System.out.println("TOOTO");
+
 		}
 		DatePickerDisableDays(date);
 	}

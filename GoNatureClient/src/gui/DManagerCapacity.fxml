@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -124,25 +123,12 @@
                <right>
                   <HBox prefHeight="53.0" prefWidth="121.0" BorderPane.alignment="TOP_RIGHT">
                      <children>
-                        <ImageView id="msg" fitHeight="35.0" fitWidth="43.0">
-                           <HBox.margin>
-                              <Insets top="7.0" />
-                           </HBox.margin>
-                           <image>
-            
-                                    <Image url="@img/msg.jpeg" />
-            
-                                 </image>
-                           <viewport>
-                              <Rectangle2D />
-                           </viewport>
-                        </ImageView>
                         <Label id="menuLogOut" fx:id="mnuLogout" onMouseClicked="#goToMainPage" text="LogOut" textFill="#f20000">
                            <font>
                               <Font size="15.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="15.0" top="14.0" />
+                              <Insets left="52.0" top="14.0" />
                            </HBox.margin>
                         </Label>
                      </children>
