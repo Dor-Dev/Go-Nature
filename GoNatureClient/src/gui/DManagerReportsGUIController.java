@@ -273,18 +273,13 @@ public class DManagerReportsGUIController {
 		this.barChartX.setVisible(false);
 		this.barChartY.setManaged(false);
 		this.barChartY.setVisible(false);
-
-
-  
 		this.vBoxCancellation.setManaged(false);
 		this.vBoxCancellation.setVisible(false);
-		// added by me
 		this.chrtCancellation.setManaged(false);
 		this.chrtCancellation.setVisible(false);
 
 		date =datePicker.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd")));
     	getCurrentDay();
-    	System.out.println("htyy");
     	System.out.println(date.substring(0, 4));
     	System.out.println(date.substring(5, 7));
     	System.out.println(Integer.valueOf(date.substring(8, 10)));
@@ -308,7 +303,9 @@ public class DManagerReportsGUIController {
 				a.setHeaderText("Report Status");
 				a.setContentText("You can view the existing data of the report.");
 			}
-		} }else if (reportName.equals("Cancellation report")) {
+		}
+    	
+	else if (reportName.equals("Cancellation report")) {
 
 			if (Integer.valueOf(date.substring(0, 4)) == yearInt && Integer.valueOf(date.substring(5, 7)) == monthInt
 					&& Integer.valueOf(date.substring(8, 10)) == dayInt) {
