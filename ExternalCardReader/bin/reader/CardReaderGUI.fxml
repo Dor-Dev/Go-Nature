@@ -36,7 +36,7 @@
                               <Font name="System Bold Italic" size="15.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtEnterReceiptID" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+                        <TextField fx:id="txtEnterID" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
                      </children>
                   </VBox>
                   <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
@@ -96,7 +96,7 @@
                               <Font name="System Bold Italic" size="15.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtExitReceiptID" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+                        <TextField fx:id="txtExitID" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
                      </children>
                   </VBox>
                   <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
