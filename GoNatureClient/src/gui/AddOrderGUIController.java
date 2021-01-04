@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,7 +32,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -162,6 +166,11 @@ public class AddOrderGUIController {
 	@FXML
 	private Label lblGroupTip;
 
+
+	@FXML
+	private Label lblPriceList;
+
+
 	/**
 	 * function to load AddOrder screen
 	 */
@@ -176,7 +185,6 @@ public class AddOrderGUIController {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Add Order");
 			AddOrderGUIController addOrderController = loader.getController();
-
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(addOrderController);
 			MenuBarSelection.setMenuOptions(menuLabels);
@@ -255,7 +263,6 @@ public class AddOrderGUIController {
 		cmbNumOfVisitors.getItems().removeAll(cmbNumOfVisitors.getItems());
 		cmbNumOfVisitors.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
 				"15");
-		cmbNumOfVisitors.getSelectionModel().select(0);
 
 		lblGroupTip.setVisible(false);
 
@@ -631,6 +638,24 @@ public class AddOrderGUIController {
 				new Message(OperationType.checkAvailableHours, DBControllerType.OrderDBController, (Object) request));
 		initilaizeCmbHours(cmbAlternativeHour);
 
+	}
+
+	@FXML
+	void openPriceList(MouseEvent event) {
+
+		File file2 = new File("src/gui/img/pricelist.jpeg");
+		Image winImage = new Image(file2.toURI().toString());
+		ImageView winnerImageView = new ImageView(winImage); // same here for winner image
+		winnerImageView.setFitWidth(370);
+		winnerImageView.setFitHeight(520);
+		Stage newWinnerWindow = new Stage();
+		StackPane myLayout2 = new StackPane();
+		Scene myScene2 = new Scene(myLayout2, 370, 520);
+		Label label2 = new Label("", winnerImageView);
+		myLayout2.getChildren().add(label2);
+		newWinnerWindow.setTitle("Price List");
+		newWinnerWindow.setScene(myScene2);
+		newWinnerWindow.show();
 	}
 
 }
