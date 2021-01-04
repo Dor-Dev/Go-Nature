@@ -250,7 +250,6 @@ public class OrderDBController {
 			if(hourIndex[request.getHour()+i]+request.getNumOfvisitorAsked()>enabledOrders)
 				available = false;
 		}
-		System.out.println("Available on orderdbcontrooler:"+available);
 			return new Message(OperationType.OrderRequestAnswer, ClientControllerType.OrderController,(Object)available);
 		
 	}
@@ -274,7 +273,6 @@ public class OrderDBController {
 			if(rs.next())
 				enabledOrders = rs.getInt(1);
 		} catch (SQLException e) {
-			System.out.println("Did'nt find amount of enabled orders in parks");
 			e.printStackTrace();
 		}
 		
@@ -295,7 +293,7 @@ public class OrderDBController {
 		int[] hourIndex = new int[24];
 		ResultSet rs;
 		PreparedStatement preparedStmt = null;
-		query = "SELECT  hourTime , SUM(actualNumberOfVisitors) FROM orders WHERE arrivalDate=? AND parkName=? group by hourTime";
+		query = "SELECT  hourTime , SUM(actualNumberOfVisitors) FROM orders WHERE arrivalDate=? AND parkName=? AND status='Received' group by hourTime";
 		try {
 			preparedStmt = sqlConnection.connection.prepareStatement(query);
 			preparedStmt.setString(1,date.toString());
