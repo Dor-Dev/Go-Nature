@@ -38,6 +38,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.Order;
 import logic.OrderRequest;
+import logic.Validation;
 
 public class AddOrderGUIController {
 
@@ -45,12 +46,12 @@ public class AddOrderGUIController {
 	public static OrderRequest request = null;
 	private static String status = "complete";
 
-    @FXML
-    private CheckBox cbAgreeTerms;
+	@FXML
+	private CheckBox cbAgreeTerms;
 
-    @FXML
-    private Label lblReceivedOrderMsg;
-    
+	@FXML
+	private Label lblReceivedOrderMsg;
+
 	@FXML
 	private Label mnuRequests;
 	@FXML
@@ -161,7 +162,6 @@ public class AddOrderGUIController {
 	@FXML
 	private Label lblGroupTip;
 
-	
 	/**
 	 * function to load AddOrder screen
 	 */
@@ -191,6 +191,7 @@ public class AddOrderGUIController {
 
 	/**
 	 * function that choose the menu to show
+	 * 
 	 * @param addOrderController
 	 * @return
 	 */
@@ -344,9 +345,35 @@ public class AddOrderGUIController {
 		login.show();
 	}
 
+	/**
+	 * function to valid the fields in the order form
+	 * 
+	 * @return
+	 */
+	public String fieldsValidation() {
+		if (Validation.isNull(cmbParkName.getValue()))
+			return "Park Name";
+		if (Validation.isNull(date.getValue()))
+			return "Date";
+		if (!Validation.emailValidation(txtEmail.getText()))
+			return "Email";
+		if (!Validation.phoneValidation(txtPhoneEnd.getText()))
+			return "Phone";
+		return "OK";
+	}
+
 	@FXML
 	void submitOrder(ActionEvent event) {
 
+		String ValidMsg = fieldsValidation();
+		if (!ValidMsg.equals("OK")) {
+			Alert a = new Alert(AlertType.INFORMATION);
+			a.setHeaderText("Please correct the " + ValidMsg + " field");
+			a.setContentText("Validation Error");
+			a.setTitle("Validation Error");
+			a.showAndWait();
+			return;
+		}
 		/**
 		 * userId can be some subscriber or only one who is no have orders, userId will
 		 * take the right value we need
@@ -380,7 +407,7 @@ public class AddOrderGUIController {
 				date.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))), userID,
 				Integer.parseInt((String) cmbNumOfVisitors.getValue().toString()), txtEmail.getText(),
 				typeToogleSelected, cbPayNow.isSelected(), hour, (int) finalPrice,
-				cmbPhoneStart.getValue() + txtPhoneEnd.getText(), "Not sent", "Received");
+				cmbPhoneStart.getValue() + txtPhoneEnd.getText(), "Not sent", "Received",calculateDiscount());
 		System.out.println("NEW ORDER CREATED!");
 		request = new OrderRequest(date.getValue(), hour, Integer.parseInt(cmbNumOfVisitors.getValue()),
 				cmbParkName.getValue());
@@ -482,13 +509,14 @@ public class AddOrderGUIController {
 		// do what you have to do
 		stage.close();
 	}
-	  @FXML
-	    void closeButtonWithTerms(ActionEvent event) {
-		  if(cbAgreeTerms.isSelected())
-			  closeButtonAction(event);
-		  else
-			  lblReceivedOrderMsg.setText("Must read and confirm the important information" );
-	    }
+
+	@FXML
+	void closeButtonWithTerms(ActionEvent event) {
+		if (cbAgreeTerms.isSelected())
+			closeButtonAction(event);
+		else
+			lblReceivedOrderMsg.setText("Must read and confirm the important information");
+	}
 
 	@FXML
 	void AddWaitingList(ActionEvent event) {
