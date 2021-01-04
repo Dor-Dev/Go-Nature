@@ -42,6 +42,7 @@ public class ReportController {
 		report = (VisitingReport)reciveMsg.getObj();
 		System.out.println("reportController");
 		reportType=OperationType.VisitingReport;
+		break;
 		
 	case CancellationReport:
 		report = (CancellationReport)reciveMsg.getObj();
