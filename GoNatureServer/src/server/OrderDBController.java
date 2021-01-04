@@ -295,7 +295,7 @@ public class OrderDBController {
 		int[] hourIndex = new int[24];
 		ResultSet rs;
 		PreparedStatement preparedStmt = null;
-		query = "SELECT  hourTime , SUM(actualNumberOfVisitors) FROM orders WHERE arrivalDate=? AND parkName=? group by hourTime";
+		query = "SELECT  hourTime , SUM(actualNumberOfVisitors) FROM orders WHERE arrivalDate=? AND parkName=? AND status<>'Canceled' AND status<>'Waiting List' group by hourTime";
 		try {
 			preparedStmt = sqlConnection.connection.prepareStatement(query);
 			preparedStmt.setString(1,date.toString());
