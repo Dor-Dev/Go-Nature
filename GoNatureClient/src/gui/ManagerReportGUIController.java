@@ -367,10 +367,12 @@ public class ManagerReportGUIController {
 	 * @param monthYear
 	 */
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void getSumReportData(String monthYear) {
 		setReportDetailsInvisible(this);
 		List<String> list = new ArrayList<>();
 		list = addTheCorrectMonthAndYear(list, monthYear);
+		
 
 		MainClient.clientConsole.accept(
 				new Message(OperationType.SumVisitorsReport, DBControllerType.ReportsDBController, (Object) list));
@@ -387,14 +389,17 @@ public class ManagerReportGUIController {
 			this.lblReportName.setText("Overall Report");
 			this.lblMonthYear.setText(monthYear);
 
+			//this.barChartOverall = new BarChart<>(barChartX, barChartY);
 			this.barChartOverall.getData().clear();
+			
 			XYChart.Series set1 = new XYChart.Series<>();
+			
 			set1.getData().clear();
 			set1.getData().add(new XYChart.Data<>("Singles", sumReport.getVisitorsAmount()));
 			set1.getData().add(new XYChart.Data<>("Members", sumReport.getMembersAmount()));
 			set1.getData().add(new XYChart.Data<>("Groups", sumReport.getGroupsAmount()));
 
-			this.barChartOverall.getData().add(set1);
+			this.barChartOverall.getData().addAll(set1);
 
 			Node n = barChartOverall.lookup(".data0.chart-bar");
 			n.setStyle("-fx-bar-fill: red");
@@ -406,6 +411,7 @@ public class ManagerReportGUIController {
 			barChartOverall.setBarGap(0);
 			barChartOverall.setCategoryGap(50);
 			this.barChartOverall.setManaged(true);
+			this.barChartOverall.setVisible(true);
 			this.barChartX.setManaged(true);
 			this.barChartY.setManaged(true);
 			this.vboxBarChart.setManaged(true);
@@ -545,6 +551,7 @@ public class ManagerReportGUIController {
 		managerReportsController.lblReportName.setManaged(false);
 		managerReportsController.barChartOverall.setManaged(false);
 		managerReportsController.barChartOverall.getData().clear();
+		managerReportsController.barChartOverall.setVisible(false);
 		managerReportsController.barChartX.setManaged(false);
 		managerReportsController.barChartY.setManaged(false);
 		managerReportsController.vboxBarChart.setManaged(false);
@@ -592,6 +599,7 @@ public class ManagerReportGUIController {
 
 			if (cmbName.equals("Overall")) {
 				getSumReportData(cmbMon);
+				System.out.println("naor");
 			} else if (cmbName.equals("Income")) {
 				getIncomeReportData(cmbMon);
 

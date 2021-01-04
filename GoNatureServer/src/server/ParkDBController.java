@@ -42,26 +42,32 @@ public class ParkDBController {
 	}
 
 	public Message parseData(Message clientMsg) throws SQLException {
+		System.out.println("parseData parkdb");
 		//PreparedStatement pstm;
 		String query;
 		msgFromClient = clientMsg;
+		System.out.println(msgFromClient.getOperationType());
 		List<String> parkInfo;
 		String info;
 		switch (msgFromClient.getOperationType()) {
+	
 
 		// this case get information about the park
 		case GetParkInfo:
 
 			info = (String) msgFromClient.getObj();
 			try {
-				pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
+				/*pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
 				pstm.setString(1, info);
 				System.out.println("AFTER QUERY");
 				rs = pstm.executeQuery();
+				*/
+				rs =getParkInfo(info);
 				if (rs.next()) {
 					System.out.println(rs.getString(1));
-					Park park = new Park(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5),
-							rs.getInt(6));
+					/*Park park = new Park(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5),
+							rs.getInt(6));*/
+					Park park =returnPark(rs);
 					System.out.println(park);
 					return new Message(OperationType.ParkInfo, ClientControllerType.ParkController, (Object) park);
 				} else {
@@ -141,14 +147,17 @@ public class ParkDBController {
 
 		// this case get information about the visitor to update the relevant discount
 		case TravelerInfo:
+			System.out.println(555);
 			String infoVisitor = (String) msgFromClient.getObj();
 			try {
+				
 				pstm = sqlConnection.connection.prepareStatement("SELECT * from members where visitorID=?");
-				pstm.setString(1, infoVisitor);
+				pstm.setInt(1, Integer.parseInt(infoVisitor));
 
 				 rs = pstm.executeQuery();
 
 				if (rs.next()) {
+					System.out.println(444);
 					Subscriber subscriber = null;
 					subscriber = new Subscriber(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
 							rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(13));
