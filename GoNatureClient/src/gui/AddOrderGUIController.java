@@ -362,6 +362,8 @@ public class AddOrderGUIController {
 			return "Park Name";
 		if (Validation.isNull(date.getValue()))
 			return "Date";
+		if(cmbNumOfVisitors.getValue()==null)
+			return "Number Of Visitors";
 		if (!Validation.emailValidation(txtEmail.getText()))
 			return "Email";
 		if (!Validation.phoneValidation(txtPhoneEnd.getText()))
