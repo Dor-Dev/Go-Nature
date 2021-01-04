@@ -170,7 +170,7 @@ public class ParkCapacityGUIController {
 	 */
 	public static void ParkCapacityParseData(Message reciveMsg) {
 
-		if (reciveMsg.getObj() != null) 
+		if (!reciveMsg.getObj().equals("The chosen park doesn't exist")) 
 			setReturnedPark((Park) reciveMsg.getObj());
 	}
 
