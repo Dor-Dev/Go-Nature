@@ -7,7 +7,7 @@ public enum OperationType {
 	// Login Enums
 	EmployeeLogin, ErrorEmployeeLogin, VisitorLogin, 
 	VisitorWithOrderLogin, SubscriberLogin,VisitorAlreadyLoggedIn,EmployeeAlreadyLoggedIn,UserDisconnected,UserDisconnectedSuccess,
-
+	MemberNumberNotExist,
 
 	//Order Enums
 	OrderRequestAnswer,AddOrder, SuccessAddOrder, 

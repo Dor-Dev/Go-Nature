@@ -10,8 +10,16 @@ public class Validation {
 	 */
 	public static boolean emailValidation(String email) {
 		String emailFormat = "[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)+";
-		System.out.println(email);
 		return email.matches(emailFormat);
+	}
+	/**
+	 * Login validation allow only digits from 0-9 , the length is 6 or 9 for member number or id number.
+	 * @param number
+	 * @return
+	 */
+	public static boolean loginValidation(String number) {
+		String numberFormat = "([0-9]){9,10}";
+		return number.matches(numberFormat);
 	}
 
 	/**

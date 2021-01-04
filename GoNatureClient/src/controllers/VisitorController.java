@@ -12,9 +12,9 @@ public class VisitorController {
 	public static int loggedID = 0;
 	public static Object disType;
 	public static boolean isConnected = false;
+	public static boolean memberNotExist = false;
 
 	public static void visitorParseDate(Message msg) {
-		System.out.println("PARSEVISITORCONT");
 		switch (msg.getOperationType()) {
 		case VisitorWithOrderLogin:
 			ClientController.type = UserTypes.VisitorWithOrder;
@@ -25,6 +25,7 @@ public class VisitorController {
 			break;
 
 		case SubscriberLogin:
+			memberNotExist = false;
 			subscriberConnected = (Subscriber) ClientController.returnedValueFromServer;
 			if (subscriberConnected.getType().equals("instructor")) {
 				// System.out.println("come in");
@@ -36,7 +37,9 @@ public class VisitorController {
 			isConnected = true;
 			break;
 		case UserDisconnectedSuccess:
-			//RestartApp.restartParameters();
+			break;
+		case MemberNumberNotExist:
+			memberNotExist = true;
 			break;
 		default:
 			break;
