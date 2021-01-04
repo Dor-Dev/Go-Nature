@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,13 +32,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.Order;
 import logic.OrderRequest;
+import logic.Validation;
 
 public class AddOrderGUIController {
 
@@ -45,12 +50,12 @@ public class AddOrderGUIController {
 	public static OrderRequest request = null;
 	private static String status = "complete";
 
-    @FXML
-    private CheckBox cbAgreeTerms;
+	@FXML
+	private CheckBox cbAgreeTerms;
 
-    @FXML
-    private Label lblReceivedOrderMsg;
-    
+	@FXML
+	private Label lblReceivedOrderMsg;
+
 	@FXML
 	private Label mnuRequests;
 	@FXML
@@ -161,7 +166,11 @@ public class AddOrderGUIController {
 	@FXML
 	private Label lblGroupTip;
 
-	
+
+	@FXML
+	private Label lblPriceList;
+
+
 	/**
 	 * function to load AddOrder screen
 	 */
@@ -176,7 +185,6 @@ public class AddOrderGUIController {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Add Order");
 			AddOrderGUIController addOrderController = loader.getController();
-
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(addOrderController);
 			MenuBarSelection.setMenuOptions(menuLabels);
@@ -191,6 +199,7 @@ public class AddOrderGUIController {
 
 	/**
 	 * function that choose the menu to show
+	 * 
 	 * @param addOrderController
 	 * @return
 	 */
@@ -254,7 +263,6 @@ public class AddOrderGUIController {
 		cmbNumOfVisitors.getItems().removeAll(cmbNumOfVisitors.getItems());
 		cmbNumOfVisitors.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
 				"15");
-		cmbNumOfVisitors.getSelectionModel().select(0);
 
 		lblGroupTip.setVisible(false);
 
@@ -344,9 +352,35 @@ public class AddOrderGUIController {
 		login.show();
 	}
 
+	/**
+	 * function to valid the fields in the order form
+	 * 
+	 * @return
+	 */
+	public String fieldsValidation() {
+		if (Validation.isNull(cmbParkName.getValue()))
+			return "Park Name";
+		if (Validation.isNull(date.getValue()))
+			return "Date";
+		if (!Validation.emailValidation(txtEmail.getText()))
+			return "Email";
+		if (!Validation.phoneValidation(txtPhoneEnd.getText()))
+			return "Phone";
+		return "OK";
+	}
+
 	@FXML
 	void submitOrder(ActionEvent event) {
 
+		String ValidMsg = fieldsValidation();
+		if (!ValidMsg.equals("OK")) {
+			Alert a = new Alert(AlertType.INFORMATION);
+			a.setHeaderText("Please correct the " + ValidMsg + " field");
+			a.setContentText("Validation Error");
+			a.setTitle("Validation Error");
+			a.showAndWait();
+			return;
+		}
 		/**
 		 * userId can be some subscriber or only one who is no have orders, userId will
 		 * take the right value we need
@@ -380,7 +414,7 @@ public class AddOrderGUIController {
 				date.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))), userID,
 				Integer.parseInt((String) cmbNumOfVisitors.getValue().toString()), txtEmail.getText(),
 				typeToogleSelected, cbPayNow.isSelected(), hour, (int) finalPrice,
-				cmbPhoneStart.getValue() + txtPhoneEnd.getText(), "Not sent", "Received");
+				cmbPhoneStart.getValue() + txtPhoneEnd.getText(), "Not sent", "Received",calculateDiscount());
 		System.out.println("NEW ORDER CREATED!");
 		request = new OrderRequest(date.getValue(), hour, Integer.parseInt(cmbNumOfVisitors.getValue()),
 				cmbParkName.getValue());
@@ -482,13 +516,14 @@ public class AddOrderGUIController {
 		// do what you have to do
 		stage.close();
 	}
-	  @FXML
-	    void closeButtonWithTerms(ActionEvent event) {
-		  if(cbAgreeTerms.isSelected())
-			  closeButtonAction(event);
-		  else
-			  lblReceivedOrderMsg.setText("Must read and confirm the important information" );
-	    }
+
+	@FXML
+	void closeButtonWithTerms(ActionEvent event) {
+		if (cbAgreeTerms.isSelected())
+			closeButtonAction(event);
+		else
+			lblReceivedOrderMsg.setText("Must read and confirm the important information");
+	}
 
 	@FXML
 	void AddWaitingList(ActionEvent event) {
@@ -603,6 +638,24 @@ public class AddOrderGUIController {
 				new Message(OperationType.checkAvailableHours, DBControllerType.OrderDBController, (Object) request));
 		initilaizeCmbHours(cmbAlternativeHour);
 
+	}
+
+	@FXML
+	void openPriceList(MouseEvent event) {
+
+		File file2 = new File("src/gui/img/pricelist.jpeg");
+		Image winImage = new Image(file2.toURI().toString());
+		ImageView winnerImageView = new ImageView(winImage); // same here for winner image
+		winnerImageView.setFitWidth(370);
+		winnerImageView.setFitHeight(520);
+		Stage newWinnerWindow = new Stage();
+		StackPane myLayout2 = new StackPane();
+		Scene myScene2 = new Scene(myLayout2, 370, 520);
+		Label label2 = new Label("", winnerImageView);
+		myLayout2.getChildren().add(label2);
+		newWinnerWindow.setTitle("Price List");
+		newWinnerWindow.setScene(myScene2);
+		newWinnerWindow.show();
 	}
 
 }

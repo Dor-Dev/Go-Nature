@@ -4,6 +4,7 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -255,6 +256,26 @@
                                         <NumberAxis fx:id="barChartY" label="Amount of visitors" side="LEFT" />
                                       </yAxis>
                                     </BarChart>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="vBoxCancellation" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <PieChart fx:id="chrtCancellation" maxHeight="300.0" minHeight="300.0" prefHeight="300.0" />
+                                    <Label fx:id="lblTotalOrders">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label fx:id="lblCanceledData">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label fx:id="lblUnfulfilledData">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </Label>
                                  </children>
                               </VBox>
                            </children>

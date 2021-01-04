@@ -40,8 +40,21 @@ public class Validation {
 	 * @return
 	 */
 	public static boolean nameValidation(String name) {
+		if(name==null)
+			return false;
 		String nameFormat = "[a-zA-Z]+";
 		return name.matches(nameFormat);
+	}
+	/**
+	 * 
+	 * @param str
+	 * @return true if null, else false 
+	 */
+	public static boolean isNull(Object object)
+	{
+		if (object==null)
+			return true;
+		return false;
 	}
 
 	/**
@@ -126,5 +139,6 @@ public class Validation {
 		String discountFormat = "[0-9.]+";
 		return discount.matches(discountFormat);
 	}
+	
 
 }

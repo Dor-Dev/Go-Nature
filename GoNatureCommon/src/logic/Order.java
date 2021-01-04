@@ -28,7 +28,7 @@ public class Order implements Serializable {
 	private String msgStatus;
 	private Date date;
 	private int orderID;
-	
+	private int discount;
 	private String strHour;
 
 	/**
@@ -57,7 +57,7 @@ public class Order implements Serializable {
 	}
 
 	public Order(String parkName, String dateTime, int visitorID, int numOfVisitors, String email, String type,
-			boolean paidUp, int hourTime, int cost,String phoneNumber,String msgStatus,String status) {
+			boolean paidUp, int hourTime, int cost,String phoneNumber,String msgStatus,String status, int discount) {
 		super();
 		this.type = type;
 		this.parkName = parkName;
@@ -71,7 +71,12 @@ public class Order implements Serializable {
 		this.cost = cost;
 		this.phoneNumber = phoneNumber;
 		this.msgStatus = msgStatus;
+		this.discount =discount;
 
+	}
+
+	public int getDiscount() {
+		return discount;
 	}
 
 	public void setStatus(String status) {

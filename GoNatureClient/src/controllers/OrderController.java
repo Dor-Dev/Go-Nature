@@ -15,6 +15,10 @@ public class OrderController {
 	public static Order recivedOrder = null;
 	public static int[] availableSpaces = null;
 	public static final int managerDefultTravelHour = 4;
+	public static boolean orderExist = false;
+	public static int orderID;
+	public static OperationType orderType = null;
+	
 	
 	public static void OrderParseData(Message reciveMsg) {
 		System.out.println("ORDERCONTROLLERIN!");
@@ -43,9 +47,29 @@ public class OrderController {
 		case WaitingListExitSuccess:
 			MyOrdersGUIController.msgFromServer = (String)reciveMsg.getObj();
 			break;
+      case FindOrder:
+        if(reciveMsg.getObj() instanceof Order) {
+			orderExist=true;
+			recivedOrder = (Order) reciveMsg.getObj();
+			orderType= OperationType.FindOrder;
+			}
+			else {
+				orderExist = false;
+				if(((String)reciveMsg.getObj()).equals("amount is not avilable"))
+				{
+					orderType= OperationType.FaildToUpdate;
+					
+				}
+				else {
+					orderType = OperationType.NeverExist;
+					
+				}
+      }
+        break;
 		default:
 			break;
 		}
+
 	}
 	
 	public static int getTicketPrice()
