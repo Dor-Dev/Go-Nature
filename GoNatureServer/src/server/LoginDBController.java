@@ -35,7 +35,6 @@ public class LoginDBController {
 		PreparedStatement pstm;
 		List<String> info;
 		msgFromClient = clientMsg;	
-		System.out.println("BBBBBBBBBBBBB");
 		switch (msgFromClient.getOperationType()) {
 		case VisitorLogin:
 			try {
@@ -141,7 +140,7 @@ public class LoginDBController {
 	private boolean isConnected(int id, String type) {
 		PreparedStatement pstm;
 		boolean isConnected = false;
-		String query = "SELECT isConnected FROM visitorsConnected WHERE id=? and type=?";
+		String query = "SELECT * FROM visitorsConnected WHERE id=? and type=?";
 
 		try {
 			pstm = sqlConnection.connection.prepareStatement(query);
@@ -149,7 +148,7 @@ public class LoginDBController {
 			pstm.setString(2, type);
 			ResultSet rs = pstm.executeQuery();
 			if (rs.next())
-				isConnected = rs.getBoolean(1);
+				isConnected = true;
 			else
 				return isConnected;
 
