@@ -18,39 +18,34 @@ public class OrderController {
 	
 	public static void OrderParseData(Message reciveMsg) {
 		System.out.println("ORDERCONTROLLERIN!");
-		if(reciveMsg.getOperationType().equals(OperationType.SuccessAddOrder))
-		{
-			
+		
+		switch (reciveMsg.getOperationType()) {
+		case SuccessAddOrder:
 			recivedOrder = (Order) reciveMsg.getObj();
 			AddOrderGUIController.newOrder.setOrderID(recivedOrder.getOrderID());
 			orderCompleted = true;
-			
-		}
-		if(reciveMsg.getOperationType().equals(OperationType.OrderRequestAnswer))
-		{
-			System.out.println("OrderController bollean ordercomplete set");
+			break;
+		case OrderRequestAnswer:
 			orderCompleted = (boolean) reciveMsg.getObj();
-		}
-		
-		if(reciveMsg.getOperationType().equals(OperationType.checkAvailableHours))
-		{
-			System.out.println("WANT NON-TAKENTICKETSARRAY ORDERCONTROLLER");
+			break;
+		case checkAvailableHours:
 			availableSpaces = (int[])reciveMsg.getObj();
-		}
-		if(reciveMsg.getOperationType().equals(OperationType.ReturnMyOrders)) {
+			break;
+		case ReturnMyOrders:
 			MyOrdersGUIController.myOrders = (List<Order>) reciveMsg.getObj();
-		}
-		if(reciveMsg.getOperationType().equals(OperationType.CancelOrderSuccess)) {
+			break;
+		case CancelOrderSuccess:
 			MyOrdersGUIController.msgFromServer = (String)reciveMsg.getObj();
-		}
-		if(reciveMsg.getOperationType().equals(OperationType.ApproveOrderSuccess)) {
+			break;
+		case ApproveOrderSuccess:
 			MyOrdersGUIController.msgFromServer = (String)reciveMsg.getObj();
-		}
-		if(reciveMsg.getOperationType().equals(OperationType.WaitingListExitSuccess)) {
+			break;
+		case WaitingListExitSuccess:
 			MyOrdersGUIController.msgFromServer = (String)reciveMsg.getObj();
+			break;
+		default:
+			break;
 		}
-		
-		
 	}
 	
 	public static int getTicketPrice()

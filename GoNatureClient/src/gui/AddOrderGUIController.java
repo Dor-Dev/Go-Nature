@@ -44,6 +44,13 @@ public class AddOrderGUIController {
 	public static Order newOrder = null;
 	public static OrderRequest request = null;
 	private static String status = "complete";
+
+    @FXML
+    private CheckBox cbAgreeTerms;
+
+    @FXML
+    private Label lblReceivedOrderMsg;
+    
 	@FXML
 	private Label mnuRequests;
 	@FXML
@@ -475,6 +482,13 @@ public class AddOrderGUIController {
 		// do what you have to do
 		stage.close();
 	}
+	  @FXML
+	    void closeButtonWithTerms(ActionEvent event) {
+		  if(cbAgreeTerms.isSelected())
+			  closeButtonAction(event);
+		  else
+			  lblReceivedOrderMsg.setText("Must read and confirm the important information" );
+	    }
 
 	@FXML
 	void AddWaitingList(ActionEvent event) {

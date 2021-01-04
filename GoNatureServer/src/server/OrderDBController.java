@@ -250,7 +250,6 @@ public class OrderDBController {
 			if(hourIndex[request.getHour()+i]+request.getNumOfvisitorAsked()>enabledOrders)
 				available = false;
 		}
-		System.out.println("Available on orderdbcontrooler:"+available);
 			return new Message(OperationType.OrderRequestAnswer, ClientControllerType.OrderController,(Object)available);
 		
 	}
@@ -274,7 +273,6 @@ public class OrderDBController {
 			if(rs.next())
 				enabledOrders = rs.getInt(1);
 		} catch (SQLException e) {
-			System.out.println("Did'nt find amount of enabled orders in parks");
 			e.printStackTrace();
 		}
 		
