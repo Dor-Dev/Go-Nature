@@ -236,7 +236,7 @@
                               <Insets top="35.0" />
                            </VBox.margin>
                         </Label>
-                        <ComboBox fx:id="cmbNumOfVisitors" maxWidth="250.0" onAction="#updateGroupDiscount" prefHeight="25.0" prefWidth="257.0" />
+                        <ComboBox fx:id="cmbNumOfVisitors" maxWidth="250.0" onAction="#updateGroupDiscount" prefHeight="25.0" prefWidth="257.0" promptText="#" />
                         <Label text="Email address:">
                            <font>
                               <Font size="16.0" />
