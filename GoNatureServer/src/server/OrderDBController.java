@@ -16,9 +16,9 @@ import logic.OrderRequest;
 
 public class OrderDBController {
 
-	private static SqlConnection sqlConnection = null;
-	public static final int managerDefultTravelHour = 4;
-	public static OrderRequest request = null;
+	private static SqlConnection sqlConnection = null;		//singletone 
+	public static final int managerDefultTravelHour = 4;	//manager deafult 4 hours stay 
+	public static OrderRequest request = null;	//request to check
 	public OrderDBController() {
 		try {
 			sqlConnection = SqlConnection.getConnection();
@@ -169,6 +169,12 @@ public class OrderDBController {
 		
 	}
 
+	/**
+	 * this method get order request
+	 * and return array with the number of visitors each hour at this date
+	 * @param clientMsg
+	 * @return array with the number of visitors each hour at this order request date
+	 */
 	public Object checkAlternativeDates(Message clientMsg) {
 		
 		OrderRequest request = (OrderRequest)clientMsg.getObj();
@@ -176,13 +182,22 @@ public class OrderDBController {
 		return new Message(OperationType.checkAvailableHours, ClientControllerType.OrderController,(Object)hoursSum);
 	}
 
+	/**
+	 * 
+	 * the method get message with object of Order, after the check if there is avaiable place.
+	 * the order is saved into our order table in the database with all parameters.
+	 * after the insert, more one query is running to get the orderID from the database (auto incresment)
+	 * and set the value to the Order.
+	 * 
+	 */
+	
 	public Message addOrder(Message clientMsg) {
 		PreparedStatement preparedStmt;
 		Order newOrder =(Order)clientMsg.getObj();
 		System.out.println("Add Order start");
 		// the mysql insert statement
-		String query = " insert into orders (parkName, arrivalDate, visitorID, paidUp,visitorType,actualNumberOfVisitors,email,status,hourTime,cost,phoneNumber,msgStatus)"
-				+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)";
+		String query = " insert into orders (parkName, arrivalDate, visitorID, paidUp,visitorType,actualNumberOfVisitors,email,status,hourTime,cost,phoneNumber,msgStatus,discount)"
+				+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,?)";
 
 		// create the mysql insert preparedstatement
 		try {
@@ -199,6 +214,7 @@ public class OrderDBController {
 			preparedStmt.setInt(10, newOrder.getCost());
 			preparedStmt.setString(11, newOrder.getPhoneNumber());
 			preparedStmt.setString(12, newOrder.getMsgStatus());
+			preparedStmt.setInt(13, newOrder.getDiscount());
 			System.out.println("number:" + newOrder.getPhoneNumber());
 			// execute the preparedstatement
 			preparedStmt.execute();
@@ -232,6 +248,13 @@ public class OrderDBController {
 		return new Message(OperationType.SuccessAddOrder, ClientControllerType.OrderController,(Object)(newOrder));
 	}
 	
+	/**
+	 * this method get object in the Message
+	 * object of OrderRequest with Date, hour and num of visitors
+	 * and check if available place for the order .
+	 * @param clientMsg
+	 * @return true/false if hava available place for the num of visitors in the order
+	 */
 	public Message checkAvailableDateTime(Message clientMsg)
 	{ 
 		boolean available = true;
