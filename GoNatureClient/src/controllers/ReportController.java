@@ -2,6 +2,7 @@ package controllers;
 
 import common.Message;
 import enums.OperationType;
+import logic.CancellationReport;
 import logic.IncomeReport;
 import logic.Report;
 import logic.SumVisitorsReport;
@@ -41,6 +42,12 @@ public class ReportController {
 		report = (VisitingReport)reciveMsg.getObj();
 		System.out.println("reportController");
 		reportType=OperationType.VisitingReport;
+		
+	case CancellationReport:
+		report = (CancellationReport)reciveMsg.getObj();
+		System.out.println("reportController");
+		reportType=OperationType.CancellationReport;
+		
 	break;
 	
 	

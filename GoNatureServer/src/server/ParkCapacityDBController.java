@@ -38,7 +38,7 @@ public class ParkCapacityDBController {
 				return new Message(OperationType.ParkInfo, ClientControllerType.ParkCapacityController, (Object) (p));
 			}
 		} catch (SQLException e) {}
-		return new Message(OperationType.ReceiptInfo, ClientControllerType.ParkCapacityController, null);
+		return new Message(OperationType.ReceiptInfo, ClientControllerType.ParkCapacityController, (Object)"The chosen park doesn't exist");
 
 	}
 }
