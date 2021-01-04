@@ -68,6 +68,7 @@
                               <Insets top="5.0" />
                            </VBox.margin>
                         </TextField>
+                        <TextField fx:id="txtUserName" layoutX="219.0" layoutY="44.0" maxHeight="31.0" maxWidth="183.0" minHeight="31.0" minWidth="183.0" prefHeight="31.0" prefWidth="183.0" />
                         <Label fx:id="lblPassword" alignment="CENTER" contentDisplay="CENTER" style="-fx-font-weight: bold;" text="Password">
                            <VBox.margin>
                               <Insets top="10.0" />

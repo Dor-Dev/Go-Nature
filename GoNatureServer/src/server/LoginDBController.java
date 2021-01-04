@@ -45,8 +45,9 @@ public class LoginDBController {
 				pstm.setString(2, info.get(0));
 
 				ResultSet rs = pstm.executeQuery();
-
+				System.out.println(info.get(0));
 				if (rs.next()) {
+					System.out.println("CCCCCCCCCCCCCCCCC");
 					if (!isConnected(rs.getInt(2), "subscriber")) {
 						visitorConnect(rs.getInt(2), "subscriber");
 						Subscriber subscriber = null;
@@ -69,6 +70,9 @@ public class LoginDBController {
 								(Object) "You already logged in");
 
 				} else {
+					System.out.println(info.get(0));
+					if(info.get(0).length()==10)
+						return new Message(OperationType.MemberNumberNotExist,ClientControllerType.VisitorController,(Object)"Member not exist !");
 					if (!isConnected(Integer.parseInt(info.get(0)), "visitor")) { // if the visitors is already
 																					// connected to system
 						visitorConnect(Integer.parseInt(info.get(0)), "visitor"); // insert the visitor to the connected

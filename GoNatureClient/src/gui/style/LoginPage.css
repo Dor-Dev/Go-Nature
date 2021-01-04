@@ -1,4 +1,23 @@
 .bodybg{
  -fx-background-image: url('../img/bg.jpeg');
- -fx-background-size: 100% 100%;
+ -fx-background-size: 100.0% 100.0%;
+}
+.error{
+	-fx-border-color: red;
+	-fx-border-width: 2.0px;
+	-fx-border-radius: 3.0px, 2.0px;
+    -fx-background-image:url('../img/Delete-icon.jpeg');
+    -fx-background-position: 97.0% center;
+	-fx-background-size:20;
+  	-fx-background-repeat: no-repeat;
+
+}
+.success{
+	-fx-border-color: green;
+	-fx-border-width: 2.0px;
+	-fx-border-radius: 3.0px, 2.0px;
+    -fx-background-image:url('../img/V-icon.jpeg');
+	-fx-background-size:20;
+  	-fx-background-repeat: no-repeat;
+  	-fx-background-position: 97.0% center;
 }
