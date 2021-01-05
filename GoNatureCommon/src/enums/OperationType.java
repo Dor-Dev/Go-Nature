@@ -11,7 +11,7 @@ public enum OperationType {
 
 	//Order Enums
 	OrderRequestAnswer,AddOrder, SuccessAddOrder, 
-	OrderCheckDateTime, checkAvailableHours,
+	OrderCheckDateTime, checkAvailableHours, checkEventDiscount, EventDiscountAmount,
 	
 	//MyOrder Enums
 	getMyOrders,ReturnMyOrders, OrderFinalApproval,GetOutFromWaitingList, CancelOrder,

@@ -58,12 +58,42 @@ public class OrderDBController {
 			return getOutFromWaitingList(clientMsg);
 		case FindOrder:
 			return findOrder(clientMsg);
+		case checkEventDiscount:
+			return checkEventDiscount(clientMsg);
 		default:
 			break;
 		}
 		return null;
 	}
 	
+	private Object checkEventDiscount(Message clientMsg) {
+		
+		int discount = 0;
+		String eventName = "";
+		PreparedStatement pstm;
+		List<String> eventInfo = new ArrayList<String>();
+		OrderRequest request = (OrderRequest)clientMsg.getObj();
+		String query = "SELECT startDate, endDate,discount,eventName FROM eventrequests WHERE ? between startDate and endDate AND status='active'";
+		
+		try {
+			pstm = sqlConnection.connection.prepareStatement(query);
+			pstm.setString(1, request.getAskdate().toString());
+			ResultSet rs = pstm.executeQuery();
+			while(rs.next()) {
+				discount = rs.getInt(3);
+				eventName = rs.getString(4);
+				System.out.println("NEXTT");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		eventInfo.add(String.valueOf(discount));
+		eventInfo.add(eventName);
+		return new Message(OperationType.EventDiscountAmount,ClientControllerType.OrderController,eventInfo);
+	}
+
 	/**
 	 * This method searches for the visitor's ID  with the relevant date and time in the orders table.
 	 * @param clientMsg
