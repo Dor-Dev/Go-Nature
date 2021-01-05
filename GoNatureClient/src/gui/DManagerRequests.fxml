@@ -163,28 +163,28 @@
                         <Insets top="25.0" />
                      </VBox.margin>
                   </HBox>
-                  <TableView fx:id="tblUpdateTable" prefHeight="181.0" prefWidth="729.0">
+                  <TableView fx:id="tblUpdateTable" layoutX="35.0" layoutY="97.0" prefHeight="248.0" prefWidth="700.0">
                     <columns>
-                        <TableColumn fx:id="colRequestNumber" prefWidth="102.0" text="Request number" />
-                      <TableColumn fx:id="colParkCapacity" prefWidth="92.0" text="Park Capacity" />
-                      <TableColumn fx:id="colDifference" prefWidth="181.0" text="Capacity difference" />
-                        <TableColumn fx:id="colVisitingTime" prefWidth="130.0" text="Visiting Time(Hours)" />
+                        <TableColumn fx:id="colUpdateParkName" prefWidth="99.0" text="Park name" />
+                      <TableColumn fx:id="colParkCapacity" prefWidth="110.0" text="Park Capacity" />
+                      <TableColumn fx:id="colDifference" prefWidth="139.0" text="Capacity difference" />
+                        <TableColumn fx:id="colVisitingTime" prefWidth="129.0" text="Visiting Time(Hours)" />
+                        <TableColumn fx:id="colUpdateStatus" prefWidth="90.0" text="Status" />
+                        <TableColumn fx:id="colUpdateButtons" prefWidth="149.0" />
                     </columns>
                      <VBox.margin>
                         <Insets left="25.0" right="25.0" top="30.0" />
                      </VBox.margin>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
                   </TableView>
                   <TableView fx:id="tblEventTable" layoutX="35.0" layoutY="97.0" prefHeight="248.0" prefWidth="700.0">
                      <columns>
-                        <TableColumn fx:id="colERequestNumber" prefWidth="100.0" text="Request number" />
-                        <TableColumn fx:id="colEventName" prefWidth="100.0" text="Event Name" />
-                        <TableColumn fx:id="colStartDate" prefWidth="125.0" text="Start Date" />
-                        <TableColumn fx:id="colEndDate" prefWidth="125.0" text="End Date" />
-                        <TableColumn fx:id="colDiscount" text="Discount(%)" />
-                        <TableColumn fx:id="colButtons" prefWidth="188.0" text="Options" />
+                        <TableColumn fx:id="colEventParkName" prefWidth="93.0" text="Park name" />
+                        <TableColumn fx:id="colEventName" prefWidth="93.0" text="Event Name" />
+                        <TableColumn fx:id="colStartDate" prefWidth="93.0" text="Start Date" />
+                        <TableColumn fx:id="colEndDate" prefWidth="103.0" text="End Date" />
+                        <TableColumn fx:id="colDiscount" prefWidth="92.0" text="Discount(%)" />
+                        <TableColumn fx:id="colEventStatus" prefWidth="84.0" text="Status" />
+                        <TableColumn fx:id="colEventButtons" prefWidth="158.0" />
                      </columns>
                      <VBox.margin>
                         <Insets left="25.0" right="25.0" top="30.0" />

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
 import controllers.RestartApp;
 
 import client.MainClient;
@@ -37,9 +36,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.Event;
+import logic.Order;
 import logic.Update;
 
 public class DManagerRequestsGUIController implements Initializable {
@@ -49,8 +50,7 @@ public class DManagerRequestsGUIController implements Initializable {
 	@FXML
 	private TableView<Event> tblEventTable;
 	@FXML
-	private TableColumn<Event, Integer> colERequestNumber;
-
+	private TableColumn<Event, String> colEventParkName;
 	@FXML
 	private TableColumn<Event, String> colEventName;
 
@@ -62,6 +62,10 @@ public class DManagerRequestsGUIController implements Initializable {
 
 	@FXML
 	private TableColumn<Event, Integer> colDiscount;
+	@FXML
+	private TableColumn<Event, String> colEventStatus;
+	@FXML
+	private TableColumn<Event, Void> colEventButtons;
 
 	@FXML
 	private Label mnuAddOrder;
@@ -101,7 +105,7 @@ public class DManagerRequestsGUIController implements Initializable {
 	@FXML
 	private ComboBox<String> cmbRequestType;
 	@FXML
-	private TableColumn<Update, Integer> colRequestNumber;
+	private TableColumn<Update, String> colUpdateParkName;
 
 	@FXML
 	private TableColumn<Update, Integer> colParkCapacity;
@@ -112,20 +116,21 @@ public class DManagerRequestsGUIController implements Initializable {
 	@FXML
 	private TableColumn<Update, Integer> colVisitingTime;
 	@FXML
-	private TableColumn<Event, Void> colButtons;
-
-    @FXML
-    private Label mnuLogout;
-	
-	
+	private TableColumn<Update, String> colUpdateStatus;
 	@FXML
-    void goToMainPage(MouseEvent event) {
-	  RestartApp.restartParameters();
-	  LoginGUIController login = new LoginGUIController();
-	  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-	  login.show();
-    }
-	
+	private TableColumn<Update, Void> colUpdateButtons;
+
+	@FXML
+	private Label mnuLogout;
+
+	@FXML
+	void goToMainPage(MouseEvent event) {
+		RestartApp.restartParameters();
+		LoginGUIController login = new LoginGUIController();
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		login.show();
+	}
+
 	@FXML
 	void showMyProfile(MouseEvent event) {
 		MyProfileGUIController mf = new MyProfileGUIController();
@@ -148,14 +153,12 @@ public class DManagerRequestsGUIController implements Initializable {
 		rP.show();
 	}
 
-
 	@FXML
 	void showRequests(MouseEvent event) {
 		DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide();
 		rQ.show();
 	}
-
 
 	public void show() {
 		VBox root;
@@ -178,8 +181,10 @@ public class DManagerRequestsGUIController implements Initializable {
 			return;
 		}
 	}
+
 	/**
 	 * create label list for menu bar selction
+	 * 
 	 * @param dManagerRequestsController
 	 * @return
 	 */
@@ -197,7 +202,7 @@ public class DManagerRequestsGUIController implements Initializable {
 		tempMenuLabels.add(dManagerRequestsController.mnuParkCapacity);
 		return tempMenuLabels;
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		/**
@@ -208,30 +213,34 @@ public class DManagerRequestsGUIController implements Initializable {
 		/**
 		 * Initialize update table column
 		 */
-		colRequestNumber.setCellValueFactory(new PropertyValueFactory<Update, Integer>("requestNum"));
+		colUpdateParkName.setCellValueFactory(new PropertyValueFactory<Update, String>("parkName"));
 		colParkCapacity.setCellValueFactory(new PropertyValueFactory<Update, Integer>("capacity"));
 		colDifference.setCellValueFactory(new PropertyValueFactory<Update, Integer>("difference"));
 		colVisitingTime.setCellValueFactory(new PropertyValueFactory<Update, Integer>("visitingTime"));
+		colUpdateStatus.setCellValueFactory(new PropertyValueFactory<Update, String>("status"));
 
-		colRequestNumber.setStyle("-fx-alignment: CENTER");
+		colUpdateParkName.setStyle("-fx-alignment: CENTER");
 		colParkCapacity.setStyle("-fx-alignment: CENTER");
 		colDifference.setStyle("-fx-alignment: CENTER");
 		colVisitingTime.setStyle("-fx-alignment: CENTER");
+		colUpdateStatus.setStyle("-fx-alignment: CENTER");
 
 		/**
 		 * Initialize event table column
 		 */
-		colERequestNumber.setCellValueFactory(new PropertyValueFactory<>("requestNum"));
+		colEventParkName.setCellValueFactory(new PropertyValueFactory<>("parkName"));
 		colEventName.setCellValueFactory(new PropertyValueFactory<>("eventName"));
 		colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 		colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 		colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
+		colEventStatus.setCellValueFactory(new PropertyValueFactory<Event, String>("status"));
 
-		colERequestNumber.setStyle("-fx-alignment: CENTER");
+		colEventParkName.setStyle("-fx-alignment: CENTER");
 		colEventName.setStyle("-fx-alignment: CENTER");
 		colStartDate.setStyle("-fx-alignment: CENTER");
 		colEndDate.setStyle("-fx-alignment: CENTER");
 		colDiscount.setStyle("-fx-alignment: CENTER");
+		colEventStatus.setStyle("-fx-alignment: CENTER");
 
 		// hide 2 tables
 		tblEventTable.setVisible(false);
@@ -252,16 +261,15 @@ public class DManagerRequestsGUIController implements Initializable {
 					private final Button btnV = new Button("Approve");
 					private final Button btnX = new Button("Decline");
 					{
-						btnV.setOnAction((ActionEvent event) -> { 
+						btnV.setOnAction((ActionEvent event) -> {
 							Update tmp = getTableView().getItems().get(getIndex());
-							String parkName = EmployeeController.employeeConected.getOrganizationAffilation();
-							tmp.setParkName(parkName);
 							MainClient.clientConsole.accept(new Message(OperationType.UpdateConfrimation,
 									DBControllerType.RequestsDBController, (Object) tmp));
 							if (RequestsController.requestType.equals(OperationType.UpdateConfrimation)) {
 								Alert a = new Alert(AlertType.INFORMATION);
 								a.setHeaderText("The update has been authorized");
-								a.setContentText("The park: "+parkName+" parameters was updated successfully");
+								a.setContentText(
+										"The park: " + tmp.getParkName() + " parameters was updated successfully");
 								a.setTitle("Update Success");
 								a.showAndWait();
 								showUpdateTable();
@@ -290,9 +298,16 @@ public class DManagerRequestsGUIController implements Initializable {
 						if (empty) {
 							setGraphic(null);
 						} else {
-							HBox hBox = new HBox(10, btnV, btnX);
-							setGraphic(hBox);
-							hBox.setAlignment(Pos.CENTER);
+							Update tmp = getTableView().getItems().get(getIndex());
+							HBox hBox1 = new HBox(10, btnV, btnX);
+							HBox hBox2 = new HBox();
+							if (!tmp.getStatus().equals("Waiting")) {
+								setGraphic(hBox2);
+								hBox2.setAlignment(Pos.CENTER);
+							} else {
+								setGraphic(hBox1);
+								hBox1.setAlignment(Pos.CENTER);
+							}
 						}
 					}
 
@@ -301,8 +316,8 @@ public class DManagerRequestsGUIController implements Initializable {
 				return cell;
 			}
 		};
-		option.setCellFactory(cellFactory);
-		tblUpdateTable.getColumns().add(option);
+		colUpdateButtons.setCellFactory(cellFactory);
+
 	}
 
 	private void addEventConfrimationButtons() {
@@ -352,9 +367,16 @@ public class DManagerRequestsGUIController implements Initializable {
 						if (empty) {
 							setGraphic(null);
 						} else {
-							HBox hBox = new HBox(10, btnV, btnX);
-							setGraphic(hBox);
-							hBox.setAlignment(Pos.CENTER);
+							Event tmp = getTableView().getItems().get(getIndex());
+							HBox hBox1 = new HBox(10, btnV, btnX);
+							HBox hBox2 = new HBox();
+							if (!tmp.getStatus().equals("Waiting")) {
+								setGraphic(hBox2);
+								hBox2.setAlignment(Pos.CENTER);
+							} else {
+								setGraphic(hBox1);
+								hBox1.setAlignment(Pos.CENTER);
+							}
 						}
 					}
 
@@ -363,8 +385,9 @@ public class DManagerRequestsGUIController implements Initializable {
 				return cell;
 			}
 		};
-		colButtons.setCellFactory(cellFactory);
+		colEventButtons.setCellFactory(cellFactory);
 	}
+
 	/**
 	 * choose which table to show according to the combo box selection.
 	 */
@@ -383,8 +406,10 @@ public class DManagerRequestsGUIController implements Initializable {
 		tblUpdateTable.setManaged(false);
 		MainClient.clientConsole.accept(
 				new Message(OperationType.GetEventTable, DBControllerType.RequestsDBController, (Object) parkName));
-		if (RequestsController.requestType.equals(OperationType.EventTableArrived))
+		if (RequestsController.requestType.equals(OperationType.EventTableArrived)) {
 			setEventData();
+			setEventStatusColor();
+		}
 
 	}
 
@@ -400,12 +425,55 @@ public class DManagerRequestsGUIController implements Initializable {
 		tblEventTable.setManaged(false);
 		MainClient.clientConsole.accept(
 				new Message(OperationType.GetUpdateTable, DBControllerType.RequestsDBController, (Object) parkName));
-		if (RequestsController.requestType.equals(OperationType.UpdateTableArrived))
-			setUpdateData();
+		if (RequestsController.requestType.equals(OperationType.UpdateTableArrived)) {
+			if(updateData.size() != 0) 
+				setUpdateData();
+			else {
+				tblUpdateTable.setVisible(false);
+				tblUpdateTable.setManaged(false);
+				Alert a = new Alert(AlertType.INFORMATION);
+				a.setHeaderText("No new update requestes");
+				a.setContentText("There are no update requests");
+				a.setTitle("Update requests");
+				a.showAndWait();
+			}
+		}
 
 	}
 
 	private void setUpdateData() {
 		tblUpdateTable.setItems(FXCollections.observableArrayList(updateData));
+	}
+	
+	/*
+	 * set the event status of each row the the relevant color 
+	 */
+	private void setEventStatusColor() {
+		colEventStatus.setCellFactory(colStatus -> {
+			return new TableCell<Event, String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty); // This is mandatory
+
+					if (item == null || empty) { // If the cell is empty
+						setText(null);
+						setStyle("");
+					} else {
+						setText(item); // Put the String data in the cell
+						Event tmp = getTableView().getItems().get(getIndex());
+
+						if (tmp.getStatus().equals("Waiting")) {
+							setTextFill(Color.BLACK);
+						}
+						if (tmp.getStatus().equals("Active") ) {
+							setTextFill(Color.GREEN);
+						}
+						if (tmp.getStatus().equals("Canceled"))
+							setTextFill(Color.RED);
+					}
+				}
+
+			};
+		});
 	}
 }
