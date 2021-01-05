@@ -88,7 +88,7 @@ public class OrderDBController {
 				int numOfVisitor = rs.getInt(8);
 				Order order = new Order(rs.getInt(1), rs.getString(2), rs.getDate(3), rs.getInt(4),
 						rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9),
-						rs.getBoolean(10), rs.getInt(11));
+						rs.getBoolean(10), rs.getInt(11),rs.getInt(14));
 				if(numOfVisitor>=Integer.parseInt(info.get(2))) {
 					return new Message(OperationType.FindOrder,ClientControllerType.OrderController,(Object)order);
 				}

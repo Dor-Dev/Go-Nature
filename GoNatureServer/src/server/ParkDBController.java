@@ -190,7 +190,7 @@ public class ParkDBController {
 					if (rs.getInt(8) >= Integer.parseInt(orderInfo.get(1))) {
 						Order order = new Order(rs.getInt(1), rs.getString(2), rs.getDate(3), rs.getInt(4),
 								rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9),
-								rs.getBoolean(10), rs.getInt(11));
+								rs.getBoolean(10), rs.getInt(11),rs.getInt(14));
 						System.out.println("order id= " + order.getOrderID());
 						return new Message(OperationType.GetOrderInfo, ClientControllerType.ParkController,
 								(Object) order);

@@ -231,6 +231,9 @@ public class ManagerReportGUIController {
 		colNumOfVisitors.setStyle("-fx-alignment: CENTER");
 
 		lblMonthYearMoney.setManaged(false);
+		cmbName = null;
+
+		cmbMon = null;
 
 		// btnMakeReport.setOnMouseClicked(e->showPopUp(e));
 

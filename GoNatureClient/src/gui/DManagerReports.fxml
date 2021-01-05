@@ -197,19 +197,6 @@
                               <Insets left="15.0" />
                            </VBox.margin>
                         </DatePicker>
-                        <Label fx:id="lblMonth" layoutX="10.0" layoutY="65.0" text="Choose month:">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="15.0" top="15.0" />
-                           </VBox.margin>
-                        </Label>
-                        <ComboBox fx:id="cmbMonth" prefWidth="150.0" promptText="Month">
-                           <VBox.margin>
-                              <Insets left="15.0" />
-                           </VBox.margin>
-                        </ComboBox>
                         <Label fx:id="lblType" layoutX="10.0" layoutY="135.0" text="Visitor's Type:">
                            <font>
                               <Font size="16.0" />

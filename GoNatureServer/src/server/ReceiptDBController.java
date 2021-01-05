@@ -83,7 +83,6 @@ public class ReceiptDBController {
 
 						int res = pstm.executeUpdate();
 						if (res == 1) {
-							System.out.println("jjjj");
 							return new Message(OperationType.UpdateReceiptInfoAfterExit,
 									ClientControllerType.ReceiptController, (Object) "sucsses to update exit");
 						}

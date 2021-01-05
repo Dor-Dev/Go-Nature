@@ -92,7 +92,7 @@ public class Order implements Serializable {
 	}
 	
 	
-	public Order(int orderID, String parkName, Date date, int hourTime, String email, String visitorType, String status, int visitorNum, int visitorID, boolean paidUp, int price) {
+	public Order(int orderID, String parkName, Date date, int hourTime, String email, String visitorType, String status, int visitorNum, int visitorID, boolean paidUp, int price,int discount) {
 		super();
 		this.type = visitorType;
 		this.parkName = parkName;
@@ -105,6 +105,7 @@ public class Order implements Serializable {
 		this.cost = price;
 		this.date = date;
 		this.orderID = orderID;
+		this.discount =discount;
 	}
 
 
