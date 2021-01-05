@@ -34,16 +34,14 @@ public class RequestsDBController {
 		switch (msgFromClient.getOperationType()) {
 		case GetUpdateTable:
 			String parkName = (String) msgFromClient.getObj();
-			System.out.println(parkName);
 			List<Update> data = new ArrayList<Update>();
 			Update tmp;
-			query = "SELECT * FROM updateRequests WHERE parkName = ? and status = 'waiting' ";
+			query = "SELECT * FROM updateRequests WHERE status = 'Waiting' ";
 			try {
 				pstm = sqlConnection.connection.prepareStatement(query);
-				pstm.setString(1, parkName);
 				ResultSet rs = pstm.executeQuery();
 				while (rs.next()) {
-					tmp = new Update(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4));
+					tmp = new Update(rs.getInt(1),rs.getString(6), rs.getInt(2), rs.getInt(3), rs.getInt(4),rs.getString(5));
 					data.add(tmp);
 				}
 
@@ -56,14 +54,16 @@ public class RequestsDBController {
 			break;
 		case GetEventTable:
 			List<Event> eventData = new ArrayList<Event>();
+			LocalDate thisDay = LocalDate.now();
+			Date thisDayToDB=Date.valueOf(thisDay); 
 			Event tmp2;
-			query = "SELECT * FROM eventRequests WHERE parkName = ? and status='waiting'";
+			query = "SELECT * FROM eventRequests WHERE endDate >= ?";
 			try {
 				pstm = sqlConnection.connection.prepareStatement(query);
-				pstm.setString(1, (String) msgFromClient.getObj());
+				pstm.setDate(1, thisDayToDB);
 				ResultSet rs = pstm.executeQuery();
 				while (rs.next()) {
-					tmp2 = new Event(rs.getInt(1), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getInt(6));
+					tmp2 = new Event(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getInt(6),rs.getString(7));
 					eventData.add(tmp2);
 				}
 				return new Message(OperationType.ShowEventTable, ClientControllerType.RequestsController,
@@ -77,7 +77,7 @@ public class RequestsDBController {
 		case EventApproval:
 
 			Event event = (Event) clientMsg.getObj();
-			query = "UPDATE eventRequests SET status='active' WHERE requestNumber=?";
+			query = "UPDATE eventRequests SET status='Active' WHERE requestNumber=?";
 			try {
 				pstm = sqlConnection.connection.prepareStatement(query);
 				pstm.setInt(1, event.getRequestNum());
@@ -94,7 +94,7 @@ public class RequestsDBController {
 
 		case EventDecline:
 			Event eventCancel = (Event) clientMsg.getObj();
-			query = "UPDATE eventRequests SET status='canceled' WHERE requestNumber=?";
+			query = "UPDATE eventRequests SET status='Canceled' WHERE requestNumber=?";
 			try {
 				pstm = sqlConnection.connection.prepareStatement(query);
 				pstm.setInt(1, eventCancel.getRequestNum());
@@ -110,7 +110,7 @@ public class RequestsDBController {
 		case UpdateConfrimation:
 			Update update = (Update) clientMsg.getObj();
 			query = "Update parks SET parkCapacity=?,ordersCapacity=?,difference=?  WHERE parkName=?";
-			String query2 = "UPDATE updateRequests SET status='approved' WHERE requestNumber=?";
+			String query2 = "UPDATE updateRequests SET status='Approved' WHERE requestNumber=?";
 			try {
 				pstm = sqlConnection.connection.prepareStatement(query);
 				pstm.setInt(1, update.getCapacity());

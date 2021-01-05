@@ -148,7 +148,7 @@ public class EventsGUIController implements Initializable {
 
 	@FXML
 	void sendEventRequest(ActionEvent event) {
-		String status = "waiting";
+		String status = "Waiting";
 		LocalDate stDate = dpStartDate.getValue();
 		Date startDate = Date.valueOf(stDate);
 		LocalDate edDate = dpEndDate.getValue();
@@ -223,7 +223,8 @@ public class EventsGUIController implements Initializable {
 		colStart.setStyle("-fx-alignment: CENTER");
 		colEnd.setStyle("-fx-alignment: CENTER");
 		colDiscount.setStyle("-fx-alignment: CENTER");
-
+		dpStartDate.getEditor().setDisable(true);
+		dpEndDate.getEditor().setDisable(true);
 		Callback<DatePicker, DateCell> callB = new Callback<DatePicker, DateCell>() {
 			@Override
 			public DateCell call(final DatePicker param) {

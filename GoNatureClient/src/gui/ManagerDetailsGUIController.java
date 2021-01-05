@@ -134,7 +134,7 @@ public class ManagerDetailsGUIController {
 	 */
 	@FXML
 	void sendUpdateRequest(MouseEvent event) {
-		String status = "waiting";
+		String status = "Waiting";
 		Update update = new Update(EmployeeController.employeeConected.getOrganizationAffilation(),
 				Integer.valueOf(txtVisitorCapcity.getText()), Integer.valueOf(txtDifference.getText()),
 				Integer.valueOf(txtHours.getText()), status);

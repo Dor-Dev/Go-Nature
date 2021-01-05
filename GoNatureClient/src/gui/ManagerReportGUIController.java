@@ -76,6 +76,9 @@ public class ManagerReportGUIController {
 	private Label mnuRequests;
 
 	@FXML
+	private Label mnuLogout;
+
+	@FXML
 	private ComboBox<String> cmbReport;
 
 	@FXML
@@ -375,7 +378,6 @@ public class ManagerReportGUIController {
 		setReportDetailsInvisible(this);
 		List<String> list = new ArrayList<>();
 		list = addTheCorrectMonthAndYear(list, monthYear);
-		
 
 		MainClient.clientConsole.accept(
 				new Message(OperationType.SumVisitorsReport, DBControllerType.ReportsDBController, (Object) list));
@@ -392,11 +394,11 @@ public class ManagerReportGUIController {
 			this.lblReportName.setText("Overall Report");
 			this.lblMonthYear.setText(monthYear);
 
-			//this.barChartOverall = new BarChart<>(barChartX, barChartY);
+			// this.barChartOverall = new BarChart<>(barChartX, barChartY);
 			this.barChartOverall.getData().clear();
-			
+
 			XYChart.Series set1 = new XYChart.Series<>();
-			
+
 			set1.getData().clear();
 			set1.getData().add(new XYChart.Data<>("Singles", sumReport.getVisitorsAmount()));
 			set1.getData().add(new XYChart.Data<>("Members", sumReport.getMembersAmount()));
