@@ -50,7 +50,7 @@ public class Event implements Serializable {
 		this.discount = discount;
 		this.status = status;
 	}
-	/*
+	
 	public Event(String eventName, Date startDate, Date endDate, int discount) {
 		super();
 		this.eventName = eventName;
@@ -58,6 +58,7 @@ public class Event implements Serializable {
 		this.endDate = endDate;
 		this.discount = discount;
 	}
+	/*
 	public Event(int requestNum,String eventName, Date startDate, Date endDate, int discount) {
 		super();
 		this.requestNum = requestNum;
