@@ -90,12 +90,6 @@ public class DManagerReportsGUIController {
 	private DatePicker datePicker;
 
 	@FXML
-	private Label lblMonth;
-
-	@FXML
-	private ComboBox<String> cmbMonth;
-
-	@FXML
 	private Label lblType;
 
 	@FXML
@@ -186,14 +180,7 @@ public class DManagerReportsGUIController {
 		cmbReportName.setOnAction(e -> chooseReportName());
 		// cmbParkName.getSelectionModel().select("Option B");
 
-		/**
-		 * 
-		 * Initialize cmb Months to months of the year
-		 */
-		cmbMonth.getItems().removeAll(cmbMonth.getItems());
-		cmbMonth.getItems().addAll("October 2020", "November 2020", "December 2020", "January 2021", "February 2021",
-				"March 2021", "April 2021", "May 2021", "June 2021", "July 2021", "August 2021", "September 2021");
-		cmbMonth.setOnAction(e -> chooseMonthAndYear());
+		
 
 		cmbType.getItems().removeAll(cmbType.getItems());
 		cmbType.getItems().addAll("Singles", "Groups", "Members");
@@ -227,9 +214,7 @@ public class DManagerReportsGUIController {
 
 	}
 
-	private void chooseMonthAndYear() {
 
-	}
 
 	/**
 	 * update the report name after the user choose
@@ -521,8 +506,6 @@ public class DManagerReportsGUIController {
 		dManagerReportsController.barChartX.setVisible(false);
 		dManagerReportsController.barChartY.setManaged(false);
 		dManagerReportsController.barChartY.setVisible(false);
-		dManagerReportsController.cmbMonth.setManaged(false);
-		dManagerReportsController.lblMonth.setManaged(false);
 		dManagerReportsController.lblDate.setManaged(false);
 		dManagerReportsController.datePicker.setManaged(false);
 		dManagerReportsController.lblType.setManaged(false);

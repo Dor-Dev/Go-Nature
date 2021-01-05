@@ -24,12 +24,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.Validation;
 
 public class ParkEntranceGUIController {
 
@@ -208,9 +211,26 @@ public class ParkEntranceGUIController {
 		list.add(receiptID);
 		list.add(ParkController.parkConnected.getParkName());
 		list.add(AmountOfTravelers);
-		
+		Alert a = new Alert(AlertType.INFORMATION);
 		MainClient.clientConsole.accept(new Message(OperationType.UpdateCurrAmountOfVisitors, DBControllerType.ParkDBController, (Object)ParkController.parkConnected.getParkName() ));
 		setDataOfPark(this);
+		
+		if(!Validation.onlyDigitsValidation(receiptID)|| receiptID.equals("0"))
+		{
+			a.setHeaderText("The number of receipt is not valid");
+			a.setContentText("An receipt number should consist of digits and be different from 0.");
+			a.setTitle("Park entrance");
+			a.showAndWait();
+			return;
+		}
+		if(!Validation.onlyDigitsValidation(AmountOfTravelers)|| AmountOfTravelers.equals("0"))
+		{
+			a.setHeaderText("The number of visitors is not valid");
+			a.setContentText("An visitor's number should consist of digits and be different from 0.");
+			a.setTitle("Park entrance");
+			a.showAndWait();
+			return;
+		}
 
 		MainClient.clientConsole.accept(new Message(OperationType.UpdateReceiptInfoAfterExit,DBControllerType.ReceiptDBController, (Object) list));
 
@@ -280,10 +300,29 @@ public class ParkEntranceGUIController {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Order Receipt");
 			ParkEntranceGUIController parkEntranceController1 = loader.getController();
+			Alert a = new Alert(AlertType.INFORMATION);
 
 			parkEntranceController1.lblOrderReceiptParkName.setText(ParkController.parkConnected.getParkName());
 			String orderNumber = this.txtOrderNumber.getText();
+			if(!Validation.onlyDigitsValidation(orderNumber)|| orderNumber.equals("0"))
+			{
+				a.setHeaderText("The order number is not valid");
+
+				a.setContentText("An order number should consist of digits and be different from 0.");
+				a.setTitle("Park entrance");
+				a.showAndWait();
+				return;
+			}
 			String actualAmount = this.txtActualAmount.getText();
+			if(!Validation.onlyDigitsValidation(actualAmount)|| actualAmount.equals("0"))
+			{
+				a.setHeaderText("The number of visitors is not valid");
+
+				a.setContentText("An visitor's number should consist of digits and be different from 0.");
+				a.setTitle("Park entrance");
+				a.showAndWait();
+				return;
+			}
 			List<String> list = new ArrayList<>();
 			list.add(orderNumber);
 			list.add(actualAmount);
@@ -413,21 +452,21 @@ public class ParkEntranceGUIController {
 		if (type.equals("instructor")) {
 			if (ParkController.order.isPaidUp()) {
 				parkEntranceController1.lblOrderReceiptDiscount
-						.setText("37% + instructor doesn't need to pay");
-				parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getNumOfVisitors()*OrderController.getTicketPrice()*0.63)+ " NIS");
+						.setText(ParkController.order.getDiscount()+"% + instructor doesn't need to pay");
+				parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getCost())+ " NIS");
 			} else {
 				parkEntranceController1.lblOrderReceiptDiscount
-						.setText("25% + instructor doesn't need to pay");
-				parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getNumOfVisitors()*OrderController.getTicketPrice()*0.75)+ " NIS");
+						.setText(ParkController.order.getDiscount()+"% + instructor doesn't need to pay");
+				parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getCost())+ " NIS");
 			}
 		}
 	
 		else if (type.equals("member")) {
-			parkEntranceController1.lblOrderReceiptDiscount.setText("35%");
-			parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getNumOfVisitors()*OrderController.getTicketPrice()*0.65)+ " NIS");
+			parkEntranceController1.lblOrderReceiptDiscount.setText(ParkController.order.getDiscount()+"%");
+			parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getCost())+ " NIS");
 		} else {
-			parkEntranceController1.lblOrderReceiptDiscount.setText("15% ");
-			parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getNumOfVisitors()*OrderController.getTicketPrice()*0.85)+ " NIS");
+			parkEntranceController1.lblOrderReceiptDiscount.setText(ParkController.order.getDiscount()+"% ");
+			parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getCost())+ " NIS");
 		}
 		
 	}
@@ -507,8 +546,31 @@ public class ParkEntranceGUIController {
 
 			parkEntranceController1.lblManualReceiptNumOfVisitors.setText(this.txtAmountOfOccasional.getText());
 			parkEntranceController1.lblManualReceiptParkName.setText(ParkController.parkConnected.getParkName());
+			Alert a = new Alert(AlertType.INFORMATION);
 
+			
+			
+			if(!Validation.onlyDigitsValidation(this.txtAmountOfOccasional.getText())|| this.txtAmountOfOccasional.getText().equals("0"))
+			{
+				a.setHeaderText("The number of visitors is not valid");
+				a.setContentText("An visitor's number should consist of digits and be different from 0.");
+				a.setTitle("Park entrance");
+				a.showAndWait();
+				return;
+			}
+			visitorID = this.txtTravelerID.getText();
+			if(!Validation.idValidation(visitorID))
+			{
+				a.setHeaderText("The visitor's ID is not valid");
+
+				a.setContentText("An visitor's ID should consist of 9 digits and be different from 0.");
+				a.setTitle("Park entrance");
+				a.showAndWait();
+				return;
+			}
 			int amount = Integer.parseInt(this.txtAmountOfOccasional.getText());
+			
+			
 			
 			
 			//check if the park is open for entry
@@ -531,7 +593,7 @@ public class ParkEntranceGUIController {
 				return;
 			*/
 		
-			visitorID = this.txtTravelerID.getText();
+			
 			type = null;
 			
 			//Calculate the discount and price and show  them
