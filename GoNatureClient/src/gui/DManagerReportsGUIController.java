@@ -16,8 +16,10 @@ import enums.OperationType;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -30,18 +32,24 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import logic.CancellationReport;
+import logic.Order;
 import logic.ReportImage;
 import logic.VisitingReport;
 
 public class DManagerReportsGUIController {
 	private static DManagerReportsGUIController dManagerReportsController = null;
+	public static List<ReportImage> reports = null;
 
 	@FXML
 	private VBox vboxReceivedReports;
@@ -123,9 +131,9 @@ public class DManagerReportsGUIController {
 	@FXML
 	private VBox vboxReportName;
 
-    @FXML
-    private Label lblChooseParkName;
-    
+	@FXML
+	private Label lblChooseParkName;
+
 	@FXML
 	private Label lblReportName;
 
@@ -213,6 +221,60 @@ public class DManagerReportsGUIController {
 		cmbParkName.getItems().addAll("Luna-Park", "Shipment-Park", "Tempo-Park");
 		cmbParkName.setOnAction(e -> chooseParkName());
 
+		// init the Table view of reports
+		colReportID.setCellValueFactory(new PropertyValueFactory<>("reportID"));
+		colParkName.setCellValueFactory(new PropertyValueFactory<>("parkName"));
+		colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+		colReportName.setCellValueFactory(new PropertyValueFactory<>("reportName"));
+
+		colReportID.setStyle("-fx-alignment: CENTER");
+		colParkName.setStyle("-fx-alignment: CENTER");
+		colDate.setStyle("-fx-alignment: CENTER");
+		colReportName.setStyle("-fx-alignment: CENTER");
+
+	}
+
+	/**
+	 * Add View button to each row in the table
+	 */
+	private void addRelevantButton() {
+		Callback<TableColumn<ReportImage, Void>, TableCell<ReportImage, Void>> cellFactory = new Callback<TableColumn<ReportImage, Void>, TableCell<ReportImage, Void>>() {
+			@Override
+			public TableCell<ReportImage, Void> call(final TableColumn<ReportImage, Void> param) {
+				final TableCell<ReportImage, Void> cell = new TableCell<ReportImage, Void>() {
+
+					private final Button btnView = new Button("View");
+					{
+						// Action when press on View button
+						btnView.setOnAction((ActionEvent event) -> {
+							ReportImage report = getTableView().getItems().get(getIndex());
+						});
+
+					}
+
+					@Override
+					public void updateItem(Void item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+						} else {
+
+							HBox hBox2 = new HBox(btnView);
+							setGraphic(hBox2);
+							hBox2.setAlignment(Pos.BASELINE_RIGHT);
+							return;
+
+						}
+
+					}
+
+				};
+
+				return cell;
+
+			}
+		};
+		colView.setCellFactory(cellFactory);
 	}
 
 	/**
@@ -287,8 +349,22 @@ public class DManagerReportsGUIController {
 			dManagerReportsController.vboxReceivedReports.setVisible(true);
 			dManagerReportsController.tblReports.setVisible(true);
 			dManagerReportsController.tblReports.setManaged(true);
-			
+			showReceivedReportsTable();
+
 		}
+	}
+
+	/**
+	 * Send message to server to get all the reports for the department manager
+	 */
+	private void showReceivedReportsTable() {
+		MainClient.clientConsole.accept(new Message(OperationType.GetReceivedReportsTable,
+				DBControllerType.RequestsDBController, (Object) "Get Received Reports"));
+		if (reports != null) {
+			tblReports.setItems(FXCollections.observableArrayList(reports));
+			addRelevantButton();
+		}
+
 	}
 
 	/**
