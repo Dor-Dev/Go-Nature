@@ -117,7 +117,7 @@ public class ManagerReportGUIController {
 	private Label lblMonthYear;
 
 	@FXML
-	private BarChart<?, ?> barChartOverall;
+	private BarChart<Integer, Integer> barChartOverall;
 
 	@FXML
 	private CategoryAxis barChartX;
@@ -138,6 +138,10 @@ public class ManagerReportGUIController {
 
 	@FXML
 	private TableColumn<IncomeObject, Integer> colIncome;
+
+
+    @FXML
+    private Button btnProductToDepartment;
 
 	@FXML
 	private HBox hboxTotalIncome;
@@ -168,6 +172,9 @@ public class ManagerReportGUIController {
 	@FXML
 	private TableColumn<UsageObject, Date> colUsageDate;
 
+    @FXML
+    private Label lblDProduceMsg;
+    
 	@FXML
 	private TableView<UsageObject> tblUsageReportTable;
 
@@ -258,6 +265,7 @@ public class ManagerReportGUIController {
 
 		cmbMon = null;
 
+		lblDProduceMsg.setVisible(false);
 		// btnMakeReport.setOnMouseClicked(e->showPopUp(e));
 
 	}
@@ -302,8 +310,7 @@ public class ManagerReportGUIController {
 			this.lblReportName.setText("Usage Report");
 			this.lblMonthYear.setText(monthYear);
 
-			barChartOverall.setBarGap(0);
-			barChartOverall.setCategoryGap(50);
+
 
 			Date[] day = usageReport.getDay();
 			int[] capacity = usageReport.getNumOfVisitorsInDay();
@@ -321,6 +328,12 @@ public class ManagerReportGUIController {
 			this.tblUsageReportTable.setVisible(true);
 			this.vboxUserReports.setManaged(true);
 			this.vboxUserReports.setVisible(true);
+			this.lblReportName.setManaged(true);
+			this.lblReportName.setVisible(true);
+			this.btnProductToDepartment.setVisible(true);
+			this.btnProductToDepartment.setManaged(true);
+			this.lblMonthYear.setVisible(true);
+			this.lblMonthYear.setManaged(true);
 
 		}
 
@@ -382,7 +395,12 @@ public class ManagerReportGUIController {
 			this.vboxTbIncome.setManaged(true);
 			this.lblMonthYearMoney.setManaged(true);
 			this.lblTotalIncome.setManaged(true);
-
+			this.lblReportName.setManaged(true);
+			this.lblReportName.setVisible(true);
+			this.btnProductToDepartment.setVisible(true);
+			this.btnProductToDepartment.setManaged(true);
+			this.lblMonthYear.setVisible(true);
+			this.lblMonthYear.setManaged(true);
 		}
 
 	}
@@ -395,6 +413,7 @@ public class ManagerReportGUIController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void getSumReportData(String monthYear) {
+
 		setReportDetailsInvisible(this);
 		List<String> list = new ArrayList<>();
 		list = addTheCorrectMonthAndYear(list, monthYear);
@@ -433,6 +452,7 @@ public class ManagerReportGUIController {
 			n = barChartOverall.lookup(".data2.chart-bar");
 			n.setStyle("-fx-bar-fill: green");
 
+			
 			barChartOverall.setBarGap(0);
 			barChartOverall.setCategoryGap(50);
 			this.barChartOverall.setManaged(true);
@@ -441,6 +461,12 @@ public class ManagerReportGUIController {
 			this.barChartY.setManaged(true);
 			this.vboxBarChart.setManaged(true);
 			this.vboxBarChart.setVisible(true);
+			this.lblReportName.setManaged(true);
+			this.lblReportName.setVisible(true);
+			this.btnProductToDepartment.setVisible(true);
+			this.btnProductToDepartment.setManaged(true);
+			this.lblMonthYear.setVisible(true);
+			this.lblMonthYear.setManaged(true);
 
 			/*
 			 * this.lblAmountOfSingles.setText(String.valueOf(sumReport.getVisitorsAmount())
@@ -544,7 +570,7 @@ public class ManagerReportGUIController {
 			primaryStage.setTitle("Go-Nature Reports");
 			ManagerReportGUIController managerReportsController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
-
+			managerReportsController.btnProductToDepartment.setVisible(false);
 			menuLabels = managerReportsController.createLabelList(managerReportsController);
 			MenuBarSelection.setMenuOptions(menuLabels);
 			System.out.println("chek1");
@@ -571,11 +597,11 @@ public class ManagerReportGUIController {
 		 * managerReportsController.hboxSingles.setManaged(false);
 		 */
 
-		System.out.println("chek2");
+		managerReportsController.lblDProduceMsg.setVisible(false);
+		managerReportsController.lblDProduceMsg.setManaged(false);
 		managerReportsController.lblMonthYear.setManaged(false);
 		managerReportsController.lblReportName.setManaged(false);
 		managerReportsController.barChartOverall.setManaged(false);
-		managerReportsController.barChartOverall.getData().clear();
 		managerReportsController.barChartOverall.setVisible(false);
 		managerReportsController.barChartX.setManaged(false);
 		managerReportsController.barChartY.setManaged(false);
@@ -592,7 +618,13 @@ public class ManagerReportGUIController {
 		managerReportsController.hboxTotalIncome.setVisible(false);
 		managerReportsController.vboxUserReports.setManaged(false);
 		managerReportsController.vboxUserReports.setVisible(false);
-
+		managerReportsController.lblReportName.setManaged(false);
+		managerReportsController.lblReportName.setVisible(false);
+		managerReportsController.btnProductToDepartment.setVisible(false);
+		managerReportsController.btnProductToDepartment.setManaged(false);
+		managerReportsController.lblMonthYear.setVisible(false);
+		managerReportsController.lblMonthYear.setManaged(false);
+		
 	}
 
 	private List<Label> createLabelList(ManagerReportGUIController managerReportsController) {
@@ -619,6 +651,8 @@ public class ManagerReportGUIController {
 	 */
 	@FXML
 	void showPopUp(MouseEvent event) {
+		this.btnProductToDepartment.setVisible(true);
+		this.btnProductToDepartment.setManaged(true);
 		Alert a = new Alert(AlertType.INFORMATION);
 
 		if (cmbMon != null && cmbName != null) {
@@ -722,18 +756,21 @@ public class ManagerReportGUIController {
 	@FXML
 	void popUpReport(ActionEvent event) {
 
+		this.btnProductToDepartment.setVisible(false);
+		this.btnProductToDepartment.setManaged(false);
 		WritableImage snapshot = vBoxReportSnapshot.snapshot(new SnapshotParameters(), null);
-		ImageView reportImage = new ImageView(snapshot); // same here for winner image
+		ImageView reportImage = new ImageView(snapshot); 
 		Stage reportStage = new Stage();
 		StackPane myLayout2 = new StackPane();
 		Scene myScene2 = new Scene(myLayout2);
 		Label label2 = new Label("", reportImage);
 		myLayout2.getChildren().removeAll();
 		myLayout2.getChildren().add(label2);
-		reportStage.setTitle("Price List");
+		reportStage.setTitle("Report");
 		reportStage.setScene(myScene2);
 		reportStage.show();
-
+		this.lblDProduceMsg.setVisible(true);
+		this.lblDProduceMsg.setManaged(true);
 		BufferedImage bImage = SwingFXUtils.fromFXImage(reportImage.getImage(), null);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {

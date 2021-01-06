@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -37,8 +38,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -141,7 +145,7 @@ public class DManagerReportsGUIController {
 	private VBox vboxVisiting;
 
 	@FXML
-	private BarChart<?, ?> barChartVisiting;
+	private BarChart<Integer, Integer> barChartVisiting;
 
 	@FXML
 	private CategoryAxis barChartX;
@@ -248,7 +252,22 @@ public class DManagerReportsGUIController {
 						// Action when press on View button
 						btnView.setOnAction((ActionEvent event) -> {
 							ReportImage report = getTableView().getItems().get(getIndex());
+							InputStream nputStream = report.getReportImage();	
+							ImageView reportImage = new ImageView(); // same here for winner image
+							Image image = new Image(nputStream);
+							reportImage.setImage(image);
+							Stage reportStage = new Stage();
+							StackPane myLayout2 = new StackPane();
+							Scene myScene2 = new Scene(myLayout2);
+							Label label2 = new Label("", reportImage);
+							myLayout2.getChildren().removeAll();
+							myLayout2.getChildren().add(label2);
+							reportStage.setTitle(report.getParkName()+" " +report.getReportName());
+							reportStage.setScene(myScene2);
+							reportStage.show();
+							showReceivedReportsTable();
 						});
+						
 
 					}
 
@@ -567,13 +586,13 @@ public class DManagerReportsGUIController {
 			for (int i = 0; i < hours.length; i++) {
 				if (hours[i] != 0) {
 					System.out.println(hours[i]);
-					set1.getData().add(new XYChart.Data<>(String.valueOf(hours[i] + ":00"), visitors[i]));
+					set1.getData().addAll(new XYChart.Data<>(String.valueOf(hours[i] + ":00"), visitors[i]));
 
 				}
 
 			}
 
-			this.barChartVisiting.getData().add(set1);
+			this.barChartVisiting.getData().addAll(set1);
 			this.barChartVisiting.setBarGap(0);
 			this.barChartVisiting.setCategoryGap(50);
 
