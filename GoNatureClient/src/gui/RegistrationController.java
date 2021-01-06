@@ -26,6 +26,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.Validation;
 
 /**
  * @author dana_
@@ -144,7 +145,7 @@ public class RegistrationController {
     private static String popUpMsg=null;
     private static Boolean msgReceived=false;
     private static String popUpTitle=null;
-    private Integer member_number ;
+    private Integer member_number=0 ;
 
      @FXML
 	    void goToMainPage(MouseEvent event) {
@@ -244,10 +245,16 @@ public class RegistrationController {
     void registrationAction(MouseEvent event) {
     		HashMap<String, String> hash_map_info = new HashMap<String, String>(); 
     		List<String> info = new ArrayList<String>();
-    		
+    		if(!Validation.idValidation(txtID.getText())) {
+    			if(txtID.getText().equals(""))
+    				setPopUpMsg("All fields are requiered");
+    			else setPopUpMsg("Invalid ID");
+    			RegistartionPopUpController popUp = new RegistartionPopUpController();
+        		popUp.showRegistrationPopUp(popUpMsg, (member_number.toString()), popUpTitle);
+        		return;
+    		}
     		//The function f(X)=X+1000000000 is an injective function - that will promise us unique member number each time
     		member_number=Integer.parseInt(txtID.getText())+1000000000; 
-    		
     		//add the info from the GUI to an ArrayList and also to a HashMap by the name of the field
     		info.add(member_number.toString());
     		hash_map_info.put("First Name", txtFirstName.getText());
@@ -258,14 +265,11 @@ public class RegistrationController {
     		info.add(txtID.getText());
     		String phoneNumberStart= cmbPhoneStart.getPromptText();
     		String phoneNumberEnd= txtPhoneEnd.getText();
-    		
     		//Connect the strings of the first 3 digits of the phone number and the last 7 digits
     		if(phoneNumberStart!= null && phoneNumberEnd!= null) {
     			phoneNumberStart+=phoneNumberEnd;
     			hash_map_info.put("Phone",phoneNumberStart);
     			info.add(phoneNumberStart);
-    		}else {
-    			//Add pop up
     		}
     		hash_map_info.put("Email",txtEmail.getText());
     		info.add(txtEmail.getText());
@@ -285,7 +289,6 @@ public class RegistrationController {
     			hash_map_info.put("Experation Year",txtExperationYear.getText());
     			info.add(txtExperationYear.getText());
     		}
-    		
     		//If all the information is valid
     		if(validation(info,hash_map_info)) {
     			//Register a member
@@ -323,59 +326,46 @@ public class RegistrationController {
 				return false;
 			}
 		}
-		if(! Pattern.matches("[a-zA-Z]+", hash_map_info.get("First Name"))) {
+		if(! Validation.onlyLettersValidation( hash_map_info.get("First Name"))) {
 			setPopUpMsg("Invalid First Name");
 			return false;
 		}
-		if(! Pattern.matches("[a-zA-Z]+", hash_map_info.get("Surname"))) {
+		if(! Validation.onlyLettersValidation(hash_map_info.get("Surname"))) {
 			setPopUpMsg("Invalid Surname");
 			return false;
 		}
-		if(hash_map_info.get("ID").length()!=9  || ! Pattern.matches("[0-9]+", hash_map_info.get("ID"))) {
+		if(!Validation.idValidation(hash_map_info.get("ID"))) {
 			setPopUpMsg("Invalid ID number");
 			return false;
 		}
-		if(hash_map_info.get("Phone").length()!=10 ||! Pattern.matches("[0-9]+", hash_map_info.get("Phone"))) {
+		if(!Validation.phoneValidation(hash_map_info.get("Phone"))) {
 			setPopUpMsg("Invalid phone number");
 			return false;
 		}
-		Pattern emailPattern = Pattern.compile("[a-zA-Z0-9[!#$%&'()*+,/\\-_\\.\"]]+@[a-zA-Z0-9[!#$%&'()*+,/\\-_\"]]+\\.[a-zA-Z0-9[!#$%&'()*+,/\\-_\"\\.]]+");
-		Matcher m = emailPattern.matcher(hash_map_info.get("Email"));
-		if(!m.matches()) {
+		if(!Validation.emailValidation(hash_map_info.get("Email"))) {
 			setPopUpMsg("Invalid Email");
 			return false;
 		}
 		if(this.chkAddCreditCard.isSelected()) {
-			if(hash_map_info.get("CVV").length()<3 || hash_map_info.get("CVV").length()>4 || !Pattern.matches("[0-9]+", hash_map_info.get("CVV"))) {
+			if(!Validation.cvvValidation(hash_map_info.get("CVV"))) {
 				setPopUpMsg("Invalid CVV");
 				return false;
 			}
-			if(hash_map_info.get("Card Number").length()!=16 || !Pattern.matches("[0-9]+", hash_map_info.get("Card Number"))) {
+			if(!Validation.cardNumberValidation(hash_map_info.get("Card Number"))) {
 				setPopUpMsg("Invalid card number");
 				return false;
 			}
-			if(! Pattern.matches("[a-zA-Z]+", hash_map_info.get("Card Owner"))) {
+			if(! Validation.onlyLettersValidation( hash_map_info.get("Card Owner"))) {
 				setPopUpMsg("Invalid Owner Name");
 				return false;
 			}
-			if(hash_map_info.get("Experation Month").length()!=2 || !Pattern.matches("[0-9]+", hash_map_info.get("Experation Month"))) {
+			if(!Validation.monthExperationValidation(hash_map_info.get("Experation Month"))) {
 				setPopUpMsg("Invalid Experation Month");
 				return false;								
 			}
-			int tempMonth= Integer.parseInt(hash_map_info.get("Experation Month"));
-			if(tempMonth<1 || tempMonth>12) {
-				setPopUpMsg("Invalid Experation Month");
+			if( !Validation.yearExperationValidation(hash_map_info.get("Experation Year"))) {
+				setPopUpMsg("Invalid Experation Year");
 				return false;								
-			}
-			
-			if(hash_map_info.get("Experation Year").length()!=2 || !Pattern.matches("[0-9]+", hash_map_info.get("Experation Year"))) {
-				setPopUpMsg("Invalid Experation Year");
-				return false;	
-			}
-			int tempYear= Integer.parseInt(hash_map_info.get("Experation Year"));
-			if(tempYear<20 || tempYear>30) {
-				setPopUpMsg("Invalid Experation Year");
-				return false;	
 			}
 			
 		}
