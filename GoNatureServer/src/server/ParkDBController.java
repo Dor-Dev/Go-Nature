@@ -251,11 +251,12 @@ public class ParkDBController {
 			LocalDate thisday = LocalDate.now();
 			Date thisDayToDb = Date.valueOf(thisday);
 			Event tmp;
-			query = "SELECT * FROM eventRequests WHERE parkName = ? and endDate >= ? and status ='Active' ";
+			query = "SELECT * FROM eventRequests WHERE parkName = ? and startDate <= ? and endDate >= ? and status ='Active' ";
 			try {
 				pstm = sqlConnection.connection.prepareStatement(query);
 				pstm.setString(1, (String) msgFromClient.getObj());
 				pstm.setDate(2, thisDayToDb);
+				pstm.setDate(3, thisDayToDb);
 				rs = pstm.executeQuery();
 				while (rs.next()) {
 					tmp = new Event(rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getInt(6));
