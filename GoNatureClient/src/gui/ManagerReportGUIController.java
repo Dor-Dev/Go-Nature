@@ -597,6 +597,7 @@ public class ManagerReportGUIController {
 	 */
 	@FXML
 	void showPopUp(MouseEvent event) {
+		Alert a = new Alert(AlertType.INFORMATION);
 
 		if (cmbMon != null && cmbName != null) {
 
@@ -612,7 +613,7 @@ public class ManagerReportGUIController {
 				getUsageReportData(cmbMon);
 			}
 
-			Alert a = new Alert(AlertType.INFORMATION);
+			
 			System.out.println(month + " " + year);
 			getCurrentDay();
 
@@ -639,6 +640,19 @@ public class ManagerReportGUIController {
 				a.setContentText("In the meantime you can view the existing data.");
 			}
 			a.setTitle("Report Status");
+			a.showAndWait();
+		}
+		else {
+			if(cmbName== null) {
+				a.setHeaderText("The report name is not valid");
+				a.setContentText("Please choose the name of the report first!");
+			}
+			else if(cmbMon == null) {
+				a.setHeaderText("The report month is not valid");
+				a.setContentText("Please choose the month of the report first!");
+				
+			}
+			a.setTitle("Validation error");
 			a.showAndWait();
 		}
 	}

@@ -1,6 +1,5 @@
 package gui;
 
-import java.beans.EventHandler;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -17,7 +16,6 @@ import enums.OperationType;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.WeakEventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -426,6 +424,7 @@ public class DManagerReportsGUIController {
 			int[] hours = visitingReport.getHours();
 			int[] visitors = visitingReport.getAmountOfVisitors();
 
+			
 			this.barChartVisiting.getData().clear();
 
 			XYChart.Series set1 = new XYChart.Series<>();
