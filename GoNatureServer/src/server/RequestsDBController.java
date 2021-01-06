@@ -1,5 +1,6 @@
 package server;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,8 @@ import enums.ClientControllerType;
 import enums.OperationType;
 import logic.Employee;
 import logic.Event;
+import logic.ReportImage;
+import logic.SerializableInputStream;
 import logic.Update;
 
 public class RequestsDBController {
@@ -145,6 +148,34 @@ public class RequestsDBController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			break;
+		case GetReceivedReportsTable:
+			List<ReportImage> reports = new ArrayList<ReportImage>();
+			ReportImage tmpReport;
+			query = "SELECT * FROM issuedreports"; 
+			try {
+				pstm = sqlConnection.connection.prepareStatement(query);
+				ResultSet rs = pstm.executeQuery();
+				while (rs.next()) {
+					SerializableInputStream s = null;
+					try {
+						s = new SerializableInputStream( rs.getBlob(4).getBinaryStream());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					};
+					tmpReport = new ReportImage(rs.getInt(1),rs.getString(5), rs.getString(3), rs.getDate(2),s);
+					reports.add(tmpReport);
+				}
+				
+				return new Message(OperationType.ReturnReceivedReport, ClientControllerType.RequestsController,
+						(Object) reports);
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			break;
 		default:
 			break;

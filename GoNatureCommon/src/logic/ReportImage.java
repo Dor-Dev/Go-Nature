@@ -1,7 +1,9 @@
 package logic;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.sql.Blob;
 import java.sql.Date;
 
 import javafx.scene.image.ImageView;
@@ -20,6 +22,7 @@ public class ReportImage implements Serializable {
 	private Date date;
 	private String parkName;
 	private int reportID;
+
 	
 	public ReportImage(String reportName, SerializableInputStream reportImage, Date date,String parkName) {
 		super();
@@ -35,6 +38,13 @@ public class ReportImage implements Serializable {
 		this.date = date;
 		this.parkName = parkName;
 		this.reportID = reportID;
+	}
+	
+	public void setReportImage(SerializableInputStream reportImage) {
+		this.reportImage = reportImage;
+	}
+	public void setReportImage(InputStream reportImage) {
+		this.reportImage = (SerializableInputStream) reportImage;
 	}
 
 	public int getReportID() {
