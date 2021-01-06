@@ -15,7 +15,10 @@ import enums.ClientControllerType;
 import enums.OperationType;
 import logic.CancellationReport;
 import logic.IncomeReport;
+import logic.Order;
 import logic.Park;
+import logic.ReportImage;
+import logic.SerializableInputStream;
 import logic.SumVisitorsReport;
 import logic.UsageReport;
 import logic.VisitingReport;
@@ -47,6 +50,32 @@ public class ReportsDBContorller {
 		System.out.println("try 4");
 
 		switch (clientMsg.getOperationType()) {
+
+		case SubmitReport:
+			PreparedStatement preparedStmt;
+			ReportImage report =(ReportImage)clientMsg.getObj();
+			System.out.println("REPORT DB START");
+			SerializableInputStream serInput = (SerializableInputStream) report.getReportImage();
+			// the mysql insert statement
+			String query = " insert into issuedreports (date, reportname, image,parkname )"
+					+ " values (?, ?, ?, ?)";
+
+			// create the mysql insert preparedstatement
+			try {
+				preparedStmt = sqlConnection.connection.prepareStatement(query);
+				preparedStmt.setDate(1, report.getDate());
+				preparedStmt.setString(2, report.getReportName());
+				preparedStmt.setBlob(3, report.getReportImage(),serInput.getData().length);
+				preparedStmt.setString(4, report.getParkName());
+				// execute the preparedstatement
+				preparedStmt.execute();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return new Message(OperationType.SubmitReport, ClientControllerType.ReportController,
+					(Object) "Success");
 
 		case SumVisitorsReport:
 			String[] types = new String[3];

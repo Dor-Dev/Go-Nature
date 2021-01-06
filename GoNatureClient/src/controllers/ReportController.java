@@ -48,6 +48,8 @@ public class ReportController {
 		report = (CancellationReport)reciveMsg.getObj();
 		System.out.println("reportController");
 		reportType=OperationType.CancellationReport;
+	case SubmitReport:
+		System.out.println("SUCESS REPORT CONTROLLER");
 		
 	break;
 	

@@ -35,7 +35,7 @@ public enum OperationType {
 	
 	//reports
 
-	SumVisitorsReport, RevenueReport, UsageReport, ReceiptInfo ,VisitingReport,CancellationReport,
+	SumVisitorsReport, RevenueReport, UsageReport, ReceiptInfo ,VisitingReport,CancellationReport, SubmitReport,
 	
 	// card reader
 
