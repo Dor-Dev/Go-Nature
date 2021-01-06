@@ -109,7 +109,7 @@ public class WaitingListMessagesDBController {
 				int sleepPeriodTime =1000 * 60 *60 ;
 			    try {
 			        Thread.sleep(sleepPeriodTime);
-			        //Updates the order status of the orders that were not approved to "Canceled"
+			        //Updates the order status of the orders that were not approved to "Canceled".
 			        int ifOrderWasCanceled =updateOrderStatus(orderID,"Canceled","Waiting list");
 			        if(ifOrderWasCanceled==1)
 			        	notifyTheNextOrderInTheWaitingList(order);
