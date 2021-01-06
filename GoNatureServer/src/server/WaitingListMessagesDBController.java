@@ -71,7 +71,7 @@ public class WaitingListMessagesDBController {
 		
 		//Get the next order in the waiting list
 		
-		nextOrderInWaitingList=selectTheNextOrderInTheWaitingList( "Waiting List","Not Sent",date,arrivalTime,amountOfVisitorsAvailable,parkName);
+		nextOrderInWaitingList=selectTheNextOrderInTheWaitingList( "Waiting list","Not sent",date,arrivalTime,amountOfVisitorsAvailable,parkName);
 		 //If there isn't next order in line return
 		if(nextOrderInWaitingList.get(1)==null) return;
 		int nextOrderID=(int)nextOrderInWaitingList.get(0);
@@ -109,8 +109,8 @@ public class WaitingListMessagesDBController {
 				int sleepPeriodTime =1000 * 60 *60 ;
 			    try {
 			        Thread.sleep(sleepPeriodTime);
-			        //Updates the order status of the orders that were not approved to "Canceled"
-			        int ifOrderWasCanceled =updateOrderStatus(orderID,"Canceled","Waiting List");
+			        //Updates the order status of the orders that were not approved to "Canceled".
+			        int ifOrderWasCanceled =updateOrderStatus(orderID,"Canceled","Waiting list");
 			        if(ifOrderWasCanceled==1)
 			        	notifyTheNextOrderInTheWaitingList(order);
 			        else if(order.getNumOfVisitors()-amountOfVisitorsOfNextOrder>0) {
