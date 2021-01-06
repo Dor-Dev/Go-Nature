@@ -11,6 +11,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * @author dana_
+ * A class that is responsible for the pop up of the registration GUI
+ */
+
 public class RegistartionPopUpController {
     @FXML
     private Label lblFirstMsg;
