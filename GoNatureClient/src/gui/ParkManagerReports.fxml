@@ -191,7 +191,7 @@
                            </VBox.margin>
                         </Button>
                      </children></VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox fx:id="vBoxReportSnapshot" prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <VBox fx:id="vboxReportDetails" prefHeight="83.0" prefWidth="380.0">
                            <children>
@@ -203,14 +203,19 @@
                                     <Font name="Cambria Bold Italic" size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblMonthYear" text="Month and Year">
-                                 <VBox.margin>
-                                    <Insets left="40.0" top="15.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font name="Cambria Bold" size="17.0" />
-                                 </font>
-                              </Label>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label fx:id="lblMonthYear" text="Month and Year">
+                                       <font>
+                                          <Font name="Cambria Bold" size="17.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets right="180.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Button mnemonicParsing="false" onAction="#popUpReport" text="Button" />
+                                 </children>
+                              </HBox>
                            </children>
                            <VBox.margin>
                               <Insets bottom="20.0" />

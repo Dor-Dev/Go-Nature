@@ -10,6 +10,8 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -146,7 +148,7 @@
       </HBox>
       <HBox prefHeight="488.0" prefWidth="769.0">
          <children>
-            <SplitPane dividerPositions="0.41851368970013036" prefHeight="490.0" prefWidth="769.0">
+            <SplitPane dividerPositions="0.3455019556714472" prefHeight="490.0" prefWidth="769.0" style="-fx-background-color: white;">
                <items>
                   <VBox prefHeight="466.0" prefWidth="295.0">
                      <children>
@@ -171,7 +173,7 @@
                               <Insets left="15.0" />
                            </VBox.margin>
                         </ComboBox>
-                        <Label layoutX="25.0" layoutY="65.0" text="Choose the park:">
+                        <Label fx:id="lblChooseParkName" layoutX="25.0" layoutY="65.0" text="Choose the park:">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -235,7 +237,7 @@
                               </VBox>
                               <VBox fx:id="vboxVisiting" prefHeight="420.0" prefWidth="443.0">
                                  <children>
-                                    <BarChart fx:id="barChartVisiting" prefHeight="364.0" prefWidth="443.0" title="Visiting Report">
+                                    <BarChart fx:id="barChartVisiting" maxHeight="400.0" minHeight="400.0" prefHeight="400.0" prefWidth="480.0" title="Visiting Report">
                                       <xAxis>
                                         <CategoryAxis fx:id="barChartX" label="Arrival time" side="BOTTOM" />
                                       </xAxis>
@@ -264,6 +266,25 @@
                                        </VBox.margin>
                                     </Label>
                                  </children>
+                              </VBox>
+                              <VBox fx:id="vboxReceivedReports" maxHeight="400.0" minHeight="400.0" prefHeight="400.0" prefWidth="499.0">
+                                 <children>
+                                    <TableView fx:id="tblReports" maxHeight="400.0" maxWidth="480.0" minHeight="400.0" minWidth="480.0" prefHeight="400.0" prefWidth="480.0">
+                                       <columns>
+                                          <TableColumn fx:id="colReportID" prefWidth="52.0" text="#" />
+                                          <TableColumn fx:id="colParkName" prefWidth="114.0" text="Park Name" />
+                                          <TableColumn fx:id="colReportName" prefWidth="133.0" text="Report Name" />
+                                          <TableColumn fx:id="colDate" prefWidth="90.0" text="Date" />
+                                          <TableColumn fx:id="colView" prefWidth="82.0" text="View" />
+                                       </columns>
+                                       <VBox.margin>
+                                          <Insets left="10.0" />
+                                       </VBox.margin>
+                                    </TableView>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="15.0" />
+                                 </VBox.margin>
                               </VBox>
                            </children>
                         </VBox>

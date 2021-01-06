@@ -678,18 +678,18 @@ public class AddOrderGUIController {
 	void openPriceList(MouseEvent event) {
 
 		File file2 = new File("src/gui/img/pricelist.jpeg");
-		Image winImage = new Image(file2.toURI().toString());
-		ImageView winnerImageView = new ImageView(winImage); // same here for winner image
-		winnerImageView.setFitWidth(370);
-		winnerImageView.setFitHeight(520);
-		Stage newWinnerWindow = new Stage();
+		Image priceImage = new Image(file2.toURI().toString());
+		ImageView priceListImage = new ImageView(priceImage); // same here for winner image
+		priceListImage.setFitWidth(370);
+		priceListImage.setFitHeight(520);
+		Stage priceListStage = new Stage();
 		StackPane myLayout2 = new StackPane();
 		Scene myScene2 = new Scene(myLayout2, 370, 520);
-		Label label2 = new Label("", winnerImageView);
+		Label label2 = new Label("", priceListImage);
 		myLayout2.getChildren().add(label2);
-		newWinnerWindow.setTitle("Price List");
-		newWinnerWindow.setScene(myScene2);
-		newWinnerWindow.show();
+		priceListStage.setTitle("Price List");
+		priceListStage.setScene(myScene2);
+		priceListStage.show();
 	}
 
 	@FXML
