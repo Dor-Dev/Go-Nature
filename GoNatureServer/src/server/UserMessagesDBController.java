@@ -13,8 +13,8 @@ import runner.PeriodicallyRunner;
 /**
  * 
  * @author dana_
- *A class that responsible for the sending remainders messages simulation (with an "approve order" request) .
- *The class also responsible for the automatic cancellation of an order (when a traveler hasn't approved his arrival two hours after)
+ *A class that responsible for sending remainders messages simulation (with an "approve order" request) .
+ *The class also responsible for automatic cancellation of an order after 2 hours (when a traveler hasn't approved his arrival two hours after)
  *If an order is been canceled a message will be send to the traveler
  */
 
@@ -27,7 +27,9 @@ public class UserMessagesDBController {
 	private int targetHour1,targetHour2;
 	private int targetMinutes1,targetMinutes2;
 	private long delta1,delta2;
-	private static SqlConnection sqlConnection = null;
+	 //Get SQL connection
+	private static SqlConnection sqlConnection = SqlConnection.getConnection();
+
 	
 	//Reuse of PeriodicallyRunner from external library
 	//PeriodicallyRunner is a class that execute a specific runnable at specific starting hour and starting minutes and repeat every delta units of time  
@@ -38,10 +40,11 @@ public class UserMessagesDBController {
 	//To Save he date of tomorrow
 	public static java.sql.Date tommorow; 
 	
-	//For the simulation we will initialize the time unit to be minutes so every few minutes the messages will be send (we can't wait 2 hours since the first message is sent)
+	//The time unit is days because each day at a given time we will run the check and send the suitable messages.
 	public static TimeUnit simulationTimeUnit =TimeUnit.DAYS;
 		
 	
+	//Constructor
 	
 	public UserMessagesDBController(int targetHour1, int targetHour2, int targetMinutes1,int targetMinutes2, long delta1,long delta2) {
 		this.targetHour1 = targetHour1;
@@ -59,12 +62,6 @@ public class UserMessagesDBController {
 		 date=c.getTime();
 		 tommorow = new java.sql.Date(date.getTime());
 		 
-		 //Get SQL connection
-		try {
-			sqlConnection = SqlConnection.getConnection();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}	
 	}
 
 	/**
@@ -76,42 +73,46 @@ public class UserMessagesDBController {
 	
 	    runnerToSendReminderADayBeforeArrival = new PeriodicallyRunner(targetHour1, targetMinutes1, simulationTimeUnit , delta1, new Runnable() {
 			public void run() {
-				ArrayList<ArrayList<Object>> ordersList=UserMessagesDBController.selectOrdersdetailsWhoScheduledForTomorrowByTheirAprovalStatus("Didn't send yet");
+				ArrayList<ArrayList<Object>> ordersList=UserMessagesDBController.selectOrdersdetailsWhoScheduledForTomorrowByTheirAprovalStatus("Received","Not sent");
 				for(ArrayList<Object> order : ordersList){
 					String title="Confirm your arrival to the park tomorrow";
 					String messageContent="Simulation"+"\r\n"+"\r\n"+"Order number "+order.get(0) + " is scheduled for tomorrow, please confirm your arrival.\r\n" + "You have 2 hours to confirm or cancel you arrival – \r\n" + 
-			    			"Or else the order will be automatically canceled. \r\n"+"\r\n"+"\r\n" +"This message was send to "+order.get(1)+" and "+order.get(2)+" .";
+			    			"Or else the order will be automatically canceled. \r\n"+"Go to:"+"\r\n"+"Go-Nature system ---> 'My Orders'"+"\r\n"+"and approve your order.\r\n "+"\r\n"+"\r\n" +"This message was send to "+order.get(1)+" and "+order.get(2)+" .";
 
 					JOptionPane.showMessageDialog(null, messageContent,title,JOptionPane.INFORMATION_MESSAGE);
 				}
-				UserMessagesDBController.updateOrdersDetailMessageStatus("Didn't send yet", "The message was sent");
+				UserMessagesDBController.updateMessageStatus("Received", "Sent", "Not sent");
 			}
 	    });		
 	    
       runnerToSendCancelationMsgAfterTwoHours = new PeriodicallyRunner(targetHour2, targetMinutes2, simulationTimeUnit , delta2, new Runnable() {
 			public void run() {
-				ArrayList<ArrayList<Object>> ordersList=UserMessagesDBController.selectOrdersdetailsWhoScheduledForTomorrowByTheirAprovalStatus("The message was sent");
+				ArrayList<ArrayList<Object>> ordersList=UserMessagesDBController.selectOrdersdetailsWhoScheduledForTomorrowByTheirAprovalStatus("Received","Sent");
 				for(ArrayList<Object> order : ordersList){
 					String title="Your order was canceled";
-					String messageContent="Your confirmation period of time has ended-\r\n" + "Order number "+order.get(0)+" has been canceled.\r\n"+"\r\n"+"\r\n" +"This message was send to "+order.get(1)+" and "+order.get(2)+" .";
+					String messageContent="Simulation"+"\r\n"+"\r\n"+"Your confirmation period of time has ended-\r\n" + "Order number "+order.get(0)+" has been canceled.\r\n"+"\r\n"+"\r\n" +"This message was send to "+order.get(1)+" and "+order.get(2)+" .";
 							
 					JOptionPane.showMessageDialog(null, messageContent,title,JOptionPane.INFORMATION_MESSAGE);
 				}
-				UserMessagesDBController.updateOrdersDetailMessageStatus("The message was sent", "Canceled");
+				UserMessagesDBController.updateOrderStatus("Canceled", "Received", "Sent");
 			}
       });
 	}
+	
+	
 	/**
-	 * A method that execute SELECT query and returns the orderID, email, phoneNumber of all the orders which are scheduled for tomorrow and have the given message status
+	 * A method that execute SELECT query and returns the orderID, email, phoneNumber of all the orders which are scheduled for tomorrow and have the given message and order statuses
+	 * The method returns the SELECT result as an array list of objects array list
 	 */
-	public static ArrayList<ArrayList<Object>> selectOrdersdetailsWhoScheduledForTomorrowByTheirAprovalStatus(String orderApprovedStatus )  {
+	public static ArrayList<ArrayList<Object>> selectOrdersdetailsWhoScheduledForTomorrowByTheirAprovalStatus( String orderStatus,String msgStatus )  {
 		PreparedStatement pstm;
 		ArrayList<Object> orderDetails = new ArrayList<>();
 		ArrayList<ArrayList<Object>> allOrdersDetails= new ArrayList<>();
 		try { 
-			pstm = sqlConnection.connection.prepareStatement("SELECT orderID, email, phoneNumber FROM orders WHERE arrivalDate=? AND orderApproved=?");
+			pstm = sqlConnection.connection.prepareStatement("SELECT orderID, email, phoneNumber FROM orders WHERE arrivalDate=? AND status=? AND msgStatus=?");
 			pstm.setDate(1,  tommorow);
-			pstm.setString(2, orderApprovedStatus);
+			pstm.setString(2, orderStatus);
+			pstm.setString(3,msgStatus);
 			ResultSet rs = pstm.executeQuery();
 		
 	      // iterate through the java result set
@@ -123,7 +124,6 @@ public class UserMessagesDBController {
 		      allOrdersDetails.add(orderDetails);
 		      orderDetails=new ArrayList<Object>();
 		    }		
-		    System.out.println(allOrdersDetails);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -132,16 +132,38 @@ public class UserMessagesDBController {
 		
 	}
 	
+	
 	/**
-	 * A method that execute UPDATE query and updates the message status of orders which are scheduled for tomorrow and have the given message status
+	 * A method that execute UPDATE query and updates  the order status of orders which are scheduled for tomorrow and have the given message and order statuses 
+	 * @return 
 	 */
-	public static void updateOrdersDetailMessageStatus(String orderApprovedStatusBefore,String orderApprovedStatusAfter) {
+	public static void updateOrderStatus(String newOrderStatus,String oldOrderStatus, String messageStatus) {
 		PreparedStatement pstm;
 		try {
-			pstm = UserMessagesDBController.sqlConnection.connection.prepareStatement("UPDATE  orders SET orderApproved=?  where arrivalDate=? AND orderApproved=?");
-			pstm.setString(1, orderApprovedStatusAfter);
+			pstm = UserMessagesDBController.sqlConnection.connection.prepareStatement("UPDATE  orders SET status=? WHERE arrivalDate=? AND status=? AND msgStatus=?");
+			pstm.setString(1, newOrderStatus);
 			pstm.setDate(2, UserMessagesDBController.tommorow);
-			pstm.setString(3, orderApprovedStatusBefore);
+			pstm.setString(3, oldOrderStatus);
+			pstm.setString(4, messageStatus);
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	/**
+	 * A method that execute UPDATE query and updates the message status of orders which are scheduled for tomorrow and have the given message message and order statuses 
+	 */
+	public static void updateMessageStatus(String orderStatus,String newMessageStatus, String oldMessageStatus) {
+		PreparedStatement pstm;
+		try {
+			pstm = UserMessagesDBController.sqlConnection.connection.prepareStatement("UPDATE  orders SET msgStatus=? WHERE arrivalDate=? AND status=? AND msgStatus=?");
+			pstm.setString(1, newMessageStatus);
+			pstm.setDate(2, UserMessagesDBController.tommorow);
+			pstm.setString(3, orderStatus);
+			pstm.setString(4, oldMessageStatus);
 			pstm.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
