@@ -82,7 +82,7 @@ public class WaitingListMessagesDBController {
 		//Create the message title and content
 		messageTitle="A space became available at the park";
 		messageContent="Simulation"+"\r\n"+"\r\n"+"Order number" + nextOrderID+ " is now available!\r\n" + 
-				"You have 1 hour to confirm your order –\r\n" + 
+				"You have 1 hour to confirm your order ï¿½\r\n" + 
 				"Or else the order will be automatically canceled.\r\n" + 
 				"Go to:"+"\r\n"+" Go-Nature system ---> 'My Orders' "+"\r\n"+"and approve your order.\r\n "+
 				"\r\n"+"\r\n" +"This message was send to "+nextEmail+" and "+phoneNumber+" .";
@@ -106,7 +106,7 @@ public class WaitingListMessagesDBController {
 			@Override
 			public void run() {
 				//Sleep for 1 hour -For the simulation we will change it to several minutes instead of 1 hour so the messages will be send at that certain moment  
-				int sleepPeriodTime =1000 * 60 *60 ;
+				int sleepPeriodTime =1000 * 60 *2 ;
 			    try {
 			        Thread.sleep(sleepPeriodTime);
 			        //Updates the order status of the orders that were not approved to "Canceled".
@@ -134,7 +134,7 @@ public class WaitingListMessagesDBController {
 		PreparedStatement pstm;
 		ArrayList<Object> orderDetails = new ArrayList<>();
 		try { 
-			pstm = sqlConnection.connection.prepareStatement("SELECT MIN(orderID), email, actualNumberOfVisitors, phoneNumber FROM orders WHERE parkName=? AND arrivalDate=? AND hourTime=? AND status=? AND actualNumberOfVisitors<= ? AND msgStatus=?");
+			pstm = sqlConnection.connection.prepareStatement("SELECT MIN(orderID), email, actualNumberOfVisitors, phoneNumber FROM orders WHERE parkName=? AND arrivalDate=? AND hourTime=? AND status=? AND actualNumberOfVisitors<= ? AND msgStatus=? GROUP BY orderID");
 			pstm.setString(1,parkName);
 			pstm.setDate(2,  arrivalDate);
 			pstm.setInt(3, hourTime);

@@ -73,7 +73,7 @@ public class OrderDBController {
 		PreparedStatement pstm;
 		List<String> eventInfo = new ArrayList<String>();
 		OrderRequest request = (OrderRequest)clientMsg.getObj();
-		String query = "SELECT startDate, endDate,discount,eventName FROM eventrequests WHERE ? between startDate and endDate AND status='active'";
+		String query = "SELECT startDate, endDate,discount,eventName FROM eventrequests WHERE ? between startDate and endDate AND status='Active'";
 		
 		try {
 			pstm = sqlConnection.connection.prepareStatement(query);
@@ -424,7 +424,7 @@ public class OrderDBController {
 		int[] hourIndex = new int[24];
 		ResultSet rs;
 		PreparedStatement preparedStmt = null;
-		query = "SELECT  hourTime , SUM(actualNumberOfVisitors) FROM orders WHERE arrivalDate=? AND parkName=? AND status<>'Canceled' AND status<>'Waiting List' group by hourTime";
+		query = "SELECT  hourTime , SUM(actualNumberOfVisitors) FROM orders WHERE arrivalDate=? AND parkName=? AND status<>'Canceled' AND status<>'Waiting list' group by hourTime";
 		try {
 			preparedStmt = sqlConnection.connection.prepareStatement(query);
 			preparedStmt.setString(1,date.toString());
