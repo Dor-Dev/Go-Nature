@@ -235,8 +235,11 @@ public class OrderDBController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(res==1)
+		if(res==1) {
+			WaitingListMessagesDBController waitingList = new WaitingListMessagesDBController();
+			waitingList.notifyTheNextOrderInTheWaitingList(tmp);
 			return new Message(OperationType.CancelOrderSuccess,ClientControllerType.OrderController,(Object)"Cancel Success");
+		}
 		return null;
 		
 	}

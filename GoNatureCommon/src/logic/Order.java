@@ -127,6 +127,10 @@ public class Order implements Serializable {
 	public int getNumOfVisitors() {
 		return numOfVisitors;
 	}
+	
+	public void setNumOfVisitors(int numOfVisitors) {
+		this.numOfVisitors = numOfVisitors;
+	}
 
 	public String getEmail() {
 		return email;
