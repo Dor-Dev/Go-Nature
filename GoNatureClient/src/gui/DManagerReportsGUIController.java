@@ -145,7 +145,7 @@ public class DManagerReportsGUIController {
 	private VBox vboxVisiting;
 
 	@FXML
-	private BarChart<Integer, Integer> barChartVisiting;
+	private BarChart<String, Integer> barChartVisiting;
 
 	@FXML
 	private CategoryAxis barChartX;
@@ -337,11 +337,19 @@ public class DManagerReportsGUIController {
 			this.cmbParkName.setVisible(true);
 			this.btnProduceReport.setVisible(true);
 			this.lblChooseParkName.setVisible(true);
+			this.vboxReceivedReports.setManaged(false);
+			this.vboxReceivedReports.setVisible(false);
+			this.tblReports.setManaged(false);
+			this.tblReports.setVisible(false);
 		} else if (reportName.equals("Cancellation report")) {
 			this.cmbType.setManaged(false);
 			this.lblType.setManaged(false);
 			this.cmbType.setVisible(false);
 			this.lblType.setVisible(false);
+			this.vboxReceivedReports.setManaged(false);
+			this.vboxReceivedReports.setVisible(false);
+			this.tblReports.setManaged(false);
+			this.tblReports.setVisible(false);
 			this.datePicker.setManaged(true);
 			this.datePicker.setVisible(true);
 			this.lblDate.setManaged(true);
@@ -350,6 +358,7 @@ public class DManagerReportsGUIController {
 			this.cmbParkName.setVisible(true);
 			this.btnProduceReport.setVisible(true);
 			this.lblChooseParkName.setVisible(true);
+			
 		} else if (reportName.equals("Park Manager's Reports")) {
 			this.cmbType.setManaged(false);
 			this.lblType.setManaged(false);
@@ -581,9 +590,27 @@ public class DManagerReportsGUIController {
 
 			this.barChartVisiting.getData().clear();
 
-			XYChart.Series set1 = new XYChart.Series<>();
-			set1.getData().clear();
+			//XYChart.Series <String,Integer> set1 = new XYChart.Series<>();
+			
+			XYChart.Series <String,Integer> []  set  = new XYChart.Series [hours.length] ;
+		
+			for(int i = 0; i < hours.length; i++)
+			{
+				set[i] = new XYChart.Series<String,Integer>();
+			}
+			
 			for (int i = 0; i < hours.length; i++) {
+				if (hours[i] != 0) {
+					System.out.println(hours[i] +" = " + visitors[i]);
+					set[i].getData().add(new XYChart.Data<>("", visitors[i]));
+					set[i].setName(hours[i] + ":00");
+					this.barChartVisiting.getData().add(set[i]);
+
+				}
+			}
+	
+			//set1.getData().clear();
+			/*for (int i = 0; i < hours.length; i++) {
 				if (hours[i] != 0) {
 					System.out.println(hours[i]);
 					set1.getData().addAll(new XYChart.Data<>(String.valueOf(hours[i] + ":00"), visitors[i]));
@@ -594,9 +621,10 @@ public class DManagerReportsGUIController {
 			}
 			set1.setName(cmbType.getValue());
 
-			this.barChartVisiting.getData().addAll(set1);
-			this.barChartVisiting.setBarGap(0);
-			this.barChartVisiting.setCategoryGap(50);
+			this.barChartVisiting.getData().addAll(set1);*/
+			
+			this.barChartVisiting.setBarGap(20);
+			this.barChartVisiting.setCategoryGap(80);
 
 		}
 
