@@ -122,7 +122,9 @@ public class Validation {
 	 * @return
 	 */
 	public static boolean eventNameValidation(String eventName) {
-		String eventNameFormat = "[a-zA-Z0-9\\-.]+";
+		if(eventName==null)
+			return false;
+		String eventNameFormat = "[a-zA-Z0-9\\-\\.]+";
 		return eventName.matches(eventNameFormat);
 	}
 	/**
