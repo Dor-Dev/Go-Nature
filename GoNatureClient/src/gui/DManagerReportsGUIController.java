@@ -587,10 +587,12 @@ public class DManagerReportsGUIController {
 				if (hours[i] != 0) {
 					System.out.println(hours[i]);
 					set1.getData().addAll(new XYChart.Data<>(String.valueOf(hours[i] + ":00"), visitors[i]));
+					
 
 				}
 
 			}
+			set1.setName(cmbType.getValue());
 
 			this.barChartVisiting.getData().addAll(set1);
 			this.barChartVisiting.setBarGap(0);
