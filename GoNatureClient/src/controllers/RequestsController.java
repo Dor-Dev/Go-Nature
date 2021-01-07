@@ -10,32 +10,37 @@ import logic.Event;
 import logic.ReportImage;
 import logic.Update;
 
+/**
+ * Controller who receive the message from server and update the relevant variables.
+ * @author dorswisa
+ *
+ */
 public class RequestsController {
 	public static OperationType requestType = null;
 
 	public static void requestsPraseDate(Message reciveMsg) {
 		switch (reciveMsg.getOperationType()) {
-		case ShowUpdateTable:
+		case ShowUpdateTable: //case which get the update parametrs request as a list 
 			DManagerRequestsGUIController.updateData = (List<Update>) reciveMsg.getObj();
 			requestType = OperationType.UpdateTableArrived;
 			break;
-		case ShowEventTable:
+		case ShowEventTable:////case which get the event requests as a list 
 			DManagerRequestsGUIController.eventData = (List<Event>) reciveMsg.getObj();
 			requestType = OperationType.EventTableArrived;
 			break;
-		case EventActivated:
+		case EventActivated://case which indicates the event are activated
 			requestType = OperationType.EventActivated;
 			break;
-		case EventCanceled:
+		case EventCanceled://case which indicates the event was canceled.
 			requestType = OperationType.EventCanceled;
 			break;
-		case UpdateConfrimation:
+		case UpdateConfrimation://case which indicates the update request was approved.
 			requestType = OperationType.UpdateConfrimation;
 			break;
-		case UpdateDecline:
+		case UpdateDecline://case which indicates the update request was decline 
 			requestType = OperationType.UpdateDecline;
 			break;
-		case ReturnReceivedReport:
+		case ReturnReceivedReport://case which return the list on the reports the park manager was created for department manager.
 			DManagerReportsGUIController.reports = (List<ReportImage>) reciveMsg.getObj();
 			break;
 		default:

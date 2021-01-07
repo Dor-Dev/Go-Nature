@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.media.jfxmediaimpl.platform.Platform;
-
-import client.ClientController;
 import client.MainClient;
 import common.Message;
 import controllers.EmployeeController;
@@ -28,6 +25,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.Update;
+import logic.Validation;
 
 public class ManagerDetailsGUIController {
 	@FXML
@@ -134,6 +132,15 @@ public class ManagerDetailsGUIController {
 	 */
 	@FXML
 	void sendUpdateRequest(MouseEvent event) {
+		String validMsg = eventsFeildsValidation();
+		if(!validMsg.equals("OK")) {
+			Alert a = new Alert(AlertType.INFORMATION);
+			a.setHeaderText("Please correct the " + validMsg + " field");
+			a.setContentText("Validation Error");
+			a.setTitle("Validation Error");
+			a.showAndWait();
+			return;
+		}
 		String status = "Waiting";
 		Update update = new Update(EmployeeController.employeeConected.getOrganizationAffilation(),
 				Integer.valueOf(txtVisitorCapcity.getText()), Integer.valueOf(txtDifference.getText()),
@@ -148,7 +155,16 @@ public class ManagerDetailsGUIController {
 			a.showAndWait();
 		}
 	}
-
+	private String eventsFeildsValidation() {
+		if(!Validation.onlyDigitsValidation(txtVisitorCapcity.getText()))
+			return "Park Capacity";
+		if(!Validation.onlyDigitsValidation(txtDifference.getText()))
+			return "Difference field";
+		if(!Validation.onlyDigitsValidation(txtHours.getText()))
+			return "Hours field";
+		return "OK";
+		
+	}
 	/*
 	 * close popup window button
 	 */

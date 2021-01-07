@@ -39,6 +39,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.Event;
+import logic.Validation;
 
 public class EventsGUIController implements Initializable {
 	public static List<Event> data;
@@ -145,9 +146,21 @@ public class EventsGUIController implements Initializable {
 		// do what you have to do
 		stage.close();
 	}
-
+	/**
+	 * When the button pressed it send to the server new event request.
+	 * @param event
+	 */
 	@FXML
 	void sendEventRequest(ActionEvent event) {
+		String validMsg = eventsFeildsValidation();
+		if(!validMsg.equals("OK")) {
+			Alert a = new Alert(AlertType.INFORMATION);
+			a.setHeaderText("Please correct the " + validMsg + " field");
+			a.setContentText("Validation Error");
+			a.setTitle("Validation Error");
+			a.showAndWait();
+			return;
+		}
 		String status = "Waiting";
 		LocalDate stDate = dpStartDate.getValue();
 		Date startDate = Date.valueOf(stDate);
@@ -170,7 +183,21 @@ public class EventsGUIController implements Initializable {
 		}
 
 	}
-
+	private String eventsFeildsValidation() {
+		if(!Validation.eventNameValidation(txtEventName.getText()))
+			return "Event Name";
+		if(Validation.isNull(dpStartDate.getValue()))
+			return "Start Date";
+		if(Validation.isNull(dpEndDate.getValue()))
+			return "End Date";
+		if(!Validation.discoutValidation(txtDicount.getText()))
+			return "Discount";
+		return "OK";
+		
+	}
+	/**
+	 * Shows ParkMangerEvents GUI
+	 */
 	public void show() {
 
 		VBox root;
@@ -225,6 +252,7 @@ public class EventsGUIController implements Initializable {
 		colDiscount.setStyle("-fx-alignment: CENTER");
 		dpStartDate.getEditor().setDisable(true);
 		dpEndDate.getEditor().setDisable(true);
+		//Disable the irrelevant dates in the date picker.
 		Callback<DatePicker, DateCell> callB = new Callback<DatePicker, DateCell>() {
 			@Override
 			public DateCell call(final DatePicker param) {
@@ -246,7 +274,7 @@ public class EventsGUIController implements Initializable {
 
 		};
 		dpEndDate.setDayCellFactory(callB);
-
+		//Disable irrelevant dates in the end date picker 
 		Callback<DatePicker, DateCell> callB2 = new Callback<DatePicker, DateCell>() {
 			@Override
 			public DateCell call(final DatePicker param) {
@@ -267,7 +295,9 @@ public class EventsGUIController implements Initializable {
 		dpStartDate.setDayCellFactory(callB2);
 
 	}
-
+	/**
+	 * set event table data.
+	 */
 	public void setData() {
 		tblEvents.setItems(FXCollections.observableArrayList(data));
 	}

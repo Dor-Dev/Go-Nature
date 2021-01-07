@@ -37,6 +37,11 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.Order;
 
+/**
+ * Controller class which shows to user his own future orders and their status
+ * @author dorswisa
+ *
+ */
 public class MyOrdersGUIController implements Initializable {
 	public static List<Order> myOrders = null;
 	public static String msgFromServer = null;
@@ -123,7 +128,9 @@ public class MyOrdersGUIController implements Initializable {
 		mp.show();
 
 	}
-
+	/**
+	 * Show MyOrder GUI
+	 */
 	public void show() {
 		VBox root;
 		Stage primaryStage = new CloseStage();
@@ -162,12 +169,12 @@ public class MyOrdersGUIController implements Initializable {
 		tempMenuLabels.add(myOrdersController.mnuRequests);
 		return tempMenuLabels;
 	}
-
+	/**
+	 * initialize my Orders table
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		/**
-		 * initialize my Orders table
-		 */
+		
 		colOrderNumber.setCellValueFactory(new PropertyValueFactory<>("orderID"));
 		colParkName.setCellValueFactory(new PropertyValueFactory<>("parkName"));
 		colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -195,13 +202,13 @@ public class MyOrdersGUIController implements Initializable {
 
 					private final Button btnV = new Button("Approve");
 					private final Button btnX = new Button("Decline");
-					{
+					{	//approve button function, when pressed send to server message to approve the order
 						btnV.setOnAction((ActionEvent event) -> {
 							Order tmp = getTableView().getItems().get(getIndex());
 
 							if(tmp.getStatus().equals("Received") && tmp.getMsgStatus().equals("Sent")) {
 								MainClient.clientConsole.accept(new Message(OperationType.OrderFinalApproval,DBControllerType.OrderDBController,(Object)tmp));
-								if(msgFromServer.equals("The final approval was successful")) {
+								if(msgFromServer.equals("The final approval was successful")) { //return answer from server which indicates the order was approved, pop-up to user to inform him.
 									Alert a = new Alert(AlertType.INFORMATION);
 									a.setHeaderText("Order #"+tmp.getOrderID()+" was Approved");
 									a.setContentText("We'll be happy to see you on " + tmp.getDate());
@@ -222,11 +229,11 @@ public class MyOrdersGUIController implements Initializable {
 								}
 							}
 						});
-
+						//cancel button function , when pressed send to server message to cancel the order.
 						btnX.setOnAction((ActionEvent event) -> {
 							Order tmp = getTableView().getItems().get(getIndex());
 							MainClient.clientConsole.accept(new Message(OperationType.CancelOrder,DBControllerType.OrderDBController,(Object)tmp));
-							if(msgFromServer.equals("Cancel Success")) {
+							if(msgFromServer.equals("Cancel Success")) {//returned answer from server which indicates the order was canceled, pop-up to user to inform him.
 								Alert a = new Alert(AlertType.INFORMATION);
 								a.setHeaderText("Order #"+tmp.getOrderID()+" was canceled");
 								a.setContentText("You can not change the cancellation");
@@ -247,7 +254,7 @@ public class MyOrdersGUIController implements Initializable {
 							Order tmp = getTableView().getItems().get(getIndex());
 							HBox hBox1;
 							HBox hBox2 = new HBox(btnX);
-
+							//add the relevant buttons to each row according the status and the msgStatus.
 							if ((tmp.getStatus().equals("Approved") && tmp.getMsgStatus().equals("Sent"))
 									|| (tmp.getStatus().equals("Canceled") && tmp.getMsgStatus().equals("Sent")) || (tmp.getStatus().equals("Canceled") && tmp.getMsgStatus().equals("Not sent"))) {
 								return;
@@ -310,6 +317,9 @@ public class MyOrdersGUIController implements Initializable {
 		});
 
 	}
+	/**
+	 * Show to the user his own future orders
+	 */
 	private void showMyOrderTable() {
 		int id = VisitorController.loggedID;
 		if (VisitorController.subscriberConnected == null) {
