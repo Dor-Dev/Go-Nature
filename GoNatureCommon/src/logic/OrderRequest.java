@@ -26,6 +26,10 @@ public class OrderRequest implements Serializable {
 		this.askedDate = askdate;
 		this.numOfvisitorAsked = numOfvisitorAsked;
 	}
+	public OrderRequest(LocalDate askdate) {
+		super();
+		this.askedDate = askdate;
+	}
 	
 	public LocalDate getAskdate() {
 		return askedDate;

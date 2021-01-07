@@ -166,10 +166,14 @@ public class AddOrderGUIController {
 	@FXML
 	private Label lblGroupTip;
 
+	@FXML
+	private Label lblEventDiscount1;
+
+	@FXML
+	private Label lblEventDiscount2;
 
 	@FXML
 	private Label lblPriceList;
-
 
 	/**
 	 * function to load AddOrder screen
@@ -222,6 +226,13 @@ public class AddOrderGUIController {
 	@FXML
 	public void initializeAddOrder() {
 
+		// date picker disable typing
+		date.getEditor().setDisable(true);
+
+		// set managed false to labal of manager events
+		lblEventDiscount1.setManaged(false);
+		lblEventDiscount2.setManaged(false);
+
 		// Initialize combo box phone first 3 numbers
 		cmbPhoneStart.getItems().removeAll(cmbPhoneStart.getItems());
 		cmbPhoneStart.getItems().addAll("050", "051", "052", "053", "054", "055", "056", "057", "058", "059");
@@ -264,6 +275,7 @@ public class AddOrderGUIController {
 		cmbNumOfVisitors.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
 				"15");
 
+		// group tip disable
 		lblGroupTip.setVisible(false);
 
 		if (VisitorController.subscriberConnected != null
@@ -326,6 +338,22 @@ public class AddOrderGUIController {
 		if (VisitorController.subscriberConnected != null
 				&& VisitorController.subscriberConnected.getCreditCard() != null || rdGroup.isSelected())
 			cbPayNow.setVisible(true);
+		
+		if(OrderController.discountDateEvent!=0)
+		{
+			lblEventDiscount1.setText(date.getValue().toString() +" "+ OrderController.eventName);
+			lblEventDiscount1.setManaged(true);
+			lblEventDiscount1.setVisible(true);
+			lblEventDiscount2.setText(OrderController.discountDateEvent+"% off");
+			lblEventDiscount2.setManaged(true);
+			lblEventDiscount2.setVisible(true);
+		}
+		else {
+			lblEventDiscount1.setManaged(false);
+			lblEventDiscount1.setVisible(false);
+			lblEventDiscount2.setManaged(false);
+			lblEventDiscount2.setVisible(false);
+		}
 	}
 
 	@FXML
@@ -362,7 +390,7 @@ public class AddOrderGUIController {
 			return "Park Name";
 		if (Validation.isNull(date.getValue()))
 			return "Date";
-		if(cmbNumOfVisitors.getValue()==null)
+		if (cmbNumOfVisitors.getValue() == null)
 			return "Number Of Visitors";
 		if (!Validation.emailValidation(txtEmail.getText()))
 			return "Email";
@@ -416,7 +444,7 @@ public class AddOrderGUIController {
 				date.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))), userID,
 				Integer.parseInt((String) cmbNumOfVisitors.getValue().toString()), txtEmail.getText(),
 				typeToogleSelected, cbPayNow.isSelected(), hour, (int) finalPrice,
-				cmbPhoneStart.getValue() + txtPhoneEnd.getText(), "Not sent", "Received",calculateDiscount());
+				cmbPhoneStart.getValue() + txtPhoneEnd.getText(), "Not sent", "Received", calculateDiscount());
 		System.out.println("NEW ORDER CREATED!");
 		request = new OrderRequest(date.getValue(), hour, Integer.parseInt(cmbNumOfVisitors.getValue()),
 				cmbParkName.getValue());
@@ -455,7 +483,10 @@ public class AddOrderGUIController {
 
 	private int calculateDiscount() {
 		// calculate discount per ticket
+		
 		int discount = 0;
+		if(OrderController.discountDateEvent!=0)
+			discount+=OrderController.discountDateEvent;
 		if (rdSingleFamily.isSelected())
 			discount += 15; // price after pre-Order for signle/family
 		if (rdGroup.isSelected())
@@ -533,6 +564,7 @@ public class AddOrderGUIController {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		newOrder.setStatus("Waiting List");
 		executeAddOrderQuery(); // insert order into order DB with status "waiting" (waiting list)
+		
 	}
 
 	@FXML
@@ -646,18 +678,28 @@ public class AddOrderGUIController {
 	void openPriceList(MouseEvent event) {
 
 		File file2 = new File("src/gui/img/pricelist.jpeg");
-		Image winImage = new Image(file2.toURI().toString());
-		ImageView winnerImageView = new ImageView(winImage); // same here for winner image
-		winnerImageView.setFitWidth(370);
-		winnerImageView.setFitHeight(520);
-		Stage newWinnerWindow = new Stage();
+		Image priceImage = new Image(file2.toURI().toString());
+		ImageView priceListImage = new ImageView(priceImage); // same here for winner image
+		priceListImage.setFitWidth(370);
+		priceListImage.setFitHeight(520);
+		Stage priceListStage = new Stage();
 		StackPane myLayout2 = new StackPane();
 		Scene myScene2 = new Scene(myLayout2, 370, 520);
-		Label label2 = new Label("", winnerImageView);
+		Label label2 = new Label("", priceListImage);
 		myLayout2.getChildren().add(label2);
-		newWinnerWindow.setTitle("Price List");
-		newWinnerWindow.setScene(myScene2);
-		newWinnerWindow.show();
+		priceListStage.setTitle("Price List");
+		priceListStage.setScene(myScene2);
+		priceListStage.show();
+	}
+
+	@FXML
+	void checkDiscountEvents(ActionEvent event) {
+		if(date.getValue()==null)
+			return;
+		OrderRequest request = new OrderRequest(date.getValue());
+		MainClient.clientConsole.accept(
+				new Message(OperationType.checkEventDiscount, DBControllerType.OrderDBController, (Object) request));
+		updateGroupDiscount(event);
 	}
 
 }

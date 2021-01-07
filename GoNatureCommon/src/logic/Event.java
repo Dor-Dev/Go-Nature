@@ -50,6 +50,7 @@ public class Event implements Serializable {
 		this.discount = discount;
 		this.status = status;
 	}
+	
 	public Event(String eventName, Date startDate, Date endDate, int discount) {
 		super();
 		this.eventName = eventName;
@@ -57,6 +58,7 @@ public class Event implements Serializable {
 		this.endDate = endDate;
 		this.discount = discount;
 	}
+	/*
 	public Event(int requestNum,String eventName, Date startDate, Date endDate, int discount) {
 		super();
 		this.requestNum = requestNum;
@@ -64,7 +66,30 @@ public class Event implements Serializable {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.discount = discount;
+	}*/
+
+	/**
+	 * @param requestNum
+	 * @param parkName
+	 * @param eventName
+	 * @param startDate
+	 * @param endDate
+	 * @param discount
+	 * @param status
+	 */
+	public Event(int requestNum, String parkName, String eventName, Date startDate, Date endDate, int discount,
+			String status) {
+		super();
+		this.requestNum = requestNum;
+		this.parkName = parkName;
+		this.eventName = eventName;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.discount = discount;
+		this.status = status;
 	}
+
+
 
 	public int getRequestNum() {
 		return requestNum;

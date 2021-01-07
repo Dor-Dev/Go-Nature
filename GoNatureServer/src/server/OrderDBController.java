@@ -58,12 +58,42 @@ public class OrderDBController {
 			return getOutFromWaitingList(clientMsg);
 		case FindOrder:
 			return findOrder(clientMsg);
+		case checkEventDiscount:
+			return checkEventDiscount(clientMsg);
 		default:
 			break;
 		}
 		return null;
 	}
 	
+	private Object checkEventDiscount(Message clientMsg) {
+		
+		int discount = 0;
+		String eventName = "";
+		PreparedStatement pstm;
+		List<String> eventInfo = new ArrayList<String>();
+		OrderRequest request = (OrderRequest)clientMsg.getObj();
+		String query = "SELECT startDate, endDate,discount,eventName FROM eventrequests WHERE ? between startDate and endDate AND status='Active'";
+		
+		try {
+			pstm = sqlConnection.connection.prepareStatement(query);
+			pstm.setString(1, request.getAskdate().toString());
+			ResultSet rs = pstm.executeQuery();
+			while(rs.next()) {
+				discount = rs.getInt(3);
+				eventName = rs.getString(4);
+				System.out.println("NEXTT");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		eventInfo.add(String.valueOf(discount));
+		eventInfo.add(eventName);
+		return new Message(OperationType.EventDiscountAmount,ClientControllerType.OrderController,eventInfo);
+	}
+
 	/**
 	 * This method searches for the visitor's ID  with the relevant date and time in the orders table.
 	 * @param clientMsg
@@ -205,8 +235,11 @@ public class OrderDBController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(res==1)
+		if(res==1) {
+			WaitingListMessagesDBController waitingList = new WaitingListMessagesDBController();
+			waitingList.notifyTheNextOrderInTheWaitingList(tmp);
 			return new Message(OperationType.CancelOrderSuccess,ClientControllerType.OrderController,(Object)"Cancel Success");
+		}
 		return null;
 		
 	}
@@ -391,7 +424,7 @@ public class OrderDBController {
 		int[] hourIndex = new int[24];
 		ResultSet rs;
 		PreparedStatement preparedStmt = null;
-		query = "SELECT  hourTime , SUM(actualNumberOfVisitors) FROM orders WHERE arrivalDate=? AND parkName=? AND status<>'Canceled' AND status<>'Waiting List' group by hourTime";
+		query = "SELECT  hourTime , SUM(actualNumberOfVisitors) FROM orders WHERE arrivalDate=? AND parkName=? AND status<>'Canceled' AND status<>'Waiting list' group by hourTime";
 		try {
 			preparedStmt = sqlConnection.connection.prepareStatement(query);
 			preparedStmt.setString(1,date.toString());

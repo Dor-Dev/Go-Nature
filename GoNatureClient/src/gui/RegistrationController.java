@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import client.ClientController;
 import client.MainClient;
 import common.Message;
 import controllers.RestartApp;
@@ -28,6 +26,12 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.Validation;
+
+/**
+ * @author dana_
+ *	A method that responsible with controlling the Registration GUI (Registration of member or group instructor by a service representative)
+ */
 
 public class RegistrationController {
 
@@ -141,7 +145,7 @@ public class RegistrationController {
     private static String popUpMsg=null;
     private static Boolean msgReceived=false;
     private static String popUpTitle=null;
-    private Integer member_number ;
+    private Integer member_number=0 ;
 
      @FXML
 	    void goToMainPage(MouseEvent event) {
@@ -151,6 +155,10 @@ public class RegistrationController {
 		  login.show();
 	    }
 
+     /**
+      * Method that hides the parameters of number family member at the registration GUI
+      * We need to hide it when we register a group instructor
+      */
     public void hideFamilyMembersParameters(RegistrationController registrationController)
     {
     	registrationController.lblFamilyMembers.setManaged(false);
@@ -161,7 +169,10 @@ public class RegistrationController {
     	registrationController. cmbFamilyMembers.setVisible(false);
     }
     
- 
+    /**
+     * Method that shows the parameters of number family member at the registration GUI
+     * We need to show it when we register a member
+     */
     public void showFamilyMembersParameters(RegistrationController registrationController)
     {
     	registrationController.lblFamilyMembers.setManaged(true);
@@ -173,7 +184,10 @@ public class RegistrationController {
     }
     
 
-    
+    /**
+     * Method that hides the parameters of credit card at the registration GUI
+     * We will show the parameters only when the registered user will choose to add credit card (It is optional)
+     */
 
     public void hideCreditCardParamaters(RegistrationController registrationController)
     {
@@ -197,6 +211,10 @@ public class RegistrationController {
     	registrationController.txtExperationYear.setVisible(false);
     }
     
+    /**
+     * Method that shows the parameters of credit card at the registration GUI
+     * We will show the parameters only when the registered user will choose to add credit card (It is optional)
+     */
 
     public void showCreditCardParamaters(RegistrationController registrationController)
     {
@@ -220,11 +238,24 @@ public class RegistrationController {
     	registrationController.txtExperationYear.setVisible(true);
     }
     
+    /**
+     * A method that registers a user (member\group instructor) when the service representative clicks on the register button
+     */
     @FXML
     void registrationAction(MouseEvent event) {
     		HashMap<String, String> hash_map_info = new HashMap<String, String>(); 
     		List<String> info = new ArrayList<String>();
-    		member_number=Integer.parseInt(txtID.getText())+1000000000; //The function f(X)=X+1000000000 is an injective function - that will promise us unique member number each time
+    		if(!Validation.idValidation(txtID.getText())) {
+    			if(txtID.getText().equals(""))
+    				setPopUpMsg("All fields are requiered");
+    			else setPopUpMsg("Invalid ID");
+    			RegistartionPopUpController popUp = new RegistartionPopUpController();
+        		popUp.showRegistrationPopUp(popUpMsg, (member_number.toString()), popUpTitle);
+        		return;
+    		}
+    		//The function f(X)=X+1000000000 is an injective function - that will promise us unique member number each time
+    		member_number=Integer.parseInt(txtID.getText())+1000000000; 
+    		//add the info from the GUI to an ArrayList and also to a HashMap by the name of the field
     		info.add(member_number.toString());
     		hash_map_info.put("First Name", txtFirstName.getText());
     		info.add(txtFirstName.getText());
@@ -234,12 +265,11 @@ public class RegistrationController {
     		info.add(txtID.getText());
     		String phoneNumberStart= cmbPhoneStart.getPromptText();
     		String phoneNumberEnd= txtPhoneEnd.getText();
+    		//Connect the strings of the first 3 digits of the phone number and the last 7 digits
     		if(phoneNumberStart!= null && phoneNumberEnd!= null) {
     			phoneNumberStart+=phoneNumberEnd;
     			hash_map_info.put("Phone",phoneNumberStart);
     			info.add(phoneNumberStart);
-    		}else {
-    			//Add pop up
     		}
     		hash_map_info.put("Email",txtEmail.getText());
     		info.add(txtEmail.getText());
@@ -259,23 +289,32 @@ public class RegistrationController {
     			hash_map_info.put("Experation Year",txtExperationYear.getText());
     			info.add(txtExperationYear.getText());
     		}
+    		//If all the information is valid
     		if(validation(info,hash_map_info)) {
+    			//Register a member
     			if(rdbMember.isSelected()) {
+    				//It is optional to add credit card details - so we check if we need to register the user with credit card or not
     				if(this.chkAddCreditCard.isSelected())
     					MainClient.clientConsole.accept(new Message(OperationType.MemberRegistrationCC,DBControllerType.RegistrationDBController,(Object)info));
     				else
     					MainClient.clientConsole.accept(new Message(OperationType.MemberRegistration,DBControllerType.RegistrationDBController,(Object)info));
     			}
     			else {
+    				//Register a group instructor
     				if(this.chkAddCreditCard.isSelected())
+    					//It is optional to add credit card details - so we check if we need to register the user with credit card or not
     					MainClient.clientConsole.accept(new Message(OperationType.GuideRegistrationCC,DBControllerType.RegistrationDBController,(Object)info));
-    				else MainClient.clientConsole.accept(new Message(OperationType.GuideRegistration,DBControllerType.RegistrationDBController,(Object)info));
+    				else 
+    					MainClient.clientConsole.accept(new Message(OperationType.GuideRegistration,DBControllerType.RegistrationDBController,(Object)info));
     			}
     		}else {
+    			//If the information is not valid create a pop up with the suitable message
     			setMsgReceived(true);
     			setPopUpTitle("Failed");
     		}
+    		//Wait till you get a respond from the server
     		while(msgReceived==false);
+    		//create a pop up with the suitable message
     		RegistartionPopUpController popUp = new RegistartionPopUpController();
     		popUp.showRegistrationPopUp(popUpMsg, (member_number.toString()), popUpTitle);
     }
@@ -287,59 +326,46 @@ public class RegistrationController {
 				return false;
 			}
 		}
-		if(! Pattern.matches("[a-zA-Z]+", hash_map_info.get("First Name"))) {
+		if(! Validation.onlyLettersValidation( hash_map_info.get("First Name"))) {
 			setPopUpMsg("Invalid First Name");
 			return false;
 		}
-		if(! Pattern.matches("[a-zA-Z]+", hash_map_info.get("Surname"))) {
+		if(! Validation.onlyLettersValidation(hash_map_info.get("Surname"))) {
 			setPopUpMsg("Invalid Surname");
 			return false;
 		}
-		if(hash_map_info.get("ID").length()!=9  || ! Pattern.matches("[0-9]+", hash_map_info.get("ID"))) {
+		if(!Validation.idValidation(hash_map_info.get("ID"))) {
 			setPopUpMsg("Invalid ID number");
 			return false;
 		}
-		if(hash_map_info.get("Phone").length()!=10 ||! Pattern.matches("[0-9]+", hash_map_info.get("Phone"))) {
+		if(!Validation.phoneValidation(hash_map_info.get("Phone"))) {
 			setPopUpMsg("Invalid phone number");
 			return false;
 		}
-		Pattern emailPattern = Pattern.compile("[a-zA-Z0-9[!#$%&'()*+,/\\-_\\.\"]]+@[a-zA-Z0-9[!#$%&'()*+,/\\-_\"]]+\\.[a-zA-Z0-9[!#$%&'()*+,/\\-_\"\\.]]+");
-		Matcher m = emailPattern.matcher(hash_map_info.get("Email"));
-		if(!m.matches()) {
+		if(!Validation.emailValidation(hash_map_info.get("Email"))) {
 			setPopUpMsg("Invalid Email");
 			return false;
 		}
 		if(this.chkAddCreditCard.isSelected()) {
-			if(hash_map_info.get("CVV").length()<3 || hash_map_info.get("CVV").length()>4 || !Pattern.matches("[0-9]+", hash_map_info.get("CVV"))) {
+			if(!Validation.cvvValidation(hash_map_info.get("CVV"))) {
 				setPopUpMsg("Invalid CVV");
 				return false;
 			}
-			if(hash_map_info.get("Card Number").length()!=16 || !Pattern.matches("[0-9]+", hash_map_info.get("Card Number"))) {
+			if(!Validation.cardNumberValidation(hash_map_info.get("Card Number"))) {
 				setPopUpMsg("Invalid card number");
 				return false;
 			}
-			if(! Pattern.matches("[a-zA-Z]+", hash_map_info.get("Card Owner"))) {
+			if(! Validation.onlyLettersValidation( hash_map_info.get("Card Owner"))) {
 				setPopUpMsg("Invalid Owner Name");
 				return false;
 			}
-			if(hash_map_info.get("Experation Month").length()!=2 || !Pattern.matches("[0-9]+", hash_map_info.get("Experation Month"))) {
+			if(!Validation.monthExperationValidation(hash_map_info.get("Experation Month"))) {
 				setPopUpMsg("Invalid Experation Month");
 				return false;								
 			}
-			int tempMonth= Integer.parseInt(hash_map_info.get("Experation Month"));
-			if(tempMonth<1 || tempMonth>12) {
-				setPopUpMsg("Invalid Experation Month");
+			if( !Validation.yearExperationValidation(hash_map_info.get("Experation Year"))) {
+				setPopUpMsg("Invalid Experation Year");
 				return false;								
-			}
-			
-			if(hash_map_info.get("Experation Year").length()!=2 || !Pattern.matches("[0-9]+", hash_map_info.get("Experation Year"))) {
-				setPopUpMsg("Invalid Experation Year");
-				return false;	
-			}
-			int tempYear= Integer.parseInt(hash_map_info.get("Experation Year"));
-			if(tempYear<20 || tempYear>30) {
-				setPopUpMsg("Invalid Experation Year");
-				return false;	
 			}
 			
 		}
@@ -347,7 +373,9 @@ public class RegistrationController {
 		
 	}
 
-
+/**
+ * Method that displays the registration GUI
+ */
     @FXML
     void show() {
     	VBox root;
@@ -373,6 +401,9 @@ public class RegistrationController {
 
     }
     
+    /**
+     * Method that create an Array List with the menu labels
+     */
 	private List<Label> createLabelList(RegistrationController registrationController) {
 		List<Label> tempMenuLabels = new ArrayList<>();
 		tempMenuLabels.add(registrationController.mnuAddOrder);
@@ -403,7 +434,9 @@ public class RegistrationController {
 
 	}
 	
-
+	/**
+	 * Method that checks if the credit card parameters needs to be hidden or not and acts according to it
+	 */
     @FXML
     void showOrHideCreditCardParameters() {
     	if(this.chkAddCreditCard.isSelected()) {
@@ -411,6 +444,9 @@ public class RegistrationController {
     	}else hideCreditCardParamaters(this);
     }
     
+	/**
+	 * Method that checks if the number of family members parameters needs to be hidden or not and acts according to it
+	 */
     @FXML
     void showOrHideFamilyMembersParameters() {
     	if(this.rdbGroupInstractor.isSelected()) {
@@ -418,6 +454,9 @@ public class RegistrationController {
     	}else showFamilyMembersParameters(this);
     }
     
+    /**
+     * A method that is called when the service representative clicks on 'My Profile' option at the menu
+     */
     @FXML
     void showMyProfile(MouseEvent event) {
     	MyProfileGUIController mp= new MyProfileGUIController();
@@ -426,6 +465,10 @@ public class RegistrationController {
 
     }
     
+    /**
+     * Method that receives messages the suitable from the server
+     * @param reciveMsg
+     */
     public static void RegistrationParseData(Message reciveMsg) {
     	setPopUpMsg((String) reciveMsg.getObj());
     	setMsgReceived(true);

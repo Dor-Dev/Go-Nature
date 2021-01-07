@@ -15,6 +15,23 @@ public class Update implements Serializable{
 	private String status = null;
 	
 	/**
+	 * @param requestNum
+	 * @param parkName
+	 * @param capacity
+	 * @param difference
+	 * @param visitingTime
+	 * @param status
+	 */
+	public Update(int requestNum, String parkName, int capacity, int difference, int visitingTime, String status) {
+		super();
+		this.requestNum = requestNum;
+		this.parkName = parkName;
+		this.capacity = capacity;
+		this.difference = difference;
+		this.visitingTime = visitingTime;
+		this.status = status;
+	}
+	/**
 	 * @param parkName
 	 * @param capacity
 	 * @param difference
@@ -29,13 +46,14 @@ public class Update implements Serializable{
 		this.visitingTime = visitingTime;
 		this.status = status;
 	}
+	/*
 	public Update(int requestNum,int capacity, int difference, int visitingTime) {
 		super();
 		this.requestNum = requestNum;
 		this.capacity = capacity;
 		this.difference = difference;
 		this.visitingTime = visitingTime;
-	}
+	}*/
 	public String getParkName() {
 		return parkName;
 	}

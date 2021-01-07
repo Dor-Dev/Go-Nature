@@ -146,7 +146,7 @@
                <items>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label text="Add new event">
+                        <Label text="Add new event" underline="true">
                            <font>
                               <Font name="System Bold" size="21.0" />
                            </font>
@@ -154,56 +154,95 @@
                               <Insets left="125.0" top="15.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="Event name:">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
+                        <HBox prefHeight="21.0" prefWidth="380.0">
+                           <children>
+                              <Label text="Event name:">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label text="*" textFill="RED">
+                                 <HBox.margin>
+                                    <Insets left="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
                            <VBox.margin>
-                              <Insets left="15.0" top="10.0" />
+                              <Insets left="15.0" />
                            </VBox.margin>
-                        </Label>
+                        </HBox>
                         <TextField fx:id="txtEventName" maxWidth="125.0" promptText="Enter name">
                            <VBox.margin>
-                              <Insets left="15.0" />
+                              <Insets left="15.0" top="3.0" />
                            </VBox.margin>
                         </TextField>
-                        <Label layoutX="25.0" layoutY="41.0" text="Start date:">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
+                        <HBox prefHeight="12.0" prefWidth="380.0">
+                           <children>
+                              <Label text="Start date:">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="15.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label text="*" textFill="RED">
+                                 <HBox.margin>
+                                    <Insets left="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
                            <VBox.margin>
-                              <Insets left="15.0" top="10.0" />
+                              <Insets top="10.0" />
                            </VBox.margin>
-                        </Label>
+                        </HBox>
                         <DatePicker fx:id="dpStartDate" promptText="Select start date">
                            <VBox.margin>
-                              <Insets left="15.0" />
+                              <Insets left="15.0" top="3.0" />
                            </VBox.margin>
                         </DatePicker>
-                        <Label layoutX="10.0" layoutY="91.0" text="End date">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
+                        <HBox prefHeight="17.0" prefWidth="380.0">
+                           <children>
+                              <Label text="End date:">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label text="*" textFill="RED">
+                                 <HBox.margin>
+                                    <Insets left="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
                            <VBox.margin>
                               <Insets left="15.0" top="10.0" />
                            </VBox.margin>
-                        </Label>
+                        </HBox>
                         <DatePicker fx:id="dpEndDate" layoutX="25.0" layoutY="126.0" promptText="Select end date">
                            <VBox.margin>
-                              <Insets left="15.0" />
+                              <Insets left="15.0" top="3.0" />
                            </VBox.margin>
                         </DatePicker>
-                        <Label layoutX="10.0" layoutY="141.0" text="Discount:(%)">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
+                        <HBox prefHeight="14.0" prefWidth="380.0">
+                           <children>
+                              <Label text="Discount:(%)">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label text="*" textFill="RED">
+                                 <HBox.margin>
+                                    <Insets left="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
                            <VBox.margin>
                               <Insets left="15.0" top="10.0" />
                            </VBox.margin>
-                        </Label>
+                        </HBox>
                         <TextField fx:id="txtDicount" layoutX="10.0" layoutY="166.0" maxWidth="125.0" promptText="Enter discount">
                            <VBox.margin>
-                              <Insets left="15.0" />
+                              <Insets left="15.0" top="3.0" />
                            </VBox.margin>
                         </TextField>
                         <Button fx:id="btnEvent" mnemonicParsing="false" onAction="#sendEventRequest" text="Send Event Request">
@@ -217,7 +256,7 @@
                      </children></VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label text="Events">
+                        <Label text="Events" underline="true">
                            <font>
                               <Font name="System Bold" size="21.0" />
                            </font>

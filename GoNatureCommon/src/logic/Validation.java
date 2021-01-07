@@ -9,7 +9,7 @@ public class Validation {
 	 * @return
 	 */
 	public static boolean emailValidation(String email) {
-		String emailFormat = "[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)+";
+		String emailFormat = "[a-zA-Z0-9[!#$%&'()*+,/\\-_\\.\"]]+@[a-zA-Z0-9[!#$%&'()*+,/\\-_\"]]+\\.[a-zA-Z0-9[!#$%&'()*+,/\\-_\"\\.]]+";
 		return email.matches(emailFormat);
 	}
 	/**
@@ -64,7 +64,7 @@ public class Validation {
 	 * @return
 	 */
 	public static boolean phoneValidation(String phone) {
-		String phoneFormat = "[0-9]{7,10}";
+		String phoneFormat = "[0-9]{10,10}";
 		return phone.matches(phoneFormat);
 	}
 
@@ -75,7 +75,7 @@ public class Validation {
 	 * @return
 	 */
 	public static boolean cvvValidation(String cvv) {
-		String cvvFormat = "[0-9]{3,3}";
+		String cvvFormat = "[0-9]{3,4}";
 		return cvv.matches(cvvFormat);
 	}
 
@@ -97,9 +97,11 @@ public class Validation {
 	 * @return
 	 */
 	public static boolean monthExperationValidation(String exp) {
+		if(!onlyDigitsValidation(exp))
+			return false;
 		int month = Integer.parseInt(exp);
 		String expFormat = "[0-9]{2,2}";
-		return (exp.matches(expFormat)) && (month > 1 && month < 12);
+		return (exp.matches(expFormat)) && (month >= 1 && month <= 12);
 	}
 	/**
 	 * Year expiration validation allow only digits, length equals to 2. Months are
@@ -108,6 +110,8 @@ public class Validation {
 	 * @return
 	 */
 	public static boolean yearExperationValidation(String exp) {
+		if(!onlyDigitsValidation(exp))
+			return false;
 		int year = Integer.parseInt(exp);
 		String expFormat = "[0-9]{2,2}";
 		return (exp.matches(expFormat)) && (year > 20 && year < 30);
@@ -118,7 +122,9 @@ public class Validation {
 	 * @return
 	 */
 	public static boolean eventNameValidation(String eventName) {
-		String eventNameFormat = "[a-zA-Z0-9\\-.]+";
+		if(eventName==null)
+			return false;
+		String eventNameFormat = "[a-zA-Z0-9\\-\\.]+";
 		return eventName.matches(eventNameFormat);
 	}
 	/**
@@ -128,6 +134,15 @@ public class Validation {
 	 */
 	public static boolean onlyDigitsValidation(String text) {
 		String onlyDigits = "^[0-9]+";
+		return text.matches(onlyDigits);
+	}
+	/**
+	 * Only digits from 0-9 is allowed.
+	 * @param text
+	 * @return
+	 */
+	public static boolean onlyLettersValidation(String text) {
+		String onlyDigits = "^[a-zA-Z]+";
 		return text.matches(onlyDigits);
 	}
 	/**

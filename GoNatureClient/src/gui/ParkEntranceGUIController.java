@@ -179,7 +179,7 @@ public class ParkEntranceGUIController {
 	private static Time thisTimeToDB;
 	private static int hours;
 	private static int minutes;
-	private final int openEntrance = 10;
+	private final int openEntrance = 9;
 	private final int closeEntrance = 17;
 	private final double memberDiscount = 20;
 	private final double groupDiscount = 10;

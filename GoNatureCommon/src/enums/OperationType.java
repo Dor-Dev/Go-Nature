@@ -11,7 +11,7 @@ public enum OperationType {
 
 	//Order Enums
 	OrderRequestAnswer,AddOrder, SuccessAddOrder, 
-	OrderCheckDateTime, checkAvailableHours,
+	OrderCheckDateTime, checkAvailableHours, checkEventDiscount, EventDiscountAmount,
 	
 	//MyOrder Enums
 	getMyOrders,ReturnMyOrders, OrderFinalApproval,GetOutFromWaitingList, CancelOrder,
@@ -35,7 +35,8 @@ public enum OperationType {
 	
 	//reports
 
-	SumVisitorsReport, RevenueReport, UsageReport, ReceiptInfo ,VisitingReport,CancellationReport,
+	SumVisitorsReport, RevenueReport, UsageReport, ReceiptInfo ,VisitingReport,CancellationReport, SubmitReport,GetReceivedReportsTable,
+	ReturnReceivedReport,
 	
 	// card reader
 

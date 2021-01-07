@@ -106,6 +106,9 @@ public class MyProfileGUIController {
 		  login.show();
 	    }
 	  
+	  /**
+	   * This method activates the page of my profile.
+	   */
 	public void show() {
 		VBox root;
 		Stage primaryStage = new CloseStage();

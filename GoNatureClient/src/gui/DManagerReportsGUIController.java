@@ -1,7 +1,7 @@
 package gui;
 
-import java.beans.EventHandler;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,9 +18,10 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
-import javafx.event.WeakEventHandler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -33,15 +34,48 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import logic.CancellationReport;
+import logic.Order;
+import logic.ReportImage;
 import logic.VisitingReport;
 
 public class DManagerReportsGUIController {
+	private static DManagerReportsGUIController dManagerReportsController = null;
+	public static List<ReportImage> reports = null;
 
+	@FXML
+	private VBox vboxReceivedReports;
+
+	@FXML
+	private TableView<ReportImage> tblReports;
+
+	@FXML
+	private TableColumn<ReportImage, Integer> colReportID;
+
+	@FXML
+	private TableColumn<ReportImage, String> colParkName;
+
+	@FXML
+	private TableColumn<ReportImage, String> colReportName;
+
+	@FXML
+	private TableColumn<ReportImage, Date> colDate;
+
+	@FXML
+	private TableColumn<ReportImage, Void> colView;
 	@FXML
 	private Label mnuAddOrder;
 
@@ -103,13 +137,16 @@ public class DManagerReportsGUIController {
 	private VBox vboxReportName;
 
 	@FXML
+	private Label lblChooseParkName;
+
+	@FXML
 	private Label lblReportName;
 
 	@FXML
 	private VBox vboxVisiting;
 
 	@FXML
-	private BarChart<?, ?> barChartVisiting;
+	private BarChart<String, Integer> barChartVisiting;
 
 	@FXML
 	private CategoryAxis barChartX;
@@ -194,10 +231,13 @@ public class DManagerReportsGUIController {
 		
 		 //Initialize the report type combo-box 	 
 		cmbReportName.getItems().removeAll(cmbReportName.getItems());
-		cmbReportName.getItems().addAll("Visiting report", "Cancellation report");
+		cmbReportName.getItems().addAll("Visiting report", "Cancellation report", "Park Manager's Reports");
 		cmbReportName.setOnAction(e -> chooseReportName());
 
 		//Initialize the visitor type combo-box
+
+		// cmbParkName.getSelectionModel().select("Option B");
+
 		cmbType.getItems().removeAll(cmbType.getItems());
 		cmbType.getItems().addAll("Singles", "Groups", "Members");
 		cmbType.setOnAction(e -> chooseTypes());
@@ -206,6 +246,7 @@ public class DManagerReportsGUIController {
 		cmbParkName.getItems().removeAll(cmbParkName.getItems());
 		cmbParkName.getItems().addAll("Luna-Park", "Shipment-Park", "Tempo-Park");
 		cmbParkName.setOnAction(e -> chooseParkName());
+
 
 		//setting the action for saving the chosen date
 		datePicker.setOnAction(e->chooseDate());
@@ -230,6 +271,77 @@ public class DManagerReportsGUIController {
 	private void chooseDate() {
 		if(datePicker.getValue()!=null)
 			date = datePicker.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+		// init the Table view of reports
+		colReportID.setCellValueFactory(new PropertyValueFactory<>("reportID"));
+		colParkName.setCellValueFactory(new PropertyValueFactory<>("parkName"));
+		colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+		colReportName.setCellValueFactory(new PropertyValueFactory<>("reportName"));
+
+		colReportID.setStyle("-fx-alignment: CENTER");
+		colParkName.setStyle("-fx-alignment: CENTER");
+		colDate.setStyle("-fx-alignment: CENTER");
+		colReportName.setStyle("-fx-alignment: CENTER");
+
+	}
+
+	/**
+	 * Add View button to each row in the table
+	 */
+	private void addRelevantButton() {
+		Callback<TableColumn<ReportImage, Void>, TableCell<ReportImage, Void>> cellFactory = new Callback<TableColumn<ReportImage, Void>, TableCell<ReportImage, Void>>() {
+			@Override
+			public TableCell<ReportImage, Void> call(final TableColumn<ReportImage, Void> param) {
+				final TableCell<ReportImage, Void> cell = new TableCell<ReportImage, Void>() {
+
+					private final Button btnView = new Button("View");
+					{
+						// Action when press on View button
+						btnView.setOnAction((ActionEvent event) -> {
+							ReportImage report = getTableView().getItems().get(getIndex());
+							InputStream nputStream = report.getReportImage();	
+							ImageView reportImage = new ImageView(); // same here for winner image
+							Image image = new Image(nputStream);
+							reportImage.setImage(image);
+							Stage reportStage = new Stage();
+							StackPane myLayout2 = new StackPane();
+							Scene myScene2 = new Scene(myLayout2);
+							Label label2 = new Label("", reportImage);
+							myLayout2.getChildren().removeAll();
+							myLayout2.getChildren().add(label2);
+							reportStage.setTitle(report.getParkName()+" " +report.getReportName());
+							reportStage.setScene(myScene2);
+							reportStage.show();
+							showReceivedReportsTable();
+						});
+						
+
+					}
+
+					@Override
+					public void updateItem(Void item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+						} else {
+
+							HBox hBox2 = new HBox(btnView);
+							setGraphic(hBox2);
+							hBox2.setAlignment(Pos.BASELINE_RIGHT);
+							return;
+
+						}
+
+					}
+
+				};
+
+				return cell;
+
+			}
+		};
+		colView.setCellFactory(cellFactory);
+
 	}
 
 	/**
@@ -268,19 +380,80 @@ public class DManagerReportsGUIController {
 			this.lblType.setManaged(true);
 			this.datePicker.setManaged(true);
 			this.lblDate.setManaged(true);
+
+			this.datePicker.setVisible(true);
+			this.lblDate.setVisible(true);
+			this.cmbParkName.setManaged(true);
+			this.cmbParkName.setVisible(true);
+			this.btnProduceReport.setVisible(true);
+			this.lblChooseParkName.setVisible(true);
+			this.vboxReceivedReports.setManaged(false);
+			this.vboxReceivedReports.setVisible(false);
+			this.tblReports.setManaged(false);
+			this.tblReports.setVisible(false);
+
 		} else if (reportName.equals("Cancellation report")) {
 			this.cmbType.setManaged(false);
 			this.lblType.setManaged(false);
 			this.cmbType.setVisible(false);
 			this.lblType.setVisible(false);
+			this.vboxReceivedReports.setManaged(false);
+			this.vboxReceivedReports.setVisible(false);
+			this.tblReports.setManaged(false);
+			this.tblReports.setVisible(false);
 			this.datePicker.setManaged(true);
+			this.datePicker.setVisible(true);
 			this.lblDate.setManaged(true);
+			this.lblDate.setVisible(true);
+			this.cmbParkName.setManaged(true);
+			this.cmbParkName.setVisible(true);
+			this.btnProduceReport.setVisible(true);
+			this.lblChooseParkName.setVisible(true);
+			
+		} else if (reportName.equals("Park Manager's Reports")) {
+			this.cmbType.setManaged(false);
+			this.lblType.setManaged(false);
+			this.cmbType.setVisible(false);
+			this.lblType.setVisible(false);
+			this.datePicker.setManaged(false);
+			this.lblDate.setManaged(false);
+			this.datePicker.setVisible(false);
+			this.lblDate.setVisible(false);
+			this.cmbParkName.setManaged(false);
+			this.cmbParkName.setVisible(false);
+			this.btnProduceReport.setVisible(false);
+			this.lblChooseParkName.setVisible(false);
+			setReportDetailsInvisible(dManagerReportsController);
+			dManagerReportsController.vboxReceivedReports.setManaged(true);
+			dManagerReportsController.vboxReceivedReports.setVisible(true);
+			dManagerReportsController.tblReports.setVisible(true);
+			dManagerReportsController.tblReports.setManaged(true);
+			showReceivedReportsTable();
+
 		}
 	}
 
 	/**
+
 	 * A method that displays an appropriate pop-up after a date is chosen
 	 * considering the report's type and the current date.
+
+	 * Send message to server to get all the reports for the department manager
+	 */
+	private void showReceivedReportsTable() {
+		MainClient.clientConsole.accept(new Message(OperationType.GetReceivedReportsTable,
+				DBControllerType.RequestsDBController, (Object) "Get Received Reports"));
+		if (reports != null) {
+			tblReports.setItems(FXCollections.observableArrayList(reports));
+			addRelevantButton();
+		}
+
+	}
+
+	/**
+	 * This is a method that pops up the appropriate pop-up and summons the method
+	 * that produces the appropriate report
+
 	 * 
 	 * @param event
 	 */
@@ -295,6 +468,7 @@ public class DManagerReportsGUIController {
 		this.barChartX.setVisible(false);
 		this.barChartY.setManaged(false);
 		this.barChartY.setVisible(false);
+
 		setCancellationReportInVisible(this);
 		//Calling the validation method in order to make sure all of the values have been picked
 		validation();
@@ -311,13 +485,30 @@ public class DManagerReportsGUIController {
 			// check if the date has arrived yet by
 			// comparing the current day, month and year to the chosen ones.
 			// and present a pop-up with the appropriate message
+
+		this.vBoxCancellation.setManaged(false);
+		this.vBoxCancellation.setVisible(false);
+		this.chrtCancellation.setManaged(false);
+		this.chrtCancellation.setVisible(false);
+
+		date = datePicker.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		getCurrentDay();
+		System.out.println(date.substring(0, 4));
+		System.out.println(date.substring(5, 7));
+		System.out.println(Integer.valueOf(date.substring(8, 10)));
+		Alert a = new Alert(AlertType.INFORMATION);
+		if (reportName.equals("Visiting report")) {
+
 			if (Integer.valueOf(date.substring(0, 4)) > yearInt
 					|| Integer.valueOf(date.substring(5, 7)) > monthInt
 							&& Integer.valueOf(date.substring(0, 4)) == yearInt
 					|| Integer.valueOf(date.substring(5, 7)) == monthInt
 							&& Integer.valueOf(date.substring(0, 4)) == yearInt
 							&& dayInt < Integer.valueOf(date.substring(8, 10))) {
+
 				a.setHeaderText("The date of production of the report has not yet arrived.");
+
+
 				a.setContentText("No data available for viewing.");
 				a.setTitle("Report Status");
 				a.showAndWait();
@@ -340,6 +531,7 @@ public class DManagerReportsGUIController {
 			//Call the Cancellation Report method in order to display the data
 			showVisitingReport(this);
 		}
+
 		//the chosen report is cancellation
 		else 
 			//if (reportName.equals("Cancellation report")) {
@@ -348,6 +540,9 @@ public class DManagerReportsGUIController {
 			// check if the date is the current date
 			// comparing the current day, month and year to the chosen ones.
 			// and present a pop-up with the appropriate message
+
+
+
 			if (Integer.valueOf(date.substring(0, 4)) == yearInt && Integer.valueOf(date.substring(5, 7)) == monthInt
 					&& Integer.valueOf(date.substring(8, 10)) == dayInt) {
 				a.setHeaderText("Cancellation Report can't be produced at the current day");
@@ -365,6 +560,7 @@ public class DManagerReportsGUIController {
 					|| (Integer.valueOf(date.substring(5, 7)) == monthInt
 							&& Integer.valueOf(date.substring(0, 4)) == yearInt
 							&& Integer.valueOf(date.substring(8, 10)) > dayInt)) {
+
 				a.setHeaderText("The date of production of the report has not yet arrived.");
 				a.setContentText("No data available for viewing.");
 				a.setTitle("Report Status");
@@ -377,9 +573,28 @@ public class DManagerReportsGUIController {
 			//Call the Cancellation Report method in order to display the data
 			showCancellationReport(this);
 		}
-		
-		
-	
+
+	}
+
+	private void showCancellationReport(DManagerReportsGUIController dManagerReportsGUIController) {
+
+		this.lblCanceledData.setText("");
+		this.lblUnfulfilledData.setText("");
+		this.lblTotalOrders.setText("");
+		List<String> list = new ArrayList<String>();
+		list.add(parkName);
+		list.add(date);
+		MainClient.clientConsole.accept(
+				new Message(OperationType.CancellationReport, DBControllerType.ReportsDBController, (Object) list));
+		if (ReportController.reportType.equals(OperationType.CancellationReport)) {
+			System.out.println("cancellation selected");
+			CancellationReport cancellationReport = (CancellationReport) ReportController.report;
+			this.vboxReportName.setManaged(true);
+			this.lblReportName.setManaged(true);
+			this.vboxReportName.setVisible(true);
+			this.lblReportName.setVisible(true);
+			this.lblReportName.setManaged(true);
+
 
 	}
 
@@ -444,6 +659,43 @@ public class DManagerReportsGUIController {
 					
 				}
 
+
+			this.lblReportName.setText("Cancellation Report at " + date);
+
+			if (cancellationReport.getCanceledOrdersCounter() == 0
+					&& cancellationReport.getUnfulfilledOrderAmount() == 0) {
+				this.chrtCancellation.setManaged(false);
+				this.chrtCancellation.setVisible(false);
+				this.lblTotalOrders.setText("There is no available information for this date!");
+			} else {
+
+				this.chrtCancellation.setManaged(true);
+				this.chrtCancellation.setVisible(true);
+				this.lblTotalOrders.setText("");
+
+				ObservableList<PieChart.Data> pieCancellationData = FXCollections.observableArrayList(
+						new PieChart.Data("Canceled orders", cancellationReport.getCanceledOrdersCounter()),
+						new PieChart.Data("Unfulfilled orders", cancellationReport.getUnfulfilledOrderAmount()),
+						new PieChart.Data("Rest of orders",
+								cancellationReport.getTotalOrderAmount()
+										- cancellationReport.getUnfulfilledOrderAmount()
+										- cancellationReport.getCanceledOrdersCounter())
+
+				);
+
+				pieCancellationData.forEach(data -> data.nameProperty().bind(Bindings.concat(data.getName(), " - ",
+						data.pieValueProperty().multiply(100 / cancellationReport.getTotalOrderAmount()), "%")));
+				this.chrtCancellation.setData(pieCancellationData);
+				this.lblTotalOrders.setText("Total orders amount - " + cancellationReport.getTotalOrderAmount());
+				this.lblCanceledData.setText("Canceled orders amount - " + cancellationReport.getCanceledOrdersCounter()
+						+ " (Visitors amount - " + cancellationReport.getCanceledVisitorsAmount() + ")");
+				this.lblUnfulfilledData
+						.setText("Unfulfilled orders amount - " + cancellationReport.getUnfulfilledOrderAmount()
+								+ " (Visitors amount - " + cancellationReport.getUnfulfilledVisitorAmount() + ")");
+			}
+		}
+
+
 	}
 
 	
@@ -485,20 +737,25 @@ public class DManagerReportsGUIController {
 
 			this.barChartVisiting.getData().clear();
 
-			XYChart.Series set1 = new XYChart.Series<>();
-			set1.getData().clear();
+			//amit change it//
+			XYChart.Series <String,Integer> []  set  = new XYChart.Series [hours.length] ;
+		
+			for(int i = 0; i < hours.length; i++)
+			{
+				set[i] = new XYChart.Series<String,Integer>();
+			}
+			
 			for (int i = 0; i < hours.length; i++) {
 				if (hours[i] != 0) {
-					System.out.println(hours[i]);
-					set1.getData().add(new XYChart.Data<>(String.valueOf(hours[i] + ":00"), visitors[i]));
-
+					System.out.println(hours[i] +" = " + visitors[i]);
+					set[i].getData().add(new XYChart.Data<>("", visitors[i]));
+					set[i].setName(hours[i] + ":00");
+					this.barChartVisiting.getData().add(set[i]);
 				}
-
 			}
-
-			this.barChartVisiting.getData().add(set1);
-			this.barChartVisiting.setBarGap(0);
-			this.barChartVisiting.setCategoryGap(50);
+	
+			this.barChartVisiting.setBarGap(20);
+			this.barChartVisiting.setCategoryGap(80);
 
 		}
 
@@ -532,7 +789,7 @@ public class DManagerReportsGUIController {
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Department manager Reports");
-			DManagerReportsGUIController dManagerReportsController = loader.getController();
+			dManagerReportsController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(dManagerReportsController);
 			MenuBarSelection.setMenuOptions(menuLabels);
@@ -570,12 +827,19 @@ public class DManagerReportsGUIController {
 		dManagerReportsController.chrtCancellation.setManaged(false);
 		dManagerReportsController.vBoxCancellation.setVisible(false);
 		dManagerReportsController.chrtCancellation.setVisible(false);
+
 		dManagerReportsController.lblCanceledData.setVisible(false);
 		dManagerReportsController.lblUnfulfilledData.setVisible(false);
 		dManagerReportsController.lblTotalOrders.setVisible(false);
 		dManagerReportsController.lblCanceledData.setManaged(false);
 		dManagerReportsController.lblUnfulfilledData.setManaged(false);
 		dManagerReportsController.lblTotalOrders.setManaged(false);
+
+		dManagerReportsController.vboxReceivedReports.setManaged(false);
+		dManagerReportsController.vboxReceivedReports.setVisible(false);
+		dManagerReportsController.tblReports.setVisible(false);
+		dManagerReportsController.tblReports.setManaged(false);
+
 	}
 
 	private List<Label> createLabelList(DManagerReportsGUIController dManagerReportsController) {
@@ -592,7 +856,7 @@ public class DManagerReportsGUIController {
 		tempMenuLabels.add(dManagerReportsController.mnuParkCapacity);
 		return tempMenuLabels;
 	}
-	
+
 	/*
 	 * A method that checks every time if any of the combo-boxes values weren't chosen
 	 * and displays an appropriate pop-up
@@ -733,4 +997,8 @@ public class DManagerReportsGUIController {
 		dManagerReports.chrtCancellation.setData(pieChartData);
 	}
 	}
+
+
+
+}
 
