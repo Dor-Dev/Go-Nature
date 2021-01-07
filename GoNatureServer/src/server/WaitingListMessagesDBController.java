@@ -73,7 +73,7 @@ public class WaitingListMessagesDBController {
 		
 		nextOrderInWaitingList=selectTheNextOrderInTheWaitingList( "Waiting list","Not sent",date,arrivalTime,amountOfVisitorsAvailable,parkName);
 		 //If there isn't next order in line return
-		if(nextOrderInWaitingList.get(1)==null) return;
+		if(nextOrderInWaitingList.isEmpty()) return;
 		int nextOrderID=(int)nextOrderInWaitingList.get(0);
 		String nextEmail=(String) nextOrderInWaitingList.get(1);
 		int nextAmountOfVisitors=(int)nextOrderInWaitingList.get(2);
@@ -82,7 +82,7 @@ public class WaitingListMessagesDBController {
 		//Create the message title and content
 		messageTitle="A space became available at the park";
 		messageContent="Simulation"+"\r\n"+"\r\n"+"Order number" + nextOrderID+ " is now available!\r\n" + 
-				"You have 1 hour to confirm your order �\r\n" + 
+				"You have 1 hour to confirm your order.\r\n" + 
 				"Or else the order will be automatically canceled.\r\n" + 
 				"Go to:"+"\r\n"+" Go-Nature system ---> 'My Orders' "+"\r\n"+"and approve your order.\r\n "+
 				"\r\n"+"\r\n" +"This message was send to "+nextEmail+" and "+phoneNumber+" .";
@@ -105,8 +105,8 @@ public class WaitingListMessagesDBController {
 			
 			@Override
 			public void run() {
-				//Sleep for 1 hour -For the simulation we will change it to several minutes instead of 1 hour so the messages will be send at that certain moment  
-				int sleepPeriodTime =1000 * 60 *2 ;
+				//Sleep for 1 hour -For the simulation we will change it to several seconds instead of 1 hour so the messages will be send at that certain moment  
+				int sleepPeriodTime =1000 * 60 *60 ;
 			    try {
 			        Thread.sleep(sleepPeriodTime);
 			        //Updates the order status of the orders that were not approved to "Canceled".
@@ -163,22 +163,22 @@ public class WaitingListMessagesDBController {
 		PreparedStatement pstm;
 		int [] amountOfVisitorsEachHour = CheckSpecificDate(arrivalDate,parkName,orderStatus);
 		int amountOfTravelers=amountOfVisitorsEachHour[arrivalHour];
-		int parkCapacity=0;
+		int ordersCapacity=0;
 		try { 
 		    
-		    pstm = sqlConnection.connection.prepareStatement("SELECT parkCapacity FROM parks WHERE parkName=? ");
+		    pstm = sqlConnection.connection.prepareStatement("SELECT ordersCapacity FROM parks WHERE parkName=? ");
 			pstm.setString(1,  parkName);
 			ResultSet rs = pstm.executeQuery();
 			
 	      // Get the java result set
 		    if (rs.next())
 		    {
-		    	parkCapacity=rs.getInt("parkCapacity");
+		    	ordersCapacity=rs.getInt("ordersCapacity");
 		    }	
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return parkCapacity-amountOfTravelers;
+		return ordersCapacity-amountOfTravelers;
 	}
 	
 	/**

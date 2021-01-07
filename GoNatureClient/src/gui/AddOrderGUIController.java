@@ -562,7 +562,7 @@ public class AddOrderGUIController {
 	void AddWaitingList(ActionEvent event) {
 
 		((Node) event.getSource()).getScene().getWindow().hide();
-		newOrder.setStatus("Waiting List");
+		newOrder.setStatus("Waiting list");
 		executeAddOrderQuery(); // insert order into order DB with status "waiting" (waiting list)
 		
 	}
