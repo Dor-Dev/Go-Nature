@@ -590,7 +590,6 @@ public class DManagerReportsGUIController {
 
 			this.barChartVisiting.getData().clear();
 
-			//XYChart.Series <String,Integer> set1 = new XYChart.Series<>();
 			
 			XYChart.Series <String,Integer> []  set  = new XYChart.Series [hours.length] ;
 		
@@ -605,24 +604,9 @@ public class DManagerReportsGUIController {
 					set[i].getData().add(new XYChart.Data<>("", visitors[i]));
 					set[i].setName(hours[i] + ":00");
 					this.barChartVisiting.getData().add(set[i]);
-
 				}
 			}
 	
-			//set1.getData().clear();
-			/*for (int i = 0; i < hours.length; i++) {
-				if (hours[i] != 0) {
-					System.out.println(hours[i]);
-					set1.getData().addAll(new XYChart.Data<>(String.valueOf(hours[i] + ":00"), visitors[i]));
-					
-
-				}
-
-			}
-			set1.setName(cmbType.getValue());
-
-			this.barChartVisiting.getData().addAll(set1);*/
-			
 			this.barChartVisiting.setBarGap(20);
 			this.barChartVisiting.setCategoryGap(80);
 
