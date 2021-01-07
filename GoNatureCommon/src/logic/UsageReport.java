@@ -3,11 +3,12 @@ package logic;
 import java.io.Serializable;
 import java.sql.Date;
 
+/**
+ * A class that represents the usage report with all of it's data that is received from the data base
+ */
 public class UsageReport implements Report,Serializable {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 5875569985914103432L;
 	private Park park;
 	private String month;
@@ -50,22 +51,8 @@ public class UsageReport implements Report,Serializable {
 		return year;
 	}
 
-	public void setYear(String year) {
-		this.year = year;
-	}
 
-	public void setPark(Park park) {
-		this.park = park;
-	}
-
-	public void setDay(Date[] day) {
-		this.day = day;
-	}
-
-	public void setNumOfVisitorsInDay(int[] numOfVisitorsInDay) {
-		this.numOfVisitorsInDay = numOfVisitorsInDay;
-	}
-
+	
 	public Date[] getUnFullDays() {
 		for(int i=0;i<31;i++) {
 			if(!(numOfVisitorsInDay[i]<park.getParkCapacity()))	

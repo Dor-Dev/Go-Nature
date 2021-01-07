@@ -2,13 +2,11 @@ package logic;
 
 import java.io.Serializable;
 
+/*
+ * A class that represents a cancellation report with all of the data received from the database
+ */
 public class CancellationReport implements Report, Serializable {
 
-	
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8530739569402493556L;
 
 	private String parkName;
@@ -28,7 +26,7 @@ public class CancellationReport implements Report, Serializable {
 		this.unfulfilledVisitorAmount = unfulfilledVisitorAmount;
 		this.totalOrderAmount = totalOrderAmount;
 		this.canceledOrdersCounter = canceledOrdersCounter;
-		this.setCanceledVisitorsAmount(canceledVisitorsAmount);
+		this.canceledVisitorsAmount=canceledVisitorsAmount;
 	}
 	
 	
@@ -37,18 +35,8 @@ public class CancellationReport implements Report, Serializable {
 	}
 
 
-	public void setDate(String date) {
-		this.date = date;
-	}
-
-
 	public int getUnfulfilledOrderAmount() {
 		return unfulfilledOrderAmount;
-	}
-
-
-	public void setUnfulfilledOrderAmount(int unfulfilledOrderAmount) {
-		this.unfulfilledOrderAmount = unfulfilledOrderAmount;
 	}
 
 
@@ -57,18 +45,8 @@ public class CancellationReport implements Report, Serializable {
 	}
 
 
-	public void setUnfulfilledVisitorAmount(int unfulfilledVisitorAmount) {
-		this.unfulfilledVisitorAmount = unfulfilledVisitorAmount;
-	}
-
-
 	public int getTotalOrderAmount() {
 		return totalOrderAmount;
-	}
-
-
-	public void setTotalOrderAmount(int totalOrderAmount) {
-		this.totalOrderAmount = totalOrderAmount;
 	}
 
 
@@ -76,18 +54,6 @@ public class CancellationReport implements Report, Serializable {
 		return canceledOrdersCounter;
 	}
 
-
-	public void setCanceledOrdersCounter(int canceledOrdersCounter) {
-		this.canceledOrdersCounter = canceledOrdersCounter;
-	}
-
-
-	
-
-
-	public void setParkName(String parkName) {
-		this.parkName = parkName;
-	}
 
 
 	@Override
@@ -102,9 +68,5 @@ public class CancellationReport implements Report, Serializable {
 		return canceledVisitorsAmount;
 	}
 
-
-	public void setCanceledVisitorsAmount(int canceledVisitorsAmount) {
-		this.canceledVisitorsAmount = canceledVisitorsAmount;
-	}
 
 }

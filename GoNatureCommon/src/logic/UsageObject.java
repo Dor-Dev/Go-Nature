@@ -2,6 +2,10 @@ package logic;
 
 import java.sql.Date;
 
+/*
+ * A class created in order to insert information about the usage report to a table in the displayed screen
+ * each variable represents a column 
+ */
 public class UsageObject {
 
 	private int numOfVIsitors;

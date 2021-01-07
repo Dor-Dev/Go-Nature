@@ -16,6 +16,7 @@ import enums.DBControllerType;
 import enums.OperationType;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.WeakEventHandler;
 import javafx.fxml.FXML;
@@ -127,6 +128,7 @@ public class DManagerReportsGUIController {
 
 	@FXML
 	private Label lblUnfulfilledData;
+	
 	@FXML
 	private Label lblTotalOrders;
 
@@ -139,7 +141,14 @@ public class DManagerReportsGUIController {
 	private int monthInt;
 	private int dayInt;
 	private int yearInt;
-
+	private boolean visible=false;
+	private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+	/*
+	 * This method is used when the user clicks on the log-out button after clicking
+	 * the log-out button, every "exposed variable" will be reset in order to
+	 * restart the app the re-settng is done by the static method -
+	 * "restartParameters"
+	 */
 	@FXML
 	void goToMainPage(MouseEvent event) {
 		RestartApp.restartParameters();
@@ -170,30 +179,61 @@ public class DManagerReportsGUIController {
 		rQ.show();
 	}
 
+	/*
+	 * A method for initializing the different buttons we are using 
+	 */
 	@FXML
 	public void initialize() {
-		/**
-		 * Initialize combo box Report type
-		 */
+		
+		//Initializing the combo-boxes values
+		//to prevent unwanted data from being used after it is no longer needed
+		datePicker.setValue(null);
+		cmbParkName.setValue(null);
+		cmbReportName.setValue(null);
+		cmbType.setValue(null);
+		
+		 //Initialize the report type combo-box 	 
 		cmbReportName.getItems().removeAll(cmbReportName.getItems());
 		cmbReportName.getItems().addAll("Visiting report", "Cancellation report");
 		cmbReportName.setOnAction(e -> chooseReportName());
-		// cmbParkName.getSelectionModel().select("Option B");
 
-		
-
+		//Initialize the visitor type combo-box
 		cmbType.getItems().removeAll(cmbType.getItems());
 		cmbType.getItems().addAll("Singles", "Groups", "Members");
 		cmbType.setOnAction(e -> chooseTypes());
 
+		//Initialize the park name combo-box 
 		cmbParkName.getItems().removeAll(cmbParkName.getItems());
 		cmbParkName.getItems().addAll("Luna-Park", "Shipment-Park", "Tempo-Park");
 		cmbParkName.setOnAction(e -> chooseParkName());
 
+		//setting the action for saving the chosen date
+		datePicker.setOnAction(e->chooseDate());
+		
+		//Initialize the pie chart data and the list that contains it
+		pieChartData.clear();		
+		chrtCancellation.getData().clear();
+		
+		//disabling the option the write the date manually in the date-picker
+		datePicker.getEditor().setDisable(true);
+		
+		//setting the pie chart data labels to be empty
+		lblCanceledData.setText(null);
+		lblUnfulfilledData.setText(null);
+		lblTotalOrders.setText(null);
+		
+	}
+
+	/*
+	 * Save the date after the user chooses it.
+	 */
+	private void chooseDate() {
+		if(datePicker.getValue()!=null)
+			date = datePicker.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 	}
 
 	/**
-	 * update the park name after the user choose
+	 * Save the park name after the user chooses it.
 	 */
 
 	private void chooseParkName() {
@@ -202,7 +242,7 @@ public class DManagerReportsGUIController {
 	}
 
 	/**
-	 * update the type of visitors after the user choose
+	 * Save the type of visitors after the user chooses it.
 	 */
 	private void chooseTypes() {
 		if (cmbType.getValue().equals("Singles"))
@@ -214,10 +254,9 @@ public class DManagerReportsGUIController {
 
 	}
 
-
-
 	/**
-	 * update the report name after the user choose
+	 * save the report name after the user chooses it, The visibility of the buttons
+	 * will change according to the chosen report.
 	 */
 	private void chooseReportName() {
 		reportName = cmbReportName.getValue();
@@ -229,8 +268,7 @@ public class DManagerReportsGUIController {
 			this.lblType.setManaged(true);
 			this.datePicker.setManaged(true);
 			this.lblDate.setManaged(true);
-		}
-		else if (reportName.equals("Cancellation report")) {
+		} else if (reportName.equals("Cancellation report")) {
 			this.cmbType.setManaged(false);
 			this.lblType.setManaged(false);
 			this.cmbType.setVisible(false);
@@ -241,14 +279,13 @@ public class DManagerReportsGUIController {
 	}
 
 	/**
-	 * This is a method that pops up the appropriate pop-up and summons the method
-	 * that produces the appropriate report
+	 * A method that displays an appropriate pop-up after a date is chosen
+	 * considering the report's type and the current date.
 	 * 
 	 * @param event
 	 */
 	@FXML
 	void showReportDetails(MouseEvent event) {
-		// setReportDetailsInvisible(this);
 
 		this.vboxVisiting.setManaged(false);
 		this.vboxVisiting.setVisible(false);
@@ -258,138 +295,158 @@ public class DManagerReportsGUIController {
 		this.barChartX.setVisible(false);
 		this.barChartY.setManaged(false);
 		this.barChartY.setVisible(false);
-		this.vBoxCancellation.setManaged(false);
-		this.vBoxCancellation.setVisible(false);
-		this.chrtCancellation.setManaged(false);
-		this.chrtCancellation.setVisible(false);
-
-		date =datePicker.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-    	getCurrentDay();
-    	System.out.println(date.substring(0, 4));
-    	System.out.println(date.substring(5, 7));
-    	System.out.println(Integer.valueOf(date.substring(8, 10)));
-    	Alert a = new Alert(AlertType.INFORMATION);
-    	if (reportName.equals("Visiting report")){
-    	if(Integer.valueOf(date.substring(0, 4))>yearInt||Integer.valueOf(date.substring(5, 7))> monthInt && Integer.valueOf(date.substring(0, 4)) == yearInt || Integer.valueOf(date.substring(5, 7))== monthInt && Integer.valueOf(date.substring(0, 4)) == yearInt && dayInt < Integer.valueOf(date.substring(8, 10))) {
-    		System.out.println(1155533);
-    			a.setHeaderText("The date of production of the report has not yet arrived.");
-
-				a.setContentText("No data available for viewing.");
-				a.setTitle("Report Status");
-				a.showAndWait();
-				return;
-			} else if (Integer.valueOf(date.substring(5, 7)) < monthInt
-					&& Integer.valueOf(date.substring(0, 4)) == yearInt
-					|| Integer.valueOf(date.substring(0, 4)) < yearInt) {
-				a.setHeaderText("The date of production of the report has passed.");
-				a.setContentText("You can view the data that was in it.");
-			} else {
-
-				a.setHeaderText("Report Status");
-				a.setContentText("You can view the existing data of the report.");
-			}
-		}
-    	
-	else if (reportName.equals("Cancellation report")) {
-
-			if (Integer.valueOf(date.substring(0, 4)) == yearInt && Integer.valueOf(date.substring(5, 7)) == monthInt
-					&& Integer.valueOf(date.substring(8, 10)) == dayInt) {
-				System.out.println("today sint good");
-				a.setHeaderText("Cancellation Report can't be produced at the current day");
-				a.setContentText("No data available for viewing.");
-				a.setTitle("Report Status");
-				a.showAndWait();
-				return;
-			} else if (Integer.valueOf(date.substring(0, 4)) > yearInt
-					|| (Integer.valueOf(date.substring(5, 7)) > monthInt
-							&& Integer.valueOf(date.substring(0, 4)) == yearInt)|| (Integer.valueOf(date.substring(5, 7)) == monthInt
-									&& Integer.valueOf(date.substring(0, 4)) == yearInt && Integer.valueOf(date.substring(8, 10)) > dayInt)) {
-				System.out.println(1155533);
+		setCancellationReportInVisible(this);
+		//Calling the validation method in order to make sure all of the values have been picked
+		validation();
+		
+		getCurrentDay();// Saving the current date in static variables
+		
+		// Creating a pop-up that will be used to present information
+		Alert a = new Alert(AlertType.INFORMATION);
+					
+		// The chosen report is the visiting report,
+	//	if (reportName.equals("Visiting report")) {
+		if (date != null && type != null && parkName != null && reportName.equals("Visiting report")) {
+			
+			// check if the date has arrived yet by
+			// comparing the current day, month and year to the chosen ones.
+			// and present a pop-up with the appropriate message
+			if (Integer.valueOf(date.substring(0, 4)) > yearInt
+					|| Integer.valueOf(date.substring(5, 7)) > monthInt
+							&& Integer.valueOf(date.substring(0, 4)) == yearInt
+					|| Integer.valueOf(date.substring(5, 7)) == monthInt
+							&& Integer.valueOf(date.substring(0, 4)) == yearInt
+							&& dayInt < Integer.valueOf(date.substring(8, 10))) {
 				a.setHeaderText("The date of production of the report has not yet arrived.");
 				a.setContentText("No data available for viewing.");
 				a.setTitle("Report Status");
 				a.showAndWait();
 				return;
+			}
+			// check if the date has passed by
+			// comparing the current day, month and year to the chosen ones.
+			// and present a pop-up with the appropriate message
+			else if (Integer.valueOf(date.substring(5, 7)) < monthInt
+					&& Integer.valueOf(date.substring(0, 4)) == yearInt
+					|| Integer.valueOf(date.substring(0, 4)) < yearInt) {
+				a.setHeaderText("The date of production of the report has passed.");
+				a.setContentText("You can view the data that was in it.");
 			} else {
-
 				a.setHeaderText("Report Status");
 				a.setContentText("You can view the existing data of the report.");
 			}
-		}
-		a.setTitle("Report Status");
-		a.showAndWait();
-
-		if (date != null && type != null && parkName != null && reportName.equals("Visiting report")) {
+			a.setTitle("Report Status");
+			a.showAndWait();
+			//Call the Cancellation Report method in order to display the data
 			showVisitingReport(this);
-		} else if (date != null && parkName != null && reportName.equals("Cancellation report")) {
-			showCancellationReport(this);
-
 		}
-
-	}
-
-	private void showCancellationReport(DManagerReportsGUIController dManagerReportsGUIController) {
+		//the chosen report is cancellation
+		else 
+			//if (reportName.equals("Cancellation report")) {
+			if (date != null && parkName != null && reportName.equals("Cancellation report")) {
+				
+			// check if the date is the current date
+			// comparing the current day, month and year to the chosen ones.
+			// and present a pop-up with the appropriate message
+			if (Integer.valueOf(date.substring(0, 4)) == yearInt && Integer.valueOf(date.substring(5, 7)) == monthInt
+					&& Integer.valueOf(date.substring(8, 10)) == dayInt) {
+				a.setHeaderText("Cancellation Report can't be produced at the current day");
+				a.setContentText("No data available for viewing.");
+				a.setTitle("Report Status");
+				a.showAndWait();
+				return;
+			} 
+			// check if the date has arrived yet
+			// comparing the current day, month and year to the chosen ones.
+			// and present a pop-up with the appropriate message
+			else if (Integer.valueOf(date.substring(0, 4)) > yearInt
+					|| (Integer.valueOf(date.substring(5, 7)) > monthInt
+							&& Integer.valueOf(date.substring(0, 4)) == yearInt)
+					|| (Integer.valueOf(date.substring(5, 7)) == monthInt
+							&& Integer.valueOf(date.substring(0, 4)) == yearInt
+							&& Integer.valueOf(date.substring(8, 10)) > dayInt)) {
+				a.setHeaderText("The date of production of the report has not yet arrived.");
+				a.setContentText("No data available for viewing.");
+				a.setTitle("Report Status");
+				a.showAndWait();
+				return;
+			}
+			if(visible == false)
+				setCancellationReportVisible(this);
+			
+			//Call the Cancellation Report method in order to display the data
+			showCancellationReport(this);
+		}
 		
-		this.lblCanceledData.setText("");
-		this.lblUnfulfilledData.setText("");
-		this.lblTotalOrders.setText("");
-		List<String> list = new ArrayList<String>();
-		list.add(parkName);
-		list.add(date);
-		MainClient.clientConsole.accept(
-				new Message(OperationType.CancellationReport, DBControllerType.ReportsDBController, (Object) list));
-		if (ReportController.reportType.equals(OperationType.CancellationReport)) {
-			System.out.println("cancellation selected");
-			CancellationReport cancellationReport = (CancellationReport) ReportController.report;
-			this.vboxReportName.setManaged(true);
-			this.lblReportName.setManaged(true);
-			this.vboxReportName.setVisible(true);
-			this.lblReportName.setVisible(true);
-			this.lblReportName.setManaged(true);
+		
+	
 
-			this.vBoxCancellation.setManaged(true);
-			this.vBoxCancellation.setVisible(true);
-
-			this.chrtCancellation.setManaged(true);
-			this.chrtCancellation.setVisible(true);
-
-			this.lblReportName.setText("Cancellation Report at " + date);
-			
-			if(cancellationReport.getCanceledOrdersCounter()==0&&cancellationReport.getUnfulfilledOrderAmount()==0) {
-				this.chrtCancellation.setManaged(false);
-				this.chrtCancellation.setVisible(false);
-				this.lblTotalOrders.setText("There is no available information for this date!");
-			}else {
-				
-				this.chrtCancellation.setManaged(true);
-				this.chrtCancellation.setVisible(true);
-				this.lblTotalOrders.setText("");
-
-				ObservableList<PieChart.Data> pieCancellationData = FXCollections.observableArrayList(
-						new PieChart.Data("Canceled orders", cancellationReport.getCanceledOrdersCounter()),
-						new PieChart.Data("Unfulfilled orders", cancellationReport.getUnfulfilledOrderAmount()),
-						new PieChart.Data("Rest of orders", cancellationReport.getTotalOrderAmount()-cancellationReport.getUnfulfilledOrderAmount()-cancellationReport.getCanceledOrdersCounter())
-				
-				);
-				
-				pieCancellationData.forEach(data ->
-	            data.nameProperty().bind(
-	                    Bindings.concat(
-	                            data.getName(), " - ", data.pieValueProperty().multiply(100/cancellationReport.getTotalOrderAmount()), "%"
-	                    )
-	            )
-	    );
-			this.chrtCancellation.setData(pieCancellationData);
-			this.lblTotalOrders.setText("Total orders amount - " + cancellationReport.getTotalOrderAmount());
-			this.lblCanceledData.setText("Canceled orders amount - " + cancellationReport.getCanceledOrdersCounter() 
-					+ " (Visitors amount - " +cancellationReport.getCanceledVisitorsAmount()+")");
-			this.lblUnfulfilledData.setText("Unfulfilled orders amount - " + cancellationReport.getUnfulfilledOrderAmount() 
-			+ " (Visitors amount - " +cancellationReport.getUnfulfilledVisitorAmount()+")");
-			}
-			}
-			
 	}
 
+	/*
+	 * A method that displays the cancellation report to the department manager 
+	 * with data gotten from the DataBase
+	 * it displays -
+	 * 1-canceled orders amount
+	 * 2-unfulfilled orders amount
+	 * out of the total orders in a pie chart.
+	 */
+	private void showCancellationReport(DManagerReportsGUIController dManagerReports) {
+		//a list with the chosen information to send to the server 
+				List<String> list = new ArrayList<String>();
+				list.add(parkName);
+				list.add(date);
+				MainClient.clientConsole.accept(
+						new Message(OperationType.CancellationReport, DBControllerType.ReportsDBController, (Object) list));
+				//after receiving valid information from the server - display it to the screen
+				if (ReportController.reportType.equals(OperationType.CancellationReport)) {
+					
+					
+					
+					//Save the received report 
+					CancellationReport cancellationReport = (CancellationReport) ReportController.report;
+					
+					//if the cancellation report is visible 
+					//make it invisible 
+					if (cancellationReport.getTotalOrderAmount()==0) {
+						if(visible == true)
+							setCancellationReportInVisible(dManagerReports);
+						// Creating a pop-up for alerting there is not information to be displayed
+						Alert a = new Alert(AlertType.INFORMATION);
+						a.setHeaderText("There is no available information at the chosen production date.");
+						a.setContentText("Please, choose a different date.");
+						a.setTitle("Report Status");
+						a.showAndWait();
+						return;
+					}
+					else {//if the cancellation report is invisible 
+						//make it visible 
+						if(visible == false)
+							setCancellationReportVisible(dManagerReports);
+						dManagerReports.lblReportName.setText("Cancellation Report at " + date);
+						setPieChart(dManagerReports, cancellationReport.getCanceledOrdersCounter(),
+								cancellationReport.getUnfulfilledOrderAmount(),
+								cancellationReport.getTotalOrderAmount()-cancellationReport.getCanceledOrdersCounter()-cancellationReport.getUnfulfilledOrderAmount());
+						//Displaying additional information about the orders
+						dManagerReports.lblTotalOrders.setText("Total orders amount - " + cancellationReport.getTotalOrderAmount());
+						dManagerReports.lblTotalOrders.setVisible(true);
+						dManagerReports.lblTotalOrders.setManaged(true);
+						dManagerReports.lblCanceledData.setText("Canceled orders amount - " + cancellationReport.getCanceledOrdersCounter()
+								+ " (Visitors amount - " + cancellationReport.getCanceledVisitorsAmount() + ")");
+						dManagerReports.lblUnfulfilledData
+								.setText("Unfulfilled orders amount - " + cancellationReport.getUnfulfilledOrderAmount()
+										+ " (Visitors amount - " + cancellationReport.getUnfulfilledVisitorAmount() + ")");
+						
+					}
+					
+					
+					
+					
+				}
+
+	}
+
+	
 	/**
 	 * this method create the Visiting report and present it to the manager
 	 * 
@@ -494,7 +551,6 @@ public class DManagerReportsGUIController {
 	 * @param dManagerReportsController
 	 */
 	private void setReportDetailsInvisible(DManagerReportsGUIController dManagerReportsController) {
-
 		System.out.println("chek2");
 		dManagerReportsController.vboxVisiting.setManaged(false);
 		dManagerReportsController.vboxVisiting.setVisible(false);
@@ -514,6 +570,12 @@ public class DManagerReportsGUIController {
 		dManagerReportsController.chrtCancellation.setManaged(false);
 		dManagerReportsController.vBoxCancellation.setVisible(false);
 		dManagerReportsController.chrtCancellation.setVisible(false);
+		dManagerReportsController.lblCanceledData.setVisible(false);
+		dManagerReportsController.lblUnfulfilledData.setVisible(false);
+		dManagerReportsController.lblTotalOrders.setVisible(false);
+		dManagerReportsController.lblCanceledData.setManaged(false);
+		dManagerReportsController.lblUnfulfilledData.setManaged(false);
+		dManagerReportsController.lblTotalOrders.setManaged(false);
 	}
 
 	private List<Label> createLabelList(DManagerReportsGUIController dManagerReportsController) {
@@ -530,4 +592,145 @@ public class DManagerReportsGUIController {
 		tempMenuLabels.add(dManagerReportsController.mnuParkCapacity);
 		return tempMenuLabels;
 	}
-}
+	
+	/*
+	 * A method that checks every time if any of the combo-boxes values weren't chosen
+	 * and displays an appropriate pop-up
+	 */
+	private void validation() {
+		String report = this.cmbReportName.getValue();
+		String park = this.cmbParkName.getValue();
+		LocalDate date = this.datePicker.getValue();
+		String visitorType = this.cmbType.getValue(); 
+		Alert a = new Alert(AlertType.INFORMATION);	
+		 
+		if(report==null) {
+			String boxes = "";
+			if(park==null) {
+				boxes+="'Report-Name'\n";
+				boxes+="'Park-Name'\n";		
+			}else 
+				boxes+="'Report-Name' ";
+			if(!boxes.equals("")) {
+			a.setHeaderText("Error, the following boxes aren't picked yet!\n Please choose the values before clicking on produce report.");
+			a.setContentText( boxes);
+			a.setTitle("Report Status");
+			a.showAndWait();
+			return;	}
+		}else if(report.equals("Cancellation report")){
+			String boxes = "";
+			
+			if(park == null)
+				boxes += "'Park-Name'\n";
+			
+			if(date == null)
+				boxes+="'Date'\n";
+			
+			if(!boxes.equals("")) {
+				a.setHeaderText("Error, the following boxes aren't picked yet!\n Please choose the values before clicking on 'Produce Report'.");
+				a.setContentText( boxes);
+				a.setTitle("Report Status");
+				a.showAndWait();
+				return;
+				}
+		}else if(report.equals("Visiting report")) {
+			String boxes = "";
+			
+			if(park == null)
+				boxes += "'Park-Name'\n";
+			
+			if(date == null) 
+				boxes+="'Date'\n";
+			
+			if(visitorType == null)
+				boxes+="'Type'\n";
+			
+			if(!boxes.equals("")) {
+			a.setHeaderText("Error, the following boxes aren't picked yet!\n Please choose the values before clicking on 'Produce Report'.");
+			a.setContentText( boxes );
+			a.setTitle("Report Status");
+			a.showAndWait();
+			return;
+			}
+		}else
+			return;
+		
+	}
+	
+	/*
+	 * A method used to set the Cancellation report GUI to be visible 
+	 */
+	private void setCancellationReportInVisible(DManagerReportsGUIController dManagerReports) {
+		//A boolean variable that saves whether the cancellation report is visible or not
+		//in this case it's visible 
+		visible = false;
+		dManagerReports.chrtCancellation.setData(null);
+		dManagerReports.vboxReportName.setManaged(false);
+		dManagerReports.lblReportName.setManaged(false);
+		dManagerReports.vboxReportName.setVisible(false);
+		dManagerReports.lblReportName.setVisible(false);
+		dManagerReports.lblReportName.setManaged(false);
+
+		dManagerReports.vBoxCancellation.setManaged(false);
+		dManagerReports.vBoxCancellation.setVisible(false);
+
+		dManagerReports.chrtCancellation.setManaged(false);
+		dManagerReports.chrtCancellation.setVisible(false);
+
+		dManagerReports.lblCanceledData.setVisible(false);
+		dManagerReports.lblUnfulfilledData.setVisible(false);
+		dManagerReports.lblTotalOrders.setVisible(false);
+		dManagerReports.lblCanceledData.setManaged(false);
+		dManagerReports.lblUnfulfilledData.setManaged(false);
+		dManagerReports.lblTotalOrders.setManaged(false);
+		
+		
+	}
+
+	/*
+	 * A method used to set the Cancellation report GUI to be invisible 
+	 */
+	private void setCancellationReportVisible(DManagerReportsGUIController dManagerReports) {
+		//A boolean variable that saves whether the cancellation report is visible or not
+		//in this case it's visible 
+		visible = true;
+		
+		dManagerReports.vboxReportName.setManaged(true);
+		dManagerReports.lblReportName.setManaged(true);
+		dManagerReports.vboxReportName.setVisible(true);
+		dManagerReports.lblReportName.setVisible(true);
+		dManagerReports.lblReportName.setManaged(true);
+
+		dManagerReports.vBoxCancellation.setManaged(true);
+		dManagerReports.vBoxCancellation.setVisible(true);
+
+		dManagerReports.chrtCancellation.setManaged(true);
+		dManagerReports.chrtCancellation.setVisible(true);
+
+		dManagerReports.lblCanceledData.setVisible(true);
+		dManagerReports.lblUnfulfilledData.setVisible(true);
+		dManagerReports.lblTotalOrders.setVisible(true);
+		dManagerReports.lblCanceledData.setManaged(true);
+		dManagerReports.lblUnfulfilledData.setManaged(true);
+		dManagerReports.lblTotalOrders.setManaged(true);
+	}
+	
+	/*
+	 * a method used to insert data to the pie chart
+	 */
+	private void setPieChart(DManagerReportsGUIController dManagerReports, int canceledOrders, int unfulfilledOrders, int restOfOrders) {
+		pieChartData.clear();
+		
+		pieChartData.add(new PieChart.Data("Rest of orders", restOfOrders));
+		pieChartData.add(new PieChart.Data("Canceled orders", canceledOrders));
+		pieChartData.add(new PieChart.Data("Unfulfilled orders", unfulfilledOrders));
+		
+		//setting the percentage of each slice in the pie chart
+		pieChartData.forEach(data -> data.nameProperty().bind(Bindings.concat
+				(data.getName(), " - ",data.pieValueProperty().multiply(100 / (canceledOrders+unfulfilledOrders+restOfOrders)), "%")));
+	
+		
+		dManagerReports.chrtCancellation.setData(pieChartData);
+	}
+	}
+
