@@ -302,7 +302,7 @@ public class ReportsDBContorller {
 					System.out.println("id" + rs.getInt(1));
 					if (!(approvedOrders.contains(rs.getInt(1)))) {
 						unfulfilledOrderCounter++;
-						unfulfilledVisitorsAmount += rs.getInt(7);
+						unfulfilledVisitorsAmount += rs.getInt(8);
 					}
 				}
 
@@ -318,9 +318,9 @@ public class ReportsDBContorller {
 				int canceledVisitorsAmount = 0;
 				while (rs.next()) {
 					System.out.println("order -" + rs.getInt(1));
-					System.out.println("amount -" + rs.getInt(7));
+					System.out.println("amount -" + rs.getInt(8));
 					canceledOrderCounter++;
-					canceledVisitorsAmount += rs.getInt(7);
+					canceledVisitorsAmount += rs.getInt(8);
 				}
 
 				pstm = sqlConnection.connection
