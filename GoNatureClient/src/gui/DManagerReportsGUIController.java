@@ -590,7 +590,7 @@ public class DManagerReportsGUIController {
 
 			this.barChartVisiting.getData().clear();
 
-			
+			//amit change it//
 			XYChart.Series <String,Integer> []  set  = new XYChart.Series [hours.length] ;
 		
 			for(int i = 0; i < hours.length; i++)
