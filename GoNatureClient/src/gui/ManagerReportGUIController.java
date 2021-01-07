@@ -117,7 +117,7 @@ public class ManagerReportGUIController {
 	private Label lblMonthYear;
 
 	@FXML
-	private BarChart<Integer, Integer> barChartOverall;
+	private BarChart<String, Integer> barChartOverall;
 
 	@FXML
 	private CategoryAxis barChartX;
@@ -436,25 +436,35 @@ public class ManagerReportGUIController {
 			// this.barChartOverall = new BarChart<>(barChartX, barChartY);
 			this.barChartOverall.getData().clear();
 
-			XYChart.Series set1 = new XYChart.Series<>();
+			XYChart.Series<String,Integer> setSingles = new XYChart.Series<>();
+			XYChart.Series<String,Integer> setMembers = new XYChart.Series<>();
+			XYChart.Series<String,Integer> setGroups = new XYChart.Series<>();
 
-			set1.getData().clear();
-			set1.getData().add(new XYChart.Data<>("Singles", sumReport.getVisitorsAmount()));
-			set1.getData().add(new XYChart.Data<>("Members", sumReport.getMembersAmount()));
-			set1.getData().add(new XYChart.Data<>("Groups", sumReport.getGroupsAmount()));
+			setSingles.getData().clear();
+			setMembers.getData().clear();
+			setGroups.getData().clear();
+			
+			setSingles.getData().add(new XYChart.Data<>("", sumReport.getVisitorsAmount()));
+			setSingles.setName("Singles");
+			setMembers.getData().add(new XYChart.Data<>("", sumReport.getMembersAmount()));
+			setMembers.setName("Members");
+			setGroups.getData().add(new XYChart.Data<>("", sumReport.getGroupsAmount()));
+			setGroups.setName("Groups");
 
-			this.barChartOverall.getData().addAll(set1);
+			this.barChartOverall.getData().add(setSingles);
+			this.barChartOverall.getData().add(setMembers);
+			this.barChartOverall.getData().add(setGroups);
 
-			Node n = barChartOverall.lookup(".data0.chart-bar");
+			/*Node n = barChartOverall.lookup(".data0.chart-bar");
 			n.setStyle("-fx-bar-fill: red");
 			n = barChartOverall.lookup(".data1.chart-bar");
 			n.setStyle("-fx-bar-fill: orange");
 			n = barChartOverall.lookup(".data2.chart-bar");
 			n.setStyle("-fx-bar-fill: green");
-
+*/
 			
-			barChartOverall.setBarGap(0);
-			barChartOverall.setCategoryGap(50);
+			barChartOverall.setBarGap(20);
+			barChartOverall.setCategoryGap(80);
 			this.barChartOverall.setManaged(true);
 			this.barChartOverall.setVisible(true);
 			this.barChartX.setManaged(true);

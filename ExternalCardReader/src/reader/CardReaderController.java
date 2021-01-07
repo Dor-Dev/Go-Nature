@@ -76,7 +76,7 @@ public class CardReaderController {
 	private static Time thisTimeToDB;
 	private static int hours;
 	private static int minutes;
-	private final int openEntrance = 10;
+	private final int openEntrance = 9;
 	private final int closeEntrance = 17;
 	private final int openExit = 10;
 	private final int closeExit = 21;
