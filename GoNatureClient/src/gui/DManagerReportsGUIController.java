@@ -865,7 +865,6 @@ public class DManagerReportsGUIController {
 		// not
 		// in this case it's visible
 		visible = false;
-		dManagerReports.chrtCancellation.setData(null);
 		dManagerReports.vboxReportName.setManaged(false);
 		dManagerReports.lblReportName.setManaged(false);
 		dManagerReports.vboxReportName.setVisible(false);
