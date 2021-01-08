@@ -81,7 +81,7 @@ public class WaitingListMessagesDBController {
 		
 		//Create the message title and content
 		messageTitle="A space became available at the park";
-		messageContent="Simulation"+"\r\n"+"\r\n"+"Order number" + nextOrderID+ " is now available!\r\n" + 
+		messageContent="Simulation"+"\r\n"+"\r\n"+"Order number " + nextOrderID+ " is now available!\r\n" + 
 				"You have 1 hour to confirm your order.\r\n" + 
 				"Or else the order will be automatically canceled.\r\n" + 
 				"Go to:"+"\r\n"+" Go-Nature system ---> 'My Orders' "+"\r\n"+"and approve your order.\r\n "+

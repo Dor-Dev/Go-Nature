@@ -34,6 +34,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -210,6 +211,7 @@ public class EventsGUIController implements Initializable {
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Go-Nature Events");
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			EventsGUIController eventsGUIController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = eventsGUIController.createLabelList(eventsGUIController);

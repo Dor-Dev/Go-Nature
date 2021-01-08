@@ -25,6 +25,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert.AlertType;
@@ -179,6 +180,7 @@ public class LoginGUIController {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			primaryStage.setTitle("Go-Nature Login");
 			LoginGUIController loginController = loader.getController();
 			loginController.hideEmployeeParamaters();

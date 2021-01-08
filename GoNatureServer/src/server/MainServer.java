@@ -6,6 +6,7 @@ import gui.ServerGUIController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -40,7 +41,7 @@ public class MainServer extends Application {
 		Scene scene = new Scene(root);
 		ServerGUIController controller = loader.getController();
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Server");
+		primaryStage.setTitle("Go Nature - Server");
 		primaryStage.show();
 		
 		messageSender.sendReminderMessage();

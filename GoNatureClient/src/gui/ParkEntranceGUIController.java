@@ -29,6 +29,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -709,7 +710,8 @@ public class ParkEntranceGUIController {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Park Entrance");
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
+			primaryStage.setTitle("Go-Nature Park Entrance");
 			ParkEntranceGUIController parkEntranceController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(parkEntranceController);

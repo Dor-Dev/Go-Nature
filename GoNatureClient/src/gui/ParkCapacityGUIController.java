@@ -15,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -111,7 +112,8 @@ public class ParkCapacityGUIController {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Park Capacity");			
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
+			primaryStage.setTitle("Go-Nature Park Capacity");			
 			//.getItems().addAll("Luna-Park", "Shipment-Park", "lala");
 			ParkCapacityGUIController parkCapacityController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();

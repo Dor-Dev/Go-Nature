@@ -29,6 +29,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -140,7 +141,8 @@ public class MyOrdersGUIController implements Initializable {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("My Orders");
+			primaryStage.setTitle("Go-Nature My Orders");
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			MyOrdersGUIController myOrdersController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(myOrdersController);

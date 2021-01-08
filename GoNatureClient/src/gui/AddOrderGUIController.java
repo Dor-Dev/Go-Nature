@@ -44,6 +44,13 @@ import logic.Order;
 import logic.OrderRequest;
 import logic.Validation;
 
+/**
+ * This class add Order to databaseto every client.
+ * option to add order to waiting list
+ * option to choose alternative dates
+ * @author Naor0
+ *
+ */
 public class AddOrderGUIController {
 
 	public static Order newOrder = null;
@@ -187,7 +194,8 @@ public class AddOrderGUIController {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Add Order");
+			primaryStage.setTitle("Go-Nature Add Order");
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			AddOrderGUIController addOrderController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(addOrderController);
@@ -266,7 +274,7 @@ public class AddOrderGUIController {
 		 * Initialize cmb Visit Hour 10:00 - 17:00
 		 */
 		cmbHour.getItems().removeAll(cmbHour.getItems());
-		cmbHour.getItems().addAll("10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00");
+		cmbHour.getItems().addAll("09:00","10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00");
 		cmbHour.getSelectionModel().select(0);
 		/**
 		 * Initialize cmb Num of visitors 1-15
@@ -394,7 +402,7 @@ public class AddOrderGUIController {
 			return "Number Of Visitors";
 		if (!Validation.emailValidation(txtEmail.getText()))
 			return "Email";
-		if (!Validation.phoneValidation(txtPhoneEnd.getText()))
+		if (!Validation.phoneValidation(cmbPhoneStart.getValue()+txtPhoneEnd.getText()))
 			return "Phone";
 		return "OK";
 	}
@@ -428,7 +436,11 @@ public class AddOrderGUIController {
 		 * we use only round hours, so we need to save (int) only the 2 first charcters
 		 * from the combo box
 		 */
-		int hour = Integer.parseInt((cmbHour.getValue().toString().substring(0, 2)));
+		String[] hour;
+		hour = cmbHour.getValue().split(":");
+		System.out.println(hour[0]);
+		int hourInteger = Integer.parseInt((hour[0]));
+
 
 		/**
 		 * calculate price after discount
@@ -443,10 +455,10 @@ public class AddOrderGUIController {
 		newOrder = new Order(cmbParkName.getValue(),
 				date.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))), userID,
 				Integer.parseInt((String) cmbNumOfVisitors.getValue().toString()), txtEmail.getText(),
-				typeToogleSelected, cbPayNow.isSelected(), hour, (int) finalPrice,
+				typeToogleSelected, cbPayNow.isSelected(), hourInteger, (int) finalPrice,
 				cmbPhoneStart.getValue() + txtPhoneEnd.getText(), "Not sent", "Received", calculateDiscount());
 		System.out.println("NEW ORDER CREATED!");
-		request = new OrderRequest(date.getValue(), hour, Integer.parseInt(cmbNumOfVisitors.getValue()),
+		request = new OrderRequest(date.getValue(), hourInteger, Integer.parseInt(cmbNumOfVisitors.getValue()),
 				cmbParkName.getValue());
 		MainClient.clientConsole.accept(
 				new Message(OperationType.OrderCheckDateTime, DBControllerType.OrderDBController, (Object) request));
@@ -614,9 +626,11 @@ public class AddOrderGUIController {
 	@FXML
 	void submitAlternativeRequest(ActionEvent event) {
 
-		if (cmbAlternativeHour.getValue() != null) {
-			int hour = Integer.parseInt((cmbAlternativeHour.getValue().toString().substring(0, 2)));
-			newOrder.setHourTime(hour);
+		String[] hour;
+		hour = cmbAlternativeHour.getValue().split(":");
+		if (cmbAlternativeHour.getValue() != null || alternativeDatePicker.getValue()!=null) {
+			int hourInteger = Integer.parseInt((hour[0]));
+			newOrder.setHourTime(hourInteger);
 			newOrder.setDatearrival(alternativeDatePicker.getValue().toString());
 			MainClient.clientConsole
 					.accept(new Message(OperationType.AddOrder, DBControllerType.OrderDBController, (Object) newOrder));
@@ -639,7 +653,7 @@ public class AddOrderGUIController {
 		Arrays.fill(areAvaiableHour, Boolean.TRUE); // set all values to true
 		int[] avaiableSpacesSum = OrderController.availableSpaces;
 		cmb.getItems().removeAll(cmb.getItems());
-		for (i = 10; i < 18; i++) {
+		for (i = 9; i < 18; i++) {
 			for (int j = 0; j < OrderController.managerDefultTravelHour; j++) {
 				if (avaiableSpacesSum[i + j] + newOrder.getNumOfVisitors() > avaiableSpacesSum[0]) { // at index 0 we
 																										// got how many
