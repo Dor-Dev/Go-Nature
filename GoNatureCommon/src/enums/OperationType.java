@@ -40,7 +40,7 @@ public enum OperationType {
 	
 	// card reader
 
-	FindOrder, FindReceipt , FaildToUpdate, FindReceiptForExit;
+	FindOrder, FindReceipt , FaildToUpdate, FindReceiptForExit, VisitorEnterRequest;
 
 }
 

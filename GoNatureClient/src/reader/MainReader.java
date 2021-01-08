@@ -16,7 +16,6 @@ public class MainReader extends Application {
 		CardReaderController cardReaderController = new CardReaderController();
 		cardReaderController.show();
 		clientConsole = new ClientConsole("localhost", 5555);
-	
 
 	}
 	
