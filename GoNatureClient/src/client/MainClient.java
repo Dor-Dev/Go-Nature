@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import reader.CardReaderController;
 
 public class MainClient extends Application {
 	public static ClientConsole clientConsole;
@@ -21,7 +22,9 @@ public class MainClient extends Application {
 		LoginGUIController g = new LoginGUIController();
 		g.show();
 		clientConsole = new ClientConsole("localhost", 5555);
-	
+		CardReaderController cardReaderController = new CardReaderController();
+		cardReaderController.show();
+		
 
 	}
 }

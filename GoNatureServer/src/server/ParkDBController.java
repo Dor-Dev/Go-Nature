@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import common.Message;
 import enums.ClientControllerType;
 import enums.OperationType;
+import logic.CardReaderRequest;
 import logic.Event;
 import logic.Order;
 import logic.Park;
@@ -298,6 +299,40 @@ public class ParkDBController {
 						(Object) "Event request send successfully");
 
 			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		case VisitorEnterRequest:
+			CardReaderRequest cardReaderRequest = (CardReaderRequest) msgFromClient.getObj();
+			PreparedStatement pstm;
+			getCurrentTime();
+			 try {
+				pstm = sqlConnection.connection.prepareStatement("SELECT * from orders where parkName=? and visitorID=? and arrivalDate=? and hourTime>=? and hourTime<=? and status='Approved'");
+
+				pstm.setString(1, cardReaderRequest.getParkName());
+				pstm.setInt(2, cardReaderRequest.getVisitorID());
+				pstm.setDate(3, thisDayToDB);
+				pstm.setInt(4, hours-4);
+				pstm.setInt(5, hours);
+				
+				ResultSet rs = pstm.executeQuery();
+				if(rs.next()) {
+					int orderID = rs.getInt(1);
+					int numOfVisitor = rs.getInt(8);
+					Order order = new Order(rs.getInt(1), rs.getString(2), rs.getDate(3), rs.getInt(4),
+							rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9),
+							rs.getBoolean(10), rs.getInt(11),rs.getInt(14));
+					if(numOfVisitor>=cardReaderRequest.getVisitorAmount()) {
+						return new Message(OperationType.FindOrder,ClientControllerType.OrderController,(Object)order);
+					}
+					else {
+						return new Message(OperationType.FindOrder,ClientControllerType.OrderController,(Object)"amount is not avilable");
+						
+					}
+					
+			 }
+			 }catch (SQLException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
