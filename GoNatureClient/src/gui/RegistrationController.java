@@ -23,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -386,7 +387,8 @@ public class RegistrationController {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Registration");
+			primaryStage.setTitle("Go-Nature Registration");
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			List<Label> menuLabels = new ArrayList<>();
 			RegistrationController registrationController = loader.getController();
 			hideCreditCardParamaters(registrationController);

@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -35,6 +36,7 @@ public class RegistartionPopUpController {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			primaryStage.setTitle(popUpTitle);
 			System.out.println(popUpMsg);
 			RegistartionPopUpController registrationPopUpController=loader.getController();

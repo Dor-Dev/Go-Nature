@@ -27,6 +27,7 @@ public class RestartApp {
 		VisitorController.subscriberConnected = null;
 		VisitorController.loggedID = 0;
 		VisitorController.isConnected = false;
+		VisitorController.memberNotExist=false;
 		EmployeeController.isConnected = false;
 		EmployeeController.employeeConected = null;
 		ParkController.Parktype = null;

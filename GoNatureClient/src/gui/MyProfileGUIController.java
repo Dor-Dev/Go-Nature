@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -118,7 +119,8 @@ public class MyProfileGUIController {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("My Profile");
+			primaryStage.setTitle("Go-Nature My Profile");
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			MyProfileGUIController myProfileController = loader.getController();
 
 			List<Label> menuLabels = new ArrayList<>();

@@ -263,15 +263,6 @@ public class DManagerReportsGUIController {
 		lblUnfulfilledData.setText(null);
 		lblTotalOrders.setText(null);
 
-	}
-
-	/*
-	 * Save the date after the user chooses it.
-	 */
-	private void chooseDate() {
-		if (datePicker.getValue() != null)
-			date = datePicker.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
 		// init the Table view of reports
 		colReportID.setCellValueFactory(new PropertyValueFactory<>("reportID"));
 		colParkName.setCellValueFactory(new PropertyValueFactory<>("parkName"));
@@ -282,6 +273,15 @@ public class DManagerReportsGUIController {
 		colParkName.setStyle("-fx-alignment: CENTER");
 		colDate.setStyle("-fx-alignment: CENTER");
 		colReportName.setStyle("-fx-alignment: CENTER");
+
+	}
+
+	/*
+	 * Save the date after the user chooses it.
+	 */
+	private void chooseDate() {
+		if (datePicker.getValue() != null)
+			date = datePicker.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
 	}
 
@@ -300,7 +300,7 @@ public class DManagerReportsGUIController {
 						btnView.setOnAction((ActionEvent event) -> {
 							ReportImage report = getTableView().getItems().get(getIndex());
 							InputStream nputStream = report.getReportImage();
-							ImageView reportImage = new ImageView(); // same here for winner image
+							ImageView reportImage = new ImageView(); 
 							Image image = new Image(nputStream);
 							reportImage.setImage(image);
 							Stage reportStage = new Stage();
@@ -593,7 +593,7 @@ public class DManagerReportsGUIController {
 
 			// if the cancellation report is visible
 			// make it invisible
-			if (cancellationReport.getTotalOrderAmount() == 0) {
+			if (cancellationReport.getCanceledOrdersCounter() == 0 && cancellationReport.getUnfulfilledOrderAmount()==0) {
 				if (visible == true)
 					setCancellationReportInVisible(dManagerReports);
 				// Creating a pop-up for alerting there is not information to be displayed
@@ -720,7 +720,8 @@ public class DManagerReportsGUIController {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Department manager Reports");
+			primaryStage.setTitle("Go-Nature Reports");
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			dManagerReportsController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(dManagerReportsController);

@@ -578,6 +578,7 @@ public class ManagerReportGUIController {
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Go-Nature Reports");
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			ManagerReportGUIController managerReportsController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			managerReportsController.btnProductToDepartment.setVisible(false);
@@ -768,6 +769,8 @@ public class ManagerReportGUIController {
 
 		this.btnProductToDepartment.setVisible(false);
 		this.btnProductToDepartment.setManaged(false);
+		tblUsageReportTable.setMinHeight(800);	//we need to print all rows so get bigger window
+		tabIncome.setMinHeight(800);	//we need to print all rows so get bigger window
 		WritableImage snapshot = vBoxReportSnapshot.snapshot(new SnapshotParameters(), null);
 		ImageView reportImage = new ImageView(snapshot); 
 		Stage reportStage = new Stage();
@@ -779,6 +782,8 @@ public class ManagerReportGUIController {
 		reportStage.setTitle("Report");
 		reportStage.setScene(myScene2);
 		reportStage.show();
+		tblUsageReportTable.setMinHeight(300);
+		tabIncome.setMinHeight(300);
 		this.lblDProduceMsg.setVisible(true);
 		this.lblDProduceMsg.setManaged(true);
 		BufferedImage bImage = SwingFXUtils.fromFXImage(reportImage.getImage(), null);
