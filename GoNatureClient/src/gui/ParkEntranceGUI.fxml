@@ -165,7 +165,7 @@
                               </HBox>
                               <HBox prefHeight="31.0" prefWidth="405.0">
                                  <children>
-                                    <Label style="-fx-font-weight: bold;" text="Current amount of visitors">
+                                    <Label style="-fx-font-weight: bold;" text="Current amount of visitors:">
                                        <font>
                                           <Font size="16.0" />
                                        </font>

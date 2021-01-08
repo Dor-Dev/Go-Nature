@@ -56,8 +56,6 @@ public class OrderDBController {
 			return orderFinalApprove(clientMsg);
 		case GetOutFromWaitingList:
 			return getOutFromWaitingList(clientMsg);
-		case FindOrder:
-			return findOrder(clientMsg);
 		case checkEventDiscount:
 			return checkEventDiscount(clientMsg);
 		default:
@@ -99,61 +97,7 @@ public class OrderDBController {
 	 * @param clientMsg
 	 * @return
 	 */
-	private Object findOrder(Message clientMsg) {
-		List <String> info = (ArrayList<String>) clientMsg.getObj();
-		PreparedStatement pstm;
-		getCurrentTime();
-		 try {
-			pstm = sqlConnection.connection.prepareStatement("SELECT * from orders where parkName=? and visitorID=? and arrivalDate=? and hourTime>=? and hourTime<=? and status='Approved'");
-
-			pstm.setString(1, info.get(0));
-			pstm.setString(2, info.get(1));
-			pstm.setDate(3, thisDayToDB);
-			pstm.setInt(4, hours-4);
-			pstm.setInt(5, hours);
-			
-			ResultSet rs = pstm.executeQuery();
-			if(rs.next()) {
-				int orderID = rs.getInt(1);
-				int numOfVisitor = rs.getInt(8);
-				Order order = new Order(rs.getInt(1), rs.getString(2), rs.getDate(3), rs.getInt(4),
-						rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9),
-						rs.getBoolean(10), rs.getInt(11),rs.getInt(14));
-				if(numOfVisitor>=Integer.parseInt(info.get(2))) {
-					return new Message(OperationType.FindOrder,ClientControllerType.OrderController,(Object)order);
-				}
-				else {
-					return new Message(OperationType.FindOrder,ClientControllerType.OrderController,(Object)"amount is not avilable");
-					
-				}
-				
-		 }
-		 }catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	
-			return  new Message(OperationType.FindOrder,ClientControllerType.OrderController,(Object)"the order doesnt exist");
-}
-	
-	
-	/**
-	 * this function taking the date and time of today
-	 */
-	private void getCurrentTime() {
-
-		thisDay = LocalDate.now();
-		thisDayToDB = Date.valueOf(thisDay);
-		thisTime = LocalTime.now();
-		thisTimeToDB = Time.valueOf(thisTime);
-		hours = thisTime.getHour();
-		minutes = thisTime.getMinute();
-		if (minutes > 0) {
-			hours += 1;
-		}
-
-	}
 
 	/**
 	 * The method changes the status of the visitor as soon as a place becomes available for him. 
