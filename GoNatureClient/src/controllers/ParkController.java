@@ -17,6 +17,8 @@ import logic.Park;
 import logic.Receipt;
 import logic.Subscriber;
 import gui.EventsGUIController;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import logic.Event;
 
 public class ParkController {
@@ -53,6 +55,7 @@ public class ParkController {
 
 
 	public static void ParkParseData(Message reciveMsg) {
+		System.out.println(reciveMsg.getOperationType());
 		
 		switch(reciveMsg.getOperationType()) {
 		case GetParkInfo:
@@ -136,10 +139,36 @@ public class ParkController {
 		case EventsToShow:
 			if(reciveMsg.getObj() instanceof List<?>)
 			EventsGUIController.data = (List<Event>) reciveMsg.getObj();
+			break;
+			
+		case VisitorEnterRequest:
+			//Alert a = new Alert(AlertType.INFORMATION);
+			System.out.println("park controller visitor");
+			if(reciveMsg.getObj() instanceof Receipt) {
+				System.out.println("park controller visitor2");
+				Receipt receipt = (Receipt) reciveMsg.getObj();
+				ClientController.cardReaderAnswer="Receipt number: "+ receipt.getReceiptID()+ "\n" + "Number of visitors: " + receipt.getNumberOfVisitors()+"\n"+"Park name: " +receipt.getParkName()+"\n"+"Order number: "+receipt.getOrderNumber()+"\n"+"Discount: "+receipt.getDiscount()+"\n"+"Total cost: "+receipt.getCost();
+				//a.setTitle("Receipt");
+				//a.setHeaderText("The order number is valid! you may enter the park.");
+				//a.setContentText("Receipt number: "+ receipt.getReceiptID()+ "\n" + "Number of visitors: " + receipt.getNumberOfVisitors()+"\n"+"Park name: " +receipt.getParkName()+"\n"+"Order number: "+receipt.getOrderNumber()+"\n"+"Discount: "+receipt.getDiscount()+"\n"+"Total cost: "+receipt.getCost());
+
+			}
+			else if(reciveMsg.getObj() instanceof String) {
+				String msg = (String) reciveMsg.getObj();
+				
+					ClientController.cardReaderAnswer=msg;
+			
+			}
+			
+			break;
+			
+		case VisitorExitRequest:
+			String msg = (String) reciveMsg.getObj();
+			ClientController.cardReaderAnswer=msg;
+			break;
 			
 			
 
-	
 			
 		default:
 			break;

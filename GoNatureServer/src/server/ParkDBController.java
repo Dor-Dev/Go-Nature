@@ -17,6 +17,7 @@ import logic.CardReaderRequest;
 import logic.Event;
 import logic.Order;
 import logic.Park;
+import logic.Receipt;
 import logic.Subscriber;
 import logic.Update;
 
@@ -27,6 +28,10 @@ import logic.Update;
  */
 public class ParkDBController {
 
+	private final int firstEntryHour = 9;
+	private final int lastEntryHour= 17;
+	private final int firstExitHour = 9;
+	private final int lastExitHour= 21;
 	private static Message msgFromClient = null;
 	private static SqlConnection sqlConnection = null;
 	private LocalDate thisDay;
@@ -37,6 +42,7 @@ public class ParkDBController {
 	private int minutes;
 	private PreparedStatement pstm;
 	ResultSet rs;
+	private CardReaderRequest cardReaderRequest = null;
 	int res;
 
 	public ParkDBController() {
@@ -302,10 +308,20 @@ public class ParkDBController {
 				e.printStackTrace();
 			}
 			break;
+			
+			/**
+			 * this case is for enter card reader to check the order and the receipt
+			 */
 		case VisitorEnterRequest:
-			CardReaderRequest cardReaderRequest = (CardReaderRequest) msgFromClient.getObj();
-			PreparedStatement pstm;
+			 cardReaderRequest = (CardReaderRequest) msgFromClient.getObj();
+			PreparedStatement pstm, pstm2, pstm3;
 			getCurrentTime();
+			if(hours < firstEntryHour || hours> lastEntryHour) {
+				return new Message(OperationType.VisitorEnterRequest, ClientControllerType.ParkController,
+						(Object) "The entrance hours are over! You can enter the park from 09:00 to 17:00");
+				
+			}
+			
 			 try {
 				pstm = sqlConnection.connection.prepareStatement("SELECT * from orders where parkName=? and visitorID=? and arrivalDate=? and hourTime>=? and hourTime<=? and status='Approved'");
 
@@ -316,26 +332,181 @@ public class ParkDBController {
 				pstm.setInt(5, hours);
 				
 				ResultSet rs = pstm.executeQuery();
-				if(rs.next()) {
+				while(rs.next()) {
 					int orderID = rs.getInt(1);
 					int numOfVisitor = rs.getInt(8);
 					Order order = new Order(rs.getInt(1), rs.getString(2), rs.getDate(3), rs.getInt(4),
 							rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9),
 							rs.getBoolean(10), rs.getInt(11),rs.getInt(14));
 					if(numOfVisitor>=cardReaderRequest.getVisitorAmount()) {
-						return new Message(OperationType.FindOrder,ClientControllerType.OrderController,(Object)order);
-					}
-					else {
-						return new Message(OperationType.FindOrder,ClientControllerType.OrderController,(Object)"amount is not avilable");
+						pstm2 = sqlConnection.connection.prepareStatement("SELECT * from receipts where parkName=? and visitorID=? and orderNumber=? ");
+						pstm2.setString(1, cardReaderRequest.getParkName());
+						pstm2.setInt(2, cardReaderRequest.getVisitorID());
+						pstm2.setInt(3, orderID);
+						ResultSet rs2 = pstm2.executeQuery();
+						if(rs2.next()) {
+							//for case the order is in receipts
+							int actualVisitors= rs2.getInt(12);
+							int currAmountOfVisitor = rs2.getInt(10);
+							int receiptID = rs2.getInt(1);
+							if(numOfVisitor >= actualVisitors +cardReaderRequest.getVisitorAmount())
+							{
+								pstm3 = sqlConnection.connection.prepareStatement("UPDATE  receipts SET currAmountOfVisitorsLeft=? ,actualNumOfVisitors=?  where receiptsID=?");
+								pstm3.setInt(1, currAmountOfVisitor + cardReaderRequest.getVisitorAmount());
+								pstm3.setInt(2, actualVisitors + cardReaderRequest.getVisitorAmount());
+								pstm3.setInt(3, receiptID);
+								int res = pstm3.executeUpdate();
+								if (res == 1) {
+									// update the current amount of visitors in the specific park
+									ResultSet parkRes = getParkInfo(cardReaderRequest.getParkName());
+									if (parkRes.next()) {
+										int currAmount = parkRes.getInt(6) + cardReaderRequest.getVisitorAmount();
+										int result = updateAmountOfCurrAmount(currAmount,cardReaderRequest.getParkName());
+									}
+									//can enter
+									return new Message(OperationType.VisitorEnterRequest, ClientControllerType.ParkController,
+											(Object) "The receipt is updated, the visitors can enter the park");
+								}
+							}
+							
+							
+						}
+						// for case the order is not exist in receipt table
+						else {
+							System.out.println("dor5");
+							String type = null;
+							if(order.getType().equals("Single/Family")){
+								pstm = sqlConnection.connection.prepareStatement("SELECT * from members where visitorID=?");
+								pstm.setInt(1, order.getVisitorID());
+								ResultSet rs1 = pstm.executeQuery();
+
+								if (rs1.next()) {
+									type = "member";
+								}
+								else {
+									type= "visitor";
+									
+								}
+							}
+							else {
+								type = "instructor";
+								
+							}
+							pstm = sqlConnection.connection.prepareStatement("insert into receipts (date,visitEntry, visitExit,numberOfVisitors,type,parkName,orderNumber,visitorID,currAmountOfVisitorsLeft,time,actualNumOfVisitors,cost)"
+									+ "values (?,?,?,?,?,?,?,?,?,?,?,?)");
+							pstm.setDate(1, thisDayToDB);
+							pstm.setInt(2, order.getHourTime());
+							pstm.setInt(3, order.getHourTime()+4);
+							pstm.setInt(4, order.getNumOfVisitors());
+							pstm.setString(5, type);
+							pstm.setString(6, order.getParkName());
+							pstm.setInt(7, order.getOrderID());
+							pstm.setInt(8, order.getVisitorID());
+							pstm.setInt(9, cardReaderRequest.getVisitorAmount());
+							pstm.setTime(10, thisTimeToDB);
+							pstm.setInt(11, cardReaderRequest.getVisitorAmount());
+							pstm.setInt(12, order.getCost());
+							pstm.execute();
+							
+							
+							pstm = sqlConnection.connection.prepareStatement("SELECT * from receipts where parkName=? and date=? and time=? and visitorID=?");
+							pstm.setString(1, order.getParkName());
+							pstm.setDate(2, thisDayToDB);
+							pstm.setTime(3, thisTimeToDB);
+							pstm.setInt(4, order.getVisitorID());
+
+							ResultSet rs3 = pstm.executeQuery();
+							
+							ResultSet parkRes = getParkInfo(cardReaderRequest.getParkName());
+							if (parkRes.next()) {
+								int currAmount = parkRes.getInt(6) + cardReaderRequest.getVisitorAmount();
+								int result = updateAmountOfCurrAmount(currAmount,cardReaderRequest.getParkName());
+							}
+							if (rs3.next()) {
+								
+							Receipt receipt = new Receipt(rs3.getInt(1),order.getNumOfVisitors() , order.getParkName(), order.getOrderID(), order.getCost(), order.getDiscount());
+							
+							//return the cost and the discount
+							return new Message(OperationType.VisitorEnterRequest, ClientControllerType.ParkController,
+									(Object) receipt);
+						}
 						
-					}
 					
+			 
+					}
+					}
+				}
+				return new Message(OperationType.VisitorEnterRequest, ClientControllerType.ParkController,
+						(Object) "You can not enter the park");
+				
 			 }
-			 }catch (SQLException e) {
+				
+			 catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
+			
+			/**
+			 * this case is for exit card reader to check the receipt
+			 */
+		case VisitorExitRequest:
+		  cardReaderRequest = (CardReaderRequest) msgFromClient.getObj();
+			getCurrentTime();
+			if(hours > lastExitHour || hours< firstExitHour) {
+				return new Message(OperationType.VisitorExitRequest, ClientControllerType.ParkController,
+						(Object) "The exit hours are over! The help is on the way.");
+			}
+			System.out.println("find receipt for exit");
+			pstm = sqlConnection.connection.prepareStatement(
+					"SELECT * from receipts where parkName=? and visitorID=? and date=? and visitExit>=?");
+			pstm.setString(1, cardReaderRequest.getParkName());
+			pstm.setInt(2,cardReaderRequest.getVisitorID());
+			pstm.setDate(3, thisDayToDB);
+			pstm.setInt(4, hours);
+
+			rs = pstm.executeQuery();
+			while (rs.next()) {
+				System.out.println("8747845");
+				int receiptID = rs.getInt(1);
+				int numOfVisitor = rs.getInt(5);
+				int actualVisitor = rs.getInt(12);
+				int currAmountOfVisitorsLeft = rs.getInt(10);
+				System.out.println(receiptID);
+				if (currAmountOfVisitorsLeft >= cardReaderRequest.getVisitorAmount()) {
+					currAmountOfVisitorsLeft = currAmountOfVisitorsLeft - cardReaderRequest.getVisitorAmount();
+					System.out.println(currAmountOfVisitorsLeft);
+					if (currAmountOfVisitorsLeft == 0) {
+						pstm = sqlConnection.connection.prepareStatement(
+								"UPDATE  receipts SET currAmountOfVisitorsLeft=0, visitExit=? where receiptsID=?");
+						pstm.setInt(1, hours);
+						pstm.setInt(2, receiptID);
+					} else {
+						pstm = sqlConnection.connection.prepareStatement(
+								"UPDATE  receipts SET currAmountOfVisitorsLeft=? where receiptsID=?");
+						pstm.setInt(1, currAmountOfVisitorsLeft);
+						pstm.setInt(2, receiptID);
+					}
+					int res = pstm.executeUpdate();
+					if (res == 1) {
+						ResultSet parkRes = getParkInfo(cardReaderRequest.getParkName());
+						if (parkRes.next()) {
+							int currAmount = parkRes.getInt(6) - cardReaderRequest.getVisitorAmount();
+							int result = updateAmountOfCurrAmount(currAmount,cardReaderRequest.getParkName());
+						}
+
+						return new Message(OperationType.VisitorExitRequest, ClientControllerType.ParkController,
+								(Object) "The visitors can exit the park");
+
+					}
+				}
+
+			}
+
+				return new Message(OperationType.VisitorExitRequest, ClientControllerType.ParkController,
+						(Object) "The amount of visitors that want to exit is not match");
+		
+
 		/**
 		 * case to insert the update parameters request to updateRequest table.
 		 */

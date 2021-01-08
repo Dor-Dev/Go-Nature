@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import reader.CardReaderController;
+import reader.MainReader;
 
 public class MainClient extends Application {
 	public static ClientConsole clientConsole;
@@ -21,10 +22,9 @@ public class MainClient extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		LoginGUIController g = new LoginGUIController();
 		g.show();
-		clientConsole = new ClientConsole("localhost", 5555);
 		CardReaderController cardReaderController = new CardReaderController();
 		cardReaderController.show();
-		
+		clientConsole = new ClientConsole("localhost", 5555);
 
 	}
 }

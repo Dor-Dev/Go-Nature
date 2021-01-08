@@ -37,6 +37,7 @@ public class ClientController extends AbstractClient {
 	public static Object returnedValueFromServer= null ;
 	public static boolean awaitResponse=false;
 	public static UserTypes type = null;
+	public static String cardReaderAnswer = null;
 
 	//public static UserTypes type =null;
 	// Instance variables **********************************************
@@ -90,6 +91,7 @@ public class ClientController extends AbstractClient {
 			OrderController.OrderParseData(reciveMsg);
 			break;
 		case ParkController:
+			System.out.println("park controller- client ");
 			ParkController.ParkParseData(reciveMsg);
 			break;
 		case ReceiptController:
