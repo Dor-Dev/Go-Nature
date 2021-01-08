@@ -30,6 +30,7 @@ public class OrderDBController {
 	public static final int managerDefultTravelHour = 4;	//manager deafult 4 hours stay 
 	public static OrderRequest request = null;	//request to check
 
+	
 	public OrderDBController() {
 		try {
 			sqlConnection = SqlConnection.getConnection();
@@ -38,6 +39,12 @@ public class OrderDBController {
 		}
 	}
 
+	/**
+	 * This function navigate all the requests from the client
+	 * to the asked functions
+	 * @param clientMsg
+	 * @return
+	 */
 	public Object parseData(Message clientMsg) {
 
 
@@ -64,6 +71,13 @@ public class OrderDBController {
 		return null;
 	}
 	
+	/**
+	 * This function check if there is a discount event
+	 * The function use the asked date that received from the client to check
+	 * @param clientMsg
+	 * @return array list, if dont found event discount return int parameter (Zero), 
+	 * if found return the amount of the discount and String with the name of the event
+	 */
 	private Object checkEventDiscount(Message clientMsg) {
 		
 		int discount = 0;
