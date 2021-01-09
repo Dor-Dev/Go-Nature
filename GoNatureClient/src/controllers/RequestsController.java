@@ -23,9 +23,10 @@ import logic.Update;
 public class RequestsController {
 	public static OperationType requestType = null;
 
+	@SuppressWarnings("unchecked")
 	public static void requestsPraseDate(Message reciveMsg) {
 		switch (reciveMsg.getOperationType()) {
-		case ShowUpdateTable: // case which get the update parametrs request as a list
+		case ShowUpdateTable: // case which get the update parameters request as a list
 			DManagerRequestsGUIController.updateData = (List<Update>) reciveMsg.getObj();
 			requestType = OperationType.UpdateTableArrived;
 			break;

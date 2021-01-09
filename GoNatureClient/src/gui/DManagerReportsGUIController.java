@@ -48,7 +48,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.CancellationReport;
 import logic.ReportImage;
-import logic.Validation;
 import logic.VisitingReport;
 
 public class DManagerReportsGUIController {

@@ -462,7 +462,8 @@ public class DManagerRequestsGUIController implements Initializable {
 
 	}
 	/**
-	 * Set event table data using {@link TableView#setItems(javafx.collections.ObservableList)}
+	 * Set event table data using {@link TableView#setItems(javafx.collections.ObservableList)} <br>
+	 * Use the {@link #eventData} to set the event table data.
 	 */
 	private void setEventData() {
 		tblEventTable.setItems(FXCollections.observableArrayList(eventData));
@@ -500,7 +501,8 @@ public class DManagerRequestsGUIController implements Initializable {
 
 	}
 	/**
-	 * Set update table data using {@link TableView#setItems(javafx.collections.ObservableList)}
+	 * Set update table data using {@link TableView#setItems(javafx.collections.ObservableList)}<br>
+	 * Use the {@link #updateData} to set the event table data.
 	 */
 	private void setUpdateData() {
 		tblUpdateTable.setItems(FXCollections.observableArrayList(updateData));
