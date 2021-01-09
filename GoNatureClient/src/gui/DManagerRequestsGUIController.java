@@ -417,6 +417,9 @@ public class DManagerRequestsGUIController implements Initializable {
 
 	private void setEventData() {
 		tblEventTable.setItems(FXCollections.observableArrayList(eventData));
+		colStartDate.setSortType(TableColumn.SortType.ASCENDING);
+		tblEventTable.getSortOrder().add(colStartDate);
+		tblEventTable.sort();
 	}
 
 	private void showUpdateTable() {

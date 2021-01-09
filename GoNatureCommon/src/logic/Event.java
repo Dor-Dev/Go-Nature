@@ -51,12 +51,13 @@ public class Event implements Serializable {
 		this.status = status;
 	}
 	
-	public Event(String eventName, Date startDate, Date endDate, int discount) {
+	public Event(String eventName, Date startDate, Date endDate, int discount, String status) {
 		super();
 		this.eventName = eventName;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.discount = discount;
+		this.status = status;
 	}
 	/*
 	public Event(int requestNum,String eventName, Date startDate, Date endDate, int discount) {

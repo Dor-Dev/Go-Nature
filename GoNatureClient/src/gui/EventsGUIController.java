@@ -30,6 +30,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -37,13 +38,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.Event;
 import logic.Validation;
 
 public class EventsGUIController implements Initializable {
-	public static List<Event> data;
+	public static List<Event> data = null;
 
 	@FXML
 	private Label mnuAddOrder;
@@ -84,6 +86,9 @@ public class EventsGUIController implements Initializable {
 
 	@FXML
 	private TableColumn<Event, Integer> colDiscount;
+
+	@FXML
+	private TableColumn<Event, String> colStatus;
 
 	@FXML
 	private Label mnuReportsDepartment;
@@ -147,14 +152,16 @@ public class EventsGUIController implements Initializable {
 		// do what you have to do
 		stage.close();
 	}
+
 	/**
 	 * When the button pressed it send to the server new event request.
+	 * 
 	 * @param event
 	 */
 	@FXML
 	void sendEventRequest(ActionEvent event) {
 		String validMsg = eventsFeildsValidation();
-		if(!validMsg.equals("OK")) {
+		if (!validMsg.equals("OK")) {
 			Alert a = new Alert(AlertType.INFORMATION);
 			a.setHeaderText("Please correct the " + validMsg + " field");
 			a.setContentText("Validation Error");
@@ -184,18 +191,20 @@ public class EventsGUIController implements Initializable {
 		}
 
 	}
+
 	private String eventsFeildsValidation() {
-		if(!Validation.eventNameValidation(txtEventName.getText()))
+		if (!Validation.eventNameValidation(txtEventName.getText()))
 			return "Event Name";
-		if(Validation.isNull(dpStartDate.getValue()))
+		if (Validation.isNull(dpStartDate.getValue()))
 			return "Start Date";
-		if(Validation.isNull(dpEndDate.getValue()))
+		if (Validation.isNull(dpEndDate.getValue()))
 			return "End Date";
-		if(!Validation.discoutValidation(txtDicount.getText()))
+		if (!Validation.discoutValidation(txtDicount.getText()))
 			return "Discount";
 		return "OK";
-		
+
 	}
+
 	/**
 	 * Shows ParkMangerEvents GUI
 	 */
@@ -217,8 +226,10 @@ public class EventsGUIController implements Initializable {
 			menuLabels = eventsGUIController.createLabelList(eventsGUIController);
 			MenuBarSelection.setMenuOptions(menuLabels);
 			MainClient.clientConsole.accept(
-					new Message(OperationType.showActiveEvents, DBControllerType.ParkDBController, (Object) parkName));
+					new Message(OperationType.showManagerEvents, DBControllerType.ParkDBController, (Object) parkName));
+			
 			eventsGUIController.setData();
+			//setEventStatusColor();
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -248,13 +259,44 @@ public class EventsGUIController implements Initializable {
 		colStart.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 		colEnd.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 		colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
+		colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+		
 		colEventName.setStyle("-fx-alignment: CENTER");
 		colStart.setStyle("-fx-alignment: CENTER");
 		colEnd.setStyle("-fx-alignment: CENTER");
 		colDiscount.setStyle("-fx-alignment: CENTER");
+		colStatus.setStyle("-fx-alignment: CENTER");
+		
+		colStatus.setCellFactory(colStatus -> {
+			return new TableCell<Event, String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty); // This is mandatory
+
+					if (item == null || empty) { // If the cell is empty
+						setText(null);
+						setStyle("");
+					} else {
+						setText(item); // Put the String data in the cell
+						Event tmp = getTableView().getItems().get(getIndex());
+
+						if (tmp.getStatus().equals("Waiting")) {
+							setTextFill(Color.BLACK);
+						}
+						if (tmp.getStatus().equals("Active") ) {
+							setTextFill(Color.GREEN);
+						}
+						if (tmp.getStatus().equals("Canceled"))
+							setTextFill(Color.RED);
+					}
+				}
+
+			};
+		});
+		
 		dpStartDate.getEditor().setDisable(true);
 		dpEndDate.getEditor().setDisable(true);
-		//Disable the irrelevant dates in the date picker.
+		// Disable the irrelevant dates in the date picker.
 		Callback<DatePicker, DateCell> callB = new Callback<DatePicker, DateCell>() {
 			@Override
 			public DateCell call(final DatePicker param) {
@@ -264,7 +306,7 @@ public class EventsGUIController implements Initializable {
 						super.updateItem(item, empty);
 						LocalDate today = LocalDate.now();
 						if (dpStartDate.getValue() != null)
-							setDisable(empty || item.compareTo(today) <0
+							setDisable(empty || item.compareTo(today) < 0
 									|| item.isBefore(dpStartDate.getValue().plusDays(1)));
 						else {
 							setDisable(true);
@@ -276,7 +318,7 @@ public class EventsGUIController implements Initializable {
 
 		};
 		dpEndDate.setDayCellFactory(callB);
-		//Disable irrelevant dates in the end date picker 
+		// Disable irrelevant dates in the end date picker
 		Callback<DatePicker, DateCell> callB2 = new Callback<DatePicker, DateCell>() {
 			@Override
 			public DateCell call(final DatePicker param) {
@@ -297,10 +339,20 @@ public class EventsGUIController implements Initializable {
 		dpStartDate.setDayCellFactory(callB2);
 
 	}
+
 	/**
-	 * set event table data.
+	 * set event table data using {@link FXCollections#observableArrayList()}
 	 */
 	public void setData() {
 		tblEvents.setItems(FXCollections.observableArrayList(data));
+		colEnd.setSortType(TableColumn.SortType.ASCENDING);
+		tblEvents.getSortOrder().add(colEnd);
+		tblEvents.sort();
+	}
+	/*
+	 * set the event status of each row the the relevant color 
+	 */
+	private void setEventStatusColor() {
+	
 	}
 }
