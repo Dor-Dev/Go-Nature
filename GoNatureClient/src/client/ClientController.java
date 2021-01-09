@@ -16,12 +16,8 @@ import controllers.ReportController;
 
 import controllers.RequestsController;
 import controllers.VisitorController;
-import enums.OperationType;
 import enums.UserTypes;
-import gui.ParkCapacityGUIController;
 import gui.RegistrationController;
-import logic.Employee;
-
 import java.io.*;
 
 
