@@ -5,7 +5,6 @@ import java.io.Serializable;
 import enums.ClientControllerType;
 import enums.DBControllerType;
 import enums.OperationType;
-import enums.ReturnMessageType;
 
 /**
  * Object that will use to communicate between the Client and the Server.
@@ -31,8 +30,6 @@ public class Message implements Serializable {
     //Which controller on the client should do the operation
     private ClientControllerType controllerType;
 
-    // If the operation that returns from the server succeeded\failed.
-    private ReturnMessageType returnMessageType;
     
     private Object obj;
 

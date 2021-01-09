@@ -3,11 +3,13 @@ package logic;
 import java.io.Serializable;
 import java.sql.Date;
 
+/**
+ * This is a class that keeps the data of income report
+ * @author amit
+ *
+ */
 public class IncomeReport implements Report , Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3658862159815663953L;
 
 	private String parkName;

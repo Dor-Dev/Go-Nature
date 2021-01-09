@@ -2,11 +2,13 @@ package logic;
 
 import java.io.Serializable;
 
+/**
+ * This is a class that keeps the data of overall report
+ * @author amit
+ *
+ */
 public class SumVisitorsReport implements Report , Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8702333225260971786L;
 	
 	private String parkName;

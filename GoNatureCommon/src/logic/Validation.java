@@ -10,7 +10,7 @@ public class Validation {
 	 * doesn't necessary.
 	 * 
 	 * @param email
-	 * @return
+	 * @return true if valid, else return false
 	 */
 	public static boolean emailValidation(String email) {
 		String emailFormat = "[a-zA-Z0-9[!#$%&'()*+,/\\-_\\.\"]]+@[a-zA-Z0-9[!#$%&'()*+,/\\-_\"]]+\\.[a-zA-Z0-9[!#$%&'()*+,/\\-_\"\\.]]+";
@@ -19,7 +19,7 @@ public class Validation {
 	/**
 	 * Login validation allow only digits from 0-9 , the length is 6 or 9 for member number or id number.
 	 * @param number
-	 * @return
+	 * @return true if valid, else return false
 	 */
 	public static boolean loginValidation(String number) {
 		String numberFormat = "([0-9]){9,10}";
@@ -30,7 +30,7 @@ public class Validation {
 	 * ID validation according to 9 digits only allow only digits.
 	 * 
 	 * @param id
-	 * @return
+	 * @return true if valid, else return false
 	 */
 	public static boolean idValidation(String id) {
 		String idFormat = "([0-9]){9,9}";
@@ -65,7 +65,7 @@ public class Validation {
 	 * Phone validation allow only digits , length must be 7-10 digits.
 	 * 
 	 * @param phone
-	 * @return
+	 * @return true if valid, else return false
 	 */
 	public static boolean phoneValidation(String phone) {
 		String phoneFormat = "[0-9]{10,10}";
@@ -76,7 +76,7 @@ public class Validation {
 	 * CVV validation allow only digits , length than 3 digits.
 	 * 
 	 * @param cvv
-	 * @return
+	 * @return true if valid, else return false
 	 */
 	public static boolean cvvValidation(String cvv) {
 		String cvvFormat = "[0-9]{3,4}";
@@ -87,7 +87,7 @@ public class Validation {
 	 * Card number validation allow only digits length equal to 16 digits.
 	 * 
 	 * @param cNumber
-	 * @return
+	 * @return true if valid, else return false
 	 */
 	public static boolean cardNumberValidation(String cNumber) {
 		String cardNumberFormat = "[0-9]{16,16}";
@@ -98,7 +98,7 @@ public class Validation {
 	 * Month expiration validation allow only digits, length equals to 2. Months are
 	 * between 1-12
 	 * @param exp
-	 * @return
+	 * @return true if valid, else return false
 	 */
 	public static boolean monthExperationValidation(String exp) {
 		if(!onlyDigitsValidation(exp))
@@ -111,7 +111,7 @@ public class Validation {
 	 * Year expiration validation allow only digits, length equals to 2. Months are
 	 * between 1-12
 	 * @param exp
-	 * @return
+	 * @return true if valid, else return false
 	 */
 	public static boolean yearExperationValidation(String exp) {
 		if(!onlyDigitsValidation(exp))
@@ -123,7 +123,7 @@ public class Validation {
 	/**
 	 * Event name validation allow digits 0-9 and characters and signs = '-' and '.' only.
 	 * @param eventName
-	 * @return
+	 * @return true if valid, else return false
 	 */
 	public static boolean eventNameValidation(String eventName) {
 		if(eventName==null)
@@ -134,7 +134,7 @@ public class Validation {
 	/**
 	 * Only digits from 0-9 is allowed.
 	 * @param text
-	 * @return
+	 * @return true if valid, else return false
 	 */
 	public static boolean onlyDigitsValidation(String text) {
 		String onlyDigits = "^[0-9]+";
@@ -143,7 +143,7 @@ public class Validation {
 	/**
 	 * Only digits from 0-9 is allowed.
 	 * @param text
-	 * @return
+	 * @return true if valid, else return false
 	 */
 	public static boolean onlyLettersValidation(String text) {
 		String onlyDigits = "^[a-zA-Z]+";
@@ -153,7 +153,7 @@ public class Validation {
 	/**
 	 * Discount validation allow only digits 0-9 and '.' .
 	 * @param discount
-	 * @return
+	 * @return true if valid, else return false
 	 */
 	public static boolean discoutValidation(String discount) {
 		String discountFormat = "[0-9.]+";

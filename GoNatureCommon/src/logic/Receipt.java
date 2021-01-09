@@ -3,11 +3,13 @@ package logic;
 import java.io.Serializable;
 import java.sql.Date;
 
+/**
+ * this is a class for saving receipt data
+ * @author amit
+ *
+ */
 public class Receipt  implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -58351231498756744L;
 	
 	private int receiptID;
