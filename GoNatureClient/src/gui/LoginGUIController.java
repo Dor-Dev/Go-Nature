@@ -109,7 +109,6 @@ public class LoginGUIController {
 					new Message(OperationType.EmployeeLogin, DBControllerType.LoginDBController, (Object) info));
 			if (!EmployeeController.isConnected) {
 				if (EmployeeController.employeeConected == null) {
-					System.out.println("VALUE");
 					lblLoginErrorMsg.setManaged(true);
 					lblLoginErrorMsg.setVisible(true);
 					lblLoginErrorMsg.setText("incorrect userName or password");

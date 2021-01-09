@@ -28,6 +28,11 @@ import javafx.stage.Stage;
 import logic.Update;
 import logic.Validation;
 
+/**
+ * This class is responsible on the manager details gui that can update parameters of the parks
+ * @author Naor0
+ *
+ */
 public class ManagerDetailsGUIController {
 	@FXML
 	private Label mnuAddOrder;
@@ -213,7 +218,6 @@ public class ManagerDetailsGUIController {
 			MenuBarSelection.setMenuOptions(menuLabels);
 			MainClient.clientConsole.accept(new Message(OperationType.GetParkInfo, DBControllerType.ParkDBController,
 					(Object) EmployeeController.employeeConected.getOrganizationAffilation()));
-			System.out.println("ParkManager: TRY Again");
 			setData(managerDetailsController);
 			primaryStage.show();
 		} catch (IOException e) {

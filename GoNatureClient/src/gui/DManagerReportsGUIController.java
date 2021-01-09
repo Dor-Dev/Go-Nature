@@ -52,6 +52,11 @@ import logic.CancellationReport;
 import logic.ReportImage;
 import logic.VisitingReport;
 
+/**
+ * Gui controller for Department manager report page
+ * @author Naor0
+ *
+ */
 public class DManagerReportsGUIController {
 	private static DManagerReportsGUIController dManagerReportsController = null;
 	public static List<ReportImage> reports = null;

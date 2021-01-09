@@ -54,7 +54,9 @@ import logic.ReportImage;
 import logic.SerializableInputStream;
 import logic.SumVisitorsReport;
 import logic.UsageReport;
-
+/**
+ * this class responsible on the manager reports
+ */
 public class ManagerReportGUIController {
 
 	@FXML

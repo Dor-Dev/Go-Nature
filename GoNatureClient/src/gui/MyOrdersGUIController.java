@@ -228,7 +228,6 @@ public class MyOrdersGUIController implements Initializable {
 									a.setContentText("We'll be happy to see you on " + tmp.getDate());
 									a.setTitle("Order aprroved");
 									a.showAndWait();
-									System.out.println("CURORDER!");
 									curOrder = tmp;
 									if(tmp.isPaidUp())		//if order paid up , add to receipts 
 										addPaymenttoReceipt();
@@ -388,7 +387,6 @@ public class MyOrdersGUIController implements Initializable {
 		list.add(String.valueOf(curOrder.getHourTime()));
 		list.add(String.valueOf(curOrder.getCost()));
 		list.add(curOrder.getDate().toString());
-		System.out.println("GENETATE RECEIPT");
 		MainClient.clientConsole.accept(new Message(OperationType.GenerateReceipt,DBControllerType.ReceiptDBController, (Object) list));
 	}
 

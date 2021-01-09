@@ -15,7 +15,10 @@ import common.Message;
 import enums.ClientControllerType;
 import enums.OperationType;
 import logic.Receipt;
-
+/**
+ * @author dana_
+ *A class that is responsible for the queries regards the receipts process of visitors,members and group instructors
+ */
 public class ReceiptDBController {
 	private static Message msgFromClient = null;
 	private static SqlConnection sqlConnection = null;

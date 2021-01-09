@@ -33,6 +33,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.Validation;
 
+/**
+ * This class is responsible for the park entrance worker page with some actions for the worker
+ * @author Naor0
+ *
+ */
 public class ParkEntranceGUIController {
 
 

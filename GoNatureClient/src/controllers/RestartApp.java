@@ -41,6 +41,7 @@ public class RestartApp {
 		RegistrationController.setPopUpMsg(null);
 		RegistrationController.setMsgReceived(false);
 		RegistrationController.setPopUpTitle(null);
+		
 
 	}
 

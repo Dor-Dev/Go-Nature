@@ -16,6 +16,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * This is the GUI controller for the first page that shown after login (employee and visitor)
+ * @author Naor0
+ *
+ */
 public class WelcomeGUIController {
 
 	@FXML

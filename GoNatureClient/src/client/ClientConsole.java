@@ -57,7 +57,6 @@ public class ClientConsole implements ChatIF {
 	 */
 	public void accept(Object msg) {
 		try {
-			System.out.println("ClientConsole: accept");
 			client.handleMessageFromClientUI(msg);
  
 		} catch (Exception ex) {

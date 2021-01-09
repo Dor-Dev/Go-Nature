@@ -19,6 +19,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * This Gui Controller responsible for the Profile details that appear for the employee or memeber
+ * @author Naor0
+ *
+ */
 public class MyProfileGUIController {
 
 	@FXML
