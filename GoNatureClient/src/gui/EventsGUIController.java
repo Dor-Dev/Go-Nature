@@ -44,6 +44,15 @@ import javafx.util.Callback;
 import logic.Event;
 import logic.Validation;
 
+/**
+ * Class for event FXML , display only for park manager and allows him to send
+ * new event request and shows him all the events that do not end yet. When the
+ * event request send the table refreshed.
+ * 
+ * @author dorswisa
+ * @param data save all events data as a list.
+ *
+ */
 public class EventsGUIController implements Initializable {
 	public static List<Event> data = null;
 
@@ -154,9 +163,11 @@ public class EventsGUIController implements Initializable {
 	}
 
 	/**
-	 * When the button pressed it send to the server new event request.
+	 * When the button pressed it send to the server new event request.<br>
+	 * Use {@link #eventsFeildsValidation()} for fields validation.
 	 * 
-	 * @param event
+	 * @param event When button pressed send to Server Message.
+	 * 
 	 */
 	@FXML
 	void sendEventRequest(ActionEvent event) {
@@ -177,9 +188,10 @@ public class EventsGUIController implements Initializable {
 		String parkName = EmployeeController.employeeConected.getOrganizationAffilation();
 		Event eventRequest = new Event(parkName, txtEventName.getText(), startDate, endDate,
 				Integer.valueOf(txtDicount.getText()), status);
-		MainClient.clientConsole.accept(
+		MainClient.clientConsole.accept( // send to server event request, the event request will be show to department
+											// manager.
 				new Message(OperationType.EventRequest, DBControllerType.ParkDBController, (Object) eventRequest));
-		System.out.println(ParkController.Parktype);
+
 		// Success pop-up
 		if (ParkController.Parktype.equals(OperationType.EventRequestSuccess)) {
 			Alert a = new Alert(AlertType.INFORMATION);
@@ -187,11 +199,18 @@ public class EventsGUIController implements Initializable {
 			a.setContentText("Event request was sent successfully to Department Manager.");
 			a.setTitle("Event Request");
 			a.showAndWait();
+			setData(); // Refresh the event table.
+			setStatusColor(); // Set status color of the returned table.
 
 		}
 
 	}
 
+	/**
+	 * Check what field is incorrect and returns the field name.
+	 * 
+	 * @return Name of the field that is incorrect.
+	 */
 	private String eventsFeildsValidation() {
 		if (!Validation.eventNameValidation(txtEventName.getText()))
 			return "Event Name";
@@ -206,13 +225,15 @@ public class EventsGUIController implements Initializable {
 	}
 
 	/**
-	 * Shows ParkMangerEvents GUI
+	 * Shows ParkMangerEvents GUI.<br>
+	 * Before show the ParkManagerEvents, use {@link #setData()} to send Message to
+	 * server and when the data has returned insert the data list to the table.
 	 */
 	public void show() {
 
 		VBox root;
 		Stage primaryStage = new CloseStage();
-		String parkName = EmployeeController.employeeConected.getOrganizationAffilation();
+
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("ParkManagerEvents.fxml"));
@@ -225,11 +246,8 @@ public class EventsGUIController implements Initializable {
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = eventsGUIController.createLabelList(eventsGUIController);
 			MenuBarSelection.setMenuOptions(menuLabels);
-			MainClient.clientConsole.accept(
-					new Message(OperationType.showManagerEvents, DBControllerType.ParkDBController, (Object) parkName));
-			
-			eventsGUIController.setData();
-			//setEventStatusColor();
+			eventsGUIController.setData(); // Before the page shows set the table data by sending Message to server and get the events data .
+			eventsGUIController.setStatusColor();// Set status color for each row in the table.
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -253,6 +271,11 @@ public class EventsGUIController implements Initializable {
 		return tempMenuLabels;
 	}
 
+	/**
+	 * Initialize the tables columns.<br>
+	 * Set status color for each row using
+	 * {@link TableColumn#setCellFactory(Callback)}
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		colEventName.setCellValueFactory(new PropertyValueFactory<>("eventName"));
@@ -260,42 +283,17 @@ public class EventsGUIController implements Initializable {
 		colEnd.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 		colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
 		colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-		
+
 		colEventName.setStyle("-fx-alignment: CENTER");
 		colStart.setStyle("-fx-alignment: CENTER");
 		colEnd.setStyle("-fx-alignment: CENTER");
 		colDiscount.setStyle("-fx-alignment: CENTER");
 		colStatus.setStyle("-fx-alignment: CENTER");
-		
-		colStatus.setCellFactory(colStatus -> {
-			return new TableCell<Event, String>() {
-				@Override
-				protected void updateItem(String item, boolean empty) {
-					super.updateItem(item, empty); // This is mandatory
 
-					if (item == null || empty) { // If the cell is empty
-						setText(null);
-						setStyle("");
-					} else {
-						setText(item); // Put the String data in the cell
-						Event tmp = getTableView().getItems().get(getIndex());
-
-						if (tmp.getStatus().equals("Waiting")) {
-							setTextFill(Color.BLACK);
-						}
-						if (tmp.getStatus().equals("Active") ) {
-							setTextFill(Color.GREEN);
-						}
-						if (tmp.getStatus().equals("Canceled"))
-							setTextFill(Color.RED);
-					}
-				}
-
-			};
-		});
-		
+		// disable the text field of the date pickers.
 		dpStartDate.getEditor().setDisable(true);
 		dpEndDate.getEditor().setDisable(true);
+
 		// Disable the irrelevant dates in the date picker.
 		Callback<DatePicker, DateCell> callB = new Callback<DatePicker, DateCell>() {
 			@Override
@@ -341,18 +339,52 @@ public class EventsGUIController implements Initializable {
 	}
 
 	/**
-	 * set event table data using {@link FXCollections#observableArrayList()}
+	 * set event table data using
+	 * {@link TableView#setItems(javafx.collections.ObservableList)}
 	 */
 	public void setData() {
+		String parkName = EmployeeController.employeeConected.getOrganizationAffilation();
+		MainClient.clientConsole.accept( // Send to server request to get all the event data that relevant to
+											// organization affiliation of the employee that connected.
+				new Message(OperationType.showManagerEvents, DBControllerType.ParkDBController, (Object) parkName));
 		tblEvents.setItems(FXCollections.observableArrayList(data));
 		colEnd.setSortType(TableColumn.SortType.ASCENDING);
 		tblEvents.getSortOrder().add(colEnd);
 		tblEvents.sort();
+
 	}
-	/*
-	 * set the event status of each row the the relevant color 
+
+	/**
+	 * Set the event status of each row the the relevant color. using
+	 * {@link TableColumn#setCellFactory(Callback)} to set status color.
 	 */
-	private void setEventStatusColor() {
-	
+	private void setStatusColor() {
+		// Set color status in each row.
+		colStatus.setCellFactory(colStatus -> {
+			return new TableCell<Event, String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty); // This is mandatory
+
+					if (item == null || empty) { // If the cell is empty
+						setText(null);
+						setStyle("");
+					} else {
+						setText(item); // Put the String data in the cell
+						Event tmp = getTableView().getItems().get(getIndex());
+
+						if (tmp.getStatus().equals("Waiting")) {
+							setTextFill(Color.BLACK);
+						}
+						if (tmp.getStatus().equals("Active")) {
+							setTextFill(Color.GREEN);
+						}
+						if (tmp.getStatus().equals("Canceled"))
+							setTextFill(Color.RED);
+					}
+				}
+
+			};
+		});
 	}
 }

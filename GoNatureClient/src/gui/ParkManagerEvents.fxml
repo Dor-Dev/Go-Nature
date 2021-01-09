@@ -264,7 +264,7 @@
                               <Insets left="150.0" top="15.0" />
                            </VBox.margin>
                         </Label>
-                        <Label layoutX="160.0" layoutY="10.0" text="Events that activated:">
+                        <Label layoutX="160.0" layoutY="10.0" text="Relevant events requests: ">
                            <font>
                               <Font size="16.0" />
                            </font>

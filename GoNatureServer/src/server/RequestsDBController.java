@@ -25,6 +25,9 @@ import logic.Update;
  */
 public class RequestsDBController {
 	private static Message msgFromClient = null;
+	/**
+	 * variable for saving instance of the SQL connection singleton.
+	 */
 	private static SqlConnection sqlConnection = null;
 
 	public RequestsDBController() {
@@ -38,8 +41,10 @@ public class RequestsDBController {
 	/**
 	 * Request parse data method uses switch case method.
 	 * 
-	 * @param clientMsg
-	 * @return Message
+	 * @param clientMsg Get Message from client that contains data and operation
+	 *                  type.
+	 * @return Message return message to client with the relevant data according to
+	 *         the operation type.
 	 */
 	public Message parseData(Message clientMsg) {
 		PreparedStatement pstm;
@@ -48,7 +53,6 @@ public class RequestsDBController {
 		switch (msgFromClient.getOperationType()) {
 		case GetUpdateTable: // case who return all the requests in status 'waiting' as a list to department
 								// manager
-			String parkName = (String) msgFromClient.getObj();
 			List<Update> data = new ArrayList<Update>();
 			Update tmp;
 			query = "SELECT * FROM updateRequests WHERE status = 'Waiting' ";

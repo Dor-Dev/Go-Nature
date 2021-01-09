@@ -11,7 +11,6 @@ import controllers.RestartApp;
 
 import client.MainClient;
 import common.Message;
-import controllers.EmployeeController;
 import controllers.RequestsController;
 import enums.DBControllerType;
 import enums.OperationType;
@@ -31,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -41,11 +41,22 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.Event;
-import logic.Order;
 import logic.Update;
 
+/**
+ * Class who controls all the Department manager requests.<br>
+ * Choosing from combo box which requests table is showing, then the manager can approve or cancel the request.
+ * @author dorswisa
+ *
+ */
 public class DManagerRequestsGUIController implements Initializable {
+	/**
+	 * Static variable for saving the event data that arrives from server.
+	 */
 	public static List<Event> eventData;
+	/**
+	 * Static variable for saving the event data that arrives from server.
+	 */
 	public static List<Update> updateData;
 
 	@FXML
@@ -100,6 +111,8 @@ public class DManagerRequestsGUIController implements Initializable {
 
 	@FXML
 	private Label mnuRequests;
+	@FXML
+    private Label lblRequestTip;
 
 	@FXML
 	private TableView<Update> tblUpdateTable;
@@ -185,10 +198,10 @@ public class DManagerRequestsGUIController implements Initializable {
 	}
 
 	/**
-	 * create label list for menu bar selction
+	 * create label list for menu bar selection.
 	 * 
-	 * @param dManagerRequestsController
-	 * @return
+	 * @param dManagerRequestsController controller of the DManagerRequests GUI
+	 * @return {@value List} of all the relevant labels we need at Event GUI page. 
 	 */
 	private List<Label> createLabelList(DManagerRequestsGUIController dManagerRequestsController) {
 		List<Label> tempMenuLabels = new ArrayList<>();
@@ -204,17 +217,18 @@ public class DManagerRequestsGUIController implements Initializable {
 		tempMenuLabels.add(dManagerRequestsController.mnuParkCapacity);
 		return tempMenuLabels;
 	}
-
+	/**
+	 * Initialize all the controllers of the GUI, Update table, Event Table,ComboBox parkName.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		/**
-		 * Initialize combo box Parks name
-		 */
+
+		// Initialize combo box Parks name
 		cmbRequestType.getItems().removeAll(cmbRequestType.getItems());
 		cmbRequestType.getItems().addAll("Update Requests", "Event Requests");
-		/**
-		 * Initialize update table column
-		 */
+
+		// Initialize update table column
+
 		colUpdateParkName.setCellValueFactory(new PropertyValueFactory<Update, String>("parkName"));
 		colParkCapacity.setCellValueFactory(new PropertyValueFactory<Update, Integer>("capacity"));
 		colDifference.setCellValueFactory(new PropertyValueFactory<Update, Integer>("difference"));
@@ -227,9 +241,8 @@ public class DManagerRequestsGUIController implements Initializable {
 		colVisitingTime.setStyle("-fx-alignment: CENTER");
 		colUpdateStatus.setStyle("-fx-alignment: CENTER");
 
-		/**
-		 * Initialize event table column
-		 */
+		// Initialize event table column
+
 		colEventParkName.setCellValueFactory(new PropertyValueFactory<>("parkName"));
 		colEventName.setCellValueFactory(new PropertyValueFactory<>("eventName"));
 		colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
@@ -243,6 +256,10 @@ public class DManagerRequestsGUIController implements Initializable {
 		colEndDate.setStyle("-fx-alignment: CENTER");
 		colDiscount.setStyle("-fx-alignment: CENTER");
 		colEventStatus.setStyle("-fx-alignment: CENTER");
+		
+		Tooltip t = new Tooltip();
+		t.setText("Choose the relevant requests table.\nThe information presented in the table\nis for all requests whose end date has not passed ");
+		lblRequestTip.setTooltip(t);
 
 		// hide 2 tables
 		tblEventTable.setVisible(false);
@@ -252,7 +269,9 @@ public class DManagerRequestsGUIController implements Initializable {
 		cmbRequestType.setOnAction(e -> chooseRelevantTable());
 
 	}
-
+	/** 
+	 * Adding the colUpdateButtons 2 buttons, one Aprrove button and the other is Decline button.
+	 */
 	private void addUpdateConfrimationButtons() {
 		TableColumn<Update, Void> option = new TableColumn<>("");
 		Callback<TableColumn<Update, Void>, TableCell<Update, Void>> cellFactory = new Callback<TableColumn<Update, Void>, TableCell<Update, Void>>() {
@@ -321,7 +340,9 @@ public class DManagerRequestsGUIController implements Initializable {
 		colUpdateButtons.setCellFactory(cellFactory);
 
 	}
-
+	/** 
+	 * Adding the colEventButtons 2 buttons, one Aprrove button and the other is Decline button.
+	 */
 	private void addEventConfrimationButtons() {
 		Callback<TableColumn<Event, Void>, TableCell<Event, Void>> cellFactory = new Callback<TableColumn<Event, Void>, TableCell<Event, Void>>() {
 			@Override
@@ -362,7 +383,7 @@ public class DManagerRequestsGUIController implements Initializable {
 						});
 
 					}
-
+					//Set the relevant  buttons to the column
 					@Override
 					public void updateItem(Void item, boolean empty) {
 						super.updateItem(item, empty);
@@ -399,39 +420,51 @@ public class DManagerRequestsGUIController implements Initializable {
 		if (cmbRequestType.getValue().equals("Event Requests"))
 			showEventTable();
 	}
-
+	/**
+	 * Request the events table from Server.<br>
+	 * Shows the event table and hide the update table.<br>
+	 * Department Manager can view all park manager reports. <br>
+	 * {@link #setEventData()} to insert to the event table the data.<br>
+	 * {@link #setEventStatusColor()} to set the status color for each row.
+	 */
 	private void showEventTable() {
-		String parkName = EmployeeController.employeeConected.getOrganizationAffilation();
 		tblEventTable.setVisible(true);
 		tblEventTable.setManaged(true);
 		tblUpdateTable.setVisible(false);
 		tblUpdateTable.setManaged(false);
 		MainClient.clientConsole.accept(
-				new Message(OperationType.GetEventTable, DBControllerType.RequestsDBController, (Object) parkName));
+				new Message(OperationType.GetEventTable, DBControllerType.RequestsDBController, (Object) null));
 		if (RequestsController.requestType.equals(OperationType.EventTableArrived)) {
 			setEventData();
 			setEventStatusColor();
 		}
 
 	}
-
+	/**
+	 * Set event table data using {@link TableView#setItems(javafx.collections.ObservableList)}
+	 */
 	private void setEventData() {
 		tblEventTable.setItems(FXCollections.observableArrayList(eventData));
 		colStartDate.setSortType(TableColumn.SortType.ASCENDING);
 		tblEventTable.getSortOrder().add(colStartDate);
 		tblEventTable.sort();
 	}
-
+	/**
+	 * Request the update parameters table from Server.<br>
+	 * Shows the update table and hide the event table.<br>
+	 * Department Manager can view all park manager update parameters requests. <br>
+	 * {@link #setEventData()} to insert to the update table the data.<br>
+	 * 
+	 */
 	private void showUpdateTable() {
-		String parkName = EmployeeController.employeeConected.getOrganizationAffilation();
 		tblUpdateTable.setVisible(true);
 		tblUpdateTable.setManaged(true);
 		tblEventTable.setVisible(false);
 		tblEventTable.setManaged(false);
-		MainClient.clientConsole.accept(
-				new Message(OperationType.GetUpdateTable, DBControllerType.RequestsDBController, (Object) parkName));
+		MainClient.clientConsole.accept( //Send Message to server to get the update table from data base.
+				new Message(OperationType.GetUpdateTable, DBControllerType.RequestsDBController, (Object) null));
 		if (RequestsController.requestType.equals(OperationType.UpdateTableArrived)) {
-			if(updateData.size() != 0) 
+			if (updateData.size() != 0)
 				setUpdateData();
 			else {
 				tblUpdateTable.setVisible(false);
@@ -445,13 +478,16 @@ public class DManagerRequestsGUIController implements Initializable {
 		}
 
 	}
-
+	/**
+	 * Set update table data using {@link TableView#setItems(javafx.collections.ObservableList)}
+	 */
 	private void setUpdateData() {
 		tblUpdateTable.setItems(FXCollections.observableArrayList(updateData));
 	}
-	
-	/*
-	 * set the event status of each row the the relevant color 
+
+	/**
+	 *Set the event status of each row the the relevant color.
+	 *using {@link TableColumn#setCellFactory(Callback)} to set status color.
 	 */
 	private void setEventStatusColor() {
 		colEventStatus.setCellFactory(colStatus -> {
@@ -470,7 +506,7 @@ public class DManagerRequestsGUIController implements Initializable {
 						if (tmp.getStatus().equals("Waiting")) {
 							setTextFill(Color.BLACK);
 						}
-						if (tmp.getStatus().equals("Active") ) {
+						if (tmp.getStatus().equals("Active")) {
 							setTextFill(Color.GREEN);
 						}
 						if (tmp.getStatus().equals("Canceled"))

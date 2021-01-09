@@ -158,6 +158,11 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </ComboBox>
+                        <Label fx:id="lblRequestTip" text="[?]">
+                           <HBox.margin>
+                              <Insets left="10.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
                      </children>
                      <VBox.margin>
                         <Insets top="25.0" />
