@@ -3,8 +3,6 @@ package controllers;
 import client.ClientController;
 import common.Message;
 import enums.UserTypes;
-import gui.ParkCapacityGUIController;
-import gui.RegistrationController;
 import logic.Subscriber;
 
 public class VisitorController {

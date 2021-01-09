@@ -3,12 +3,8 @@ package server;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import common.Message;
 import enums.ClientControllerType;
-import enums.DBControllerType;
 import enums.OperationType;
 import logic.Park;
 

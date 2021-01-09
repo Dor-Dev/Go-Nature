@@ -453,7 +453,7 @@ public class AddOrderGUIController {
 		 * take the right value we need
 		 */
 		int userID = VisitorController.loggedID;
-		if (VisitorController.loggedID == 0)
+		if (VisitorController.subscriberConnected != null)
 			userID = VisitorController.subscriberConnected.getVisitorID();
 		/**
 		 * Radio button to get the right value the user is chosen

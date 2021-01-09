@@ -2,6 +2,8 @@ package gui;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -947,16 +949,20 @@ public class DManagerReportsGUIController {
 			int restOfOrders) {
 		pieChartData.clear();
 
+	    BigDecimal bd = new BigDecimal(Double.toString((double)100.0 / (canceledOrders + unfulfilledOrders + restOfOrders)));
+	    bd = bd.setScale(2, RoundingMode.HALF_UP);
+	    double num =bd.doubleValue();
 		pieChartData.add(new PieChart.Data("Rest of orders", restOfOrders));
 		pieChartData.add(new PieChart.Data("Canceled orders", canceledOrders));
 		pieChartData.add(new PieChart.Data("Unfulfilled orders", unfulfilledOrders));
-
+		
 		// setting the percentage of each slice in the pie chart
 		pieChartData.forEach(data -> data.nameProperty().bind(Bindings.concat(data.getName(), " - ",
-				data.pieValueProperty().multiply(100 / (canceledOrders + unfulfilledOrders + restOfOrders)), "%")));
-
+				data.pieValueProperty().multiply(num), "%")));
+		
 		dManagerReports.chrtCancellation.setData(pieChartData);
 	}
+
 }
 
 
