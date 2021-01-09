@@ -363,12 +363,12 @@ public class MyOrdersGUIController implements Initializable {
 		if(curOrder.getType().equals("Single/Family")){
 			MainClient.clientConsole.accept(new Message(OperationType.TravelerInfo, DBControllerType.ParkDBController, (Object)curOrder.getVisitorID() ));
 		if (ParkController.disType.equals(Discount.GroupDiscount) || ParkController.disType.equals(Discount.MemberDiscount))
-			type = "member";	
+			type = "Member";	
 		else 
-			type = "visitor";	
+			type = "Visitor";	
 		}
 		else 
-			type="instructor";
+			type="Guide";
 		list.add(curOrder.getParkName());
 		list.add(String.valueOf(curOrder.getNumOfVisitors()));
 		list.add(String.valueOf(curOrder.getVisitorID()));

@@ -288,12 +288,12 @@ public class AddOrderGUIController {
 		lblGroupTip.setVisible(false);
 
 		if (VisitorController.subscriberConnected != null
-				&& VisitorController.subscriberConnected.getType().equals("instructor")) {
+				&& VisitorController.subscriberConnected.getType().equals("Guide")) {
 
 			rdGroup.setDisable(false);
 		} else {
 			Tooltip t = new Tooltip();
-			t.setText("Only for instructors");
+			t.setText("Only for Guides");
 			lblGroupTip.setVisible(true);
 			lblGroupTip.setTooltip(t);
 		}
@@ -537,10 +537,10 @@ public class AddOrderGUIController {
 			discount += 15; // price after pre-Order for signle/family
 		if (rdGroup.isSelected())
 			discount += 25;
-		// if visitor is subscriber and not instructor
+		// if visitor is subscriber and not Guide
 		if (VisitorController.subscriberConnected != null && !rdGroup.isSelected())
 			discount += 20; // price after subscirber discount
-		if (cbPayNow.isSelected() && rdGroup.isSelected()) // if instructor and pay now
+		if (cbPayNow.isSelected() && rdGroup.isSelected()) // if Guide and pay now
 			discount += 12;
 		return discount;
 	}
