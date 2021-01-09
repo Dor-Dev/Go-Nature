@@ -1,3 +1,4 @@
+
 package server;
 
 import java.sql.Date;
@@ -37,15 +38,7 @@ public class ReportsDBContorller {
 		}
 	}
 
-
-	/**
-	 * A method for passing messages from the client to the server
-	 * 
-	 * @param clientMsg - the message that the client sent 
-	 */
-
 	@SuppressWarnings({ "unchecked", "resource" })
-
 	public Message parseData(Message clientMsg) {
 		PreparedStatement pstm;
 		ResultSet rs;
@@ -367,3 +360,4 @@ public class ReportsDBContorller {
 	}
 
 }
+
