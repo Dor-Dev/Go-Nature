@@ -187,6 +187,7 @@ public class EventsGUIController implements Initializable {
 			a.setContentText("Event request was sent successfully to Department Manager.");
 			a.setTitle("Event Request");
 			a.showAndWait();
+			setData();
 
 		}
 
@@ -212,7 +213,6 @@ public class EventsGUIController implements Initializable {
 
 		VBox root;
 		Stage primaryStage = new CloseStage();
-		String parkName = EmployeeController.employeeConected.getOrganizationAffilation();
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("ParkManagerEvents.fxml"));
@@ -224,10 +224,7 @@ public class EventsGUIController implements Initializable {
 			EventsGUIController eventsGUIController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = eventsGUIController.createLabelList(eventsGUIController);
-			MenuBarSelection.setMenuOptions(menuLabels);
-			MainClient.clientConsole.accept(
-					new Message(OperationType.showManagerEvents, DBControllerType.ParkDBController, (Object) parkName));
-			
+			MenuBarSelection.setMenuOptions(menuLabels);			
 			eventsGUIController.setData();
 			//setEventStatusColor();
 			primaryStage.show();
@@ -344,15 +341,13 @@ public class EventsGUIController implements Initializable {
 	 * set event table data using {@link FXCollections#observableArrayList()}
 	 */
 	public void setData() {
+		String parkName = EmployeeController.employeeConected.getOrganizationAffilation();
+		MainClient.clientConsole.accept(
+				new Message(OperationType.showManagerEvents, DBControllerType.ParkDBController, (Object) parkName));
 		tblEvents.setItems(FXCollections.observableArrayList(data));
 		colEnd.setSortType(TableColumn.SortType.ASCENDING);
 		tblEvents.getSortOrder().add(colEnd);
 		tblEvents.sort();
 	}
-	/*
-	 * set the event status of each row the the relevant color 
-	 */
-	private void setEventStatusColor() {
-	
-	}
+
 }

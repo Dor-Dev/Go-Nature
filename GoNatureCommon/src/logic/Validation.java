@@ -42,7 +42,7 @@ public class Validation {
 	public static boolean nameValidation(String name) {
 		if(name==null)
 			return false;
-		String nameFormat = "[a-zA-Z]+";
+		String nameFormat = "[a-zA-Z ]+";
 		return name.matches(nameFormat);
 	}
 	/**
@@ -124,7 +124,7 @@ public class Validation {
 	public static boolean eventNameValidation(String eventName) {
 		if(eventName==null)
 			return false;
-		String eventNameFormat = "[a-zA-Z0-9\\-\\.]+";
+		String eventNameFormat = "[a-zA-Z0-9\\-\\. ]+";
 		return eventName.matches(eventNameFormat);
 	}
 	/**
@@ -145,6 +145,7 @@ public class Validation {
 		String onlyDigits = "^[a-zA-Z]+";
 		return text.matches(onlyDigits);
 	}
+	
 	/**
 	 * Discount validation allow only digits 0-9 and '.' .
 	 * @param discount

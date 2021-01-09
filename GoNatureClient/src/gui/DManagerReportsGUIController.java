@@ -355,11 +355,11 @@ public class DManagerReportsGUIController {
 	 */
 	private void chooseTypes() {
 		if (cmbType.getValue().equals("Singles"))
-			type = "visitor";
+			type = "Visitor";
 		else if (cmbType.getValue().equals("Groups"))
-			type = "instructor";
+			type = "Guide";
 		else if (cmbType.getValue().equals("Members"))
-			type = "member";
+			type = "Member";
 
 	}
 

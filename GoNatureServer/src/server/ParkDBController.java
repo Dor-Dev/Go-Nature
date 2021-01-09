@@ -327,15 +327,15 @@ public class ParkDBController {
 								ResultSet rs1 = pstm.executeQuery();
 
 								if (rs1.next()) {
-									type = "member";
+									type = "Member";
 								}
 								else {
-									type= "visitor";
+									type= "Visitor";
 									
 								}
 							}
 							else {
-								type = "instructor";
+								type = "Guide";
 								
 							}
 							pstm = sqlConnection.connection.prepareStatement("insert into receipts (date,visitEntry, visitExit,numberOfVisitors,type,parkName,orderNumber,visitorID,currAmountOfVisitorsLeft,time,actualNumOfVisitors,cost)"
