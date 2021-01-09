@@ -55,7 +55,7 @@ public class ReportsDBContorller {
 			// the mysql insert statement
 			String query = " insert into issuedreports (date, reportname, image,parkname )"
 					+ " values (?, ?, ?, ?)";
-
+ 
 			// create the mysql insert preparedstatement
 			try {
 				preparedStmt = sqlConnection.connection.prepareStatement(query);
@@ -108,13 +108,14 @@ public class ReportsDBContorller {
 			}
 
 			for (i = 0; i < 3; i++) {
-				if (types[i].equals("Member")) {
+				if (types[i].equals("Member")) {System.out.println("MEMBER"+amount[i]);
 					membersAmount = amount[i];
-				} else if (types[i].equals("Visitor")) {
+				} else if (types[i].equals("Visitor")) {System.out.println("visitor"+amount[i]);
 					visitorsAmount = amount[i];
-				} else if (types[i].equals("Guide")) {
+				} else if (types[i].equals("Guide")) {System.out.println("guide"+amount[i]);
 					groupsAmount = amount[i];
 				}
+				
 
 			}
 
