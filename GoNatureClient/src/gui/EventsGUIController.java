@@ -202,6 +202,7 @@ public class EventsGUIController implements Initializable {
 			setData(); // Refresh the event table.
 			setStatusColor(); // Set status color of the returned table.
 
+
 		}
 
 	}
@@ -233,7 +234,6 @@ public class EventsGUIController implements Initializable {
 
 		VBox root;
 		Stage primaryStage = new CloseStage();
-
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("ParkManagerEvents.fxml"));
@@ -245,6 +245,7 @@ public class EventsGUIController implements Initializable {
 			EventsGUIController eventsGUIController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = eventsGUIController.createLabelList(eventsGUIController);
+
 			MenuBarSelection.setMenuOptions(menuLabels);
 			eventsGUIController.setData(); // Before the page shows set the table data by sending Message to server and get the events data .
 			eventsGUIController.setStatusColor();// Set status color for each row in the table.
@@ -353,6 +354,7 @@ public class EventsGUIController implements Initializable {
 		tblEvents.sort();
 
 	}
+
 
 	/**
 	 * Set the event status of each row the the relevant color. using

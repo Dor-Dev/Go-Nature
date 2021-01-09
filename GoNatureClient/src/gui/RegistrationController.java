@@ -335,11 +335,11 @@ public class RegistrationController {
 				return false;
 			}
 		}
-		if(! Validation.onlyLettersValidation( hash_map_info.get("First Name"))) {
+		if(! Validation.nameValidation( hash_map_info.get("First Name"))) {
 			setPopUpMsg("Invalid First Name");
 			return false;
 		}
-		if(! Validation.onlyLettersValidation(hash_map_info.get("Surname"))) {
+		if(! Validation.nameValidation(hash_map_info.get("Surname"))) {
 			setPopUpMsg("Invalid Surname");
 			return false;
 		}
@@ -364,7 +364,7 @@ public class RegistrationController {
 				setPopUpMsg("Invalid card number");
 				return false;
 			}
-			if(! Validation.onlyLettersValidation( hash_map_info.get("Card Owner"))) {
+			if(! Validation.nameValidation( hash_map_info.get("Card Owner"))) {
 				setPopUpMsg("Invalid Owner Name");
 				return false;
 			}

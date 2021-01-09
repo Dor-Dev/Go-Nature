@@ -401,17 +401,17 @@ public class ParkEntranceGUIController {
 		if(ParkController.order.getType().equals("Single/Family")){
 			MainClient.clientConsole.accept(new Message(OperationType.TravelerInfo, DBControllerType.ParkDBController, (Object)String.valueOf(ParkController.order.getVisitorID() )));
 		if (ParkController.disType.equals(Discount.GroupDiscount) || ParkController.disType.equals(Discount.MemberDiscount)) {
-			type = "member";
+			type = "Member";
 			
 		}
 		
 		else {
-			type = "visitor";
+			type = "Visitor";
 		}
 		
 		}
 		else {
-			type="instructor";
+			type="Guide";
 		}
 		cost=ParkController.order.getCost();
 		
@@ -441,19 +441,19 @@ public class ParkEntranceGUIController {
 			ParkEntranceGUIController parkEntranceController1) {
 		
 	
-		if (type.equals("instructor")) {
+		if (type.equals("Guide")) {
 			if (ParkController.order.isPaidUp()) {
 				parkEntranceController1.lblOrderReceiptDiscount
-						.setText(ParkController.order.getDiscount()+"% + instructor doesn't need to pay");
+						.setText(ParkController.order.getDiscount()+"% + Guide doesn't need to pay");
 				parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getCost())+ " NIS");
 			} else {
 				parkEntranceController1.lblOrderReceiptDiscount
-						.setText(ParkController.order.getDiscount()+"% + instructor doesn't need to pay");
+						.setText(ParkController.order.getDiscount()+"% + Guide doesn't need to pay");
 				parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getCost())+ " NIS");
 			}
 		}
 	
-		else if (type.equals("member")) {
+		else if (type.equals("Member")) {
 			parkEntranceController1.lblOrderReceiptDiscount.setText(ParkController.order.getDiscount()+"%");
 			parkEntranceController1.lblOrderReceiptCost.setText(String.valueOf(ParkController.order.getCost())+ " NIS");
 		} else {
@@ -629,21 +629,21 @@ public class ParkEntranceGUIController {
 	private void putDiscountAndPriceToManualReceipt(ParkEntranceGUIController parkEntranceGUIController, ParkEntranceGUIController parkEntranceController1) {
 		MainClient.clientConsole.accept(new Message(OperationType.TravelerInfo, DBControllerType.ParkDBController, (Object) visitorID));
 		if (ParkController.disType.equals(Discount.GroupDiscount)) {
-			parkEntranceController1.lblManualReceiptDiscount.setText(groupDiscount+"% + The Instructor needs to pay");
-			type = "instructor";
+			parkEntranceController1.lblManualReceiptDiscount.setText(groupDiscount+"% + The Guide needs to pay");
+			type = "Guide";
 			cost= (int) (Integer.parseInt(this.txtAmountOfOccasional.getText())* OrderController.getTicketPrice() * (1-groupDiscount/100));
 			
 			parkEntranceController1.lblManualReceiptCost.setText(String.valueOf(cost)+ " NIS");
 		} else if (ParkController.disType.equals(Discount.MemberDiscount)) {
 			parkEntranceController1.lblManualReceiptDiscount.setText(memberDiscount+"%");
-			type = "member";
+			type = "Member";
 			cost= (int) (Integer.parseInt(this.txtAmountOfOccasional.getText())* OrderController.getTicketPrice() *(1-memberDiscount/100));
 			parkEntranceController1.lblManualReceiptCost.setText(String.valueOf(cost)+ " NIS");
 		}
 
 		else {
 			parkEntranceController1.lblManualReceiptDiscount.setText(visitorDiscount+"%");
-			type = "visitor";
+			type = "Visitor";
 			cost= (int) (Integer.parseInt(this.txtAmountOfOccasional.getText())* OrderController.getTicketPrice()*((1-visitorDiscount/100)));
 			parkEntranceController1.lblManualReceiptCost.setText(String.valueOf(cost)+ " NIS");
 		}
