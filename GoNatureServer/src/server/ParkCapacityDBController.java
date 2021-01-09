@@ -3,12 +3,9 @@ package server;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import common.Message;
 import enums.ClientControllerType;
-import enums.DBControllerType;
 import enums.OperationType;
 import logic.Park;
 
@@ -23,7 +20,7 @@ public class ParkCapacityDBController {
 		try {
 			sqlConnection = SqlConnection.getConnection();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
@@ -48,7 +45,9 @@ public class ParkCapacityDBController {
 				//sending the information we got back to the client
 				return new Message(OperationType.ShowParkCapacity, ClientControllerType.ParkCapacityController, (Object) (p));
 			}
-		} catch (SQLException e) {}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return new Message(OperationType.ShowParkCapacity, ClientControllerType.ParkCapacityController, (Object)"The chosen park doesn't exist");
 
 	}

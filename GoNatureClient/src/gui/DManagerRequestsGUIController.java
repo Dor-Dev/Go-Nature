@@ -285,6 +285,7 @@ public class DManagerRequestsGUIController implements Initializable {
 	 * Adding the colUpdateButtons 2 buttons, one Aprrove button and the other is Decline button.
 	 */
 	private void addUpdateConfrimationButtons() {
+		@SuppressWarnings("unused")
 		TableColumn<Update, Void> option = new TableColumn<>("");
 		Callback<TableColumn<Update, Void>, TableCell<Update, Void>> cellFactory = new Callback<TableColumn<Update, Void>, TableCell<Update, Void>>() {
 			@Override

@@ -31,7 +31,8 @@ package gui;
 	        launch(args);
 	    }
 	 
-	    @Override
+	    @SuppressWarnings("unchecked")
+		@Override
 	    public void start(Stage stage) {
 	        Scene scene = new Scene(new Group());
 	        stage.setTitle("Table View Sample");
@@ -43,17 +44,20 @@ package gui;
 	 
 	        table.setEditable(true);
 	 
-	        TableColumn firstNameCol = new TableColumn("First Name");
+	        @SuppressWarnings("rawtypes")
+			TableColumn firstNameCol = new TableColumn("First Name");
 	        firstNameCol.setMinWidth(100);
 	        firstNameCol.setCellValueFactory(
 	                new PropertyValueFactory<>("firstName"));
 	 
-	        TableColumn lastNameCol = new TableColumn("Last Name");
+	        @SuppressWarnings("rawtypes")
+			TableColumn lastNameCol = new TableColumn("Last Name");
 	        lastNameCol.setMinWidth(100);
 	        lastNameCol.setCellValueFactory(
 	                new PropertyValueFactory<>("lastName"));
 	 
-	        TableColumn emailCol = new TableColumn("Email");
+	        @SuppressWarnings("rawtypes")
+			TableColumn emailCol = new TableColumn("Email");
 	        emailCol.setMinWidth(200);
 	        emailCol.setCellValueFactory(
 	                new PropertyValueFactory<>("email"));

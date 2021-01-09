@@ -32,7 +32,8 @@ public class Message implements Serializable {
     private ClientControllerType controllerType;
 
     // If the operation that returns from the server succeeded\failed.
-    private ReturnMessageType returnMessageType;
+    @SuppressWarnings("unused")
+	private ReturnMessageType returnMessageType;
     
     private Object obj;
 

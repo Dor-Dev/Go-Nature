@@ -1,12 +1,5 @@
 package logic;
 
-/*
- * JBoss, the OpenSource J2EE webOS
- *
- * Distributable under LGPL license.
- * See terms of license at gnu.org.
- *
- */
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +9,10 @@ import java.util.List;
 import java.util.Iterator;
 
 /**
- * @author <a href="mailto:telrod@e2technologies.net">Tom Elrod</a>
- * @version $Revision: 1.2.6.1 $
+ * The class is an an input stream that implements serializable
+ * To help sending a photo from the client to the server and the opposite
+ * @author dana_
+ *
  */
 public class SerializableInputStream extends InputStream implements Serializable
 {
@@ -58,7 +53,7 @@ public class SerializableInputStream extends InputStream implements Serializable
 
    public SerializableInputStream(InputStream ins) throws IOException
    {
-      List byteList = new ArrayList();
+	List<Byte> byteList = new ArrayList<Byte>();
       int dat = ins.read();
       while (dat != -1)
       {
@@ -68,7 +63,7 @@ public class SerializableInputStream extends InputStream implements Serializable
 
       data = new byte[byteList.size()];
       int counter = 0;
-      Iterator itr = byteList.iterator();
+      Iterator<Byte> itr = byteList.iterator();
       while(itr.hasNext())
       {
          data[counter++] = ((Byte)itr.next()).byteValue();

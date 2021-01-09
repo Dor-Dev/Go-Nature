@@ -3,7 +3,6 @@ package controllers;
 import java.util.List;
 
 import common.Message;
-import enums.OperationType;
 import gui.AddOrderGUIController;
 import gui.MyOrdersGUIController;
 import logic.Order;
@@ -18,9 +17,12 @@ public class OrderController {
 	public static int discountDateEvent = 0;
 	public static String eventName = "";
 	
-	
+	/**
+     * Method that receives messages from the server and the message to the right controller
+     * @param reciveMsg The received message from the server
+	 */
+	@SuppressWarnings("unchecked")
 	public static void OrderParseData(Message reciveMsg) {
-		System.out.println("ORDERCONTROLLERIN!");
 		
 		switch (reciveMsg.getOperationType()) {
 		case SuccessAddOrder:

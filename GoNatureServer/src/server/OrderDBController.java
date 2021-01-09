@@ -15,7 +15,11 @@ import enums.ClientControllerType;
 import enums.OperationType;
 import logic.Order;
 import logic.OrderRequest;
-
+/**
+ * 
+ * @author dana_
+ *The controller that is responsible for the connection with the data base regarding the orders 
+ */
 public class OrderDBController {
 
 
@@ -35,7 +39,7 @@ public class OrderDBController {
 		try {
 			sqlConnection = SqlConnection.getConnection();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
@@ -75,7 +79,7 @@ public class OrderDBController {
 	 * This function check if there is a discount event
 	 * The function use the asked date that received from the client to check
 	 * @param clientMsg
-	 * @return array list, if dont found event discount return int parameter (Zero), 
+	 * @return array list, if don't found event discount return int parameter (Zero), 
 	 * if found return the amount of the discount and String with the name of the event
 	 */
 	private Object checkEventDiscount(Message clientMsg) {
@@ -99,7 +103,6 @@ public class OrderDBController {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		eventInfo.add(String.valueOf(discount));
@@ -135,7 +138,6 @@ public class OrderDBController {
 			
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(res==1)
@@ -163,7 +165,6 @@ public class OrderDBController {
 			
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(res==1)
@@ -191,7 +192,6 @@ public class OrderDBController {
 			
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(res==1) {
@@ -230,7 +230,6 @@ public class OrderDBController {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new Message(OperationType.ReturnMyOrders,ClientControllerType.OrderController,(Object)myOrders);
@@ -288,7 +287,6 @@ public class OrderDBController {
 			preparedStmt.execute();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -306,7 +304,6 @@ public class OrderDBController {
 			}
 				System.out.println(rs.getInt(1));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		/**
@@ -396,7 +393,6 @@ public class OrderDBController {
 					hourIndex[rs.getInt(1)+i]+= rs.getInt(2);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

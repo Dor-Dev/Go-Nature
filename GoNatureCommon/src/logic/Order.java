@@ -2,16 +2,14 @@ package logic;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 
-import com.sun.jmx.snmp.Timestamp;
-
+/**
+ * A class that represents the order entity
+ * @author dana_
+ *
+ */
 public class Order implements Serializable {
 	
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3680648113244743447L;
 
 	private String type;

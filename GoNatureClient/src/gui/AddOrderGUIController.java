@@ -209,10 +209,9 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * function that choose the menu to show
-	 * 
-	 * @param addOrderController
-	 * @return
+	 * Method that create an Array List with the menu labels
+	 * @param registrationController An instance of this registrationController
+	 * @return labels list
 	 */
 	private List<Label> createLabelList(AddOrderGUIController addOrderController) {
 		List<Label> tempMenuLabels = new ArrayList<>();
@@ -247,39 +246,26 @@ public class AddOrderGUIController {
 		cmbPhoneStart.getItems().removeAll(cmbPhoneStart.getItems());
 		cmbPhoneStart.getItems().addAll("050", "051", "052", "053", "054", "055", "056", "057", "058", "059");
 		cmbPhoneStart.getSelectionModel().select(0);
-		/**
-		 * set init paynow visible
-		 */
-
+		
+		//set init paynow visible
 		cbPayNow.setVisible(false);
 		if (VisitorController.subscriberConnected != null
 				&& VisitorController.subscriberConnected.getCreditCard() != null) {
 			cbPayNow.setVisible(true);
 		}
-		/**
-		 * set init Discount
-		 */
+		//set init Discount
 		lblDiscount.setText(String.valueOf(calculateDiscount()) + "%");
-		/**
-		 * set Group option disable
-		 */
+		//set Group option disable
 		rdGroup.setDisable(true);
-		/**
-		 * Initialize combo box Parks name
-		 */
+		//Initialize combo box Parks name
 		cmbParkName.getItems().removeAll(cmbParkName.getItems());
 		cmbParkName.getItems().addAll("Luna-Park", "Shipment-Park", "Tempo-Park");
-		// cmbParkName.getSelectionModel().select("Option B");
 
-		/**
-		 * Initialize cmb Visit Hour 10:00 - 17:00
-		 */
+		//Initialize cmb Visit Hour 10:00 - 17:00
 		cmbHour.getItems().removeAll(cmbHour.getItems());
 		cmbHour.getItems().addAll("09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00");
 		cmbHour.getSelectionModel().select(0);
-		/**
-		 * Initialize cmb Num of visitors 1-15
-		 */
+		//Initialize cmb Num of visitors 1-15
 		cmbNumOfVisitors.getItems().removeAll(cmbNumOfVisitors.getItems());
 		cmbNumOfVisitors.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
 				"15");
@@ -435,10 +421,7 @@ public class AddOrderGUIController {
 	@FXML
 	void submitOrder(ActionEvent event) {
 
-		/**
-		 * validation for the fields, if have error parameters pop a message with ask of
-		 * wrong field
-		 */
+		// validation for the fields, if have error parameters pop a message with ask of wrong field
 		String ValidMsg = fieldsValidation();
 		if (!ValidMsg.equals("OK")) {
 			Alert a = new Alert(AlertType.INFORMATION);
@@ -448,10 +431,7 @@ public class AddOrderGUIController {
 			a.showAndWait();
 			return;
 		}
-		/**
-		 * userId can be some subscriber or only one who is no have orders, userId will
-		 * take the right value we need
-		 */
+		// userId can be some subscriber or only one who is no have orders, userId will take the right value we need
 		int userID = VisitorController.loggedID;
 		if (VisitorController.loggedID == 0)
 			userID = VisitorController.subscriberConnected.getVisitorID();
@@ -468,15 +448,10 @@ public class AddOrderGUIController {
 		hour = cmbHour.getValue().split(":");
 		int hourInteger = Integer.parseInt((hour[0]));
 
-		/**
-		 * calculate price after discount
-		 */
-
+		//calculate price after discount
 		int finalPrice = calculatePriceAfterDiscount(); // get the ticket price
 
-		/**
-		 * Sends request to server to place order
-		 */
+		//Sends request to server to place order
 
 		newOrder = new Order(cmbParkName.getValue(),
 				date.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))), userID,
@@ -494,7 +469,7 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * function to excute add order query after check if there is a place at the
+	 * function to execute add order query after check if there is a place at the
 	 * asked date time.
 	 */
 	private void executeAddOrderQuery() {
@@ -590,7 +565,7 @@ public class AddOrderGUIController {
 		}
 	}
 
-	/*
+	/**
 	 * close popup window button
 	 */
 	@FXML
@@ -716,7 +691,10 @@ public class AddOrderGUIController {
 		}
 	}
 
-	// initilaize hours for our parks
+	/**
+	 * Initialize hours for our parks
+	 * @param cmb
+	 */
 	public void initilaizeCmbHours(ComboBox<String> cmb) {
 		int i = 0;
 		boolean[] areAvaiableHour = new boolean[24];
@@ -744,9 +722,9 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * function to send accept from client to server wich hours are available for
-	 * the asked order at specific date and after this call to initilaize the combo
-	 * box hours with only the availble hours.
+	 * function to send accept from client to server which hours are available for
+	 * the asked order at specific date and after this call to initialize the combo
+	 * box hours with only the available hours.
 	 * 
 	 * @param event
 	 */

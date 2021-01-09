@@ -48,7 +48,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.CancellationReport;
 import logic.ReportImage;
-import logic.Validation;
 import logic.VisitingReport;
 
 public class DManagerReportsGUIController {
@@ -173,6 +172,7 @@ public class DManagerReportsGUIController {
 	private static String type = null;
 	private static String date = null;
 	private LocalDate thisDay;
+	@SuppressWarnings("unused")
 	private Date thisDayToDB;
 	private int monthInt;
 	private int dayInt;

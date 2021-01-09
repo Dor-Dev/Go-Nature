@@ -1,13 +1,15 @@
 package logic;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
 
+/**
+ *  A class that represents keep the data of orders requests 
+ * @author dana_
+ *
+ */
 public class OrderRequest implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -7334228383055411749L;
 	LocalDate askedDate;
 	int askedHour;

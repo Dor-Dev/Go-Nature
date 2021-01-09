@@ -1,14 +1,9 @@
 package server;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import common.Message;
@@ -30,6 +25,7 @@ public class LoginDBController {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public Message parseData(Message clientMsg) {
 		System.out.println("LoginDBController");
 		PreparedStatement pstm;
