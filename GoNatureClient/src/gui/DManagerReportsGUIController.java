@@ -16,7 +16,6 @@ import enums.DBControllerType;
 import enums.OperationType;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,7 +47,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.CancellationReport;
-import logic.Order;
 import logic.ReportImage;
 import logic.VisitingReport;
 
@@ -493,9 +491,6 @@ public class DManagerReportsGUIController {
 
 			date = datePicker.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			getCurrentDay();
-			System.out.println(date.substring(0, 4));
-			System.out.println(date.substring(5, 7));
-			System.out.println(Integer.valueOf(date.substring(8, 10)));
 			if (reportName.equals("Visiting report")) {
 
 				if (Integer.valueOf(date.substring(0, 4)) > yearInt
@@ -637,6 +632,7 @@ public class DManagerReportsGUIController {
 	 * 
 	 * @param dManagerReportsGUIController
 	 */
+	@SuppressWarnings("unchecked")
 	private void showVisitingReport(DManagerReportsGUIController dManagerReportsGUIController) {
 		List<String> list = new ArrayList<String>();
 		list.add(parkName);
@@ -646,7 +642,6 @@ public class DManagerReportsGUIController {
 				.accept(new Message(OperationType.VisitingReport, DBControllerType.ReportsDBController, (Object) list));
 
 		if (ReportController.reportType.equals(OperationType.VisitingReport)) {
-			System.out.println("im hereeeeeeeee");
 			VisitingReport visitingReport = (VisitingReport) ReportController.report;
 
 			this.vboxReportName.setManaged(true);
@@ -679,7 +674,6 @@ public class DManagerReportsGUIController {
 
 			for (int i = 0; i < hours.length; i++) {
 				if (hours[i] != 0) {
-					System.out.println(hours[i] + " = " + visitors[i]);
 					set[i].getData().add(new XYChart.Data<>("", visitors[i]));
 					set[i].setName(hours[i] + ":00");
 					this.barChartVisiting.getData().add(set[i]);
@@ -699,13 +693,9 @@ public class DManagerReportsGUIController {
 	private void getCurrentDay() {
 		thisDay = LocalDate.now();
 		thisDayToDB = Date.valueOf(thisDay);
-		System.out.println(thisDayToDB);
 		monthInt = thisDay.getMonthValue();
 		dayInt = thisDay.getDayOfMonth();
 		yearInt = thisDay.getYear();
-		System.out.println("now is the month " + monthInt);
-		System.out.println(dayInt);
-		System.out.println(thisDay.getYear());
 	}
 
 	/**
@@ -741,7 +731,6 @@ public class DManagerReportsGUIController {
 	 * @param dManagerReportsController
 	 */
 	private void setReportDetailsInvisible(DManagerReportsGUIController dManagerReportsController) {
-		System.out.println("chek2");
 		dManagerReportsController.vboxVisiting.setManaged(false);
 		dManagerReportsController.vboxVisiting.setVisible(false);
 		dManagerReportsController.vboxReportName.setManaged(false);

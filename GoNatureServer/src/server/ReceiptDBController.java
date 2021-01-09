@@ -42,6 +42,7 @@ public class ReceiptDBController {
 	 * @param clientMsg
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public Message parseData(Message clientMsg) {
 		try {
 
@@ -59,9 +60,6 @@ public class ReceiptDBController {
 					getCurrentTime();
 
 					int currAmount = rs.getInt(10) - Integer.parseInt(infoReceipt.get(2));
-					System.out.println("receip amount =" + rs.getInt(10));
-					System.out.println("to decrese: " + Integer.parseInt(infoReceipt.get(2)));
-					System.out.println("= " + currAmount);
 					if (Integer.parseInt(infoReceipt.get(2)) > 0 && currAmount >= 0) {
 
 						if (currAmount == 0) {
@@ -99,31 +97,22 @@ public class ReceiptDBController {
 							.prepareStatement("SELECT * from receipts where parkName=? and orderNumber=?");
 					pstm.setString(1, infoReceipt.get(2));
 					pstm.setInt(2, Integer.parseInt(infoReceipt.get(0)));
-					System.out.println(infoReceipt.get(2));
-					System.out.println(infoReceipt.get(0));
-					System.out.println("im here1");
 					ResultSet rs = pstm.executeQuery();
 					if (rs.next()) {
-						int receiptID;
-						System.out.println("bbbbb");
 						int numOfVisitor = rs.getInt(5);
 						int actualVisitor = rs.getInt(12);
 						int currAmountOfVisitorsLeft = rs.getInt(10);
 						if (numOfVisitor >= actualVisitor + Integer.parseInt(infoReceipt.get(1))) {
-							System.out.println("im here2");
 							currAmountOfVisitorsLeft = currAmountOfVisitorsLeft + Integer.parseInt(infoReceipt.get(1));
-							System.out.println(currAmountOfVisitorsLeft);
 							actualVisitor += Integer.parseInt(infoReceipt.get(1));
-							System.out.println(actualVisitor);
-							receiptID = rs.getInt(1);
+							int receiptID = rs.getInt(1);
 							pstm = sqlConnection.connection.prepareStatement(
 									"UPDATE  receipts SET currAmountOfVisitorsLeft=? ,actualNumOfVisitors=?  where receiptsID=?");
 							pstm.setInt(1, currAmountOfVisitorsLeft);
 							pstm.setInt(2, actualVisitor);
-							pstm.setInt(3, rs.getInt(1));
+							pstm.setInt(3, receiptID);
 
 							int res = pstm.executeUpdate();
-							System.out.println("res= " + res);
 							if (res == 1) {
 
 								return new Message(OperationType.UpdateReceipt, ClientControllerType.ReceiptController,
@@ -148,7 +137,6 @@ public class ReceiptDBController {
 			case GenerateReceipt:
 
 				getCurrentTime();
-				System.out.println("hour=" + hours);
 
 				infoReceipt = (ArrayList<String>) msgFromClient.getObj();
 				String query = "insert into receipts (date,visitEntry, visitExit,numberOfVisitors,type,parkName,orderNumber,visitorID,currAmountOfVisitorsLeft,time,actualNumOfVisitors,cost)"
@@ -187,9 +175,7 @@ public class ReceiptDBController {
 					pstm.setInt(4, Integer.parseInt(infoReceipt.get(2)));
 
 					ResultSet rs = pstm.executeQuery();
-					System.out.println("rs= " + rs);
 					if (rs.next()) {
-						System.out.println("receipt num: " + rs.getInt(1));
 						Receipt receipt = new Receipt(rs.getInt(1), rs.getDate(2), rs.getInt(3), rs.getInt(4),
 								rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9),
 								rs.getInt(13));
@@ -197,14 +183,13 @@ public class ReceiptDBController {
 								(Object) receipt);
 					}
 
-					System.out.println("no no");
+
 					return new Message(OperationType.CheckReceiptInfo, ClientControllerType.ReceiptController,
 							(Object) "dont have a receipt");
 
 				}
 
 				catch (SQLException e) {
-					System.out.println("CATCH");
 					e.printStackTrace();
 				}
 
@@ -244,6 +229,7 @@ public class ReceiptDBController {
 	 * @return
 	 * @throws SQLException
 	 */
+	@SuppressWarnings("unchecked")
 	private ResultSet checkReceipt(Object obj) throws SQLException {
 		List<String> infoReceipt = (ArrayList<String>) msgFromClient.getObj();
 		try {

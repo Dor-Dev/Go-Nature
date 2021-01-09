@@ -1,6 +1,5 @@
 package reader;
 
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -11,33 +10,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logic.CardReaderRequest;
-import logic.Receipt;
 import logic.Validation;
-
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import client.ClientController;
 import client.MainClient;
 import common.Message;
-import controllers.OrderController;
-import controllers.ParkController;
-import controllers.ReceiptController;
 import enums.DBControllerType;
-import enums.Discount;
 import enums.OperationType;
-import gui.MenuBarSelection;
-import gui.ParkEntranceGUIController;
-import gui.WelcomeGUIController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 
 public class CardReaderController {
 

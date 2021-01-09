@@ -1,24 +1,18 @@
 
 package controllers;
-
 import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-
 import client.ClientController;
 import common.Message;
 import enums.Discount;
 import enums.OperationType;
-import enums.UserTypes;
 import logic.Order;
 import logic.Park;
 import logic.Receipt;
 import logic.Subscriber;
 import gui.EventsGUIController;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import logic.Event;
 
 public class ParkController {
@@ -34,7 +28,6 @@ public class ParkController {
 	private static LocalDate thisDay;
 	private static Date thisDayToDB;
 	private static LocalTime thisTime;
-	private static Time thisTimeToDB;
 	private static int hours;
 	private static int minutes;
 	
@@ -44,7 +37,6 @@ public class ParkController {
 		thisDay = LocalDate.now();
 		thisDayToDB = Date.valueOf(thisDay);
 		thisTime = LocalTime.now();
-		thisTimeToDB = Time.valueOf(thisTime);
 		hours = thisTime.getHour();
 		minutes = thisTime.getMinute();
 		if (minutes > 0) {
@@ -54,8 +46,8 @@ public class ParkController {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public static void ParkParseData(Message reciveMsg) {
-		System.out.println(reciveMsg.getOperationType());
 		
 		switch(reciveMsg.getOperationType()) {
 		case GetParkInfo:
@@ -75,7 +67,6 @@ public class ParkController {
 			
 			break;
 		case FailedUpdate:
-			System.out.println(414141);
 			Parktype=OperationType.FailedUpdate;
 			
 			break;
@@ -84,10 +75,8 @@ public class ParkController {
 		case GetOrderInfo:
 			getCurrentTime();
 			if(reciveMsg.getObj() instanceof Order) {
-				System.out.println("get order info = order");
 				order= (Order)reciveMsg.getObj();
 				if((order.getStatus().equals("Approved")) &&order.getDate().equals(thisDayToDB) &&order.getHourTime()+4>=hours &&order.getHourTime()<=hours) {
-					System.out.println(order.getDate());
 					ordertype=OperationType.GetOrderInfo;
 				
 				}
@@ -97,7 +86,6 @@ public class ParkController {
 				}
 			}
 			else {
-				System.out.println("get order info =not a order");
 				ordertype= OperationType.NeverExist;
 			}
 			break;
@@ -142,16 +130,11 @@ public class ParkController {
 			break;
 			
 		case VisitorEnterRequest:
-			//Alert a = new Alert(AlertType.INFORMATION);
-			System.out.println("park controller visitor");
 			if(reciveMsg.getObj() instanceof Receipt) {
-				System.out.println("park controller visitor2");
+
 				Receipt receipt = (Receipt) reciveMsg.getObj();
 				ClientController.cardReaderAnswer="Receipt number: "+ receipt.getReceiptID()+ "\n" + "Number of visitors: " + receipt.getNumberOfVisitors()+"\n"+"Park name: " +receipt.getParkName()+"\n"+"Order number: "+receipt.getOrderNumber()+"\n"+"Discount: "+receipt.getDiscount()+"\n"+"Total cost: "+receipt.getCost();
-				//a.setTitle("Receipt");
-				//a.setHeaderText("The order number is valid! you may enter the park.");
-				//a.setContentText("Receipt number: "+ receipt.getReceiptID()+ "\n" + "Number of visitors: " + receipt.getNumberOfVisitors()+"\n"+"Park name: " +receipt.getParkName()+"\n"+"Order number: "+receipt.getOrderNumber()+"\n"+"Discount: "+receipt.getDiscount()+"\n"+"Total cost: "+receipt.getCost());
-
+				
 			}
 			else if(reciveMsg.getObj() instanceof String) {
 				String msg = (String) reciveMsg.getObj();

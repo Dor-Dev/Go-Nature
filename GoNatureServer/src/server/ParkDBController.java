@@ -53,12 +53,12 @@ public class ParkDBController {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public Message parseData(Message clientMsg) throws SQLException {
-		System.out.println("parseData parkdb");
-		// PreparedStatement pstm;
+
 		String query;
 		msgFromClient = clientMsg;
-		System.out.println(msgFromClient.getOperationType());
+
 		List<String> parkInfo;
 		String info;
 		switch (msgFromClient.getOperationType()) {
@@ -68,28 +68,18 @@ public class ParkDBController {
 
 			info = (String) msgFromClient.getObj();
 			try {
-				/*
-				 * pstm = sqlConnection.connection.
-				 * prepareStatement("SELECT * from parks where parkName=?"); pstm.setString(1,
-				 * info); System.out.println("AFTER QUERY"); rs = pstm.executeQuery();
-				 */
 				rs = getParkInfo(info);
 				if (rs.next()) {
-					System.out.println(rs.getString(1));
-					/*
-					 * Park park = new Park(rs.getString(1), rs.getInt(2), rs.getInt(3),
-					 * rs.getInt(4), rs.getInt(5), rs.getInt(6));
-					 */
 					Park park = returnPark(rs);
-					System.out.println(park);
+					int sumOfVisitors=resetTheAmountOfVisitorsInPark(park.getParkName());
+					park.setCurrentAmountOfVisitors(sumOfVisitors);
+
 					return new Message(OperationType.ParkInfo, ClientControllerType.ParkController, (Object) park);
 				} else {
-					System.out.println("NotFound");
 					return null;
 				}
 
 			} catch (SQLException e) {
-				System.out.println("CATCH");
 				e.printStackTrace();
 			}
 			break;
@@ -100,8 +90,6 @@ public class ParkDBController {
 			try {
 				rs = getParkInfo(parkInfo.get(0));
 				if (rs.next()) {
-					System.out.println(rs.getInt(6));
-					System.out.println(parkInfo.get(1));
 					int currAmount = rs.getInt(6) - Integer.parseInt(parkInfo.get(1));
 					res = updateAmountOfCurrAmount(currAmount, parkInfo.get(0));
 					if (res == 1) {
@@ -109,7 +97,6 @@ public class ParkDBController {
 						// for case that traveler didn't exist in system
 						if (rs.next()) {
 							Park park = returnPark(rs);
-							System.out.println(park);
 							return new Message(OperationType.UpdateParkInfo, ClientControllerType.ParkController,
 									(Object) park);
 						}
@@ -131,8 +118,6 @@ public class ParkDBController {
 			try {
 				rs = getParkInfo(parkInfo.get(0));
 				if (rs.next()) {
-					System.out.println(rs.getInt(6));
-					System.out.println(parkInfo.get(1));
 					int currAmount = rs.getInt(6) + Integer.parseInt(parkInfo.get(1));
 
 					res = updateAmountOfCurrAmount(currAmount, parkInfo.get(0));
@@ -148,7 +133,6 @@ public class ParkDBController {
 					}
 				}
 
-				System.out.println(8598);
 				return new Message(OperationType.FailedUpdate, ClientControllerType.ParkController,
 						(Object) "cant increase");
 
@@ -159,7 +143,6 @@ public class ParkDBController {
 
 		// this case get information about the visitor to update the relevant discount
 		case TravelerInfo:
-			System.out.println(555);
 			String infoVisitor = (String) msgFromClient.getObj();
 			try {
 
@@ -169,7 +152,6 @@ public class ParkDBController {
 				rs = pstm.executeQuery();
 
 				if (rs.next()) {
-					System.out.println(444);
 					Subscriber subscriber = null;
 					subscriber = new Subscriber(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
 							rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(13));
@@ -191,7 +173,6 @@ public class ParkDBController {
 		case GetOrderInfo:
 			List<String> orderInfo = (ArrayList<String>) msgFromClient.getObj();
 			try {
-				System.out.println("getOrder");
 				pstm = sqlConnection.connection.prepareStatement("SELECT * from orders where orderID=? and parkName=?");
 				pstm.setInt(1, Integer.parseInt(orderInfo.get(0)));
 				pstm.setString(2, orderInfo.get(2));
@@ -203,7 +184,6 @@ public class ParkDBController {
 						Order order = new Order(rs.getInt(1), rs.getString(2), rs.getDate(3), rs.getInt(4),
 								rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9),
 								rs.getBoolean(10), rs.getInt(11), rs.getInt(14));
-						System.out.println("order id= " + order.getOrderID());
 						return new Message(OperationType.GetOrderInfo, ClientControllerType.ParkController,
 								(Object) order);
 					}
@@ -220,44 +200,10 @@ public class ParkDBController {
 		// of visitors
 		case UpdateCurrAmountOfVisitors:
 			String parkName = (String) msgFromClient.getObj();
-			getCurrentTime();
-			System.out.println("888881");
-			// update the amount of visitors in receipts from today that the visitExit is
-			// over
-			pstm = sqlConnection.connection.prepareStatement(
-					"UPDATE  receipts SET currAmountOfVisitorsLeft=?  where parkName=? and visitExit<=? and date=?");
-			pstm.setInt(1, 0);
-			pstm.setString(2, parkName);
-			pstm.setInt(3, hours);
-			pstm.setDate(4, thisDayToDB);
-			System.out.println(pstm.executeUpdate());
-
-			// update the amount of visitors in receipts from lasts day
-			pstm = sqlConnection.connection
-					.prepareStatement("UPDATE  receipts SET currAmountOfVisitorsLeft=?  where  date<?");
-			pstm.setInt(1, 0);
-			pstm.setDate(2, thisDayToDB);
-			System.out.println(pstm.executeUpdate());
-
-			// check the current amount of visitors in park today
-			pstm = sqlConnection.connection
-					.prepareStatement("SELECT SUM(currAmountOfVisitorsLeft) from receipts where parkName=? and date=?");
-			pstm.setString(1, parkName);
-			pstm.setDate(2, thisDayToDB);
-			ResultSet sum = pstm.executeQuery();
-			int sumCurr = 0;
-			if (sum.next()) {
-				System.out.println("888882");
-				sumCurr = sum.getInt(1);
-				System.out.println("sumCurr= " + sumCurr);
-			}
-
-			// update the current amount of visitors in park today
-			res = updateAmountOfCurrAmount(sumCurr, parkName);
-
-			System.out.println("8888883");
+			int sumCurr = resetTheAmountOfVisitorsInPark(parkName);
 			return new Message(OperationType.UpdateCurrAmountOfVisitors, ClientControllerType.ParkController,
 					(Object) sumCurr);
+			
 		// case who returns a list of all the activated events in a specific park and
 		// their date are relevant to the current date.
 		case showActiveEvents:
@@ -316,6 +262,8 @@ public class ParkDBController {
 			 cardReaderRequest = (CardReaderRequest) msgFromClient.getObj();
 			PreparedStatement pstm, pstm2, pstm3;
 			getCurrentTime();
+			
+			resetTheAmountOfVisitorsInPark(cardReaderRequest.getParkName());
 			if(hours < firstEntryHour || hours> lastEntryHour) {
 				return new Message(OperationType.VisitorEnterRequest, ClientControllerType.ParkController,
 						(Object) "The entrance hours are over! You can enter the park from 09:00 to 17:00");
@@ -361,7 +309,7 @@ public class ParkDBController {
 									ResultSet parkRes = getParkInfo(cardReaderRequest.getParkName());
 									if (parkRes.next()) {
 										int currAmount = parkRes.getInt(6) + cardReaderRequest.getVisitorAmount();
-										int result = updateAmountOfCurrAmount(currAmount,cardReaderRequest.getParkName());
+										updateAmountOfCurrAmount(currAmount,cardReaderRequest.getParkName());
 									}
 									//can enter
 									return new Message(OperationType.VisitorEnterRequest, ClientControllerType.ParkController,
@@ -373,7 +321,6 @@ public class ParkDBController {
 						}
 						// for case the order is not exist in receipt table
 						else {
-							System.out.println("dor5");
 							String type = null;
 							if(order.getType().equals("Single/Family")){
 								pstm = sqlConnection.connection.prepareStatement("SELECT * from members where visitorID=?");
@@ -420,7 +367,7 @@ public class ParkDBController {
 							ResultSet parkRes = getParkInfo(cardReaderRequest.getParkName());
 							if (parkRes.next()) {
 								int currAmount = parkRes.getInt(6) + cardReaderRequest.getVisitorAmount();
-								int result = updateAmountOfCurrAmount(currAmount,cardReaderRequest.getParkName());
+								updateAmountOfCurrAmount(currAmount,cardReaderRequest.getParkName());
 							}
 							if (rs3.next()) {
 								
@@ -453,11 +400,11 @@ public class ParkDBController {
 		case VisitorExitRequest:
 		  cardReaderRequest = (CardReaderRequest) msgFromClient.getObj();
 			getCurrentTime();
+			resetTheAmountOfVisitorsInPark(cardReaderRequest.getParkName());
 			if(hours > lastExitHour || hours< firstExitHour) {
 				return new Message(OperationType.VisitorExitRequest, ClientControllerType.ParkController,
 						(Object) "The exit hours are over! The help is on the way.");
 			}
-			System.out.println("find receipt for exit");
 			pstm = sqlConnection.connection.prepareStatement(
 					"SELECT * from receipts where parkName=? and visitorID=? and date=? and visitExit>=?");
 			pstm.setString(1, cardReaderRequest.getParkName());
@@ -467,15 +414,12 @@ public class ParkDBController {
 
 			rs = pstm.executeQuery();
 			while (rs.next()) {
-				System.out.println("8747845");
 				int receiptID = rs.getInt(1);
-				int numOfVisitor = rs.getInt(5);
-				int actualVisitor = rs.getInt(12);
+				//int numOfVisitor = rs.getInt(5);
+				//int actualVisitor = rs.getInt(12);
 				int currAmountOfVisitorsLeft = rs.getInt(10);
-				System.out.println(receiptID);
 				if (currAmountOfVisitorsLeft >= cardReaderRequest.getVisitorAmount()) {
 					currAmountOfVisitorsLeft = currAmountOfVisitorsLeft - cardReaderRequest.getVisitorAmount();
-					System.out.println(currAmountOfVisitorsLeft);
 					if (currAmountOfVisitorsLeft == 0) {
 						pstm = sqlConnection.connection.prepareStatement(
 								"UPDATE  receipts SET currAmountOfVisitorsLeft=0, visitExit=? where receiptsID=?");
@@ -492,7 +436,7 @@ public class ParkDBController {
 						ResultSet parkRes = getParkInfo(cardReaderRequest.getParkName());
 						if (parkRes.next()) {
 							int currAmount = parkRes.getInt(6) - cardReaderRequest.getVisitorAmount();
-							int result = updateAmountOfCurrAmount(currAmount,cardReaderRequest.getParkName());
+							updateAmountOfCurrAmount(currAmount,cardReaderRequest.getParkName());
 						}
 
 						return new Message(OperationType.VisitorExitRequest, ClientControllerType.ParkController,
@@ -536,6 +480,54 @@ public class ParkDBController {
 			break;
 		}
 		return clientMsg;
+	}
+
+	/**
+	 * this method reset the numbers of visitors in the park (after they left)
+	 * @param parkName
+	 * @return the amount of visitors that now in the park;
+	 */
+	private int resetTheAmountOfVisitorsInPark(String parkName) {
+		getCurrentTime();
+		// update the amount of visitors in receipts from today that the visitExit is
+		// over
+		try {
+			pstm = sqlConnection.connection.prepareStatement(
+					"UPDATE  receipts SET currAmountOfVisitorsLeft=?  where parkName=? and visitExit<=? and date=?");
+		
+		pstm.setInt(1, 0);
+		pstm.setString(2, parkName);
+		pstm.setInt(3, hours);
+		pstm.setDate(4, thisDayToDB);
+		pstm.executeUpdate();
+
+		// update the amount of visitors in receipts from lasts day
+		pstm = sqlConnection.connection
+				.prepareStatement("UPDATE  receipts SET currAmountOfVisitorsLeft=?  where  date<?");
+		pstm.setInt(1, 0);
+		pstm.setDate(2, thisDayToDB);
+		pstm.executeUpdate();
+
+		// check the current amount of visitors in park today
+		pstm = sqlConnection.connection
+				.prepareStatement("SELECT SUM(currAmountOfVisitorsLeft) from receipts where parkName=? and date=?");
+		pstm.setString(1, parkName);
+		pstm.setDate(2, thisDayToDB);
+		ResultSet sum = pstm.executeQuery();
+		int sumCurr = 0;
+		if (sum.next()) {
+			sumCurr = sum.getInt(1);
+		}
+
+		// update the current amount of visitors in park today
+		res = updateAmountOfCurrAmount(sumCurr, parkName);
+		return sumCurr;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+		
 	}
 
 	/**
