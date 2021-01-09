@@ -85,11 +85,12 @@ public class OrderDBController {
 		PreparedStatement pstm;
 		List<String> eventInfo = new ArrayList<String>();
 		OrderRequest request = (OrderRequest)clientMsg.getObj();
-		String query = "SELECT startDate, endDate,discount,eventName FROM eventrequests WHERE ? between startDate and endDate AND status='Active'";
+		String query = "SELECT startDate, endDate,discount,eventName FROM eventrequests WHERE ? between startDate and endDate AND status='Active' AND parkName=?";
 		
 		try {
 			pstm = sqlConnection.connection.prepareStatement(query);
 			pstm.setString(1, request.getAskdate().toString());
+			pstm.setString(2, request.getParkName());
 			ResultSet rs = pstm.executeQuery();
 			while(rs.next()) {
 				discount = rs.getInt(3);

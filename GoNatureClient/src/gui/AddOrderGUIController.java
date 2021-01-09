@@ -506,8 +506,7 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * function to pop simulation pop up
-	 * The pop-up simulates an SMS/Email message
+	 * function to pop simulation pop up The pop-up simulates an SMS/Email message
 	 */
 	private void simulationPopUp() {
 
@@ -524,12 +523,12 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * calculate discount per ticket
-	 * The calculation takes into account the type of visitor
+	 * calculate discount per ticket The calculation takes into account the type of
+	 * visitor
+	 * 
 	 * @return discount amount
 	 */
 	private int calculateDiscount() {
-
 
 		int discount = 0;
 		if (OrderController.discountDateEvent != 0)
@@ -547,8 +546,9 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * function to calculate the final price after discount
-	 * use the discount function
+	 * function to calculate the final price after discount use the discount
+	 * function
+	 * 
 	 * @return last price for all the order
 	 */
 	private int calculatePriceAfterDiscount() {
@@ -559,8 +559,8 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * this function pop up the order details
-	 * include orderID that given by the system
+	 * this function pop up the order details include orderID that given by the
+	 * system
 	 */
 	public void showPopUpWindow() {
 		Order myOrder = OrderController.recivedOrder;
@@ -603,9 +603,10 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * validation to check in the order details pop up if click on check box
-	 * that agree to term (read the important message).
-	 * only if click on check box the user can click and success ok button
+	 * validation to check in the order details pop up if click on check box that
+	 * agree to term (read the important message). only if click on check box the
+	 * user can click and success ok button
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -617,8 +618,9 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * the function change the type of order to "Waiting list" 
-	 * and add this order to the data-base at this status.
+	 * the function change the type of order to "Waiting list" and add this order to
+	 * the data-base at this status.
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -631,8 +633,9 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * this function load the "Alternative dates" screen,
-	 * This screen can only appear after attempting to book at no possible time 
+	 * this function load the "Alternative dates" screen, This screen can only
+	 * appear after attempting to book at no possible time
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -661,8 +664,8 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * function to load the alternative options after 
-	 * trying to order at no availble tickets time
+	 * function to load the alternative options after trying to order at no availble
+	 * tickets time
 	 */
 	public void showFailureAddOrderPopUp() {
 		VBox root;
@@ -683,8 +686,9 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * The function add order with the alternative date and time that choosen
-	 * by the visitor (with the other same parameters)
+	 * The function add order with the alternative date and time that choosen by the
+	 * visitor (with the other same parameters)
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -709,6 +713,7 @@ public class AddOrderGUIController {
 			a.showAndWait();
 		}
 	}
+
 	// initilaize hours for our parks
 	public void initilaizeCmbHours(ComboBox<String> cmb) {
 		int i = 0;
@@ -718,7 +723,8 @@ public class AddOrderGUIController {
 		cmb.getItems().removeAll(cmb.getItems());
 		for (i = 9; i < 18; i++) {
 			for (int j = 0; j < OrderController.managerDefultTravelHour; j++) {
-				if (avaiableSpacesSum[i + j] + newOrder.getNumOfVisitors() > avaiableSpacesSum[0]) { // at index 0 we																					// orders allow
+				if (avaiableSpacesSum[i + j] + newOrder.getNumOfVisitors() > avaiableSpacesSum[0]) { // at index 0 we //
+																										// orders allow
 					areAvaiableHour[i] = false;
 				}
 			}
@@ -736,8 +742,10 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * function to send accept from client to server wich hours are available for the asked order
-	 * at specific date and after this call to initilaize the combo box hours with only the availble hours.
+	 * function to send accept from client to server wich hours are available for
+	 * the asked order at specific date and after this call to initilaize the combo
+	 * box hours with only the availble hours.
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -753,6 +761,7 @@ public class AddOrderGUIController {
 
 	/**
 	 * this function load and open in another window the price list
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -774,15 +783,18 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * The function send accept to server to know if there is a discount event
-	 * at specific asked day
+	 * The function send accept to server to know if there is a discount event at
+	 * specific asked day
+	 * 
 	 * @param event
 	 */
 	@FXML
 	void checkDiscountEvents(ActionEvent event) {
 		if (date.getValue() == null)
 			return;
-		OrderRequest request = new OrderRequest(date.getValue());
+		if (cmbParkName.getValue() == null)
+			return;
+		OrderRequest request = new OrderRequest(date.getValue(), 0, 0, cmbParkName.getValue());
 		MainClient.clientConsole.accept(
 				new Message(OperationType.checkEventDiscount, DBControllerType.OrderDBController, (Object) request));
 		updateGroupDiscount(event);

@@ -203,7 +203,7 @@
                         <Insets top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <ComboBox fx:id="cmbParkName" prefHeight="25.0" prefWidth="248.0" promptText="Choose a park" />
+                  <ComboBox fx:id="cmbParkName" onAction="#checkDiscountEvents" prefHeight="25.0" prefWidth="248.0" promptText="Choose a park" />
                   <Label layoutX="10.0" layoutY="65.0" text="Date:">
                      <font>
                         <Font size="16.0" />
