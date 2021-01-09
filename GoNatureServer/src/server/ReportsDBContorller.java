@@ -108,10 +108,13 @@ public class ReportsDBContorller {
 
 			for (i = 0; i < 3; i++) {
 				if (types[i].equals("Member")) {
+					System.out.println("member= " + amount[i]);
 					membersAmount = amount[i];
 				} else if (types[i].equals("Visitor")) {
+					System.out.println("visitor= " + amount[i]);
 					visitorsAmount = amount[i];
 				} else if (types[i].equals("Guide")) {
+					System.out.println("guide= " + amount[i]);
 					groupsAmount = amount[i];
 				}
 

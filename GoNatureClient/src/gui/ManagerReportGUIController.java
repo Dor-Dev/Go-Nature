@@ -455,7 +455,7 @@ public class ManagerReportGUIController {
 	 * 
 	 * @param list
 	 * @param monthYear
-	 * @return
+	 * @return list with the relevant information
 	 */
 	private List<String> addTheCorrectMonthAndYear(List<String> list, String monthYear) {
 		list.add(EmployeeController.employeeConected.getOrganizationAffilation());
@@ -686,7 +686,7 @@ public class ManagerReportGUIController {
 	 * this is a method that checks by the number of the month if today is the
 	 * end-of-month date
 	 * 
-	 * @return
+	 * @return true if now is the end of the month. else, return false.
 	 */
 	private boolean checkEndOfMonth() {
 		if (monthInt == 1 || monthInt == 3 || monthInt == 5 || monthInt == 7 || monthInt == 8 || monthInt == 10
@@ -708,6 +708,10 @@ public class ManagerReportGUIController {
 		return true;
 	}
 
+	/**
+	 * this method take a screenshot of the report to send it to the department manager
+	 * @param event
+	 */
 	@FXML
 	void popUpReport(ActionEvent event) {
 
