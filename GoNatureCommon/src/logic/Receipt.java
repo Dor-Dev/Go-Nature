@@ -2,7 +2,6 @@ package logic;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Time;
 
 public class Receipt  implements Serializable{
 

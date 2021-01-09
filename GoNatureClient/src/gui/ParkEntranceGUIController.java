@@ -1,9 +1,6 @@
 package gui;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -168,16 +165,10 @@ public class ParkEntranceGUIController {
     private static int cost;
 
 
-    /**
-     * this method decrease the amount of visitors in the park after they exit
-     * @param event
-     */
-
     
-	private static LocalDate thisDay;
-	private static Date thisDayToDB;
+
 	private static LocalTime thisTime;
-	private static Time thisTimeToDB;
+
 	private static int hours;
 	private static int minutes;
 	private final int openEntrance = 9;
@@ -185,15 +176,12 @@ public class ParkEntranceGUIController {
 	private final double memberDiscount = 20;
 	private final double groupDiscount = 10;
 	private final double visitorDiscount = 0;
+	
 	/**
-	 * this function taking the date and time of now
+	 * this function taking the time of now
 	 */
 	private static void getCurrentTime() {
-
-		thisDay = LocalDate.now();
-		thisDayToDB = Date.valueOf(thisDay);
 		thisTime = LocalTime.now();
-		thisTimeToDB = Time.valueOf(thisTime);
 		hours = thisTime.getHour();
 		minutes = thisTime.getMinute();
 		if (minutes > 0) {
@@ -202,13 +190,18 @@ public class ParkEntranceGUIController {
 		}
 	}
 	
+	
+
+    /**
+     * this method decrease the amount of visitors in the park after they exit
+     * @param event
+     */
 	@FXML
 	void decreaseAmountOfVisitors(MouseEvent event) {
 		List<String> list = new ArrayList<>();
 		String receiptID = this.txtReceiptID.getText();
 		String AmountOfTravelers = this.txtExitAmount.getText();
 
-		// System.out.println(hour);
 		list.add(receiptID);
 		list.add(ParkController.parkConnected.getParkName());
 		list.add(AmountOfTravelers);
@@ -302,6 +295,9 @@ public class ParkEntranceGUIController {
 			primaryStage.setTitle("Order Receipt");
 			ParkEntranceGUIController parkEntranceController1 = loader.getController();
 			Alert a = new Alert(AlertType.INFORMATION);
+			
+			//update the visitor that need to exit before
+			UpdateCurrAmountOfVisitors(this);
 
 			parkEntranceController1.lblOrderReceiptParkName.setText(ParkController.parkConnected.getParkName());
 			String orderNumber = this.txtOrderNumber.getText();
@@ -334,9 +330,6 @@ public class ParkEntranceGUIController {
 				return;
 			
 			
-			//update the visitor that need to exit before
-			if(!UpdateCurrAmountOfVisitors(this,Integer.parseInt(actualAmount)))
-				return;
 			
 		
 			if(!checkOrderInfo(this,list))
@@ -353,7 +346,6 @@ public class ParkEntranceGUIController {
 					list.removeAll(list);
 					list.add(ParkController.parkConnected.getParkName());
 					list.add(actualAmount);
-					System.out.println("actual" + actualAmount);
 
 						
 					MainClient.clientConsole.accept(new Message(OperationType.IncreaseParkVistiors,DBControllerType.ParkDBController, (Object) list));
@@ -380,7 +372,6 @@ public class ParkEntranceGUIController {
 					
 					//check if the receipt is created
 					if (ReceiptController.receiptType.equals(OperationType.CheckReceiptInfo)) {
-						System.out.println("i have receipt");
 						parkEntranceController1.lblOrderReceiptID.setText(String.valueOf(ReceiptController.receipt.getReceiptID()));
 						parkEntranceController1.lblOrderReceiptOrderID.setText(String.valueOf(ParkController.order.getOrderID()));
 						parkEntranceController1.lblOrderReceiptNumOfVisitors.setText(String.valueOf(ParkController.order.getNumOfVisitors()));
@@ -495,7 +486,6 @@ public class ParkEntranceGUIController {
 			list.removeAll(list);
 			list.add(ParkController.parkConnected.getParkName());
 			list.add(actualAmount);
-			System.out.println("actual" + actualAmount);
 			MainClient.clientConsole.accept(new Message(OperationType.IncreaseParkVistiors,DBControllerType.ParkDBController, (Object) list));
 			
 			//if the amount of visitors in park is increase
@@ -549,7 +539,7 @@ public class ParkEntranceGUIController {
 			parkEntranceController1.lblManualReceiptParkName.setText(ParkController.parkConnected.getParkName());
 			Alert a = new Alert(AlertType.INFORMATION);
 
-			
+			UpdateCurrAmountOfVisitors(this);
 			
 			if(!Validation.onlyDigitsValidation(this.txtAmountOfOccasional.getText())|| this.txtAmountOfOccasional.getText().equals("0"))
 			{
@@ -579,8 +569,11 @@ public class ParkEntranceGUIController {
 				return;
 			
 			
+			
+			
+			
 			//check if the amount of visitors wants to entry is possible
-			if(!UpdateCurrAmountOfVisitors(this,amount))
+			if(!possibleToEnterVisitors(this, amount))
 				return;
 	
 		
@@ -634,10 +627,8 @@ public class ParkEntranceGUIController {
 	 * @param parkEntranceController1
 	 */
 	private void putDiscountAndPriceToManualReceipt(ParkEntranceGUIController parkEntranceGUIController, ParkEntranceGUIController parkEntranceController1) {
-		System.out.println(1);
 		MainClient.clientConsole.accept(new Message(OperationType.TravelerInfo, DBControllerType.ParkDBController, (Object) visitorID));
 		if (ParkController.disType.equals(Discount.GroupDiscount)) {
-			System.out.println("instructor");
 			parkEntranceController1.lblManualReceiptDiscount.setText(groupDiscount+"% + The Instructor needs to pay");
 			type = "instructor";
 			cost= (int) (Integer.parseInt(this.txtAmountOfOccasional.getText())* OrderController.getTicketPrice() * (1-groupDiscount/100));
@@ -659,36 +650,26 @@ public class ParkEntranceGUIController {
 		
 	}
 
+	
 	/**
-	 * this method check the amount of occasional visitors and if its possible to entry more
+	 * this method update the amount of the visitors that still in park
 	 * @param parkEntranceGUIController
-	 * @param amount
-	 * @param list
 	 * @return
 	 */
-	private boolean checkOccationalAmount(ParkEntranceGUIController parkEntranceGUIController, int amount, List<String> list) {
-		MainClient.clientConsole.accept(new Message(OperationType.CheckDifference, DBControllerType.ParkDBController, (Object) list));
-		
-		if(ParkController.occasionalAmount+ amount > ParkController.parkConnected.getDifference())
-		{
-			showPopUp(this,  "Failed to update!","invalid amount of visitor to entry");
-			return false;
-			
-		}
-		return true;
+
+	private void UpdateCurrAmountOfVisitors(ParkEntranceGUIController parkEntranceGUIController) {
+		MainClient.clientConsole.accept(new Message(OperationType.UpdateCurrAmountOfVisitors, DBControllerType.ParkDBController, (Object)ParkController.parkConnected.getParkName() ));
+		setDataOfPark(this);
 		
 	}
 	
 	/**
-	 * this method update the amount of the visitors that still in park, and check if the amount of visitors wants to entry is possible
+	 * this method checks if the amount of visitors wants to entry is possible
 	 * @param parkEntranceGUIController
 	 * @param amount
-	 * @return
+	 * @return true if it's possible
 	 */
-
-	private boolean UpdateCurrAmountOfVisitors(ParkEntranceGUIController parkEntranceGUIController, int amount) {
-		MainClient.clientConsole.accept(new Message(OperationType.UpdateCurrAmountOfVisitors, DBControllerType.ParkDBController, (Object)ParkController.parkConnected.getParkName() ));
-		setDataOfPark(this);
+	private boolean possibleToEnterVisitors (ParkEntranceGUIController parkEntranceGUIController, int amount) {
 		//check if the amount of visitors wants to entry is possible
 		if(!(ParkController.parkConnected.getCurrentAmountOfVisitors()+ amount<=ParkController.parkConnected.getParkCapacity())||amount<=0) {
 			showPopUp(this,  "Failed to update!","invalid  amount of visitor to entry");
@@ -718,7 +699,6 @@ public class ParkEntranceGUIController {
 			MenuBarSelection.setMenuOptions(menuLabels);
 			MainClient.clientConsole.accept(new Message(OperationType.GetParkInfo, DBControllerType.ParkDBController,
 					(Object) EmployeeController.employeeConected.getOrganizationAffilation()));
-			System.out.println(55555);
 			setDataOfPark(parkEntranceController);
 
 			primaryStage.show();
@@ -734,14 +714,11 @@ public class ParkEntranceGUIController {
  * @param parkEntranceController
  */
 	 private void setDataOfPark(ParkEntranceGUIController parkEntranceController) {
-		System.out.println(1010);
 		parkEntranceController.lblParkName.setText(ParkController.parkConnected.getParkName());
-		System.out.println(ParkController.parkConnected.getParkName());
 		parkEntranceController.lblCurrentAmountInPark
 				.setText(String.valueOf(ParkController.parkConnected.getCurrentAmountOfVisitors()));
 		parkEntranceController.lblTravelerCanEnter.setText(String.valueOf(ParkController.parkConnected.getParkCapacity()
 				- ParkController.parkConnected.getCurrentAmountOfVisitors()));
-		System.out.println(1010);
 	}
 
 	private List<Label> createLabelList(ParkEntranceGUIController parkEntranceController) {

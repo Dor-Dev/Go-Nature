@@ -2,7 +2,6 @@ package controllers;
 
 import common.Message;
 import enums.OperationType;
-import logic.Order;
 import logic.Receipt;
 
 public class ReceiptController {
@@ -53,17 +52,14 @@ public class ReceiptController {
 			
 				if( msg.equals("sucsses to update")) {
 					receiptType= OperationType.SuccessUpdateReceipt;
-					System.out.println("receiptType = success");
 				}
 		
 				else  if(msg.equals("faild to update")) {
-					System.out.println("failedddd");
 					receiptType= OperationType.FailedUpdateReceipt;
 			
 				}
 			
 				else {
-					System.out.println("receiptType = never");
 					receiptType= OperationType.NeverExist;
 					}
 			}

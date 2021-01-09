@@ -233,8 +233,8 @@
                            <children>
                               <TableView fx:id="tabIncome" maxWidth="394.0" minHeight="300.0" minWidth="394.0" prefHeight="300.0" prefWidth="394.0">
                                  <columns>
-                                    <TableColumn fx:id="colDate" prefWidth="179.0" text="date" />
-                                    <TableColumn fx:id="colIncome" prefWidth="201.0" text="income" />
+                                    <TableColumn fx:id="colDate" prefWidth="179.0" text="Date" />
+                                    <TableColumn fx:id="colIncome" prefWidth="201.0" text="Income" />
                                  </columns>
                                  <VBox.margin>
                                     <Insets />
@@ -287,8 +287,8 @@
                            <children>
                               <TableView fx:id="tblUsageReportTable" maxWidth="400.0" minHeight="300.0" minWidth="400.0" prefHeight="74.0" prefWidth="400.0">
                                  <columns>
-                                    <TableColumn fx:id="colUsageDate" prefWidth="178.0" text="date" />
-                                    <TableColumn fx:id="colNumOfVisitors" prefWidth="201.0" text="capacity" />
+                                    <TableColumn fx:id="colUsageDate" prefWidth="178.0" text="Date" />
+                                    <TableColumn fx:id="colNumOfVisitors" prefWidth="201.0" text="Amount of visitors" />
                                  </columns>
                               </TableView>
                            </children>

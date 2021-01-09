@@ -4,18 +4,14 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import common.Message;
 import enums.ClientControllerType;
 import enums.OperationType;
 import logic.CancellationReport;
 import logic.IncomeReport;
-import logic.Order;
 import logic.Park;
 import logic.ReportImage;
 import logic.SerializableInputStream;
@@ -25,8 +21,8 @@ import logic.VisitingReport;
 
 public class ReportsDBContorller {
 
-	private static LocalDate thisDay;
-	private static Date thisDayToDB;
+	//private static LocalDate thisDay;
+	//private static Date thisDayToDB;
 	private static Date startMonthToDB, endMonthToDB;
 	private static SqlConnection sqlConnection = null;
 	private static LocalDate startMonth, endMonth;
@@ -41,20 +37,19 @@ public class ReportsDBContorller {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "resource" })
 	public Message parseData(Message clientMsg) {
 		PreparedStatement pstm;
 		ResultSet rs;
 		List<String> info;
 		int i = 0;
 
-		System.out.println("try 4");
 
 		switch (clientMsg.getOperationType()) {
 
 		case SubmitReport:
 			PreparedStatement preparedStmt;
 			ReportImage report =(ReportImage)clientMsg.getObj();
-			System.out.println("REPORT DB START");
 			SerializableInputStream serInput = (SerializableInputStream) report.getReportImage();
 			// the mysql insert statement
 			String query = " insert into issuedreports (date, reportname, image,parkname )"
@@ -85,7 +80,6 @@ public class ReportsDBContorller {
 			int visitorsAmount = 0;
 			int membersAmount = 0;
 			int groupsAmount = 0;
-			System.out.println("try 5");
 
 			info = (ArrayList<String>) clientMsg.getObj();
 			month = info.get(1);
@@ -99,16 +93,12 @@ public class ReportsDBContorller {
 				pstm.setDate(2, endMonthToDB);
 				pstm.setDate(3, startMonthToDB);
 				rs = pstm.executeQuery();
-				System.out.println(rs);
-				System.out.println(startMonthToDB);
-				System.out.println("sumVisotor1");
+
 				for (i = 0; i < 3; i++) {
 					types[i] = "?";
-					System.out.println("??");
 				}
 				i = 0;
 				while (rs.next()) {
-					System.out.println(22);
 					types[i] = rs.getString(1);
 					amount[i] = rs.getInt(2);
 					i++;
@@ -127,24 +117,20 @@ public class ReportsDBContorller {
 
 			}
 
-			System.out.println("try6");
 
 			SumVisitorsReport sumVisitorsReport = new SumVisitorsReport(info.get(0), month, year, visitorsAmount,
 					membersAmount, groupsAmount);
 
-			System.out.println("visitors= " + visitorsAmount);
-			System.out.println("members= " + membersAmount);
+
 			return new Message(OperationType.SumVisitorsReport, ClientControllerType.ReportController,
 					(Object) sumVisitorsReport);
 			
 		case RevenueReport:
-			System.out.println("RevenueReport1");
 
 			info = (ArrayList<String>) clientMsg.getObj();
 			month = info.get(1);
 			year = info.get(2);
 			getCurrentTime();
-			System.out.println("RevenueReport2");
 			try {
 				pstm = sqlConnection.connection.prepareStatement(
 						"SELECT date, SUM(cost) from receipts where parkName=? and  date<=? and date>=? group by date");
@@ -157,10 +143,8 @@ public class ReportsDBContorller {
 				i = 0;
 				int totalInCome = 0;
 
-				System.out.println("RevenueReport3");
 
 				while (rs.next()) {
-					System.out.println(22);
 					day[i] = rs.getDate(1);
 					moneyInDay[i] = rs.getInt(2);
 					i++;
@@ -176,9 +160,7 @@ public class ReportsDBContorller {
 
 				if (rs.next()) {
 					totalInCome = rs.getInt(1);
-					System.out.println(totalInCome);
 				}
-				System.out.println("RevenueReport4");
 
 				IncomeReport incomeReport = new IncomeReport(info.get(0), month, year, day, moneyInDay, totalInCome);
 				return new Message(OperationType.RevenueReport, ClientControllerType.ReportController,
@@ -196,6 +178,17 @@ public class ReportsDBContorller {
 			month = info.get(1);
 			year = info.get(2);
 			getCurrentTime();
+			Park park = null;
+			try {
+				pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
+				pstm.setString(1, info.get(0));
+				rs = pstm.executeQuery();
+				if (rs.next()) {
+					park = new Park(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5),
+							rs.getInt(6));
+				}
+			} catch (SQLException e) {
+			}
 			try {
 				pstm = sqlConnection.connection.prepareStatement(
 						"SELECT date, SUM(actualNumOfVisitors) from receipts where parkName=? and  date<=? and date>=? group by date");
@@ -206,27 +199,17 @@ public class ReportsDBContorller {
 				Date[] day = new Date[31];
 				int[] numOfVIsitorsInDay = new int[31];
 				i = 0;
-				int totalVisitorNum = 0;
-				Park park = null;
+				
 				while (rs.next()) {
-					System.out.println(22);
+					if( rs.getInt(2) < park.getParkCapacity()) {
 					day[i] = rs.getDate(1);
 					numOfVIsitorsInDay[i] = rs.getInt(2);
 					i++;
+					}
 
 				}
-				try {
-					pstm = sqlConnection.connection.prepareStatement("SELECT * from parks where parkName=?");
-					pstm.setString(1, info.get(0));
-					rs = pstm.executeQuery();
-					if (rs.next()) {
-						park = new Park(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5),
-								rs.getInt(6));
-					}
-				} catch (SQLException e) {
-				}
+				
 				UsageReport usageReport = new UsageReport(park, month, year, day, numOfVIsitorsInDay);
-				System.out.println(usageReport.getParkName());
 				return new Message(OperationType.UsageReport, ClientControllerType.ReportController,
 						(Object) usageReport);
 
@@ -250,7 +233,6 @@ public class ReportsDBContorller {
 				int[] amountOfVisitors = new int[8];
 
 				while (rs.next()) {
-					System.out.println(22);
 					hours[i] = rs.getInt(1);
 					amountOfVisitors[i] = rs.getInt(2);
 					i++;
@@ -258,7 +240,6 @@ public class ReportsDBContorller {
 
 				VisitingReport visitingReport = new VisitingReport(info.get(0), info.get(1), info.get(2), hours,
 						amountOfVisitors);
-				System.out.println(visitingReport.getParkName());
 				return new Message(OperationType.VisitingReport, ClientControllerType.ReportController,
 						(Object) visitingReport);
 
@@ -268,12 +249,10 @@ public class ReportsDBContorller {
 			break;
 
 		case CancellationReport:
-			System.out.println("cancelll");
 			info = (ArrayList<String>) clientMsg.getObj();
 			month = info.get(0);
 			year = info.get(1);
 
-			// getCurrentTime();
 			try {
 
 				pstm = sqlConnection.connection
@@ -282,12 +261,10 @@ public class ReportsDBContorller {
 				pstm.setString(1, info.get(0));
 				pstm.setString(2, info.get(1));
 				rs = pstm.executeQuery();
-				System.out.println("after this");
 				int unfulfilledOrderCounter = 0;
 				int unfulfilledVisitorsAmount = 0;
 				List<Integer> approvedOrders = new ArrayList<Integer>();
 				while (rs.next()) {
-					System.out.println(rs.getString(7) + rs.getInt(1));
 					approvedOrders.add(rs.getInt(8));
 				}
 				pstm = sqlConnection.connection.prepareStatement(
@@ -297,16 +274,14 @@ public class ReportsDBContorller {
 				pstm.setString(3, "Approved");
 
 				rs = pstm.executeQuery();
-				System.out.println("mid query");
 				while (rs.next()) {
-					System.out.println("id" + rs.getInt(1));
 					if (!(approvedOrders.contains(rs.getInt(1)))) {
 						unfulfilledOrderCounter++;
 						unfulfilledVisitorsAmount += rs.getInt(8);
 					}
 				}
 
-				System.out.println("mary");
+
 				pstm = sqlConnection.connection
 						.prepareStatement("SELECT * from orders where parkName=? and arrivalDate=? and status = ?");
 				pstm.setString(1, info.get(0));
@@ -317,8 +292,6 @@ public class ReportsDBContorller {
 				int canceledOrderCounter = 0;
 				int canceledVisitorsAmount = 0;
 				while (rs.next()) {
-					System.out.println("order -" + rs.getInt(1));
-					System.out.println("amount -" + rs.getInt(8));
 					canceledOrderCounter++;
 					canceledVisitorsAmount += rs.getInt(8);
 				}
@@ -330,7 +303,6 @@ public class ReportsDBContorller {
 				rs = pstm.executeQuery();
 				int totalOrderCounter = 0;
 				while (rs.next()) {
-					System.out.println((rs.getInt(1)));
 					totalOrderCounter++;
 				}
 				CancellationReport cancellationReport = new CancellationReport(info.get(0), info.get(1),
@@ -356,8 +328,7 @@ public class ReportsDBContorller {
 	 */
 	private static void getCurrentTime() {
 
-		System.out.println(month);
-		System.out.println(year);
+
 
 		String monthToDb = month;
 
@@ -366,12 +337,10 @@ public class ReportsDBContorller {
 
 		}
 		int monthInt = Integer.parseInt(month);
-		System.out.println(monthInt);
 		if (monthInt == 1 || monthInt == 3 || monthInt == 5 || monthInt == 7 || monthInt == 8 || monthInt == 10
 				|| monthInt == 12) {
-			System.out.println(monthInt + " here");
+
 			endMonth = LocalDate.parse(year + "-" + monthToDb + "-31");
-			System.out.println(endMonth);
 		}
 
 		else if (monthInt == 2)
@@ -380,13 +349,12 @@ public class ReportsDBContorller {
 		else if (monthInt == 4 || monthInt == 6 || monthInt == 9 || monthInt == 11)
 			endMonth = LocalDate.parse(year + "-" + monthToDb + "-30");
 
-		System.out.println(12345);
+
 		startMonth = LocalDate.parse(year + "-" + monthToDb + "-01");
 
 		startMonthToDB = Date.valueOf(startMonth);
 		endMonthToDB = Date.valueOf(endMonth);
-		System.out.println(startMonth);
-		System.out.println(endMonth);
+
 
 	}
 

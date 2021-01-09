@@ -1,7 +1,6 @@
 package logic;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 public class VisitingReport implements Report , Serializable{
 
