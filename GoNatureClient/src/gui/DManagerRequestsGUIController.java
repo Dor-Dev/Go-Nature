@@ -173,7 +173,9 @@ public class DManagerRequestsGUIController implements Initializable {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		rQ.show();
 	}
-
+	/**
+	 * Method that displays the DManagerRequests GUI
+	 */
 	public void show() {
 		VBox root;
 		Stage primaryStage = new CloseStage();
@@ -198,10 +200,9 @@ public class DManagerRequestsGUIController implements Initializable {
 	}
 
 	/**
-	 * create label list for menu bar selection.
-	 * 
-	 * @param dManagerRequestsController controller of the DManagerRequests GUI
-	 * @return {@value List} of all the relevant labels we need at Event GUI page. 
+	 * Method that create an Array List with the menu labels
+	 * @param registrationController An instance of this registrationController
+	 * @return labels list
 	 */
 	private List<Label> createLabelList(DManagerRequestsGUIController dManagerRequestsController) {
 		List<Label> tempMenuLabels = new ArrayList<>();
@@ -218,7 +219,8 @@ public class DManagerRequestsGUIController implements Initializable {
 		return tempMenuLabels;
 	}
 	/**
-	 * Initialize all the controllers of the GUI, Update table, Event Table,ComboBox parkName.
+	 * Initialize all the controllers of the GUI, Update table, Event Table,ComboBox parkName,Tooltip lblRequestTip.
+	 * Adds the relevant buttons to each table.
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -257,6 +259,7 @@ public class DManagerRequestsGUIController implements Initializable {
 		colDiscount.setStyle("-fx-alignment: CENTER");
 		colEventStatus.setStyle("-fx-alignment: CENTER");
 		
+		//Set the tool tip for the user.
 		Tooltip t = new Tooltip();
 		t.setText("Choose the relevant requests table.\nThe information presented in the table\nis for all requests whose end date has not passed ");
 		lblRequestTip.setTooltip(t);
@@ -273,7 +276,6 @@ public class DManagerRequestsGUIController implements Initializable {
 	 * Adding the colUpdateButtons 2 buttons, one Aprrove button and the other is Decline button.
 	 */
 	private void addUpdateConfrimationButtons() {
-		TableColumn<Update, Void> option = new TableColumn<>("");
 		Callback<TableColumn<Update, Void>, TableCell<Update, Void>> cellFactory = new Callback<TableColumn<Update, Void>, TableCell<Update, Void>>() {
 			@Override
 			public TableCell<Update, Void> call(final TableColumn<Update, Void> param) {

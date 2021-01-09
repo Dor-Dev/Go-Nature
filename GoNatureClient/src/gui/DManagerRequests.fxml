@@ -175,7 +175,7 @@
                       <TableColumn fx:id="colDifference" prefWidth="139.0" text="Capacity difference" />
                         <TableColumn fx:id="colVisitingTime" prefWidth="129.0" text="Visiting Time(Hours)" />
                         <TableColumn fx:id="colUpdateStatus" prefWidth="90.0" text="Status" />
-                        <TableColumn fx:id="colUpdateButtons" prefWidth="149.0" />
+                        <TableColumn fx:id="colUpdateButtons" maxWidth="150.0" prefWidth="150.0" />
                     </columns>
                      <VBox.margin>
                         <Insets left="25.0" right="25.0" top="30.0" />
@@ -183,13 +183,13 @@
                   </TableView>
                   <TableView fx:id="tblEventTable" layoutX="35.0" layoutY="97.0" prefHeight="248.0" prefWidth="700.0">
                      <columns>
-                        <TableColumn fx:id="colEventParkName" prefWidth="93.0" text="Park name" />
-                        <TableColumn fx:id="colEventName" prefWidth="93.0" text="Event Name" />
-                        <TableColumn fx:id="colStartDate" prefWidth="93.0" text="Start Date" />
-                        <TableColumn fx:id="colEndDate" prefWidth="103.0" text="End Date" />
-                        <TableColumn fx:id="colDiscount" prefWidth="92.0" text="Discount(%)" />
-                        <TableColumn fx:id="colEventStatus" prefWidth="84.0" text="Status" />
-                        <TableColumn fx:id="colEventButtons" prefWidth="158.0" />
+                        <TableColumn fx:id="colEventParkName" maxWidth="95.0" prefWidth="95.0" text="Park name" />
+                        <TableColumn fx:id="colEventName" maxWidth="90.0" prefWidth="90.0" text="Event Name" />
+                        <TableColumn fx:id="colStartDate" maxWidth="100.0" prefWidth="100.0" text="Start Date" />
+                        <TableColumn fx:id="colEndDate" maxWidth="100.0" prefWidth="100.0" text="End Date" />
+                        <TableColumn fx:id="colDiscount" maxWidth="90.0" prefWidth="82.0" text="Discount(%)" />
+                        <TableColumn fx:id="colEventStatus" maxWidth="92.0" prefWidth="92.0" text="Status" />
+                        <TableColumn fx:id="colEventButtons" maxWidth="159.0" prefWidth="159.0" />
                      </columns>
                      <VBox.margin>
                         <Insets left="25.0" right="25.0" top="30.0" />
