@@ -2,10 +2,13 @@ package logic;
 
 import java.io.Serializable;
 
+/**
+ * This is a class that keeps the data of the card reader
+ * @author amit
+ *
+ */
 public class CardReaderRequest implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -1256722388343686888L;
 	private String parkName;
 	private int visitorID;

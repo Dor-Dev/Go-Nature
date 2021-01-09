@@ -2,7 +2,11 @@ package logic;
 
 import java.sql.Date;
 
-
+/**
+ * This is a class that keeps the data that we needs for income report table
+ * @author amit
+ *
+ */
 
 public  class IncomeObject {
 

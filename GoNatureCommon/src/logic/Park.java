@@ -2,11 +2,13 @@ package logic;
 
 import java.io.Serializable;
 
+/**
+ * this is a class that represents the park entity
+ * @author amit
+ *
+ */
 public class Park implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3062676248741754919L;
 	
 	private String parkName=null;

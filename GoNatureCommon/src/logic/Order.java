@@ -6,6 +6,11 @@ import java.text.SimpleDateFormat;
 
 import com.sun.jmx.snmp.Timestamp;
 
+/**
+ * this is a class that represents the order entity
+ * @author amit
+ *
+ */
 public class Order implements Serializable {
 	
 

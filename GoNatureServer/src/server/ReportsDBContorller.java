@@ -20,10 +20,13 @@ import logic.SumVisitorsReport;
 import logic.UsageReport;
 import logic.VisitingReport;
 
+/**
+ * DB controller class which responsible for all the reports in the system.
+ * @author amit
+ *
+ */
 public class ReportsDBContorller {
 
-	//private static LocalDate thisDay;
-	//private static Date thisDayToDB;
 	private static Date startMonthToDB, endMonthToDB;
 	private static SqlConnection sqlConnection = null;
 	private static LocalDate startMonth, endMonth;
@@ -34,10 +37,18 @@ public class ReportsDBContorller {
 		try {
 			sqlConnection = SqlConnection.getConnection();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Report parse data method uses switch case method.
+	 * 
+	 * @param clientMsg Get Message from client that contains data and operation
+	 *                  type.
+	 * @return Message return message to client with the relevant data according to
+	 *         the operation type.
+	 */
 	@SuppressWarnings({ "unchecked", "resource" })
 	public Message parseData(Message clientMsg) {
 		PreparedStatement pstm;
@@ -67,12 +78,12 @@ public class ReportsDBContorller {
 				preparedStmt.execute();
 
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return new Message(OperationType.SubmitReport, ClientControllerType.ReportController,
 					(Object) "Success");
 
+			// case calculate information for overall report and return it
 		case SumVisitorsReport:
 			String[] types = new String[3];
 
@@ -108,11 +119,11 @@ public class ReportsDBContorller {
 			}
 
 			for (i = 0; i < 3; i++) {
-				if (types[i].equals("Member")) {System.out.println("MEMBER"+amount[i]);
+				if (types[i].equals("Member")) {
 					membersAmount = amount[i];
-				} else if (types[i].equals("Visitor")) {System.out.println("visitor"+amount[i]);
+				} else if (types[i].equals("Visitor")) {
 					visitorsAmount = amount[i];
-				} else if (types[i].equals("Guide")) {System.out.println("guide"+amount[i]);
+				} else if (types[i].equals("Guide")) {
 					groupsAmount = amount[i];
 				}
 				
@@ -127,6 +138,7 @@ public class ReportsDBContorller {
 			return new Message(OperationType.SumVisitorsReport, ClientControllerType.ReportController,
 					(Object) sumVisitorsReport);
 			
+			// case calculate information for income report and return it
 		case RevenueReport:
 
 			info = (ArrayList<String>) clientMsg.getObj();
@@ -174,6 +186,7 @@ public class ReportsDBContorller {
 
 			break;
 
+			// case calculate information for usage report and return it
 		case UsageReport:
 
 			info = (ArrayList<String>) clientMsg.getObj();
@@ -220,6 +233,7 @@ public class ReportsDBContorller {
 			}
 			break;
 
+			// case calculate information for visiting report and return it
 		case VisitingReport:
 			info = (ArrayList<String>) clientMsg.getObj();
 
@@ -250,6 +264,7 @@ public class ReportsDBContorller {
 			}
 			break;
 
+			// case calculate information for cancellation report and return it
 		case CancellationReport:
 			info = (ArrayList<String>) clientMsg.getObj();
 			month = info.get(0);

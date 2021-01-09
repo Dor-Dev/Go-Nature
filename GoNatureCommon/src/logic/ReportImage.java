@@ -5,14 +5,14 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Date;
 
+/**
+ *  this is  a  class  for help sending and keeping photo from client to server and opposite
+ * @author amit
+ *
+ */
 
 public class ReportImage implements Serializable {
 
-	
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7779028804346337323L;
 
 	private String reportName;

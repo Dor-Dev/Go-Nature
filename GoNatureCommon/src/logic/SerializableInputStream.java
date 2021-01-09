@@ -1,5 +1,8 @@
 package logic;
 
+/**
+ * this is  a reused class from web for help sending and keeping photo from client to server and opposite
+ */
 /*
  * JBoss, the OpenSource J2EE webOS
  *

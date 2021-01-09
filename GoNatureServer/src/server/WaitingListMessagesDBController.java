@@ -174,7 +174,6 @@ public class WaitingListMessagesDBController {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(AllordersDetails);
 		return checkTheNextOrderInTheWaitingList(AllordersDetails,numberOfVisitors);
 		
 	}

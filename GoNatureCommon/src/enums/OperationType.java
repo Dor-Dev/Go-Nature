@@ -3,6 +3,11 @@
 
 package enums;
 
+/**
+ * this is a enums that saves all the different operation type
+ * @author amit
+ *
+ */
 public enum OperationType {
 	// Login Enums
 	EmployeeLogin, ErrorEmployeeLogin, VisitorLogin, 
