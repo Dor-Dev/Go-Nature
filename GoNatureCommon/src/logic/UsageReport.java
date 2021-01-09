@@ -26,33 +26,52 @@ public class UsageReport implements Report,Serializable {
 	}
 
 
+	/**
+	 * 
+	 * @return the park of the usage report
+	 */
 	public Park getPark() {
 		return park;
 	}
 
-	
+	/**
+	 * 
+	 * @return an array of the days as a calander
+	 */
 	public Date[] getDay() {
 		return day;
 	}
 
+	/**
+	 * 
+	 * @return an array of the amount of visitor for each day
+	 */
 	public int[] getNumOfVisitorsInDay() {
 		return numOfVisitorsInDay;
 	}
 
+	/**
+	 * 
+	 * @return the month of the usage report
+	 */
 	public String getMonth() {
 		return month;
 	}
 
-	public void setMonth(String month) {
-		this.month = month;
-	}
-
+	/**
+	 * 
+	 * @return the year of the usage report
+	 */
 	public String getYear() {
 		return year;
 	}
 
 
-	
+	/**
+	 * 
+	 * @return an array with the days that didn't
+	 * reach the capacity of the park
+	 */
 	public Date[] getUnFullDays() {
 		for(int i=0;i<31;i++) {
 			if(!(numOfVisitorsInDay[i]<park.getParkCapacity()))	
@@ -62,7 +81,10 @@ public class UsageReport implements Report,Serializable {
 		
 	}
 
-
+	/**
+	 * @return the park name 
+	 * this is an implemented method from the report interface
+	 */
 	@Override
 	public String getParkName() {
 		return park.getParkName();

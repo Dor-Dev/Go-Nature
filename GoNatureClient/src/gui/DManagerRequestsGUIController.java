@@ -137,6 +137,12 @@ public class DManagerRequestsGUIController implements Initializable {
 	@FXML
 	private Label mnuLogout;
 
+
+	/**
+	 *  This method returns to the main page after the user presses on the "log out" button<br> 
+	 * {@link restartParameters()} will be executed in order to reset relevant variables<br>
+	 * @param event - the mouse event that occurs when the user clicks on log out
+	 */
 	@FXML
 	void goToMainPage(MouseEvent event) {
 		RestartApp.restartParameters();
@@ -153,6 +159,13 @@ public class DManagerRequestsGUIController implements Initializable {
 
 	}
 
+	/**
+	 * This method displays the park capacity page
+	 *  after the user presses on the "park capacity" button in the menu bar<br> 
+	 *
+	 * @param event - the mouse event that occurs when the user clicks on park capacity
+	 */
+	
 	@FXML
 	void showParkCapacity(MouseEvent event) {
 		ParkCapacityGUIController pC = new ParkCapacityGUIController();
@@ -160,18 +173,17 @@ public class DManagerRequestsGUIController implements Initializable {
 		pC.show();
 	}
 
+	/**
+	 * This method displays the reports page
+	 *  after the user presses on the "reports" button in the menu bar<br> 
+	 *
+	 * @param event - the mouse event that occurs when the user clicks on reports
+	 */
 	@FXML
 	void showReports(MouseEvent event) {
 		DManagerReportsGUIController rP = new DManagerReportsGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide();
 		rP.show();
-	}
-
-	@FXML
-	void showRequests(MouseEvent event) {
-		DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();
-		((Node) event.getSource()).getScene().getWindow().hide();
-		rQ.show();
 	}
 
 	public void show() {
