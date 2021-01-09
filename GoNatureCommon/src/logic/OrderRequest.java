@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
- *  A class that keep the data of orders requests. 
+ *  A class that keeps the data of orders requests. 
  * @author dana_
  *
  */

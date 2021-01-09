@@ -18,7 +18,7 @@ public class OrderController {
 	public static String eventName = "";
 	
 	/**
-     * Method that receives messages from the server and the message to the right controller
+     * Method that receives messages from the server and the message to the right controller 
      * @param reciveMsg The received message from the server
 	 */
 	@SuppressWarnings("unchecked")

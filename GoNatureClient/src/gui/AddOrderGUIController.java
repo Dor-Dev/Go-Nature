@@ -45,7 +45,7 @@ import logic.OrderRequest;
 import logic.Validation;
 
 /**
- * This class add Order to databaseto every client. option to add order to
+ * This class add Order to databaseto every client. option to add order to 
  * waiting list option to choose alternative dates
  * 
  * @author Naor
