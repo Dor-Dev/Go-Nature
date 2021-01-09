@@ -156,7 +156,10 @@ public class ReceiptDBController {
 				try {
 					pstm = sqlConnection.connection.prepareStatement(query);
 
-					pstm.setDate(1, thisDayToDB);
+					if(infoReceipt.size()==9)
+						pstm.setString(1, infoReceipt.get(8));
+					else	
+						pstm.setDate(1, thisDayToDB);
 					if (infoReceipt.size() == 7) {
 						pstm.setInt(2, hours);
 						pstm.setInt(3, hours + 4);
