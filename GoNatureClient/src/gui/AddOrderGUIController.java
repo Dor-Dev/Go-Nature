@@ -769,8 +769,7 @@ public class AddOrderGUIController {
 	@FXML
 	void openPriceList(MouseEvent event) {
 
-		File file2 = new File("src/gui/img/pricelist.jpeg");
-		Image priceImage = new Image(file2.toURI().toString());
+		Image priceImage = new Image(getClass().getResourceAsStream("/gui/img/pricelist.jpeg"));
 		ImageView priceListImage = new ImageView(priceImage); // same here for winner image
 		priceListImage.setFitWidth(370);
 		priceListImage.setFitHeight(520);

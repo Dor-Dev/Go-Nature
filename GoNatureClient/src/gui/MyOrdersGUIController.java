@@ -145,7 +145,7 @@ public class MyOrdersGUIController implements Initializable {
 		Stage primaryStage = new CloseStage();
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("MyOrderGUI.fxml"));
+			loader.setLocation(getClass().getResource("MyOrderGui.fxml"));
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);

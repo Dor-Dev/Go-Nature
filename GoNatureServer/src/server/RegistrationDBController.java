@@ -109,7 +109,7 @@ public class RegistrationDBController {
 					pstm.setString(1, info.get(0));
 					ResultSet rs = pstm.executeQuery();
 					if(rs.next()) {
-						String Msg="The group instractor already registered";
+						String Msg="The group instructor already registered";
 						return new Message(OperationType.GuideRegistrationCC, ClientControllerType.RegistrationController,(Object)(Msg));
 					}
 					//If he does not exits at the data base insert the information to the data base and return success message 
@@ -165,7 +165,7 @@ public class RegistrationDBController {
 					pstm.setInt(12, 0);
 					pstm.setString(13, "Guide");
 					pstm.executeUpdate();	
-					String Msg="The group instractor registered successfuly!";
+					String Msg="The group instructor registered successfuly!";
 					return new Message(OperationType.GuideRegistration, ClientControllerType.RegistrationController,(Object)Msg);
 			
 			} catch (SQLException e) {
