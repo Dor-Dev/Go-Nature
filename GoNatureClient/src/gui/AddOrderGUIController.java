@@ -664,7 +664,7 @@ public class AddOrderGUIController {
 
 	/**
 	 * The function add order with the alternative date and time that choosen by the
-	 * visitor (with the other same parameters)
+	 * visitor (with the other same parameters).
 	 * 
 	 * @param event
 	 */

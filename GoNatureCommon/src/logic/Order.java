@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * A class that represents the order entity
+ * A class that represents the order entity.
  * @author dana_
  *
  */

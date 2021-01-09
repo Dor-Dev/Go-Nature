@@ -18,7 +18,7 @@ import logic.OrderRequest;
 /**
  * 
  * @author dana_
- *The controller that is responsible for the connection with the data base regarding the orders 
+ *The controller that is responsible for the connection with the data base regarding the orders.
  */
 public class OrderDBController {
 
