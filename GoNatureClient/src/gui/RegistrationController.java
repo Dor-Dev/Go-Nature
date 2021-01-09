@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import client.MainClient;
 import common.Message;
 import controllers.RestartApp;
@@ -156,10 +154,11 @@ public class RegistrationController {
 		  login.show();
 	    }
 
-     /**
-      * Method that hides the parameters of number family member at the registration GUI
-      * We need to hide it when we register a group instructor
-      */
+/**
+ * Method that hides the parameters of number family member at the registration GUI
+ * We need to hide it when we register a group instructor
+ * @param registrationController An instance of this registrationController
+ */
     public void hideFamilyMembersParameters(RegistrationController registrationController)
     {
     	registrationController.lblFamilyMembers.setManaged(false);
@@ -173,6 +172,7 @@ public class RegistrationController {
     /**
      * Method that shows the parameters of number family member at the registration GUI
      * We need to show it when we register a member
+     * @param registrationController An instance of this registrationController
      */
     public void showFamilyMembersParameters(RegistrationController registrationController)
     {
@@ -188,6 +188,7 @@ public class RegistrationController {
     /**
      * Method that hides the parameters of credit card at the registration GUI
      * We will show the parameters only when the registered user will choose to add credit card (It is optional)
+     * @param registrationController An instance of this registrationController
      */
 
     public void hideCreditCardParamaters(RegistrationController registrationController)
@@ -215,6 +216,7 @@ public class RegistrationController {
     /**
      * Method that shows the parameters of credit card at the registration GUI
      * We will show the parameters only when the registered user will choose to add credit card (It is optional)
+     * @param registrationController An instance of this registrationController
      */
 
     public void showCreditCardParamaters(RegistrationController registrationController)
@@ -239,9 +241,10 @@ public class RegistrationController {
     	registrationController.txtExperationYear.setVisible(true);
     }
     
-    /**
-     * A method that registers a user (member\group instructor) when the service representative clicks on the register button
-     */
+/**
+ * A method that registers a user (member\group instructor) when the service representative clicks on the register button
+ * @param event The mouse event when the user clicks on register button
+ */
     @FXML
     void registrationAction(MouseEvent event) {
     		HashMap<String, String> hash_map_info = new HashMap<String, String>(); 
@@ -319,7 +322,12 @@ public class RegistrationController {
     		RegistartionPopUpController popUp = new RegistartionPopUpController();
     		popUp.showRegistrationPopUp(popUpMsg, (member_number.toString()), popUpTitle);
     }
-    
+    /**
+     * A method that calls the validation methods of Validation class to check if the entered details are valid
+     * @param info List with all the strings that were entered the fields of the GUI
+     * @param hash_map_info Hash map with all the strings that were entered the fields of the GUI , the keys are the fields names
+     * @return true if all the details are valid else false
+     */
 	private Boolean validation(List<String> info,HashMap<String, String> hash_map_info ) {
 		for( String s : info) {
 			if(s.equals("")) {
@@ -403,9 +411,11 @@ public class RegistrationController {
 
     }
     
-    /**
-     * Method that create an Array List with the menu labels
-     */
+/**
+ * Method that create an Array List with the menu labels
+ * @param registrationController An instance of this registrationController
+ * @return labels list
+ */
 	private List<Label> createLabelList(RegistrationController registrationController) {
 		List<Label> tempMenuLabels = new ArrayList<>();
 		tempMenuLabels.add(registrationController.mnuAddOrder);
@@ -423,7 +433,9 @@ public class RegistrationController {
 	}
 	
 	
-	
+	/**
+	 * Method to initialize the combo boxes fields
+	 */
 	@FXML
 	public void initialize() {
 		//Initialize combo box phone first 3 numbers
@@ -456,9 +468,10 @@ public class RegistrationController {
     	}else showFamilyMembersParameters(this);
     }
     
-    /**
-     * A method that is called when the service representative clicks on 'My Profile' option at the menu
-     */
+/**
+ *  A method that is called when the service representative clicks on 'My Profile' option at the menu
+ * @param event The mouse event that occurs when the user clicks on 'My Profile' option at the menu
+ */
     @FXML
     void showMyProfile(MouseEvent event) {
     	MyProfileGUIController mp= new MyProfileGUIController();
@@ -468,8 +481,8 @@ public class RegistrationController {
     }
     
     /**
-     * Method that receives messages the suitable from the server
-     * @param reciveMsg
+     * Method that receives the suitable messages from the server
+     * @param reciveMsg The received message from the server
      */
     public static void RegistrationParseData(Message reciveMsg) {
     	setPopUpMsg((String) reciveMsg.getObj());

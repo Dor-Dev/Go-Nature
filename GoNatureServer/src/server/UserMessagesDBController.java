@@ -16,6 +16,7 @@ import runner.PeriodicallyRunner;
  *A class that responsible for sending remainders messages simulation (with an "approve order" request) .
  *The class also responsible for automatic cancellation of an order after 2 hours (when a traveler hasn't approved his arrival two hours after)
  *If an order is been canceled a message will be send to the traveler
+ * *An instance of the class will be created each time the main server is executed , and the main server will call the method {@link #sendReminderMessage()}
  */
 
 
@@ -44,7 +45,15 @@ public class UserMessagesDBController {
 	public static TimeUnit simulationTimeUnit =TimeUnit.DAYS;
 		
 	
-	//Constructor
+	/**
+	 * Constructor
+	 * @param targetHour1 The execution hour of the first Runnable
+	 * @param targetHour2	The execution hour of the second Runnable
+	 * @param targetMinutes1	The execution minutes of the first Runnable
+	 * @param targetMinutes2	The execution minutes of the second Runnable
+	 * @param delta1	The period of time that will pass between each execution of the first Runnable
+	 * @param delta2	The period of time that will pass between each execution of the second Runnable
+	 */
 	
 	public UserMessagesDBController(int targetHour1, int targetHour2, int targetMinutes1,int targetMinutes2, long delta1,long delta2) {
 		this.targetHour1 = targetHour1;
@@ -100,10 +109,12 @@ public class UserMessagesDBController {
 	}
 	
 	
-	/**
-	 * A method that execute SELECT query and returns the orderID, email, phoneNumber of all the orders which are scheduled for tomorrow and have the given message and order statuses
-	 * The method returns the SELECT result as an array list of objects array list
-	 */
+/**
+ * A method that execute SELECT query that returns the orderID, email, phoneNumber of all the orders which are scheduled for tomorrow and have the given message and order statuses
+ * @param orderStatus	The wanted order status
+ * @param msgStatus		The wanted message status
+ * @return	The SELECT result as an array list of objects array list
+ */
 	public static ArrayList<ArrayList<Object>> selectOrdersdetailsWhoScheduledForTomorrowByTheirAprovalStatus( String orderStatus,String msgStatus )  {
 		PreparedStatement pstm;
 		ArrayList<Object> orderDetails = new ArrayList<>();
@@ -133,10 +144,12 @@ public class UserMessagesDBController {
 	}
 	
 	
-	/**
-	 * A method that execute UPDATE query and updates  the order status of orders which are scheduled for tomorrow and have the given message and order statuses 
-	 * @return 
-	 */
+/**
+ * A method that execute UPDATE query and updates  the order status of orders which are scheduled for tomorrow and have the given message and order statuses 
+ * @param newOrderStatus The new wanted order status
+ * @param oldOrderStatus	The old order status
+ * @param messageStatus		The message status of the order
+ */
 	public static void updateOrderStatus(String newOrderStatus,String oldOrderStatus, String messageStatus) {
 		PreparedStatement pstm;
 		try {
@@ -153,9 +166,12 @@ public class UserMessagesDBController {
 	}
 	
 	
-	/**
-	 * A method that execute UPDATE query and updates the message status of orders which are scheduled for tomorrow and have the given message message and order statuses 
-	 */
+/**
+ *  * A method that execute UPDATE query and updates the message status of orders which are scheduled for tomorrow and have the given message message and order statuses 
+ * @param orderStatus	The order status
+ * @param newMessageStatus	The new wanted message status
+ * @param oldMessageStatus	The old message status
+ */
 	public static void updateMessageStatus(String orderStatus,String newMessageStatus, String oldMessageStatus) {
 		PreparedStatement pstm;
 		try {
