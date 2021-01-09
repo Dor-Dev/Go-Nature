@@ -6,6 +6,7 @@ import java.util.List;
 
 import client.MainClient;
 import common.Message;
+import controllers.ParkCapacityController;
 import controllers.RestartApp;
 import enums.DBControllerType;
 import enums.OperationType;
@@ -68,10 +69,14 @@ public class ParkCapacityGUIController {
 	@FXML
     private Label mnuLogout;
 	
-	  
-	private static Park returnedPark=null;
+	 
 	
-	
+
+	/**
+	 *  This method returns to the main page after the user presses on the "log out" button<br> 
+	 * {@link restartParameters()} will be executed in order to reset relevant variables<br>
+	 * @param event - the mouse event that occurs when the user clicks on log out
+	 */
 	@FXML
     void goToMainPage(MouseEvent event) {
 	  RestartApp.restartParameters();
@@ -88,6 +93,12 @@ public class ParkCapacityGUIController {
 
 	}
 
+	/**
+	 * This method displays the reports page
+	 *  after the user presses on the "reports" button in the menu bar<br> 
+	 *
+	 * @param event - the mouse event that occurs when the user clicks on reports
+	 */
 	@FXML
 	void showReports(MouseEvent event) {
 		DManagerReportsGUIController rP = new DManagerReportsGUIController();
@@ -95,6 +106,12 @@ public class ParkCapacityGUIController {
 		rP.show();
 	}
 
+	/**
+	 * This method displays the requests page
+	 *  after the user presses on the "requests" button in the menu bar<br> 
+	 *
+	 * @param event - the mouse event that occurs when the user clicks on requests
+	 */
 	@FXML
 	void showRequests(MouseEvent event) {
 		DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();
@@ -112,9 +129,9 @@ public class ParkCapacityGUIController {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
+
 			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			primaryStage.setTitle("Go-Nature Park Capacity");			
-			//.getItems().addAll("Luna-Park", "Shipment-Park", "lala");
 			ParkCapacityGUIController parkCapacityController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(parkCapacityController);
@@ -151,33 +168,21 @@ public class ParkCapacityGUIController {
 		return tempMenuLabels;
 	}
 
-	/*
-	 * An action that will happen once we click on the combobox
-	 * depending on what we clicked on.
+	/**
+	 * This method displays information about the park<br> 
+	 *  after the user choses which park he wants to view 
 	 */
 	@FXML
 	 void chooseParkAction() {
-		MainClient.clientConsole.accept(new Message(OperationType.GetParkInfo,
+		MainClient.clientConsole.accept(new Message(OperationType.ShowParkCapacity,
 				DBControllerType.ParkCapacityDBController, (Object) cmbParkName.getValue()));
 		
-		while(returnedPark == null);//waiting for one of the options to be clicked on 
-		
+		Park park = ParkCapacityController.chosenPark;
 		//displaying the received information
-		lblParkCapacity.setText(String.valueOf(returnedPark.getParkCapacity()));
-		lblVisitorsAmount.setText(String.valueOf(returnedPark.getCurrentAmountOfVisitors()));
+		lblParkCapacity.setText(String.valueOf(park.getParkCapacity()));
+		lblVisitorsAmount.setText(String.valueOf(park.getParkCapacity()-park.getCurrentAmountOfVisitors()));
 	}
 
-	/*
-	 * A Static method that saves the data returned from the DB so we can use it
-	 */
-	public static void ParkCapacityParseData(Message reciveMsg) {
 
-		if (!reciveMsg.getObj().equals("The chosen park doesn't exist")) 
-			setReturnedPark((Park) reciveMsg.getObj());
-	}
-
-	//A static method for reseting static variables
-	public static void setReturnedPark(Park returnedPark) {
-		ParkCapacityGUIController.returnedPark = returnedPark;
-	}
+	
 }

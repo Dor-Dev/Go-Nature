@@ -392,9 +392,11 @@ public class AddOrderGUIController {
 	}
 
 	/**
-	 * menu function to log out log out and go to login screen
-	 * 
-	 * @param event
+
+	 *  This method returns to the main page after the user presses on the "log out" button<br> 
+	 * {@link restartParameters()} will be executed in order to reset relevant variables<br>
+	 * @param event - the mouse event that occurs when the user clicks on log out
+
 	 */
 	@FXML
 	void goToMainPage(MouseEvent event) {
