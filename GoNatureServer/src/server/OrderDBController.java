@@ -224,7 +224,8 @@ public class OrderDBController {
 
 			ResultSet rs = pstm.executeQuery();
 			while(rs.next()) {
-				tmp = new Order(rs.getString(2),rs.getInt(4),rs.getInt(9),rs.getInt(8),rs.getString(7),rs.getString(13),rs.getDate(3),rs.getInt(1));
+				tmp = new Order(rs.getInt(1),rs.getString(2),rs.getDate(3),rs.getInt(4),rs.getString(5),rs.getString(6),
+						rs.getString(7),rs.getInt(8),rs.getInt(9),rs.getBoolean(10), rs.getInt(11),rs.getString(12),rs.getString(13),rs.getInt(14));
 				myOrders.add(tmp);
 			}
 			
