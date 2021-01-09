@@ -260,20 +260,19 @@ public class ParkDBController {
 					(Object) sumCurr);
 		// case who returns a list of all the activated events in a specific park and
 		// their date are relevant to the current date.
-		case showActiveEvents:
+		case showManagerEvents:
 			List<Event> data = new ArrayList<Event>();
 			LocalDate thisday = LocalDate.now();
 			Date thisDayToDb = Date.valueOf(thisday);
 			Event tmp;
-			query = "SELECT * FROM eventRequests WHERE parkName = ? and startDate <= ? and endDate >= ? and status ='Active' ";
+			query = "SELECT * FROM eventRequests WHERE parkName = ?  and endDate >= ?";
 			try {
 				pstm = sqlConnection.connection.prepareStatement(query);
 				pstm.setString(1, (String) msgFromClient.getObj());
 				pstm.setDate(2, thisDayToDb);
-				pstm.setDate(3, thisDayToDb);
 				rs = pstm.executeQuery();
 				while (rs.next()) {
-					tmp = new Event(rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getInt(6));
+					tmp = new Event(rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getInt(6),rs.getString(7));
 					data.add(tmp);
 				}
 				return new Message(OperationType.EventsToShow, ClientControllerType.ParkController, (Object) data);

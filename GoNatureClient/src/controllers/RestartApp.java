@@ -5,6 +5,7 @@ import client.MainClient;
 import common.Message;
 import enums.DBControllerType;
 import enums.OperationType;
+import gui.EventsGUIController;
 import gui.ParkCapacityGUIController;
 import gui.RegistrationController;
 
