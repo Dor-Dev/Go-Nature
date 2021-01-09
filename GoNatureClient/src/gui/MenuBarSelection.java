@@ -8,8 +8,17 @@ import javafx.scene.control.Label;
 import logic.Employee;
 import logic.Subscriber;
 
+/**
+ * This class is responsible for which labels will appear on each page depending on the type of user logged on
+ * @author Naor0
+ *
+ */
 public class MenuBarSelection {
 
+	/**
+	 * This method is responsible for which labels will appear on each page depending on the type of user logged on
+	 * @param menuLabels is List with the parameters that came from specific page
+	 */
 	public static void setMenuOptions(List<Label> menuLabels) {
 		if (ClientController.returnedValueFromServer instanceof Employee) {
 			menuLabels.get(0).setManaged(false); // Add Order
@@ -48,10 +57,7 @@ public class MenuBarSelection {
 			}
 		} 
 		else if (ClientController.returnedValueFromServer instanceof Subscriber) {
-			System.out.println(11111);
 		 if (ClientController.type.equals(UserTypes.subscriber) || ClientController.type.equals(UserTypes.instructor)) {
-
-			 System.out.println(11111);
 				menuLabels.get(3).setManaged(false); // Entrance
 				menuLabels.get(4).setManaged(false); // Registration
 				menuLabels.get(5).setManaged(false); // Park Details

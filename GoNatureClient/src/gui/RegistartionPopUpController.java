@@ -38,7 +38,6 @@ public class RegistartionPopUpController {
 			primaryStage.setScene(scene);
 			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			primaryStage.setTitle(popUpTitle);
-			System.out.println(popUpMsg);
 			RegistartionPopUpController registrationPopUpController=loader.getController();
 			if(popUpMsg.equals("The member registered successfuly!")) {
 				registrationPopUpController.lblSecondMsg.setManaged(true);

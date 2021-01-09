@@ -49,7 +49,7 @@ public class MainServer extends Application {
 			echoServer.listen();
 		}
 		catch(Exception e) {
-			System.out.println("Could not listen");
+			e.printStackTrace();
 			
 		}
 

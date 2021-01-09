@@ -16,6 +16,11 @@ import enums.OperationType;
 import logic.Order;
 import logic.OrderRequest;
 
+/**
+ * 
+ * @author Naor
+ *The controller that is responsible for the connection with the data base regarding the orders
+ */
 public class OrderDBController {
 
 
@@ -35,7 +40,7 @@ public class OrderDBController {
 		try {
 			sqlConnection = SqlConnection.getConnection();
 		} catch (Exception e) {
-			// TODO: handle exception
+		e.printStackTrace();
 		}
 	}
 
@@ -43,7 +48,7 @@ public class OrderDBController {
 	 * This function navigate all the requests from the client
 	 * to the asked functions
 	 * @param clientMsg
-	 * @return
+	 * @return Message to client with the relevant object information
 	 */
 	public Object parseData(Message clientMsg) {
 
@@ -95,11 +100,9 @@ public class OrderDBController {
 			while(rs.next()) {
 				discount = rs.getInt(3);
 				eventName = rs.getString(4);
-				System.out.println("NEXTT");
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		eventInfo.add(String.valueOf(discount));
@@ -107,12 +110,6 @@ public class OrderDBController {
 		return new Message(OperationType.EventDiscountAmount,ClientControllerType.OrderController,eventInfo);
 	}
 
-	/**
-	 * This method searches for the visitor's ID  with the relevant date and time in the orders table.
-	 * @param clientMsg
-	 * @return
-	 */
-	
 
 	/**
 	 * The method changes the status of the visitor as soon as a place becomes available for him. 
@@ -135,7 +132,6 @@ public class OrderDBController {
 			
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(res==1)
@@ -163,7 +159,6 @@ public class OrderDBController {
 			
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(res==1)
@@ -230,7 +225,6 @@ public class OrderDBController {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new Message(OperationType.ReturnMyOrders,ClientControllerType.OrderController,(Object)myOrders);
@@ -262,7 +256,6 @@ public class OrderDBController {
 	public Message addOrder(Message clientMsg) {
 		PreparedStatement preparedStmt;
 		Order newOrder =(Order)clientMsg.getObj();
-		System.out.println("Add Order start");
 		// the mysql insert statement
 		String query = " insert into orders (parkName, arrivalDate, visitorID, paidUp,visitorType,actualNumberOfVisitors,email,status,hourTime,cost,phoneNumber,msgStatus,discount)"
 				+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,?)";
@@ -283,18 +276,16 @@ public class OrderDBController {
 			preparedStmt.setString(11, newOrder.getPhoneNumber());
 			preparedStmt.setString(12, newOrder.getMsgStatus());
 			preparedStmt.setInt(13, newOrder.getDiscount());
-			System.out.println("number:" + newOrder.getPhoneNumber());
 			// execute the preparedstatement
 			preparedStmt.execute();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		/**
-		 * Now we will take the orderID from the SQL SERVER (AUTO-INCRESMENT)
-		 */
+		
+		 // Now we will take the orderID from the SQL SERVER (AUTO-INCRESMENT)
+		 
 		query = " SELECT MAX(orderID) FROM orders where visitorID =? ";
 		try {
 			
@@ -304,9 +295,7 @@ public class OrderDBController {
 			if(rs.next()) {
 				newOrder.setOrderID(rs.getInt(1));		//set OrderID to existing order object
 			}
-				System.out.println(rs.getInt(1));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		/**
@@ -378,7 +367,6 @@ public class OrderDBController {
 	 */
 	public int[] CheckSpecificDate(LocalDate date)
 	{	
-		System.out.println(date);
 		int i;
 		String query;
 		int[] hourIndex = new int[24];
@@ -396,12 +384,9 @@ public class OrderDBController {
 					hourIndex[rs.getInt(1)+i]+= rs.getInt(2);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		for(i=0;i<24;i++)
-			System.out.println(i+" "+hourIndex[i]+ " ");
+
 		hourIndex[0] = getHowManyOrdersAllows();			//how many orders allow in index 0
 
 		return hourIndex;

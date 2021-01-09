@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class SqlConnection {
 	public Connection connection = null;
 	private static SqlConnection sqlConnection;
-//sad
+
 	/* Singleton constructor */
 	private SqlConnection() {
 		if (sqlConnection == null) {
@@ -19,7 +19,7 @@ public class SqlConnection {
 				/* handle the error */
 				System.out.println("Driver definition failed");
 			}
-//test
+
 			try {
 				connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/park?serverTimezone=CAT", "root",
 						"Aa123456");

@@ -22,6 +22,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.Park;
 
+/**
+ * This class is responsible for the Department manager park capacity page
+ * @author Naor0
+ *
+ */
 public class ParkCapacityGUIController {
 
 	@FXML

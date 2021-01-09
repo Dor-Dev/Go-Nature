@@ -10,7 +10,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-
+/**
+ * This is controller for the Server GUI
+ * @author Naor0
+ *
+ */
 public class ServerGUIController {
 
 	@FXML
@@ -28,12 +32,22 @@ public class ServerGUIController {
 	@FXML
 	private Button btnClose;
 
+	/**
+	 * This method close the server connection by exit the stage
+	 * @param event
+	 */
 	@FXML
 	void closeServerWindow(ActionEvent event) {		
 	    Stage stage = (Stage) btnClose.getScene().getWindow();
 	    stage.close();
 	}
 
+	/**
+	 * this method set details of the connection
+	 * @param ip
+	 * @param host
+	 * @param status
+	 */
 	public void setClientStatus(String ip, String host, String status) {
 		Platform.runLater(()->{
 			lblConnection.setText(status);

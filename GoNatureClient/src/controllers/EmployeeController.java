@@ -6,6 +6,12 @@ import enums.OperationType;
 import enums.UserTypes;
 import logic.Employee;
 
+/**
+ * The Class is controller for the employee connected details
+ * the class is save the role of the employee
+ * @author Naor0
+ *
+ */
 public class EmployeeController {
 	public static Employee employeeConected = null;
 	public static boolean isConnected = false;

@@ -5,6 +5,12 @@ import common.Message;
 import enums.UserTypes;
 import logic.Subscriber;
 
+/**
+ * The Class is controller for the members and regular visitors connected details
+ * the class is save the type of the connected visitors and use them
+ * @author Naor0
+ *
+ */
 public class VisitorController {
 	public static Subscriber subscriberConnected = null;
 	public static int loggedID = 0;
@@ -25,8 +31,7 @@ public class VisitorController {
 		case SubscriberLogin:
 			memberNotExist = false;
 			subscriberConnected = (Subscriber) ClientController.returnedValueFromServer;
-			if (subscriberConnected.getType().equals("instructor")) {
-				// System.out.println("come in");
+			if (subscriberConnected.getType().equals("Guide")) {
 				ClientController.type = UserTypes.instructor;
 			} else
 				ClientController.type = UserTypes.subscriber;

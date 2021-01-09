@@ -212,7 +212,7 @@ public class AddOrderGUIController {
 	 * function that choose the menu to show
 	 * 
 	 * @param addOrderController
-	 * @return
+	 * @return Arraylist with the menu options at this page
 	 */
 	private List<Label> createLabelList(AddOrderGUIController addOrderController) {
 		List<Label> tempMenuLabels = new ArrayList<>();
@@ -409,7 +409,7 @@ public class AddOrderGUIController {
 	/**
 	 * function to valid the fields in the order form
 	 * 
-	 * @return
+	 * @return String with some not vaild parameter
 	 */
 	public String fieldsValidation() {
 		if (Validation.isNull(cmbParkName.getValue()))

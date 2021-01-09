@@ -201,7 +201,6 @@ public class LoginDBController {
 			pstm = sqlConnection.connection.prepareStatement(query);
 			pstm.setInt(1,id);
 			val = pstm.executeUpdate();
-			System.out.println(val);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

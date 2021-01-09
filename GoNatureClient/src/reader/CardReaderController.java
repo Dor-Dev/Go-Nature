@@ -21,7 +21,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 
-
+/**
+ * This controller is for the GUI of the card Reader system
+ * @author Naor0
+ *
+ */
 public class CardReaderController {
 
 	@FXML
@@ -112,7 +116,6 @@ public class CardReaderController {
 	public void answerFromServer() {
 		Alert a = new Alert(AlertType.INFORMATION);
 		String msg = ClientController.cardReaderAnswer;
-		System.out.println(msg);
 		if(msg.equals("You can not enter the park")) {
 			a.setTitle("Sorry!");
 			a.setHeaderText(msg);
