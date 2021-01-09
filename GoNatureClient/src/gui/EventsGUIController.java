@@ -125,6 +125,11 @@ public class EventsGUIController implements Initializable {
 	@FXML
 	private Button closeButton;
 
+	/**
+	 *  This method returns to the main page after the user presses on the "log out" button<br> 
+	 * {@link restartParameters()} will be executed in order to reset relevant variables<br>
+	 * @param event - the mouse event that occurs when the user clicks on log out
+	 */
 	@FXML
 	void goToMainPage(MouseEvent event) {
 		RestartApp.restartParameters();
@@ -255,7 +260,11 @@ public class EventsGUIController implements Initializable {
 			return;
 		}
 	}
-
+	/**
+	 * Method that create an Array List with the menu labels
+	 * @param registrationController An instance of this registrationController
+	 * @return labels list
+	 */
 	private List<Label> createLabelList(EventsGUIController managerReportsController) {
 		List<Label> tempMenuLabels = new ArrayList<>();
 		tempMenuLabels.add(managerReportsController.mnuAddOrder);

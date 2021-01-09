@@ -122,9 +122,9 @@ public class RequestsDBController {
 				pstm = sqlConnection.connection.prepareStatement(query);
 				pstm.setInt(1, eventCancel.getRequestNum());
 				int res = pstm.executeUpdate();
-				if (res == 1)
+				if (res == 1) //if the update succeed
 					return new Message(OperationType.EventCanceled, ClientControllerType.RequestsController,
-							(Object) "the Event was canceled");
+							(Object) "the Event was canceled"); //return answer to client that the event was cancel successfully.
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

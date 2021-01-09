@@ -1,5 +1,9 @@
 package logic;
-
+/**
+ * Class with static method to validate all the field in the systems.
+ * @author dorswisa
+ *
+ */
 public class Validation {
 	/**
 	 * Email validation according to xxxxxxx@xxx.xxx.xxx.xxx without any marks that
@@ -37,7 +41,7 @@ public class Validation {
 	 * Name Validation allow only characters.
 	 * 
 	 * @param name
-	 * @return
+	 * @return true when match else return false.
 	 */
 	public static boolean nameValidation(String name) {
 		if(name==null)
