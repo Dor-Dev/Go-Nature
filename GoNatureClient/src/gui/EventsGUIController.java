@@ -260,7 +260,11 @@ public class EventsGUIController implements Initializable {
 			return;
 		}
 	}
-
+	/**
+	 * Method that create an Array List with the menu labels
+	 * @param registrationController An instance of this registrationController
+	 * @return labels list
+	 */
 	private List<Label> createLabelList(EventsGUIController managerReportsController) {
 		List<Label> tempMenuLabels = new ArrayList<>();
 		tempMenuLabels.add(managerReportsController.mnuAddOrder);

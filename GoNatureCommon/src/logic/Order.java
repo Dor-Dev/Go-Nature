@@ -9,9 +9,6 @@ import com.sun.jmx.snmp.Timestamp;
 public class Order implements Serializable {
 	
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3680648113244743447L;
 
 	private String type;

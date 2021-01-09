@@ -1,15 +1,15 @@
 package logic;
 
 import java.io.Serializable;
-
+/**
+ * Class to save Employee data.
+ * @author dorswisa
+ *
+ */
 public class Employee implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1339062107563368430L;
-	/**
-	 * 
-	 */
+	
 	private int employeeID;
 	private String firstName;
 	private String lasttName;
@@ -30,40 +30,86 @@ public class Employee implements Serializable {
 		this.password=password;
 	}
 
-
+	/**
+	 * @return the employeeID
+	 */
 	public int getEmployeeID() {
 		return employeeID;
 	}
 
+
+
+
+	/**
+	 * @return the firstName
+	 */
 	public String getFirstName() {
 		return firstName;
 	}
 
+
+
+
+	/**
+	 * @return the lasttName
+	 */
 	public String getLasttName() {
 		return lasttName;
 	}
 
+
+
+
+	/**
+	 * @return the email
+	 */
 	public String getEmail() {
 		return email;
 	}
 
+
+
+
+	/**
+	 * @return the role
+	 */
 	public String getRole() {
 		return role;
 	}
 
+
+
+
+	/**
+	 * @return the organizationAffilation
+	 */
 	public String getOrganizationAffilation() {
 		return organizationAffilation;
 	}
 
+
+
+
+	/**
+	 * @return the userName
+	 */
 	public String getUserName() {
 		return userName;
 	}
 
+
+
+
+	/**
+	 * @return the password
+	 */
 	public String getPassword() {
 		return password;
 	}
 
-	
+
+
+
 	@Override
 	public String toString() {
 		return employeeID+ " "+ firstName+ " "+lasttName+ " "+ role+ " "+ organizationAffilation;

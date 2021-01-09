@@ -3,7 +3,6 @@ package controllers;
 import java.util.List;
 
 import common.Message;
-import enums.OperationType;
 import gui.AddOrderGUIController;
 import gui.MyOrdersGUIController;
 import logic.Order;
@@ -19,6 +18,7 @@ public class OrderController {
 	public static String eventName = "";
 	
 	
+	@SuppressWarnings("unchecked")
 	public static void OrderParseData(Message reciveMsg) {
 		System.out.println("ORDERCONTROLLERIN!");
 		

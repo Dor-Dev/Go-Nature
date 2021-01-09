@@ -141,12 +141,7 @@ public class ParkEntranceGUIController {
 
 	@FXML
     private Label mnuLogout;
-	/**
-	 *  This method returns to the main page after the user presses on the "log out" button<br> 
-	 * {@link restartParameters()} will be executed in order to reset relevant variables<br>
-	 * @param event - the mouse event that occurs when the user clicks on log out
-	 */
-
+	
 	  @FXML
 	    void goToMainPage(MouseEvent event) {
 		  RestartApp.restartParameters();
@@ -177,6 +172,8 @@ public class ParkEntranceGUIController {
 
 	private static int hours;
 	private static int minutes;
+	private final int openExit =9;
+	private final int closeExit = 21;
 	private final int openEntrance = 9;
 	private final int closeEntrance = 17;
 	private final double memberDiscount = 20;
@@ -231,6 +228,9 @@ public class ParkEntranceGUIController {
 			a.showAndWait();
 			return;
 		}
+		
+		if(!checkHoursForExit(this))
+			return;
 
 		MainClient.clientConsole.accept(new Message(OperationType.UpdateReceiptInfoAfterExit,DBControllerType.ReceiptDBController, (Object) list));
 
@@ -247,6 +247,18 @@ public class ParkEntranceGUIController {
 		}
 
 	}
+
+	private boolean checkHoursForExit(ParkEntranceGUIController parkEntranceGUIController) {
+		getCurrentTime();
+
+		if(hours>closeExit ||hours<openExit) {
+			showPopUp(this, "The exit hours are over!" , "You already exit");
+			return false;
+		}
+		return true;
+	}
+
+
 
 	/**
 	 * this method activate a popUp with the relevant data
@@ -403,6 +415,9 @@ public class ParkEntranceGUIController {
 
 	}
 
+	/**
+	 * this method update the type of the visitors that have a order.
+	 */
 	private void getTypeOfOrderVisitor() {
 		if(ParkController.order.getType().equals("Single/Family")){
 			MainClient.clientConsole.accept(new Message(OperationType.TravelerInfo, DBControllerType.ParkDBController, (Object)String.valueOf(ParkController.order.getVisitorID() )));
@@ -426,7 +441,7 @@ public class ParkEntranceGUIController {
 	/**
 	 * 	this function checks if the park is open for entry
 	 * @param parkEntranceGUIController
-	 * @return
+	 * @return true if now is possible to enter the park. else retun false 
 	 */
 	private boolean checkHoursForEntry(ParkEntranceGUIController parkEntranceGUIController) {
 		getCurrentTime();
@@ -470,11 +485,11 @@ public class ParkEntranceGUIController {
 	}
 
 	/**
-	 * this method checks for order if there is a receipt and if the visitor can entry
+	 * this method checks for order receipt if there is a receipt and if the visitor can entry
 	 * @param parkEntranceGUIController
 	 * @param list
 	 * @param actualAmount
-	 * @return
+	 * @return true if the receipt is never exist. else return false.
 	 */
 	private boolean checkReceiptInfo(ParkEntranceGUIController parkEntranceGUIController, List<String> list, String actualAmount) {
 		MainClient.clientConsole.accept(new Message(OperationType.CheckReceiptInfo, DBControllerType.ReceiptDBController, (Object) list));
@@ -509,7 +524,7 @@ public class ParkEntranceGUIController {
 	 * this method checks if the order is never exist
 	 * @param parkEntranceGUIController
 	 * @param list
-	 * @return
+	 * @return true if the order is valid. else return false.
 	 */
 	private boolean checkOrderInfo(ParkEntranceGUIController parkEntranceGUIController, List<String> list) {
 		MainClient.clientConsole.accept(new Message(OperationType.GetOrderInfo, DBControllerType.ParkDBController, (Object) list));
@@ -587,13 +602,7 @@ public class ParkEntranceGUIController {
 			List<String> list = new ArrayList<>();
 			list.add(ParkController.parkConnected.getParkName());
 			list.add(this.txtAmountOfOccasional.getText());
-			
-			//check if occasional can entry because the difference
-			/*if(!checkOccationalAmount(this,amount,list))
-				return;
-			*/
-		
-			
+
 			type = null;
 			
 			//Calculate the discount and price and show  them
@@ -660,7 +669,7 @@ public class ParkEntranceGUIController {
 	/**
 	 * this method update the amount of the visitors that still in park
 	 * @param parkEntranceGUIController
-	 * @return
+	 * 
 	 */
 
 	private void UpdateCurrAmountOfVisitors(ParkEntranceGUIController parkEntranceGUIController) {
@@ -777,4 +786,3 @@ public class ParkEntranceGUIController {
 	    }
 
 }
-

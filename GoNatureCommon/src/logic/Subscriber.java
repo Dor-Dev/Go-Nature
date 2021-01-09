@@ -3,9 +3,6 @@ package logic;
 import java.io.Serializable;
 
 public class Subscriber implements Serializable{
-	/**
-	 * 
-	 */
 
 	private static final long serialVersionUID = -416960327558987383L;
 	private int ID;
@@ -18,7 +15,17 @@ public class Subscriber implements Serializable{
 	private CreditCard creditCard;
 	private String type;
 
-	
+	/**
+	 * 
+	 * @param ID
+	 * @param visitorID
+	 * @param firstName
+	 * @param lastName
+	 * @param phone
+	 * @param email
+	 * @param familySum
+	 * @param type
+	 */
 	public Subscriber(int ID,int visitorID, String firstName, String lastName, String phone, String email, int familySum,String type) {
 		this.ID = ID;
 		this.visitorID=visitorID;
@@ -29,6 +36,18 @@ public class Subscriber implements Serializable{
 		this.familySum = familySum;
 		this.type=type;
 	}
+	/**
+	 * 
+	 * @param ID
+	 * @param visitorID
+	 * @param firstName
+	 * @param lastName
+	 * @param phone
+	 * @param email
+	 * @param familySum
+	 * @param type
+	 * @param creditCard
+	 */
 	public Subscriber(int ID,int visitorID, String firstName, String lastName, String phone, String email, int familySum,String type,CreditCard creditCard) {
 		this.ID = ID;
 		this.visitorID=visitorID;
@@ -41,7 +60,16 @@ public class Subscriber implements Serializable{
 		this.creditCard = creditCard;
 	}
 
-
+	/**
+	 * 
+	 * @param ID
+	 * @param firstName
+	 * @param lastName
+	 * @param phone
+	 * @param email
+	 * @param familySum
+	 * @param type
+	 */
 	public Subscriber(int ID, String firstName, String lastName, String phone, String email, int familySum,String type) {
 		this.ID = ID;
 		this.firstName = firstName;
@@ -51,68 +79,115 @@ public class Subscriber implements Serializable{
 		this.familySum = familySum;
 		this.type=type;
 	}
-	
-	
-	public CreditCard getCreditCard() {
-		return creditCard;
-	}
-
-	public void setCreditCard(CreditCard creditCard) {
-		this.creditCard = creditCard;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public int getFamilySum() {
-		return familySum;
-	}
-	public void setFamilySum(int familySum) {
-		this.familySum = familySum;
-	}
+	/**
+	 * @return the iD
+	 */
 	public int getID() {
 		return ID;
 	}
-
-
-	public void setID(int ID) {
-		this.ID = ID;
+	/**
+	 * @return the visitorID
+	 */
+	public int getVisitorID() {
+		return visitorID;
 	}
-		
+	/**
+	 * @return the firstName
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
+	/**
+	 * @return the lastName
+	 */
+	public String getLastName() {
+		return lastName;
+	}
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return phone;
+	}
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+	/**
+	 * @return the familySum
+	 */
+	public int getFamilySum() {
+		return familySum;
+	}
+	/**
+	 * @return the creditCard
+	 */
+	public CreditCard getCreditCard() {
+		return creditCard;
+	}
+	/**
+	 * @return the type
+	 */
 	public String getType() {
 		return type;
 	}
-
-
+	/**
+	 * @param iD the iD to set
+	 */
+	public void setID(int iD) {
+		ID = iD;
+	}
+	/**
+	 * @param visitorID the visitorID to set
+	 */
+	public void setVisitorID(int visitorID) {
+		this.visitorID = visitorID;
+	}
+	/**
+	 * @param firstName the firstName to set
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	/**
+	 * @param lastName the lastName to set
+	 */
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	/**
+	 * @param phone the phone to set
+	 */
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	/**
+	 * @param familySum the familySum to set
+	 */
+	public void setFamilySum(int familySum) {
+		this.familySum = familySum;
+	}
+	/**
+	 * @param creditCard the creditCard to set
+	 */
+	public void setCreditCard(CreditCard creditCard) {
+		this.creditCard = creditCard;
+	}
+	/**
+	 * @param type the type to set
+	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 
-	
-	public int getVisitorID() {
-		return visitorID;
-	}
 
 
 }
