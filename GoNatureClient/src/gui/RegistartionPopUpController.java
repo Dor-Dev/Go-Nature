@@ -58,7 +58,10 @@ public class RegistartionPopUpController {
 		}
 
     }
-    
+    /**
+     * Method that handles the mouse event that occurs when a user click OK in the popUp  
+     * @param event The mouse event that occurs when a user click OK in the popUp 
+     */
     @FXML
     void clickOKButton(MouseEvent event) {
 	    Stage stage = (Stage) btnOK.getScene().getWindow();
