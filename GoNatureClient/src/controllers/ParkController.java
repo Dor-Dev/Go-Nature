@@ -137,8 +137,6 @@ public class ParkController {
 			if(reciveMsg.getObj() instanceof List<?>)
 			EventsGUIController.data = (List<Event>) reciveMsg.getObj();
 			
-			
-
 	
 			
 		default:

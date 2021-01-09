@@ -143,17 +143,6 @@ public class ParkEntranceGUIController {
 	@FXML
     private Label mnuLogout;
 	
-	  @FXML
-	    void goToMainPage(MouseEvent event) {
-		  RestartApp.restartParameters();
-		  LoginGUIController login = new LoginGUIController();
-		  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-		  login.show();
-	    }
-	  
-   /* @FXML
-    private ComboBox<String> cmbTypesOccasional;
-    */
 
 
     @FXML
@@ -275,6 +264,19 @@ public class ParkEntranceGUIController {
 		}
 
 	}
+	/**
+	 *  This method returns to the main page after the user presses on the "log out" button<br> 
+	 * {@link restartParameters()} will be executed in order to reset relevant variables<br>
+	 * @param event - the mouse event that occurs when the user clicks on log out
+	 */
+	  @FXML
+	    void goToMainPage(MouseEvent event) {
+		  RestartApp.restartParameters();
+		  LoginGUIController login = new LoginGUIController();
+		  ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		  login.show();
+	    }
+	  
 
 	@FXML
 	void showMyProfile(MouseEvent event) {

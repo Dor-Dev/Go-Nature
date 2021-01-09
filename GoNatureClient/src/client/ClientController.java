@@ -9,6 +9,7 @@ import ocsf.client.*;
 import common.*;
 import controllers.EmployeeController;
 import controllers.OrderController;
+import controllers.ParkCapacityController;
 import controllers.ParkController;
 import controllers.ReceiptController;
 import controllers.ReportController;
@@ -99,7 +100,7 @@ public class ClientController extends AbstractClient {
 			RegistrationController.RegistrationParseData(reciveMsg);
 			break;
 		case ParkCapacityController:
-			ParkCapacityGUIController.ParkCapacityParseData(reciveMsg);
+			ParkCapacityController.ParkCapacityParseData(reciveMsg);
 			break;
 
 		case ReportController:

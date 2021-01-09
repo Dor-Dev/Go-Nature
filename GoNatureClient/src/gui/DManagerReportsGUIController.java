@@ -50,6 +50,7 @@ import javafx.util.Callback;
 import logic.CancellationReport;
 import logic.Order;
 import logic.ReportImage;
+import logic.Validation;
 import logic.VisitingReport;
 
 public class DManagerReportsGUIController {
@@ -181,11 +182,13 @@ public class DManagerReportsGUIController {
 	private boolean visible = false;
 	private ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
-	/*
-	 * This method is used when the user clicks on the log-out button after clicking
-	 * the log-out button, every "exposed variable" will be reset in order to
-	 * restart the app the re-settng is done by the static method -
-	 * "restartParameters"
+
+	
+	
+	/**
+	 *  This method returns to the main page after the user presses on the "log out" button<br> 
+	 * {@link restartParameters()} will be executed in order to reset relevant variables<br>
+	 * @param event - the mouse event that occurs when the user clicks on log out
 	 */
 	@FXML
 	void goToMainPage(MouseEvent event) {
@@ -203,13 +206,28 @@ public class DManagerReportsGUIController {
 
 	}
 
+
+    
+	/**
+	 * This method displays the park capacity page
+	 *  after the user presses on the "park capacity" button in the menu bar<br> 
+	 *
+	 * @param event - the mouse event that occurs when the user clicks on park capacity
+	 */
+	
 	@FXML
 	void showParkCapacity(MouseEvent event) {
 		ParkCapacityGUIController pC = new ParkCapacityGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide();
 		pC.show();
 	}
-
+	
+	/**
+	 * This method displays the requests page
+	 *  after the user presses on the "requests" button in the menu bar<br> 
+	 *
+	 * @param event - the mouse event that occurs when the user clicks on requests
+	 */
 	@FXML
 	void showRequests(MouseEvent event) {
 		DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();
@@ -450,11 +468,14 @@ public class DManagerReportsGUIController {
 	}
 
 	/**
-	 * This is a method that pops up the appropriate pop-up and summons the method
-	 * that produces the appropriate report
+	 * This method that creates a pop up with the appropriate message regarding the chosen values 
+	 * ({@link  }
 	 * 
-	 * 
-	 * @param event
+	 * {@link showCancellationReport(dManagerReports)}<br>
+	 * {@link setCancellationReportVisible(dManagerReports)}<br>
+	 * {@link setCancellationReportInVisible(dManagerReports)}<br>
+	 * {@link validation()}<br>
+	 * @param event - the event that happens when the user clicks on "produce report"
 	 */
 	@FXML
 	void showReportDetails(MouseEvent event) {
@@ -573,10 +594,15 @@ public class DManagerReportsGUIController {
 	}
 
 	
-	/*
+	/**
 	 * A method that displays the cancellation report to the department manager with
-	 * data gotten from the DataBase it displays - 1-canceled orders amount
-	 * 2-unfulfilled orders amount out of the total orders in a pie chart.
+	 * data gotten from the DataBase <br>
+	 * it displays - 1-canceled orders amount 2-unfulfilled orders amount out of the total orders in a pie chart.<br>
+	 * 
+	 * {@link setPieChart(dManagerReports, canceledOrders, unfulfilledOrders, restOfOrders)}<br>
+	 * {@link setCancellationReportVisible(dManagerReports)}
+	 * {@link setCancellationReportInVisible(dManagerReports)}
+	 * @param dManagerReports - the instance of the page that uses this method
 	 */
 	private void showCancellationReport(DManagerReportsGUIController dManagerReports) {
 		// a list with the chosen information to send to the server
@@ -593,7 +619,7 @@ public class DManagerReportsGUIController {
 
 			// if the cancellation report is visible
 			// make it invisible
-			if (cancellationReport.getTotalOrderAmount() == 0) {
+			if (cancellationReport.getCanceledOrdersCounter() == 0 && cancellationReport.getUnfulfilledOrderAmount()==0) {
 				if (visible == true)
 					setCancellationReportInVisible(dManagerReports);
 				// Creating a pop-up for alerting there is not information to be displayed
@@ -790,7 +816,7 @@ public class DManagerReportsGUIController {
 	}
 
 	/*
-	 * A method that checks every time if any of the combo-boxes values weren't
+	 * This method checks every time if any of the combo-boxes values weren't <br>
 	 * chosen and displays an appropriate pop-up
 	 */
 	private void validation() {
@@ -858,7 +884,9 @@ public class DManagerReportsGUIController {
 	}
 
 	/*
-	 * A method used to set the Cancellation report GUI to be visible
+	 * A method used to set the Cancellation report GUI and everything in it to be visible
+	 * 
+	 * @param dManagerReports - the instance of the page that uses this method
 	 */
 	private void setCancellationReportInVisible(DManagerReportsGUIController dManagerReports) {
 		// A boolean variable that saves whether the cancellation report is visible or
@@ -887,7 +915,9 @@ public class DManagerReportsGUIController {
 	}
 
 	/*
-	 * A method used to set the Cancellation report GUI to be invisible
+	 * This method is used to set the Cancellation report GUI and everything in it to be invisible
+	 * 
+	 * @param dManagerReport - the instance of the page that uses this method
 	 */
 	private void setCancellationReportVisible(DManagerReportsGUIController dManagerReports) {
 		// A boolean variable that saves whether the cancellation report is visible or
@@ -916,7 +946,12 @@ public class DManagerReportsGUIController {
 	}
 
 	/*
-	 * a method used to insert data to the pie chart
+	 * This method inserts data to the pie chart
+	 * 
+	 * @param dManagerReports - the instance of the page that uses this method
+	 * @param canceledOrders - the amount of the canceled orders
+	 * @param unfulfilledOrders -the amount of the unfulfilled orders
+	 * @param restOfOrders - the amount of the rest of the orders
 	 */
 	private void setPieChart(DManagerReportsGUIController dManagerReports, int canceledOrders, int unfulfilledOrders,
 			int restOfOrders) {

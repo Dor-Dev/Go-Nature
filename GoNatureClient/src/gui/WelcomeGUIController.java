@@ -57,6 +57,12 @@ public class WelcomeGUIController {
 	@FXML
 	private Label mnuLogout;
 
+
+	/**
+	 *  This method returns to the main page after the user presses on the "log out" button<br> 
+	 * {@link restartParameters()} will be executed in order to reset relevant variables<br>
+	 * @param event - the mouse event that occurs when the user clicks on log out
+	 */
 	@FXML
 	void goToMainPage(MouseEvent event) {
 		RestartApp.restartParameters();
@@ -96,13 +102,25 @@ public class WelcomeGUIController {
 
 	}
 
+	/**
+	 * This method displays the park capacity page
+	 *  after the user presses on the "park capacity" button in the menu bar<br> 
+	 *
+	 * @param event - the mouse event that occurs when the user clicks on park capacity
+	 */
 	@FXML
 	void showParkCapacity(MouseEvent event) {
 		ParkCapacityGUIController pC = new ParkCapacityGUIController();
 		((Node) event.getSource()).getScene().getWindow().hide();
 		pC.show();
 	}
-
+	
+	/**
+	 * This method displays the reports page
+	 *  after the user presses on the "reports" button in the menu bar<br> 
+	 *
+	 * @param event - the mouse event that occurs when the user clicks on reports
+	 */
 	@FXML
 	void showReports(MouseEvent event) {
 		DManagerReportsGUIController rP = new DManagerReportsGUIController();
@@ -110,6 +128,12 @@ public class WelcomeGUIController {
 		rP.show();
 	}
 
+	/**
+	 * This method displays the requests page
+	 *  after the user presses on the "requests" button in the menu bar<br> 
+	 *
+	 * @param event - the mouse event that occurs when the user clicks on requests
+	 */
 	@FXML
 	void showRequests(MouseEvent event) {
 		DManagerRequestsGUIController rQ = new DManagerRequestsGUIController();

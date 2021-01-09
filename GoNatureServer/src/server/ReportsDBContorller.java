@@ -41,6 +41,11 @@ public class ReportsDBContorller {
 		}
 	}
 
+	/**
+	 * A method for passing messages from the client to the server
+	 * 
+	 * @param clientMsg - the message that the client sent 
+	 */
 	public Message parseData(Message clientMsg) {
 		PreparedStatement pstm;
 		ResultSet rs;

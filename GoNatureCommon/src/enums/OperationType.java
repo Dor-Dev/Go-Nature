@@ -19,7 +19,7 @@ public enum OperationType {
 	
 	// Park Enmus
 	GetParkInfo, ParkInfo, UpdateParkInfo, DecreaseParkVistiors, UpdateReceipt, IncreaseParkVistiors, TravelerInfo,
-	OccasionalSubscriber, OccasionalVisitor, GenerateReceipt,  CheckReceiptInfo, 
+	OccasionalSubscriber, OccasionalVisitor, GenerateReceipt,  CheckReceiptInfo, ShowParkCapacity,
 	MemberRegistration, MemberRegistrationCC, GuideRegistration, GuideRegistrationCC, UpdateReceiptInfo, 
 	SuccessUpdateReceipt, FailedUpdateReceipt, GetOrderInfo, UpdateReceiptInfoAfterExit, NeverExist, FailedUpdate, CheckDifference, UpdateCurrAmountOfVisitors,
 	

@@ -8,11 +8,16 @@ import enums.OperationType;
 import gui.ParkCapacityGUIController;
 import gui.RegistrationController;
 
-/*
- * A method created for reseting any variables used for saving data received from the database that can't be reset automatically.
+/**
+ * A class that is created with a method for using whenever we need to reset the relevant variables
+ *
  */
 public class RestartApp {
 
+	/**
+	 * A static method that resets every relevant variable that is reachable for many classes to change<br>
+	 *  in order to prevent unwanted information from being saved and used inappropriately
+	 */
 	public static void restartParameters() {
 		int id;
 		if(VisitorController.subscriberConnected != null) 
@@ -31,7 +36,7 @@ public class RestartApp {
 		EmployeeController.employeeConected = null;
 		ParkController.Parktype = null;
 		ClientController.type = null;
-		ParkCapacityGUIController.setReturnedPark(null);
+		ParkCapacityController.chosenPark=null;
 		ParkController.disType = null;
 		RegistrationController.setPopUpMsg(null);
 		RegistrationController.setMsgReceived(false);

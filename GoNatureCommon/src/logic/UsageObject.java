@@ -19,19 +19,21 @@ public class UsageObject {
 	}
 
 
+	/**
+	 * 
+	 * @return the amount of visitors 
+	 */
 	public int getNumOfVIsitors() {
 		return numOfVIsitors;
 	}
 
-	public void setNumOfVIsitors(int numOfVIsitors) {
-		this.numOfVIsitors = numOfVIsitors;
-	}
-
+	/**
+	 * 
+	 * @return the date of the cancellation report
+	 */
 	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+
 }
