@@ -5,6 +5,7 @@ import client.MainClient;
 import common.Message;
 import enums.DBControllerType;
 import enums.OperationType;
+import gui.EventsGUIController;
 import gui.ParkCapacityGUIController;
 import gui.RegistrationController;
 
@@ -32,6 +33,7 @@ public class RestartApp {
 		VisitorController.subscriberConnected = null;
 		VisitorController.loggedID = 0;
 		VisitorController.isConnected = false;
+		VisitorController.memberNotExist=false;
 		EmployeeController.isConnected = false;
 		EmployeeController.employeeConected = null;
 		ParkController.Parktype = null;

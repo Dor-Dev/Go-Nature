@@ -9,9 +9,11 @@ import java.util.ResourceBundle;
 
 import client.MainClient;
 import common.Message;
+import controllers.ParkController;
 import controllers.RestartApp;
 import controllers.VisitorController;
 import enums.DBControllerType;
+import enums.Discount;
 import enums.OperationType;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -29,6 +31,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -45,6 +48,7 @@ import logic.Order;
 public class MyOrdersGUIController implements Initializable {
 	public static List<Order> myOrders = null;
 	public static String msgFromServer = null;
+	public static Order curOrder = null;
 	@FXML
 	private Label mnuAddOrder;
 
@@ -145,12 +149,12 @@ public class MyOrdersGUIController implements Initializable {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("My Orders");
+			primaryStage.setTitle("Go-Nature My Orders");
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			MyOrdersGUIController myOrdersController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(myOrdersController);
 			MenuBarSelection.setMenuOptions(menuLabels);
-
 			primaryStage.show();
 
 		} catch (IOException e) {
@@ -175,7 +179,8 @@ public class MyOrdersGUIController implements Initializable {
 		return tempMenuLabels;
 	}
 	/**
-	 * initialize my Orders table
+	 *Initialize my Orders table.
+	 *When the page shows , the table is showing by using {@link #showMyOrderTable()}.
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -217,10 +222,16 @@ public class MyOrdersGUIController implements Initializable {
 									Alert a = new Alert(AlertType.INFORMATION);
 									a.setHeaderText("Order #"+tmp.getOrderID()+" was Approved");
 									a.setContentText("We'll be happy to see you on " + tmp.getDate());
-									a.setTitle("Order cancel");
+									a.setTitle("Order aprroved");
 									a.showAndWait();
+									System.out.println("CURORDER!");
+									curOrder = tmp;
+									if(tmp.isPaidUp())		//if order paid up , add to receipts 
+										addPaymenttoReceipt();
 									showMyOrderTable();
+									
 								}
+								
 							}
 							if(tmp.getStatus().equals("Waiting list") && tmp.getMsgStatus().equals("Sent")) {
 								MainClient.clientConsole.accept(new Message(OperationType.GetOutFromWaitingList,DBControllerType.OrderDBController,(Object)tmp));
@@ -302,7 +313,7 @@ public class MyOrdersGUIController implements Initializable {
 					} else {
 						setText(item); // Put the String data in the cell
 						Order tmp = getTableView().getItems().get(getIndex());
-
+						
 						if (tmp.getStatus().equals("Received") && tmp.getMsgStatus().equals("Sent")) {
 							setTextFill(Color.BLACK);
 						}
@@ -323,7 +334,8 @@ public class MyOrdersGUIController implements Initializable {
 
 	}
 	/**
-	 * Show to the user his own future orders
+	 * Show to the user his own future orders.<br>
+	 * Send to server Message to get the order data for the relevant connected user.
 	 */
 	private void showMyOrderTable() {
 		int id = VisitorController.loggedID;
@@ -349,6 +361,31 @@ public class MyOrdersGUIController implements Initializable {
 		}
 		
 		
+	}
+	private void addPaymenttoReceipt()
+	{
+		List<String> list = new ArrayList<String>();
+		String type;
+		if(curOrder.getType().equals("Single/Family")){
+			MainClient.clientConsole.accept(new Message(OperationType.TravelerInfo, DBControllerType.ParkDBController, (Object)curOrder.getVisitorID() ));
+		if (ParkController.disType.equals(Discount.GroupDiscount) || ParkController.disType.equals(Discount.MemberDiscount))
+			type = "Member";	
+		else 
+			type = "Visitor";	
+		}
+		else 
+			type="Guide";
+		list.add(curOrder.getParkName());
+		list.add(String.valueOf(curOrder.getNumOfVisitors()));
+		list.add(String.valueOf(curOrder.getVisitorID()));
+		list.add(type);
+		list.add(String.valueOf(curOrder.getOrderID()));
+		list.add(String.valueOf(0));
+		list.add(String.valueOf(curOrder.getHourTime()));
+		list.add(String.valueOf(curOrder.getCost()));
+		list.add(curOrder.getDate().toString());
+		System.out.println("GENETATE RECEIPT");
+		MainClient.clientConsole.accept(new Message(OperationType.GenerateReceipt,DBControllerType.ReceiptDBController, (Object) list));
 	}
 
 }

@@ -42,17 +42,23 @@ public class Order implements Serializable {
 	 * @param date
 	 * @param orderID
 	 */
-	public Order(String parkName, int hourTime, int visitorID, int numOfVisitors, String status, String msgStatus,
-			Date date, int orderID) {
+	public Order(int orderID, String parkName, Date date, int hourTime, String email, String visitorType, 
+			String status, int visitorNum, int visitorID, boolean paidUp, int price,String phoneNumber, String msgStatus,int discount) {
 		super();
+		this.type = visitorType;
 		this.parkName = parkName;
 		this.hourTime = hourTime;
 		this.visitorID = visitorID;
-		this.numOfVisitors = numOfVisitors;
+		this.numOfVisitors = visitorNum;
+		this.email = email;
+		this.paidUp = paidUp;
 		this.status = status;
-		this.msgStatus = msgStatus;
+		this.cost = price;
 		this.date = date;
 		this.orderID = orderID;
+		this.discount =discount;
+		this.phoneNumber = phoneNumber;
+		this.msgStatus = msgStatus;
 		this.strHour = hourTime +":00";
 	}
 
@@ -92,7 +98,8 @@ public class Order implements Serializable {
 	}
 	
 	
-	public Order(int orderID, String parkName, Date date, int hourTime, String email, String visitorType, String status, int visitorNum, int visitorID, boolean paidUp, int price,int discount) {
+	public Order(int orderID, String parkName, Date date, int hourTime, String email, String visitorType, 
+			String status, int visitorNum, int visitorID, boolean paidUp, int price,int discount) {
 		super();
 		this.type = visitorType;
 		this.parkName = parkName;

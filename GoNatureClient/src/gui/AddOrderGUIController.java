@@ -44,11 +44,17 @@ import logic.Order;
 import logic.OrderRequest;
 import logic.Validation;
 
+/**
+ * This class add Order to databaseto every client. option to add order to
+ * waiting list option to choose alternative dates
+ * 
+ * @author Naor
+ *
+ */
 public class AddOrderGUIController {
 
 	public static Order newOrder = null;
 	public static OrderRequest request = null;
-	private static String status = "complete";
 
 	@FXML
 	private CheckBox cbAgreeTerms;
@@ -187,7 +193,8 @@ public class AddOrderGUIController {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Add Order");
+			primaryStage.setTitle("Go-Nature Add Order");
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			AddOrderGUIController addOrderController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(addOrderController);
@@ -223,6 +230,9 @@ public class AddOrderGUIController {
 		return tempMenuLabels;
 	}
 
+	/**
+	 * Initialize all started screen in add order according to type of user
+	 */
 	@FXML
 	public void initializeAddOrder() {
 
@@ -245,7 +255,6 @@ public class AddOrderGUIController {
 		if (VisitorController.subscriberConnected != null
 				&& VisitorController.subscriberConnected.getCreditCard() != null) {
 			cbPayNow.setVisible(true);
-			System.out.println("HERE");
 		}
 		/**
 		 * set init Discount
@@ -266,7 +275,7 @@ public class AddOrderGUIController {
 		 * Initialize cmb Visit Hour 10:00 - 17:00
 		 */
 		cmbHour.getItems().removeAll(cmbHour.getItems());
-		cmbHour.getItems().addAll("10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00");
+		cmbHour.getItems().addAll("09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00");
 		cmbHour.getSelectionModel().select(0);
 		/**
 		 * Initialize cmb Num of visitors 1-15
@@ -279,22 +288,24 @@ public class AddOrderGUIController {
 		lblGroupTip.setVisible(false);
 
 		if (VisitorController.subscriberConnected != null
-				&& VisitorController.subscriberConnected.getType().equals("instructor")) {
+				&& VisitorController.subscriberConnected.getType().equals("Guide")) {
 
 			rdGroup.setDisable(false);
-			System.out.println("IN");
 		} else {
 			Tooltip t = new Tooltip();
-			t.setText("Only for instructors");
+			t.setText("Only for Guides");
 			lblGroupTip.setVisible(true);
 			lblGroupTip.setTooltip(t);
-
-			System.out.println("TOOTO");
-
 		}
-		DatePickerDisableDays(date);
+		DatePickerDisableDays(date); // disable past dates
 	}
 
+	/**
+	 * this function get the current date and disable click on past dates and
+	 * disable click on the next 2 days
+	 * 
+	 * @param date
+	 */
 	private void DatePickerDisableDays(DatePicker date) {
 		Callback<DatePicker, DateCell> callB2 = new Callback<DatePicker, DateCell>() {
 			@Override
@@ -338,17 +349,15 @@ public class AddOrderGUIController {
 		if (VisitorController.subscriberConnected != null
 				&& VisitorController.subscriberConnected.getCreditCard() != null || rdGroup.isSelected())
 			cbPayNow.setVisible(true);
-		
-		if(OrderController.discountDateEvent!=0)
-		{
-			lblEventDiscount1.setText(date.getValue().toString() +" "+ OrderController.eventName);
+
+		if (OrderController.discountDateEvent != 0) {
+			lblEventDiscount1.setText(date.getValue().toString() + " " + OrderController.eventName);
 			lblEventDiscount1.setManaged(true);
 			lblEventDiscount1.setVisible(true);
-			lblEventDiscount2.setText(OrderController.discountDateEvent+"% off");
+			lblEventDiscount2.setText(OrderController.discountDateEvent + "% off");
 			lblEventDiscount2.setManaged(true);
 			lblEventDiscount2.setVisible(true);
-		}
-		else {
+		} else {
 			lblEventDiscount1.setManaged(false);
 			lblEventDiscount1.setVisible(false);
 			lblEventDiscount2.setManaged(false);
@@ -356,6 +365,11 @@ public class AddOrderGUIController {
 		}
 	}
 
+	/**
+	 * menu navigation function show profile screen
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void showMyProfile(MouseEvent event) {
 		MyProfileGUIController mp = new MyProfileGUIController();
@@ -364,6 +378,11 @@ public class AddOrderGUIController {
 
 	}
 
+	/**
+	 * menu navigation function show my orders screen
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void showMyOrders(MouseEvent event) {
 		MyOrdersGUIController mo = new MyOrdersGUIController();
@@ -373,9 +392,11 @@ public class AddOrderGUIController {
 	}
 
 	/**
+
 	 *  This method returns to the main page after the user presses on the "log out" button<br> 
 	 * {@link restartParameters()} will be executed in order to reset relevant variables<br>
 	 * @param event - the mouse event that occurs when the user clicks on log out
+
 	 */
 	@FXML
 	void goToMainPage(MouseEvent event) {
@@ -399,14 +420,25 @@ public class AddOrderGUIController {
 			return "Number Of Visitors";
 		if (!Validation.emailValidation(txtEmail.getText()))
 			return "Email";
-		if (!Validation.phoneValidation(txtPhoneEnd.getText()))
+		if (!Validation.phoneValidation(cmbPhoneStart.getValue() + txtPhoneEnd.getText()))
 			return "Phone";
 		return "OK";
 	}
 
+	/**
+	 * function to send order request send accept from clien to server the server
+	 * check if there is a place available for the order at asked date and time if
+	 * no will suggest alternative options by popup
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void submitOrder(ActionEvent event) {
 
+		/**
+		 * validation for the fields, if have error parameters pop a message with ask of
+		 * wrong field
+		 */
 		String ValidMsg = fieldsValidation();
 		if (!ValidMsg.equals("OK")) {
 			Alert a = new Alert(AlertType.INFORMATION);
@@ -428,12 +460,13 @@ public class AddOrderGUIController {
 		 */
 		RadioButton rd = (RadioButton) visitorType.getSelectedToggle();
 		String typeToogleSelected = rd.getText();
-		System.out.println(visitorType.getSelectedToggle());
 		/*
 		 * we use only round hours, so we need to save (int) only the 2 first charcters
 		 * from the combo box
 		 */
-		int hour = Integer.parseInt((cmbHour.getValue().toString().substring(0, 2)));
+		String[] hour;
+		hour = cmbHour.getValue().split(":");
+		int hourInteger = Integer.parseInt((hour[0]));
 
 		/**
 		 * calculate price after discount
@@ -448,20 +481,22 @@ public class AddOrderGUIController {
 		newOrder = new Order(cmbParkName.getValue(),
 				date.getValue().format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))), userID,
 				Integer.parseInt((String) cmbNumOfVisitors.getValue().toString()), txtEmail.getText(),
-				typeToogleSelected, cbPayNow.isSelected(), hour, (int) finalPrice,
+				typeToogleSelected, cbPayNow.isSelected(), hourInteger, (int) finalPrice,
 				cmbPhoneStart.getValue() + txtPhoneEnd.getText(), "Not sent", "Received", calculateDiscount());
-		System.out.println("NEW ORDER CREATED!");
-		request = new OrderRequest(date.getValue(), hour, Integer.parseInt(cmbNumOfVisitors.getValue()),
+		request = new OrderRequest(date.getValue(), hourInteger, Integer.parseInt(cmbNumOfVisitors.getValue()),
 				cmbParkName.getValue());
 		MainClient.clientConsole.accept(
 				new Message(OperationType.OrderCheckDateTime, DBControllerType.OrderDBController, (Object) request));
-		if (OrderController.orderCompleted) {
-			System.out.println(OrderController.orderCompleted);
+		if (OrderController.orderCompleted)
 			executeAddOrderQuery();
-		} else
+		else
 			showFailureAddOrderPopUp();
 	}
 
+	/**
+	 * function to excute add order query after check if there is a place at the
+	 * asked date time.
+	 */
 	private void executeAddOrderQuery() {
 
 		MainClient.clientConsole
@@ -472,6 +507,9 @@ public class AddOrderGUIController {
 
 	}
 
+	/**
+	 * function to pop simulation pop up The pop-up simulates an SMS/Email message
+	 */
 	private void simulationPopUp() {
 
 		Alert a = new Alert(AlertType.INFORMATION);
@@ -486,35 +524,46 @@ public class AddOrderGUIController {
 		a.showAndWait();
 	}
 
+	/**
+	 * calculate discount per ticket The calculation takes into account the type of
+	 * visitor
+	 * 
+	 * @return discount amount
+	 */
 	private int calculateDiscount() {
-		// calculate discount per ticket
-		
+
 		int discount = 0;
-		if(OrderController.discountDateEvent!=0)
-			discount+=OrderController.discountDateEvent;
+		if (OrderController.discountDateEvent != 0)
+			discount += OrderController.discountDateEvent;
 		if (rdSingleFamily.isSelected())
 			discount += 15; // price after pre-Order for signle/family
 		if (rdGroup.isSelected())
 			discount += 25;
-		// if visitor is subscriber and not instructor
+		// if visitor is subscriber and not Guide
 		if (VisitorController.subscriberConnected != null && !rdGroup.isSelected())
 			discount += 20; // price after subscirber discount
-		if (cbPayNow.isSelected() && rdGroup.isSelected()) // if instructor and pay now
+		if (cbPayNow.isSelected() && rdGroup.isSelected()) // if Guide and pay now
 			discount += 12;
-		System.out.println("DIS:" + discount);
 		return discount;
 	}
 
+	/**
+	 * function to calculate the final price after discount use the discount
+	 * function
+	 * 
+	 * @return last price for all the order
+	 */
 	private int calculatePriceAfterDiscount() {
 		double finalPrice = OrderController.getTicketPrice();
-		System.out.println("STARTC:" + finalPrice);
-		System.out.println("NUM:" + Integer.parseInt(cmbNumOfVisitors.getValue().toString()));
 		finalPrice *= Integer.parseInt(cmbNumOfVisitors.getValue().toString());
 		finalPrice = (finalPrice * (100 - calculateDiscount())) / 100;
-		System.out.println("PRICE:" + finalPrice);
 		return (int) finalPrice;
 	}
 
+	/**
+	 * this function pop up the order details include orderID that given by the
+	 * system
+	 */
 	public void showPopUpWindow() {
 		Order myOrder = OrderController.recivedOrder;
 		VBox root;
@@ -555,6 +604,13 @@ public class AddOrderGUIController {
 		stage.close();
 	}
 
+	/**
+	 * validation to check in the order details pop up if click on check box that
+	 * agree to term (read the important message). only if click on check box the
+	 * user can click and success ok button
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void closeButtonWithTerms(ActionEvent event) {
 		if (cbAgreeTerms.isSelected())
@@ -563,15 +619,27 @@ public class AddOrderGUIController {
 			lblReceivedOrderMsg.setText("Must read and confirm the important information");
 	}
 
+	/**
+	 * the function change the type of order to "Waiting list" and add this order to
+	 * the data-base at this status.
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void AddWaitingList(ActionEvent event) {
 
 		((Node) event.getSource()).getScene().getWindow().hide();
 		newOrder.setStatus("Waiting list");
 		executeAddOrderQuery(); // insert order into order DB with status "waiting" (waiting list)
-		
+
 	}
 
+	/**
+	 * this function load the "Alternative dates" screen, This screen can only
+	 * appear after attempting to book at no possible time
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void ShowAvailableDates(ActionEvent event) {
 
@@ -587,7 +655,6 @@ public class AddOrderGUIController {
 			primaryStage.setTitle("No Available Tickets");
 			AddOrderGUIController addOrderController = loader.getController();
 			DatePickerDisableDays(addOrderController.alternativeDatePicker);
-
 			((Node) event.getSource()).getScene().getWindow().hide();
 			primaryStage.show();
 
@@ -598,6 +665,10 @@ public class AddOrderGUIController {
 
 	}
 
+	/**
+	 * function to load the alternative options after trying to order at no availble
+	 * tickets time
+	 */
 	public void showFailureAddOrderPopUp() {
 		VBox root;
 		Stage primaryStage = new Stage();
@@ -616,12 +687,20 @@ public class AddOrderGUIController {
 		}
 	}
 
+	/**
+	 * The function add order with the alternative date and time that choosen by the
+	 * visitor (with the other same parameters)
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void submitAlternativeRequest(ActionEvent event) {
 
-		if (cmbAlternativeHour.getValue() != null) {
-			int hour = Integer.parseInt((cmbAlternativeHour.getValue().toString().substring(0, 2)));
-			newOrder.setHourTime(hour);
+		String[] hour;
+		hour = cmbAlternativeHour.getValue().split(":");
+		if (cmbAlternativeHour.getValue() != null || alternativeDatePicker.getValue() != null) {
+			int hourInteger = Integer.parseInt((hour[0]));
+			newOrder.setHourTime(hourInteger);
 			newOrder.setDatearrival(alternativeDatePicker.getValue().toString());
 			MainClient.clientConsole
 					.accept(new Message(OperationType.AddOrder, DBControllerType.OrderDBController, (Object) newOrder));
@@ -644,41 +723,49 @@ public class AddOrderGUIController {
 		Arrays.fill(areAvaiableHour, Boolean.TRUE); // set all values to true
 		int[] avaiableSpacesSum = OrderController.availableSpaces;
 		cmb.getItems().removeAll(cmb.getItems());
-		for (i = 10; i < 18; i++) {
+		for (i = 9; i < 18; i++) {
 			for (int j = 0; j < OrderController.managerDefultTravelHour; j++) {
-				if (avaiableSpacesSum[i + j] + newOrder.getNumOfVisitors() > avaiableSpacesSum[0]) { // at index 0 we
-																										// got how many
+				if (avaiableSpacesSum[i + j] + newOrder.getNumOfVisitors() > avaiableSpacesSum[0]) { // at index 0 we //
 																										// orders allow
 					areAvaiableHour[i] = false;
 				}
 			}
 		}
-		for (i = 10; i < 18; i++) {
+		for (i = 9; i < 18; i++) {
 			if (areAvaiableHour[i] == true)
 				cmb.getItems().addAll(i + ":00");
 		}
-		System.out.println(cmb.getItems().size());
 		if (cmb.getItems().size() == 0) {
-			lblAlternativeMsg.setText("No Hours for this day");
+			lblAlternativeMsg.setText("The entire date is fully booked");
 			lblAlternativeMsg.setStyle("-fx-font-size:14px");
 			lblAlternativeMsg.setTextFill(Color.RED);
 		} else
 			lblAlternativeMsg.setText("");
-
 	}
 
+	/**
+	 * function to send accept from client to server wich hours are available for
+	 * the asked order at specific date and after this call to initilaize the combo
+	 * box hours with only the availble hours.
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void checkHoursForDate(ActionEvent event) {
 
 		LocalDate dateAsked = alternativeDatePicker.getValue();
 		OrderRequest request = new OrderRequest(dateAsked, newOrder.getNumOfVisitors());
-		System.out.println(dateAsked);
 		MainClient.clientConsole.accept(
 				new Message(OperationType.checkAvailableHours, DBControllerType.OrderDBController, (Object) request));
 		initilaizeCmbHours(cmbAlternativeHour);
 
 	}
 
+	/**
+	 * this function load and open in another window the price list
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openPriceList(MouseEvent event) {
 
@@ -697,11 +784,19 @@ public class AddOrderGUIController {
 		priceListStage.show();
 	}
 
+	/**
+	 * The function send accept to server to know if there is a discount event at
+	 * specific asked day
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void checkDiscountEvents(ActionEvent event) {
-		if(date.getValue()==null)
+		if (date.getValue() == null)
 			return;
-		OrderRequest request = new OrderRequest(date.getValue());
+		if (cmbParkName.getValue() == null)
+			return;
+		OrderRequest request = new OrderRequest(date.getValue(), 0, 0, cmbParkName.getValue());
 		MainClient.clientConsole.accept(
 				new Message(OperationType.checkEventDiscount, DBControllerType.OrderDBController, (Object) request));
 		updateGroupDiscount(event);

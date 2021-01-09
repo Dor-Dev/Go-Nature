@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-
 import client.MainClient;
 import common.Message;
 import controllers.EmployeeController;
@@ -25,14 +23,18 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import logic.Validation;
-
+/**
+ * Responsible on the login action, check the type of user, and send message to server to check if he already connected.<br>
+ * If the user is not connected, as a result, he succeed to login and move to Welcome page. 
+ * @author dorswisa
+ *
+ */
 public class LoginGUIController {
 
 	@FXML
@@ -103,8 +105,6 @@ public class LoginGUIController {
 		if (rdEmployee.isSelected()) {
 			info.add(txtUserName.getText());
 			info.add(txtPassword.getText());
-			System.out.println("passwords=" + txtPassword.getText());
-			System.out.println(info);
 			MainClient.clientConsole.accept(
 					new Message(OperationType.EmployeeLogin, DBControllerType.LoginDBController, (Object) info));
 			if (!EmployeeController.isConnected) {
@@ -179,6 +179,7 @@ public class LoginGUIController {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			primaryStage.setTitle("Go-Nature Login");
 			LoginGUIController loginController = loader.getController();
 			loginController.hideEmployeeParamaters();

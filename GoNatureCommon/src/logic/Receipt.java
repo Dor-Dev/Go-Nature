@@ -2,7 +2,6 @@ package logic;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Time;
 
 public class Receipt  implements Serializable{
 
@@ -21,6 +20,7 @@ public class Receipt  implements Serializable{
 	private int orderNumber;
 	private int visiorID;
 	private int cost;
+	private int  discount;
 	
 	public Receipt(int receiptID, Date date, int visitEntry, int visitExit, int numberOfVisitors, String type,
 			String parkName, int orderNumber, int visiorID,int cost) {
@@ -35,6 +35,18 @@ public class Receipt  implements Serializable{
 		this.orderNumber = orderNumber;
 		this.visiorID = visiorID;
 		this.cost=cost;
+	}
+	
+	public Receipt(int receiptID,  int numberOfVisitors, String parkName, int orderNumber, int cost , int discount) {
+		this.receiptID = receiptID;
+		this.numberOfVisitors = numberOfVisitors;
+		this.parkName = parkName;
+		this.orderNumber = orderNumber;
+		this.cost=cost;
+		this.discount = discount;
+	}
+	public int getDiscount() {
+		return discount;
 	}
 
 	public int getReceiptID() {

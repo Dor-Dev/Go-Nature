@@ -1,17 +1,13 @@
 
 package controllers;
-
 import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-
 import client.ClientController;
 import common.Message;
 import enums.Discount;
 import enums.OperationType;
-import enums.UserTypes;
 import logic.Order;
 import logic.Park;
 import logic.Receipt;
@@ -32,7 +28,6 @@ public class ParkController {
 	private static LocalDate thisDay;
 	private static Date thisDayToDB;
 	private static LocalTime thisTime;
-	private static Time thisTimeToDB;
 	private static int hours;
 	private static int minutes;
 	
@@ -42,7 +37,6 @@ public class ParkController {
 		thisDay = LocalDate.now();
 		thisDayToDB = Date.valueOf(thisDay);
 		thisTime = LocalTime.now();
-		thisTimeToDB = Time.valueOf(thisTime);
 		hours = thisTime.getHour();
 		minutes = thisTime.getMinute();
 		if (minutes > 0) {
@@ -52,6 +46,7 @@ public class ParkController {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public static void ParkParseData(Message reciveMsg) {
 		
 		switch(reciveMsg.getOperationType()) {
@@ -72,7 +67,6 @@ public class ParkController {
 			
 			break;
 		case FailedUpdate:
-			System.out.println(414141);
 			Parktype=OperationType.FailedUpdate;
 			
 			break;
@@ -81,10 +75,8 @@ public class ParkController {
 		case GetOrderInfo:
 			getCurrentTime();
 			if(reciveMsg.getObj() instanceof Order) {
-				System.out.println("get order info = order");
 				order= (Order)reciveMsg.getObj();
 				if((order.getStatus().equals("Approved")) &&order.getDate().equals(thisDayToDB) &&order.getHourTime()+4>=hours &&order.getHourTime()<=hours) {
-					System.out.println(order.getDate());
 					ordertype=OperationType.GetOrderInfo;
 				
 				}
@@ -94,7 +86,6 @@ public class ParkController {
 				}
 			}
 			else {
-				System.out.println("get order info =not a order");
 				ordertype= OperationType.NeverExist;
 			}
 			break;
@@ -136,8 +127,29 @@ public class ParkController {
 		case EventsToShow:
 			if(reciveMsg.getObj() instanceof List<?>)
 			EventsGUIController.data = (List<Event>) reciveMsg.getObj();
+			break;
 			
-	
+		case VisitorEnterRequest:
+			if(reciveMsg.getObj() instanceof Receipt) {
+
+				Receipt receipt = (Receipt) reciveMsg.getObj();
+				ClientController.cardReaderAnswer="Receipt number: "+ receipt.getReceiptID()+ "\n" + "Number of visitors: " + receipt.getNumberOfVisitors()+"\n"+"Park name: " +receipt.getParkName()+"\n"+"Order number: "+receipt.getOrderNumber()+"\n"+"Discount: "+receipt.getDiscount()+"\n"+"Total cost: "+receipt.getCost();
+				
+			}
+			else if(reciveMsg.getObj() instanceof String) {
+				String msg = (String) reciveMsg.getObj();
+				
+					ClientController.cardReaderAnswer=msg;
+			
+			}
+			
+			break;
+			
+		case VisitorExitRequest:
+			String msg = (String) reciveMsg.getObj();
+			ClientController.cardReaderAnswer=msg;
+			break;
+			
 			
 		default:
 			break;

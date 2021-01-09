@@ -27,7 +27,7 @@ public enum OperationType {
 	SendUpdateRequest, UpdateWasSent,
 	
 	// Events enums
-	EventRequest,EventRequestAccepted, EventError, EventRequestSuccess, showActiveEvents, EventsToShow, EventsReady, 
+	EventRequest,EventRequestAccepted, EventError, EventRequestSuccess, showManagerEvents, EventsToShow, EventsReady, 
 	
 	//Requests enums
 	GetUpdateTable, ShowUpdateTable, UpdateTableArrived, GetEventTable, EventTableArrived, ShowEventTable, 
@@ -40,7 +40,7 @@ public enum OperationType {
 	
 	// card reader
 
-	FindOrder, FindReceipt , FaildToUpdate, FindReceiptForExit;
+	 VisitorEnterRequest, VisitorExitRequest;
 
 }
 

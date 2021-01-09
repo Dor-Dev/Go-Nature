@@ -3,8 +3,6 @@ package gui;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
@@ -145,19 +143,6 @@ public class ManagerReportGUIController {
 
 	@FXML
 	private HBox hboxTotalIncome;
-
-	private static String cmbName = null;
-
-	private static String cmbMon = null;
-	private static int month;
-	private static int year;
-
-	private LocalDate thisDay;
-	private Date thisDayToDB;
-	private int monthInt;
-	private int dayInt;
-	private int yearInt;
-
 	@FXML
 	private Label lblMonthYearMoney;
 
@@ -180,15 +165,21 @@ public class ManagerReportGUIController {
 
 	public static List<UsageObject> UsageReportData;
 
-	/*
-	 * @FXML private TableView<?> tabIncome;
-	 * 
-	 * @FXML private TableColumn<Date, Integer> colDate;
-	 * 
-	 * @FXML private TableColumn<Date, Integer> colIncome;
-	 * 
-	 * @FXML private VBox vboxTableIncome;
-	 */
+
+	private static String cmbName = null;
+
+	private static String cmbMon = null;
+	private static int month;
+	private static int year;
+
+	private LocalDate thisDay;
+	@SuppressWarnings("unused")
+	private Date thisDayToDB;
+	private int monthInt;
+	private int dayInt;
+	private int yearInt;
+
+
 
 
 	/**
@@ -272,7 +263,6 @@ public class ManagerReportGUIController {
 		cmbMon = null;
 
 		lblDProduceMsg.setVisible(false);
-		// btnMakeReport.setOnMouseClicked(e->showPopUp(e));
 
 	}
 
@@ -291,7 +281,6 @@ public class ManagerReportGUIController {
 	private void chooseMonthAndYear() {
 		setReportDetailsInvisible(this);
 		cmbMon = cmbMonths.getValue();
-		String monthYear = cmbMonths.getValue();
 
 	}
 
@@ -324,7 +313,6 @@ public class ManagerReportGUIController {
 
 			for (int i = 0; i < 31; i++) {
 				if (day[i] != null) {
-					System.out.println(day[i]);
 					in[i] = new UsageObject(capacity[i], day[i]);
 				}
 			}
@@ -369,23 +357,13 @@ public class ManagerReportGUIController {
 
 			Date[] day = incomeReport.getDay();
 			int[] money = incomeReport.getMoneyInDay();
-			for (Date d : day) {
-				if (d != null)
-					System.out.println(d);
-			}
+		
 
-			for (int m : money) {
-				if (m != 0)
-					System.out.println(m);
-			}
-
-			System.out.println("total= " + incomeReport.getTotalIncome());
 			this.hboxTotalIncome.setManaged(true);
 			this.hboxTotalIncome.setVisible(true);
 
 			this.lblMonthYearMoney.setText(monthYear + " : " + incomeReport.getTotalIncome() + " NIS");
 			IncomeObject[] in = new IncomeObject[31];
-			// List <IncomeObject> inList = new ArrayList<IncomeObject>();
 
 			for (int i = 0; i < 31; i++) {
 				if (day[i] != null) {
@@ -417,7 +395,6 @@ public class ManagerReportGUIController {
 	 * @param monthYear
 	 */
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void getSumReportData(String monthYear) {
 
 		setReportDetailsInvisible(this);
@@ -428,9 +405,7 @@ public class ManagerReportGUIController {
 				new Message(OperationType.SumVisitorsReport, DBControllerType.ReportsDBController, (Object) list));
 		if (ReportController.reportType.equals(OperationType.SumVisitorsReport)) {
 			SumVisitorsReport sumReport = (SumVisitorsReport) ReportController.report;
-			System.out.println("visitors= " + sumReport.getVisitorsAmount());
-			System.out.println("members= " + sumReport.getMembersAmount());
-			System.out.println("groups= " + sumReport.getGroupsAmount());
+
 
 			this.vboxReportDetails.setManaged(true);
 			this.lblMonthYear.setManaged(true);
@@ -439,7 +414,6 @@ public class ManagerReportGUIController {
 			this.lblReportName.setText("Overall Report");
 			this.lblMonthYear.setText(monthYear);
 
-			// this.barChartOverall = new BarChart<>(barChartX, barChartY);
 			this.barChartOverall.getData().clear();
 
 			XYChart.Series<String,Integer> setSingles = new XYChart.Series<>();
@@ -461,14 +435,6 @@ public class ManagerReportGUIController {
 			this.barChartOverall.getData().add(setMembers);
 			this.barChartOverall.getData().add(setGroups);
 
-			/*Node n = barChartOverall.lookup(".data0.chart-bar");
-			n.setStyle("-fx-bar-fill: red");
-			n = barChartOverall.lookup(".data1.chart-bar");
-			n.setStyle("-fx-bar-fill: orange");
-			n = barChartOverall.lookup(".data2.chart-bar");
-			n.setStyle("-fx-bar-fill: green");
-*/
-			
 			barChartOverall.setBarGap(20);
 			barChartOverall.setCategoryGap(80);
 			this.barChartOverall.setManaged(true);
@@ -484,13 +450,7 @@ public class ManagerReportGUIController {
 			this.lblMonthYear.setVisible(true);
 			this.lblMonthYear.setManaged(true);
 
-			/*
-			 * this.lblAmountOfSingles.setText(String.valueOf(sumReport.getVisitorsAmount())
-			 * );
-			 * this.lblAmountOfMembers.setText(String.valueOf(sumReport.getMembersAmount()))
-			 * ;
-			 * this.lblAmountOfGroups.setText(String.valueOf(sumReport.getGroupsAmount()));
-			 */
+			 
 		}
 
 	}
@@ -584,12 +544,12 @@ public class ManagerReportGUIController {
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Go-Nature Reports");
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
 			ManagerReportGUIController managerReportsController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			managerReportsController.btnProductToDepartment.setVisible(false);
 			menuLabels = managerReportsController.createLabelList(managerReportsController);
 			MenuBarSelection.setMenuOptions(menuLabels);
-			System.out.println("chek1");
 			setReportDetailsInvisible(managerReportsController);
 			primaryStage.show();
 
@@ -606,12 +566,6 @@ public class ManagerReportGUIController {
 	 */
 
 	private void setReportDetailsInvisible(ManagerReportGUIController managerReportsController) {
-		/*
-		 * managerReportsController.vboxReportDetails.setManaged(false);
-		 * managerReportsController.hboxGroups.setManaged(false);
-		 * managerReportsController.hboxMembers.setManaged(false);
-		 * managerReportsController.hboxSingles.setManaged(false);
-		 */
 
 		managerReportsController.lblDProduceMsg.setVisible(false);
 		managerReportsController.lblDProduceMsg.setManaged(false);
@@ -675,7 +629,6 @@ public class ManagerReportGUIController {
 
 			if (cmbName.equals("Overall")) {
 				getSumReportData(cmbMon);
-				System.out.println("naor");
 			} else if (cmbName.equals("Income")) {
 				getIncomeReportData(cmbMon);
 
@@ -685,10 +638,7 @@ public class ManagerReportGUIController {
 				getUsageReportData(cmbMon);
 			}
 
-			System.out.println(month + " " + year);
 			getCurrentDay();
-
-			System.out.println(monthInt);
 
 			if (month < monthInt && year == yearInt || year < yearInt) {
 				a.setHeaderText("The date of production of the report has passed.");
@@ -697,7 +647,6 @@ public class ManagerReportGUIController {
 			} else if (month > monthInt && year == yearInt || year > yearInt) {
 				a.setHeaderText("The date of production of the report has not yet arrived.");
 				a.setContentText("No data available for viewing.");
-				System.out.println(2);
 			}
 
 			else if (checkEndOfMonth()) {
@@ -733,13 +682,10 @@ public class ManagerReportGUIController {
 	private void getCurrentDay() {
 		thisDay = LocalDate.now();
 		thisDayToDB = Date.valueOf(thisDay);
-		System.out.println(thisDayToDB);
 		monthInt = thisDay.getMonthValue();
 		dayInt = thisDay.getDayOfMonth();
 		yearInt = thisDay.getYear();
-		System.out.println("now is the month " + monthInt);
-		System.out.println(dayInt);
-		System.out.println(thisDay.getYear());
+
 	}
 
 	/**
@@ -751,7 +697,6 @@ public class ManagerReportGUIController {
 	private boolean checkEndOfMonth() {
 		if (monthInt == 1 || monthInt == 3 || monthInt == 5 || monthInt == 7 || monthInt == 8 || monthInt == 10
 				|| monthInt == 12) {
-			System.out.println(monthInt + " here");
 			if (dayInt != 31)
 				return false;
 		}
@@ -774,6 +719,8 @@ public class ManagerReportGUIController {
 
 		this.btnProductToDepartment.setVisible(false);
 		this.btnProductToDepartment.setManaged(false);
+		tblUsageReportTable.setMinHeight(800);	//we need to print all rows so get bigger window
+		tabIncome.setMinHeight(800);	//we need to print all rows so get bigger window
 		WritableImage snapshot = vBoxReportSnapshot.snapshot(new SnapshotParameters(), null);
 		ImageView reportImage = new ImageView(snapshot); 
 		Stage reportStage = new Stage();
@@ -785,6 +732,8 @@ public class ManagerReportGUIController {
 		reportStage.setTitle("Report");
 		reportStage.setScene(myScene2);
 		reportStage.show();
+		tblUsageReportTable.setMinHeight(300);
+		tabIncome.setMinHeight(300);
 		this.lblDProduceMsg.setVisible(true);
 		this.lblDProduceMsg.setManaged(true);
 		BufferedImage bImage = SwingFXUtils.fromFXImage(reportImage.getImage(), null);

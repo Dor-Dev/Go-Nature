@@ -4,18 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import client.MainClient;
-import common.Message;
-import controllers.EmployeeController;
+
 import controllers.RestartApp;
-import controllers.VisitorController;
-import enums.DBControllerType;
-import enums.OperationType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -176,7 +172,8 @@ public class WelcomeGUIController {
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Go-Nature Login");
+			primaryStage.getIcons().add(new Image("/gui/img/icon.png"));
+			primaryStage.setTitle("Go-Nature Welcome");
 			WelcomeGUIController welcomeController = loader.getController();
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(welcomeController);
