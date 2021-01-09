@@ -29,9 +29,7 @@ public class ServerGUIController {
 	private Button btnClose;
 
 	@FXML
-	void closeServerWindow(ActionEvent event) {
-
-		
+	void closeServerWindow(ActionEvent event) {		
 	    Stage stage = (Stage) btnClose.getScene().getWindow();
 	    stage.close();
 	}

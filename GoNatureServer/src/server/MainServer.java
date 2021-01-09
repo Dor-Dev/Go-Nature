@@ -43,9 +43,7 @@ public class MainServer extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Go Nature - Server");
 		primaryStage.show();
-		
 		messageSender.sendReminderMessage();
-		 		 
 		ServerController echoServer = new ServerController(5555,controller);
 		try {
 			echoServer.listen();

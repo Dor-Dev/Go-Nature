@@ -21,7 +21,7 @@
          <children>
             <ImageView fitHeight="101.0" fitWidth="770.0">
                <image>
-                  <Image url="@../../../../../git/Go-Nature/GoNatureClient/src/gui/img/banner.jpeg" />
+                  <Image url="@img/banner.jpeg" />
                </image>
             </ImageView>
          </children>
