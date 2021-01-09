@@ -150,8 +150,8 @@ public class ManagerDetailsGUIController {
 				new Message(OperationType.SendUpdateRequest, DBControllerType.ParkDBController, (Object) update));
 		if (ParkController.Parktype.equals(OperationType.UpdateWasSent)) {
 			Alert a = new Alert(AlertType.INFORMATION);
-			a.setHeaderText("The update has been sent successfully");
-			a.setContentText("Update request was sent successfully to Department Manager.");
+			a.setHeaderText("The update has been sent successfully to department manager.");
+			a.setContentText("When the update will approve, you will see the new parameters in the left corner.");
 			a.setTitle("Update Request");
 			a.showAndWait();
 		}

@@ -150,7 +150,6 @@ public class MyOrdersGUIController implements Initializable {
 			List<Label> menuLabels = new ArrayList<>();
 			menuLabels = createLabelList(myOrdersController);
 			MenuBarSelection.setMenuOptions(menuLabels);
-
 			primaryStage.show();
 
 		} catch (IOException e) {
@@ -175,7 +174,8 @@ public class MyOrdersGUIController implements Initializable {
 		return tempMenuLabels;
 	}
 	/**
-	 * initialize my Orders table
+	 *Initialize my Orders table.
+	 *When the page shows , the table is showing by using {@link #showMyOrderTable()}.
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -329,7 +329,8 @@ public class MyOrdersGUIController implements Initializable {
 
 	}
 	/**
-	 * Show to the user his own future orders
+	 * Show to the user his own future orders.<br>
+	 * Send to server Message to get the order data for the relevant connected user.
 	 */
 	private void showMyOrderTable() {
 		int id = VisitorController.loggedID;
